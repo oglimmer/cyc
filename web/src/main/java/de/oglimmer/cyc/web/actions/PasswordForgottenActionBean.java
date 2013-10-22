@@ -1,0 +1,85 @@
+package de.oglimmer.cyc.web.actions;
+
+import java.util.List;
+
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.DontValidate;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.validation.SimpleError;
+import net.sourceforge.stripes.validation.Validate;
+import net.sourceforge.stripes.validation.ValidationErrors;
+import net.sourceforge.stripes.validation.ValidationMethod;
+
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
+import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.oglimmer.cyc.dao.UserDao;
+import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
+import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
+import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.web.DoesNotRequireLogin;
+
+@DoesNotRequireLogin
+public class PasswordForgottenActionBean extends BaseAction {
+	private static final String VIEW = "/WEB-INF/jsp/passwordForgotten.jsp";
+
+	private static Logger log = LoggerFactory.getLogger(PasswordForgottenActionBean.class);
+
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+
+	@Validate(required = true)
+	private String email;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@DefaultHandler
+	@DontValidate
+	public Resolution show() {
+		return new ForwardResolution(VIEW);
+	}
+
+	@ValidationMethod
+	public void validateUser(ValidationErrors errors) {
+		if (!getEmail().matches("(?i)^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$")) {
+			errors.add("email", new SimpleError("The email address isn''t valid."));
+		}
+	}
+
+	public Resolution sendPassword() {
+
+		List<User> users = userDao.findByEmail(email.toLowerCase());
+		for (User user : users) {
+			String newPass = RandomStringUtils.random(10, true, true);
+			log.debug("User " + user.getUsername() + " got new password " + newPass);
+			String hashed = BCrypt.hashpw(newPass, BCrypt.gensalt());
+			user.setPassword(hashed);
+			userDao.update(user);
+			try {
+				Email email = new SimpleEmail();
+				email.setHostName("localhost");
+				email.setFrom("no-reply@junta-online.net");
+				email.setSubject("New password");
+				email.setMsg("Your new password is : " + newPass);
+				email.addTo(user.getEmail());
+				email.send();
+			} catch (EmailException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return new RedirectResolution(LandingActionBean.class);
+	}
+}

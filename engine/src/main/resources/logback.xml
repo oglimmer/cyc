@@ -1,0 +1,26 @@
+<configuration debug="false">
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">		
+		<encoder>
+			<pattern>%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="BUFF" class="de.oglimmer.cyc.log.BufferedAppender">		
+		<encoder>
+			<pattern>%msg%n</pattern>
+		</encoder>
+		<name>buffMain</name>
+	</appender>
+
+ 	
+	<logger name="de.oglimmer" level="error">	
+	</logger>
+	
+
+	<root level="error">
+		<appender-ref ref="BUFF" />
+		<appender-ref ref="STDOUT" />
+	</root>
+	
+</configuration>
