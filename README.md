@@ -1,7 +1,20 @@
 cyc (Code Your Company)
 ========================
 
-1.) The CouchDB database needs to be called "cyc"
+LICENSE
+-------
+
+GNU LESSER GENERAL PUBLIC LICENSE V3
+
+WHERE TO PLAY
+-------------
+
+The game is installed at <a href="http://cyr.oglimmer.de">cyr.oglimmer.de</a>. There are also customized rules in play to make the game even more fun ;)
+
+HOW TO INSTALL
+--------------
+
+1.) Install CouchDB on localhost:5984 and create a database called "cyc"
 
 2.) The database needs to have these views:
 
@@ -35,4 +48,4 @@ cyc (Code Your Company)
    }
 }
 
-
+3.) Before you build the project via "mvn package" and deploy the war into a Servetl 3.0 compliant web container you might want to edit the rules under rules/src/main/resources/*.groovy (but for testing purposes the default rules work as well)
