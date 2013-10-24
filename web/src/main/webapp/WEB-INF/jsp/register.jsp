@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
-<html>
-<head>
-<meta charset="utf-8" />
-<title>CodeYourRestaurant</title>
-<link rel="stylesheet" type="text/css" href="styles.css" />
-</head>
-<body>
-	<div class="head">
-		<h1>Welcome to "CodeYourRestaurant"</h1>
-	</div>
+<%@include file="/WEB-INF/jsp/common/include_taglibs.jsp"%>
 
-	<div class="center">
-
+<s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
+  <s:layout-component name="center">
+  
 		<div class="centerElement">
 			Keep in mind that you need to have JavaScript coding skills to play this game. (And btw, the password is stored via bcrypt)
 		</div>
@@ -47,10 +36,5 @@
 			</s:form>
 		</div>	
 		
-	</div>
-	
-	<div class="footer">
-		Fork me on github.com/oglimmer/cyc
-	</div>
-</body>
-</html>
+	</s:layout-component>
+</s:layout-render>

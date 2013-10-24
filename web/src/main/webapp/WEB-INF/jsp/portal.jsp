@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
-<html>
-<head>
-<meta charset="utf-8" />
-<title>CodeYourRestaurant</title>
-<link rel="stylesheet" type="text/css" href="styles.css" />
-</head>
-<body>
-	<div class="head">
-		<h1>Welcome to "CodeYourRestaurant"</h1>
-	</div>
+<%@include file="/WEB-INF/jsp/common/include_taglibs.jsp"%>
 
-	<div class="center">
+<s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
+  <s:layout-component name="center">
 	
 		<div style="font-size:0.6em;text-align:right;">
-			<a href="../apidocs/index.html" target="_blank">API</a> &nbsp;
+			Version ${currentVersion} <a href="../apidocs/index.html" target="_blank">API</a> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.actions.TutorialActionBean" >Tutorial</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" event="exit" >Log off</s:link> &nbsp;
-			<s:link beanclass="de.oglimmer.cyc.web.actions.ChangePasswordActionBean" >Change password</s:link> 
+			<s:link beanclass="de.oglimmer.cyc.web.actions.ChangePasswordActionBean" >Change password</s:link>			
 		</div>
 
 		<div class="centerElement">
@@ -47,20 +36,13 @@
 			<div>Run-Log:</div>
 			<div class="log">${actionBean.output}</div>
 		</div>
-	</div>
-	
-	<div class="footer">
-		Fork me on github.com/oglimmer/cyc
-	</div>
-	
 
-	<script src="src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-	<script>
-	    var editor = ace.edit("editor");
-	    editor.setTheme("ace/theme/terminal");
-	    editor.getSession().setMode("ace/mode/javascript");
-	</script>			
+		<script src="src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+		    var editor = ace.edit("editor");
+		    editor.setTheme("ace/theme/terminal");
+		    editor.getSession().setMode("ace/mode/javascript");
+		</script>			
 
-	
-</body>
-</html>
+	</s:layout-component>
+</s:layout-render>

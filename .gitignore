@@ -1,3 +1,8 @@
 engine/target/
 rules/target/
 web/target/
+.project
+.settings/
+engine/.classpath
+rules/.classpath
+web/.classpath

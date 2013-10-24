@@ -1,21 +1,7 @@
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<html>
-<head>
-<meta charset="utf-8" />
-<title>CodeYourRestaurant</title>
-<link rel="stylesheet" type="text/css" href="styles.css" />
-</head>
-<body>
-	<div class="head">
-		<h1>Welcome to "CodeYourRestaurant"</h1>
-	</div>
+<%@include file="/WEB-INF/jsp/common/include_taglibs.jsp"%>
 
-	<div class="center">
-
+<s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
+  <s:layout-component name="center">
 		<div class="centerElement">
 			<span style="float:left">Details</span> 
 			<span style="float:right"><a href="javascript:void(0);" onclick="history.back()">Back</a></span>
@@ -39,7 +25,7 @@
 	  					<td>
 	  						<c:set var="tmpAsset">${actionBean.result.playerResults[element].totalAssets}</c:set>
 							<c:if test = "${tmpAsset != -1}">
-								<fmt:formatNumber value="${tmpAsset}" type="currency" pattern="Â¤#,##0.00;-Â¤#,##0.00"/>
+								<fmt:formatNumber value="${tmpAsset}" type="currency" pattern="¤#,##0.00;-¤#,##0.00"/>
 							</c:if>
 							<c:if test = "${tmpAsset == -1}">Bankrupt</c:if>	  					
 	  					</td>
@@ -84,7 +70,7 @@
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 							<td>Credit pay back (incl. interest)</td>
-							<td align="right"><fmt:formatNumber value="-55000" type="currency" pattern="Â¤#,##0.00;-Â¤#,##0.00"/></td>
+							<td align="right"><fmt:formatNumber value="-55000" type="currency" pattern="¤#,##0.00;-¤#,##0.00"/></td>
 						</tr>
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
@@ -225,10 +211,6 @@
 				
 		</div>	
 				
-	</div>
-	
-	<div class="footer">
-		Fork me on github.com/oglimmer/cyc
-	</div>
-</body>
-</html>
+
+	</s:layout-component>
+</s:layout-render>

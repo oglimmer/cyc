@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld"%>
-<html>
-<head>
-<meta charset="utf-8" />
-<title>CodeYourRestaurant</title>
-<link rel="stylesheet" type="text/css" href="styles.css" />
-</head>
-<body>
-	<div class="head">
-		<h1>Welcome to "CodeYourRestaurant"</h1>
-	</div>
+<%@include file="/WEB-INF/jsp/common/include_taglibs.jsp"%>
 
-	<div class="center">
+<s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
+  <s:layout-component name="center">
 	
 		<div style="position:absolute;right:20px;top:7px;"><img src="../images/200px-Beta-badge.svg.png"/></div>
 
@@ -35,7 +24,7 @@
 				<div style="width:255px;float:left;">
 					<label for="password" style="display: inline-block;width:100px;text-align: right;">Password</label> <s:password name="password" style="width:140px;" />
 				</div>
-				<div style="float:left;width:445px;">
+				<div style="float:left;width:440px;">
 					<div style="float:left">
 						<s:submit name="login" value="Login" />
 					</div>	
@@ -50,10 +39,6 @@
 		<div>
 			If you are new here and feel comfortable to implement your own restaurant using JavaScript then <s:link beanclass="de.oglimmer.cyc.web.actions.RegisterActionBean">click here to register</s:link>.
 		</div>
-	</div>
-	
-	<div class="footer">
-		Fork me on github.com/oglimmer/cyc
-	</div>
-</body>
-</html>
+
+	</s:layout-component>
+</s:layout-render>

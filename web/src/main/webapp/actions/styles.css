@@ -6,7 +6,7 @@ body {
 }
 
 .head {
-	padding: 0px;
+	padding: 0px 0px 0px 100px;
 	margin: 0px;
 	background-color: #347785;
 	border-bottom: 4px solid #48A5B8;
