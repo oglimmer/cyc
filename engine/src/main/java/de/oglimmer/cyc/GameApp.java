@@ -24,12 +24,14 @@ public class GameApp {
 
 	public static void main(String[] args) throws Exception {
 
-		System.setSecurityManager(new SecurityManager() {
-			@Override
-			public void checkExit(int status) {
-				throw new RuntimeException("Exit not allowed");
-			}
-		});
+		if (!"disable".equals(System.getProperty("cyc.security"))) {
+			System.setSecurityManager(new SecurityManager() {
+				@Override
+				public void checkExit(int status) {
+					throw new RuntimeException("Exit not allowed");
+				}
+			});
+		}
 
 		GroovyInitializer.init();
 
