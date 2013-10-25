@@ -23,6 +23,7 @@ grant codeBase "file:${cyc.web-inf-lib}/-" {
 	permission java.lang.RuntimePermission "closeClassLoader";
 	
 	permission java.lang.RuntimePermission "accessClassInPackage.com.sun.proxy";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";	
 };
 
 grant codeBase "file:${cyc.web-inf-lib}/groovy-all-2.1.7.jar" {	
