@@ -48,19 +48,23 @@ public class GameApp {
 
 	private void startGame(String[] args) throws IOException {
 
-		fillUserList(args);
+		boolean fullRun = args.length < 1 || args[0].trim().isEmpty();
+
+		fillUserList(args, fullRun);
 
 		if (!userList.isEmpty()) {
 			Game gamePro = new Game(year, month, day);
 			gamePro.executeGame(userList, writeGameResult);
 		}
 
-		inactivateUsers();
+		if (fullRun) {
+			inactivateUsers();
+		}
 	}
 
-	private void fillUserList(String[] args) throws IOException {
+	private void fillUserList(String[] args, boolean fullRun) throws IOException {
 		UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
-		if (args.length < 1 || args[0].trim().isEmpty()) {
+		if (fullRun) {
 			allPlayers(userDao);
 		} else {
 			singlePlayer(args, userDao);
