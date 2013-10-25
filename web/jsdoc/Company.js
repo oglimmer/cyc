@@ -35,10 +35,10 @@
 </table>
 * 
 *
-* @class Campaign
+* @class Company
 * @constructor
 */
-function Campaign() {
+function Company() {
 }
 
 /**
@@ -47,7 +47,7 @@ function Campaign() {
 * @property humanResources
 * @type {HumanResources}
 */
-Campaign.prototype.humanResources;
+Company.prototype.humanResources;
 
 /**
 * A list of all of your restaurants
@@ -55,7 +55,7 @@ Campaign.prototype.humanResources;
 * @property establishments
 * @type {List}
 */
-Campaign.prototype.establishments;
+Company.prototype.establishments;
 
 
 /**
@@ -64,7 +64,7 @@ Campaign.prototype.establishments;
 * @property grocer
 * @type {Grocer}
 */
-Campaign.prototype.grocer;
+Company.prototype.grocer;
 
 /**
 * A handle to your menu you offer in all of your restaurants (you try to build a brank, so you offer the same meals in each of your restaurants)
@@ -72,7 +72,7 @@ Campaign.prototype.grocer;
 * @property menu
 * @type {Menu}
 */
-Campaign.prototype.menu;
+Company.prototype.menu;
 
 /**
 * Your cash money. You cannot spend more at any time. That means whenever you would need more money, you go bankrupt. Read-only.
@@ -81,7 +81,7 @@ Campaign.prototype.menu;
 * @type {Number}
 * @default 50000
 */
-Campaign.prototype.cash = 50000;
+Company.prototype.cash = 50000;
 
 /**
 * A callback method you might want to implement. It gets called at the start of the game.
@@ -89,7 +89,7 @@ Campaign.prototype.cash = 50000;
 * @property launch
 * @type {Function}
 */
-Campaign.prototype.launch = function() {
+Company.prototype.launch = function() {
 };
 
 /**
@@ -98,7 +98,7 @@ Campaign.prototype.launch = function() {
 * @property doDaily
 * @type {Function}
 */
-Campaign.prototype.doDaily = function() {
+Company.prototype.doDaily = function() {
 
 };
 
@@ -108,7 +108,7 @@ Campaign.prototype.doDaily = function() {
 * @property doWeekly
 * @type {Function}
 */
-Campaign.prototype.doWeekly = function() {
+Company.prototype.doWeekly = function() {
 
 };
 
@@ -118,7 +118,7 @@ Campaign.prototype.doWeekly = function() {
 * @property doMonthly
 * @type {Function}
 */
-Campaign.prototype.doMonthly = function() {
+Company.prototype.doMonthly = function() {
 
 };
 
@@ -130,7 +130,7 @@ Campaign.prototype.doMonthly = function() {
 * @type {Function}
 * @param {RealEstateProfiles} realEstateProfiles A container object that contains all the available real estate profiles the agent presents you.
 */
-Campaign.prototype.realEstateAgent = function(realEstateProfiles) {
+Company.prototype.realEstateAgent = function(realEstateProfiles) {
 
 };
 
@@ -141,6 +141,6 @@ Campaign.prototype.realEstateAgent = function(realEstateProfiles) {
 * @type {Function}
 * @param {FoodDelivery} foodDelivery A container object that contains all the FoodUnits you got this day delivered.
 */
-Campaign.prototype.foodDelivery = function(foodDelivery) {
+Company.prototype.foodDelivery = function(foodDelivery) {
 
 };
