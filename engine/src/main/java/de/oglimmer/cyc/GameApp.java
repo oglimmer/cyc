@@ -52,6 +52,8 @@ public class GameApp {
 			Game gamePro = new Game(year, month, day);
 			gamePro.executeGame(userList, writeGameResult);
 		}
+
+		inactivateUsers();
 	}
 
 	private void fillUserList(String[] args) throws IOException {
@@ -66,14 +68,9 @@ public class GameApp {
 	private void allPlayers(UserDao userDao) {
 		writeGameResult = true;
 
-		Map<String, Integer> playersToRemove = findBankruptPlayers();
-
 		List<User> ul = userDao.findAllUser();
 		for (User u : ul) {
-			if (playersToRemove.containsKey(u.getUsername()) && playersToRemove.get(u.getUsername()) == 3) {
-				u.setActive(false);
-				userDao.update(u);
-			} else if (u.isActive()) {
+			if (u.isActive()) {
 				userList.add(new String[] { u.getUsername(), u.getMainJavaScript() });
 			}
 		}
@@ -81,6 +78,21 @@ public class GameApp {
 		day = 30;
 		month = 12;
 		year = 1;
+	}
+
+	private void inactivateUsers() {
+		UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+
+		Map<String, Integer> playersToRemove = findBankruptPlayers();
+
+		List<User> ul = userDao.findAllUser();
+		for (User u : ul) {
+			if (playersToRemove.containsKey(u.getUsername()) && playersToRemove.get(u.getUsername()) == 3) {
+				u.setActive(false);
+				userDao.update(u);
+			}
+		}
+
 	}
 
 	private Map<String, Integer> findBankruptPlayers() {
