@@ -45,7 +45,7 @@ RealEstateProfile.prototype.desiredSalary;
 * Tries to hire this application at the specified location.
 * 
 *
-* @method each
+* @method offer
 * @param {Establishment} establishment The restaurant where the employee should work
 * @param {Number} salary The salary per month you offer. Optional.
 */
