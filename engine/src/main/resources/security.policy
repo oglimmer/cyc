@@ -1,6 +1,10 @@
-grant codeBase "file:${cyc.web-inf-lib}/-" {					 
+grant codeBase "file:${cyc.web-inf-lib}/-" {			 
 	permission java.io.FilePermission "${cyc.web-inf-lib}/-", "read";
-	permission java.util.PropertyPermission "cyc.web-inf-lib/-", "read";
+	permission java.io.FilePermission "${cyc.web-inf-lib}/../logs", "read";
+	permission java.io.FilePermission "${cyc.web-inf-lib}/../logs/-", "read";
+	permission java.io.FilePermission "${cyc.web-inf-lib}/../logs", "write";
+	permission java.io.FilePermission "${cyc.web-inf-lib}/../logs/-", "write";
+	permission java.util.PropertyPermission "cyc.web-inf-lib", "read";
 
 	permission java.net.SocketPermission "127.0.0.1:5984", "connect,resolve"; 
 	permission java.lang.RuntimePermission "accessDeclaredMembers";
