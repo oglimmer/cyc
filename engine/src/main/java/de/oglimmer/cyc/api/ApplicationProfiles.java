@@ -22,7 +22,8 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Contai
 
 	public ApplicationProfiles(int noCompanies) {
 		profiles = new ArrayList<>();
-		for (int i = 0; i < noCompanies * 5; i++) {
+		int count = (int) (noCompanies + Math.random() * noCompanies * 4);
+		for (int i = 0; i < count; i++) {
 			int quali = (int) (Math.random() * 10) + 1;
 			int salary = (int) (Math.random() * 1000 * quali) + 200 * quali;
 			ApplicationProfile p = new ApplicationProfile(surnames[(int) (surnames.length * Math.random())] + ", "
@@ -58,12 +59,17 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Contai
 	}
 
 	private JobPosition gerRandomJobPos() {
-		switch ((int) (Math.random() * 3)) {
+		switch ((int) (Math.random() * 8)) {
 		case 0:
-			return JobPosition.CHEF;
 		case 1:
-			return JobPosition.WAITER;
 		case 2:
+			return JobPosition.CHEF;
+		case 3:
+		case 4:
+		case 5:
+			return JobPosition.WAITER;
+		case 6:
+		case 7:
 			return JobPosition.MANAGER;
 		}
 		assert false;
