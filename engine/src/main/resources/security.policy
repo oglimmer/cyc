@@ -21,6 +21,8 @@ grant codeBase "file:${cyc.web-inf-lib}/-" {
 	permission java.util.PropertyPermission "ANTLR_DO_NOT_EXIT", "read";
 	permission java.util.PropertyPermission "ANTLR_USE_DIRECT_CLASS_LOADING", "read";
 	permission java.lang.RuntimePermission "closeClassLoader";
+	
+	permission java.lang.RuntimePermission "accessClassInPackage.com.sun.proxy";
 };
 
 grant codeBase "file:${cyc.web-inf-lib}/groovy-all-2.1.7.jar" {	
