@@ -27,7 +27,10 @@
 							<c:if test = "${tmpAsset != -1}">
 								<fmt:formatNumber value="${tmpAsset}" type="currency" pattern="¤#,##0.00;-¤#,##0.00"/>
 							</c:if>
-							<c:if test = "${tmpAsset == -1}">Bankrupt</c:if>	  					
+							<c:if test = "${tmpAsset == -1}">
+								Bankrupt on day ${actionBean.result.playerResults[element].bankruptOnDay}
+								<c:if test="${actionBean.result.errors.contains(element) }">(JS error)</c:if>
+							</c:if>	  					
 	  					</td>
 	  				</tr>
 				</c:forEach>

@@ -1,5 +1,7 @@
 package de.oglimmer.cyc.model;
 
+import java.util.Date;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class User {
@@ -13,6 +15,9 @@ public class User {
 	private boolean active;
 
 	private String mainJavaScript;
+
+	private String lastError;
+	private Date lastPrivateRun;
 
 	public User() {
 	}
@@ -81,6 +86,22 @@ public class User {
 
 	public boolean isActive() {
 		return active;
+	}
+
+	public String getLastError() {
+		return lastError;
+	}
+
+	public void setLastError(String lastError) {
+		this.lastError = lastError;
+	}
+
+	public Date getLastPrivateRun() {
+		return lastPrivateRun;
+	}
+
+	public void setLastPrivateRun(Date Date) {
+		this.lastPrivateRun = Date;
 	}
 
 }

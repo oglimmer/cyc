@@ -1,9 +1,13 @@
 package de.oglimmer.cyc.api;
 
+import java.io.CharArrayWriter;
+import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -12,6 +16,10 @@ public class GameResult {
 	private int totalDays;
 	private Map<String, PlayerResult> playerResults = new HashMap<>();
 	private CountMap<String> guestsTotalPerCity = new CountMap<>();
+	private Set<String> errors = new HashSet<>();
+
+	@JsonIgnore
+	private StringBuilder error = new StringBuilder();
 
 	public int getTotalDays() {
 		return totalDays;
@@ -19,10 +27,6 @@ public class GameResult {
 
 	public void setTotalDays(int totalDays) {
 		this.totalDays = totalDays;
-	}
-
-	public void incTotalDays() {
-		totalDays++;
 	}
 
 	public Map<String, PlayerResult> getPlayerResults() {
@@ -62,5 +66,33 @@ public class GameResult {
 			}
 		}
 		return desc;
+	}
+
+	public Set<String> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(Set<String> errors) {
+		this.errors = errors;
+	}
+
+	public void addError(Throwable t) {
+		CharArrayWriter caw = new CharArrayWriter();
+		t.printStackTrace(new PrintWriter(caw));
+
+		if (error.length() == 0) {
+			error.append("<hr/>");
+		}
+		error.append(caw.toString().replace("\n", "<br(/>"));
+	}
+
+	@JsonIgnore
+	public StringBuilder getError() {
+		return error;
+	}
+
+	@JsonIgnore
+	public void setError(StringBuilder error) {
+		this.error = error;
 	}
 }

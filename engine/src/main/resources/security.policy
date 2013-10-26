@@ -1,29 +1,33 @@
 grant codeBase "file:${cyc.web-inf-lib}/-" {			 
+
 	permission java.io.FilePermission "${cyc.web-inf-lib}/-", "read";
 	permission java.io.FilePermission "${cyc.web-inf-lib}/../logs", "read";
 	permission java.io.FilePermission "${cyc.web-inf-lib}/../logs/-", "read";
 	permission java.io.FilePermission "${cyc.web-inf-lib}/../logs", "write";
 	permission java.io.FilePermission "${cyc.web-inf-lib}/../logs/-", "write";
-	permission java.util.PropertyPermission "cyc.web-inf-lib", "read";
 
 	permission java.net.SocketPermission "127.0.0.1:5984", "connect,resolve"; 
+	permission java.net.SocketPermission "127.0.0.1:9998", "connect,resolve,accept,listen";
+	permission java.net.SocketPermission "127.0.0.1:*", "accept,resolve";
+	
 	permission java.lang.RuntimePermission "accessDeclaredMembers";
-	permission java.util.PropertyPermission "org.ektorp.support.AutoUpdateViewOnChange", "read";
-	permission java.util.PropertyPermission "org.ektorp.support.UpdateDesignDocOnDiff", "read";
-	permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
-	
+	permission java.lang.RuntimePermission "modifyThread";
 	permission java.lang.RuntimePermission "getClassLoader";
-	permission java.lang.reflect.ReflectPermission "proxyConstructorNewInstance";	
-	permission java.util.PropertyPermission "logback.debug", "read";
-	
 	permission java.lang.RuntimePermission "createClassLoader";
+	permission java.lang.RuntimePermission "closeClassLoader";
+	permission java.lang.RuntimePermission "accessClassInPackage.com.sun.proxy";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";	
+
+	permission java.util.PropertyPermission "cyc.web-inf-lib", "read";
+	permission java.util.PropertyPermission "org.ektorp.support.AutoUpdateViewOnChange", "read";
+	permission java.util.PropertyPermission "org.ektorp.support.UpdateDesignDocOnDiff", "read";	
+	permission java.util.PropertyPermission "logback.debug", "read";	
 	permission java.util.PropertyPermission "user.dir", "read";
 	permission java.util.PropertyPermission "ANTLR_DO_NOT_EXIT", "read";
 	permission java.util.PropertyPermission "ANTLR_USE_DIRECT_CLASS_LOADING", "read";
-	permission java.lang.RuntimePermission "closeClassLoader";
 	
-	permission java.lang.RuntimePermission "accessClassInPackage.com.sun.proxy";
-	permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";	
+	permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+	permission java.lang.reflect.ReflectPermission "proxyConstructorNewInstance";	
 };
 
 grant codeBase "file:${cyc.web-inf-lib}/groovy-all-2.1.7.jar" {	

@@ -1,11 +1,16 @@
 package de.oglimmer.cyc.web;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -17,7 +22,7 @@ import java.util.zip.ZipInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.oglimmer.cyc.GameApp;
+import de.oglimmer.cyc.GameServer;
 
 public enum GameExecutor {
 	INSTANCE;
@@ -54,6 +59,7 @@ public enum GameExecutor {
 		running = true;
 		thread = new Thread(runner);
 		thread.start();
+
 	}
 
 	public void setRootPath(String rootPath) {
@@ -89,37 +95,64 @@ public enum GameExecutor {
 		}
 	}
 
-	public String runGame(String userId) {
-		StringBuilder buff = new StringBuilder(10240);
+	public void runGame(final String userId) {
+		Socket clientSocket = null;
 		try {
-			unzip(rootPath + base + engineJar);
-			String[] commandLineArgs = createCommandLineArray(userId, buff);
+			clientSocket = getClientSocket();
+			DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			if (userId != null) {
+				outToServer.writeBytes(userId + '\n');
+			} else {
+				outToServer.writeBytes("\n");
+			}
+			if (!"ok".equals(inFromServer.readLine())) {
+				log.error("Call to game server returned error.");
+			}
 
-			Process p = Runtime.getRuntime().exec(commandLineArgs);
-
-			buff = new StringBuilder();
-			String line;
-			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			while ((line = br.readLine()) != null) {
-				buff.append(line).append("<br/>");
-			}
-			br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-			while ((line = br.readLine()) != null) {
-				buff.append(line).append("<br/>");
-			}
-			try {
-				p.waitFor();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		} catch (IOException e) {
-			log.error("Failed to process the child process", e);
+			log.error("Failed to connect to game-server", e);
+		} finally {
+			if (clientSocket != null) {
+				try {
+					clientSocket.close();
+				} catch (IOException e) {
+					log.debug("Failed to close to game-server", e);
+				}
+			}
 		}
-
-		return buff.toString();
 	}
 
-	private String[] createCommandLineArray(String userId, StringBuilder buff) {
+	private synchronized Socket getClientSocket() throws UnknownHostException, IOException {
+		Socket clientSocket;
+		try {
+			clientSocket = new Socket("localhost", GameServer.SERVER_PORT);
+		} catch (ConnectException e) {
+			startServer();
+			clientSocket = new Socket("localhost", GameServer.SERVER_PORT);
+		}
+		return clientSocket;
+	}
+
+	public void startServer() throws IOException {
+		try {
+			unzip(rootPath + base + engineJar);
+			String[] commandLineArgs = createCommandLineArray();
+
+			log.debug(Arrays.toString(commandLineArgs));
+
+			Runtime.getRuntime().exec(commandLineArgs);
+
+			TimeUnit.SECONDS.sleep(5);
+		} catch (InterruptedException e) {
+		} catch (IOException e) {
+			log.error("Failed to process the child process", e);
+			throw e;
+		}
+	}
+
+	private String[] createCommandLineArray() {
+		StringBuilder buff = new StringBuilder();
 		Collection<String> commandLineCol = new ArrayList<>();
 		commandLineCol.add("java");
 		commandLineCol.add("-Xms2M");
@@ -136,10 +169,11 @@ public enum GameExecutor {
 
 		commandLineCol.add("-Dcyc.web-inf-lib=" + rootPath + base);
 		commandLineCol.add("-Djava.security.policy=" + TMP_SECURITY_POLICY);
-		commandLineCol.add(GameApp.class.getName());
-		if (userId != null) {
-			commandLineCol.add(userId);
-		}
+
+		// commandLineCol.add("-Xdebug");
+		// commandLineCol.add("-Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
+
+		commandLineCol.add(GameServer.class.getName());
 
 		String[] commandLineArgs = commandLineCol.toArray(new String[commandLineCol.size()]);
 		return commandLineArgs;
@@ -154,7 +188,7 @@ public enum GameExecutor {
 				Date now = new Date();
 
 				if (nextRun.before(now)) {
-					log.error(runGame(null));
+					runGame(null);
 					Calendar cal = GregorianCalendar.getInstance();
 					cal.add(Calendar.MINUTE, RUN_EVERY_MINUTES);
 					nextRun = cal.getTime();

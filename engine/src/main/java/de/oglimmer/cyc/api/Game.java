@@ -31,6 +31,10 @@ import de.oglimmer.cyc.model.GameRun;
 
 public class Game {
 
+	static {
+		ContextFactory.initGlobal(new SandboxContextFactory());
+	}
+
 	private Logger log = LoggerFactory.getLogger(Game.class);
 
 	private Grocer grocer = new Grocer(this);
@@ -38,12 +42,14 @@ public class Game {
 	private Collection<Company> companies = new ArrayList<>();
 
 	private GameResult result = new GameResult();
+	private GameRun gameRun = new GameRun();
 
 	private List<String> cities = new ArrayList<>();
 
 	private final int totalYear;
 	private final int totalMonth;
 	private final int totalDay;
+	private int currentDay;
 
 	public Game(int totalYear, int totalMonth, int totalDay) {
 		this.totalYear = totalYear;
@@ -55,9 +61,8 @@ public class Game {
 		return result;
 	}
 
-	public void executeGame(List<String[]> userList, boolean writeGameResult) {
+	public GameRun executeGame(List<String[]> userList, boolean writeGameResult) {
 
-		GameRun gameRun = new GameRun();
 		gameRun.setStartTime(new Date());
 
 		RealEstateProfiles.readCities(cities, userList.size());
@@ -89,8 +94,10 @@ public class Game {
 			GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
 			dao.add(gameRun);
 		}
-		log.error("Your script ran without any error in "
-				+ (gameRun.getEndTime().getTime() - gameRun.getStartTime().getTime()) + " millies.");
+
+		log.debug("Run completed in {} millies.", gameRun.getEndTime().getTime() - gameRun.getStartTime().getTime());
+
+		return gameRun;
 	}
 
 	private void printResults() {
@@ -107,14 +114,20 @@ public class Game {
 		for (int year = 1; year <= totalYear; year++) {
 			processYear(year);
 		}
+		result.setTotalDays(currentDay);
+	}
+
+	public int getCurrentDay() {
+		return currentDay;
 	}
 
 	private void processYear(int year) {
 
 		callLaunch();
+		currentDay = 0;
 
-		log.debug("Year: {}", year);
 		for (int month = 1; month <= totalMonth; month++) {
+			log.debug("Year: {}", year);
 			processMonth(month);
 		}
 
@@ -133,11 +146,13 @@ public class Game {
 					}
 				} catch (WrappedException e) {
 					if (!(e.getCause() instanceof GameException)) {
+						result.addError(e);
 						log.error("Failed to call the company.launch handler", e);
 					}
 				} catch (EcmaError e) {
-					log.error("Failed to call the company.launch handler", e);
-					company.setBankrupt();
+					result.addError(e);
+					log.error("Failed to call the company.launch handler. Player " + company.getName() + " bankrupt", e);
+					company.setBankruptFromError(e);
 				}
 			}
 		}
@@ -184,11 +199,15 @@ public class Game {
 					}
 				} catch (WrappedException e) {
 					if (!(e.getCause() instanceof GameException)) {
+						result.addError(e);
 						log.error("Failed to call the company.doMonthly handler", e);
 					}
 				} catch (EcmaError e) {
-					log.error("Failed to call the company.doMonthly handler", e);
-					company.setBankrupt();
+					result.addError(e);
+					log.error(
+							"Failed to call the company.doMonthly handler. Player " + company.getName() + " bankrupt",
+							e);
+					company.setBankruptFromError(e);
 				}
 			}
 		}
@@ -196,8 +215,9 @@ public class Game {
 	}
 
 	private void processDay(int day) {
-		log.debug("Day: {}", day);
-		result.incTotalDays();
+		currentDay++;
+		log.debug("Day: {}/{}", day, currentDay);
+
 		for (Company c : companies) {
 			result.get(c.getName()).addEstablishmentsByDays(c.getEstablishments().size());
 		}
@@ -215,6 +235,7 @@ public class Game {
 		runBusiness();
 
 		cleanFoodStorages();
+
 	}
 
 	private void callWeekly() {
@@ -227,11 +248,14 @@ public class Game {
 					}
 				} catch (WrappedException e) {
 					if (!(e.getCause() instanceof GameException)) {
+						result.addError(e);
 						log.error("Failed to call the company.doWeekly handler", e);
 					}
 				} catch (EcmaError e) {
-					log.error("Failed to call the company.doWeekly handler", e);
-					company.setBankrupt();
+					result.addError(e);
+					log.error("Failed to call the company.doWeekly handler. Player " + company.getName() + " bankrupt",
+							e);
+					company.setBankruptFromError(e);
 				}
 			}
 		}
@@ -248,11 +272,14 @@ public class Game {
 					}
 				} catch (WrappedException e) {
 					if (!(e.getCause() instanceof GameException)) {
+						result.addError(e);
 						log.error("Failed to call the company.doDaily handler", e);
 					}
 				} catch (EcmaError e) {
-					log.error("Failed to call the company.doDaily handler", e);
-					company.setBankrupt();
+					result.addError(e);
+					log.error("Failed to call the company.doDaily handler. Player " + company.getName() + " bankrupt",
+							e);
+					company.setBankruptFromError(e);
 				}
 			}
 		}
@@ -301,17 +328,28 @@ public class Game {
 		}
 		for (Company c : map.keySet()) {
 			FoodDelivery fd = map.get(c);
-			if (c.foodDelivery != null) {
-				log.debug("Food delivery for {} = {}", c.getName(), fd);
-				ThreadLocal.setCompany(c);
-				c.foodDelivery.run(fd);
+			log.debug("Food delivery for {} = {}", c.getName(), fd);
+			try {
+				if (c.foodDelivery != null) {
+					ThreadLocal.setCompany(c);
+					c.foodDelivery.run(fd);
+				}
+			} catch (WrappedException e) {
+				if (!(e.getCause() instanceof GameException)) {
+					result.addError(e);
+					log.error("Failed to call the company.foodDelivery handler", e);
+				}
+			} catch (EcmaError e) {
+				result.addError(e);
+				log.error("Failed to call the company.foodDelivery handler. Player " + c.getName() + " bankrupt", e);
+				c.setBankruptFromError(e);
 			}
 		}
 		ThreadLocal.resetCompany();
 	}
 
 	private void readScripts(List<String[]> userList) {
-		ContextFactory.initGlobal(new SandboxContextFactory());
+
 		ContextFactory contextFactory = ContextFactory.getGlobal();
 		Context context = contextFactory.enterContext();
 		try {
@@ -334,11 +372,13 @@ public class Game {
 					context.evaluateString(scope, user[1], company.getName(), 1, null);
 				} catch (WrappedException e) {
 					if (!(e.getCause() instanceof GameException)) {
+						result.addError(e);
 						log.error("Failed to initialize the JavaScript", e);
 					}
 				} catch (EcmaError e) {
-					log.error("Failed to initialize the JavaScript", e);
-					company.setBankrupt();
+					result.addError(e);
+					log.error("Failed to initialize the JavaScript. Player " + company.getName() + " bankrupt", e);
+					company.setBankruptFromError(e);
 				}
 
 				companies.add(company);
@@ -363,11 +403,14 @@ public class Game {
 							c.realEstateAgent.run(ap);
 						} catch (WrappedException e) {
 							if (!(e.getCause() instanceof GameException)) {
+								result.addError(e);
 								log.error("Failed to call the company.realEstateAgent handler", e);
 							}
 						} catch (EcmaError e) {
-							log.error("Failed to call the company.realEstateAgent handler", e);
-							c.setBankrupt();
+							result.addError(e);
+							log.error("Failed to call the company.realEstateAgent handler. Player " + c.getName()
+									+ " bankrupt", e);
+							c.setBankruptFromError(e);
 						}
 					}
 				}
@@ -453,11 +496,14 @@ public class Game {
 							c.getHumanResources().hiringProcess.run(ap);
 						} catch (WrappedException e) {
 							if (!(e.getCause() instanceof GameException)) {
+								result.addError(e);
 								log.error("Failed to call the company.hiringProcess handler", e);
 							}
 						} catch (EcmaError e) {
-							log.error("Failed to call the company.hiringProcess handler", e);
-							c.setBankrupt();
+							result.addError(e);
+							log.error("Failed to call the company.hiringProcess handler. Player " + c.getName()
+									+ " bankrupt", e);
+							c.setBankruptFromError(e);
 						}
 					}
 				}

@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <title>CodeYourRestaurant</title>
 <link rel="stylesheet" type="text/css" href="styles.css" />
+<script type="text/javascript" src="jquery-2.0.3.js"></script>
 </head>
 <body>
 	<div class="head">

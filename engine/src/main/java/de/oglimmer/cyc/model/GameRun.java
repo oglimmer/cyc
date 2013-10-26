@@ -8,6 +8,13 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import de.oglimmer.cyc.api.GameResult;
 
+/**
+ * Represents one execution of a single/competitive game. Information influenced by coding from players are all in
+ * "result".
+ * 
+ * @author oli
+ * 
+ */
 public class GameRun {
 
 	private String id;

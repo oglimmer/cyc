@@ -9,6 +9,10 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import de.oglimmer.cyc.dao.GameRunDao;
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
@@ -26,6 +30,7 @@ public class PortalActionBean extends BaseAction {
 
 	private String company;
 	private String output;
+	private Date lastRun;
 
 	private String nextRun;
 	private int totalRuns;
@@ -71,6 +76,14 @@ public class PortalActionBean extends BaseAction {
 		this.lastWinner = lastWinner;
 	}
 
+	public Date getLastRun() {
+		return lastRun;
+	}
+
+	public void setLastRun(Date lastRun) {
+		this.lastRun = lastRun;
+	}
+
 	@Before
 	public void getNextRunFromGameEngine() {
 		Date date = GameExecutor.INSTANCE.getNextRun();
@@ -91,6 +104,8 @@ public class PortalActionBean extends BaseAction {
 	public void loadFromDb() {
 		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
 		company = user.getMainJavaScript();
+		output = user.getLastError();
+		lastRun = user.getLastPrivateRun();
 	}
 
 	@DefaultHandler
@@ -103,24 +118,46 @@ public class PortalActionBean extends BaseAction {
 		return new RedirectResolution(LandingActionBean.class);
 	}
 
-	public Resolution save() {
-		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
-		user.setMainJavaScript(getCompany());
-		user.setActive(true);
-		userDao.update(user);
-
-		return new ForwardResolution("/WEB-INF/jsp/portal.jsp");
-	}
-
 	public Resolution saveRun() {
 		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
 		user.setMainJavaScript(getCompany());
 		user.setActive(true);
 		userDao.update(user);
 
-		output = GameExecutor.INSTANCE.runGame((String) getContext().getRequest().getSession().getAttribute("userid"));
+		GameExecutor.INSTANCE.runGame((String) getContext().getRequest().getSession().getAttribute("userid"));
+		output = "Saved & check run queued.";
 
-		return new ForwardResolution("/WEB-INF/jsp/portal.jsp");
+		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
+	}
+
+	public Resolution checkForUpdateGlobalRun() {
+		try {
+			getNextRunFromGameEngine();
+			JSONObject json = new JSONObject();
+			json.put("lastWinner", getLastWinner());
+			json.put("totalRuns", getTotalRuns());
+			json.put("nextRun", getNextRun());
+			output = json.toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
+	}
+
+	public Resolution checkForUpdateSaveTest() {
+		try {
+			User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
+			JSONObject json = new JSONObject();
+			json.put("lastRun", user.getLastPrivateRun());
+			json.put("html", user.getLastError());
+
+			output = json.toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
 	}
 
 }

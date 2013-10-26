@@ -11,6 +11,8 @@ public class PlayerResult {
 	private long totalRealEstate;
 	private long establishmentsByDays;
 
+	private int bankruptOnDay;
+
 	private CountMap<String> totalOnSalaries = new CountMap<>();
 	private CountMap<String> staffByDays = new CountMap<>();
 
@@ -250,6 +252,14 @@ public class PlayerResult {
 		for (Food f : missingIngredients) {
 			this.missingIngredients.add(f.toString(), 1);
 		}
+	}
+
+	public int getBankruptOnDay() {
+		return bankruptOnDay;
+	}
+
+	public void setBankruptOnDay(int bankruptOnDay) {
+		this.bankruptOnDay = bankruptOnDay;
 	}
 
 }

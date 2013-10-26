@@ -13,7 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class RealEstateProfiles implements Iterable<RealEstateProfile>, Container<RealEstateProfile> {
+
+	private static Logger log = LoggerFactory.getLogger(RealEstateProfiles.class);
 
 	private List<RealEstateProfile> profiles = new ArrayList<>();
 
@@ -36,7 +41,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Containe
 				cities.add(line);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("Failed to read cities", e);
 		}
 		Collections.shuffle(cities);
 		while (cities.size() != Math.max(1, (int) Math.sqrt(noPlayer))) {

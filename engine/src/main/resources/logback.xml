@@ -1,24 +1,10 @@
 <configuration debug="false">
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<pattern>%msg%n</pattern>
-		</encoder>
-	</appender>
-
-	<appender name="BUFF" class="de.oglimmer.cyc.log.BufferedAppender">
-		<encoder>
-			<pattern>%msg%n</pattern>
-		</encoder>
-		<name>buffMain</name>
-	</appender>
-
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${cyc.web-inf-lib}/../logs/detail_run_log.txt</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>detail_run_log-%d{yyyy-MM-dd}.%i..txt</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+			<fileNamePattern>${cyc.web-inf-lib}/../detail_run_log-%d{yyyy-MM-dd}.%i..txt</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>100MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
@@ -27,14 +13,11 @@
 		</encoder>
 	</appender>
 
-	<logger name="de.oglimmer" level="debug" additivity="false">
-		<appender-ref ref="FILE" />
+	<logger name="de.oglimmer.cyc" level="debug">
 	</logger>
 
-
 	<root level="error">
-		<appender-ref ref="BUFF" />
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</root>
 
 </configuration>

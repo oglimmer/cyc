@@ -12,10 +12,10 @@
 
 		<div class="centerElement">
 			<h2>Global Runs</h2>
-			<div>Next run: ${actionBean.nextRun}</div>
-			<div>Last run's winner: <s:link beanclass="de.oglimmer.cyc.web.actions.GameRunDetailsActionBean" >${actionBean.lastWinner} </s:link></div>			
+			<div>Next run: <span id="nextRun">${actionBean.nextRun}</span></div>
+			<div>Last run's winner: <s:link beanclass="de.oglimmer.cyc.web.actions.GameRunDetailsActionBean" ><span id="lastWinner">${actionBean.lastWinner}</span></s:link></div>			
 			<div>
-				Total runs: <s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean" >${actionBean.totalRuns}</s:link>
+				Total runs: <s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean" ><span id="totalRuns">${actionBean.totalRuns}</span></s:link>
 			</div>
 		</div>
 		
@@ -23,11 +23,10 @@
 			
 			<h2>Your company</h2>
 		
-			<s:form name="mainForm" beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" focus="" onsubmit="document.mainForm.company.value=editor.getValue();return true;">
+			<s:form name="mainForm" beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" focus="" onsubmit="return false;">
 				<div style="width:700px;height:500px;position:relative;"><pre id="editor">${actionBean.company}</pre></div>
 				<s:textarea name="company" style="display:none"></s:textarea>
-				<s:submit name="save" value="Save" />
-				<s:submit name="saveRun" value="Save and check" />				
+				<s:submit name="saveRun" value="Save and check" onclick="onSubmitForm(this);" />				
 			</s:form>
 			
 		</div>	
@@ -42,6 +41,48 @@
 		    var editor = ace.edit("editor");
 		    editor.setTheme("ace/theme/terminal");
 		    editor.getSession().setMode("ace/mode/javascript");
+		    
+		    function onSubmitForm(button) {
+		    	document.mainForm.saveRun.disabled = true;
+		    	var data = {};
+		    	data["__fp"] = document.mainForm.elements["__fp"].value;
+		    	data["_sourcePage"] = document.mainForm.elements["_sourcePage"].value;
+		    	data[button.name] = document.mainForm.elements[button.name].value;
+		    	data.company = editor.getValue();
+		    	$.post(document.mainForm.action, data, function(returnData) {
+					$(".log").html(returnData);
+			    	if(button.name="saveRun") {
+			    		setTimeout(checkForUpdateSaveTest, 1000);
+			    	}
+		    	});
+		    }
+		    
+		    function checkForUpdateGlobalRun() {
+		    	$.get(document.mainForm.action+"?checkForUpdateGlobalRun=", function(returnData) {
+					$("#lastWinner").html(returnData.lastWinner);
+					$("#totalRuns").html(returnData.totalRuns);
+					$("#nextRun").html(returnData.nextRun);
+		    	},"json");
+		    	setTimeout(checkForUpdateGlobalRun, 1000*60);	
+		    }
+		    setTimeout(checkForUpdateGlobalRun, 1000*60);
+
+		    var lastRun = "${actionBean.lastRun}";		    
+		    function checkForUpdateSaveTest() {
+		    	
+		    	$.get(document.mainForm.action+"?checkForUpdateSaveTest=", function(returnData) {
+		    		
+		    		if(returnData.lastRun != lastRun) {
+		    			lastRun = returnData.lastRun;
+						$(".log").html(returnData.html);
+				    	document.mainForm.saveRun.disabled = false;
+		    		} else {
+			    		setTimeout(checkForUpdateSaveTest, 1000);
+		    		}
+		    	}, "json");
+		    }
+		    
+		    
 		</script>			
 
 	</s:layout-component>
