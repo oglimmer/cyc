@@ -9,7 +9,7 @@
 			<hr style="clear:both;visibility:hidden;margin:0px;"/> 
 		</div>
 				
-		<div>
+		<div style="font-size:0.8em;">
 			<table width="100%">
 				<tr>
 					<th>Start date</th>
