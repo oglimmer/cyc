@@ -44,6 +44,7 @@ public enum GameApp {
 	}
 
 	public void startCheckRun(String uid) {
+		assert uid != null && !uid.isEmpty();
 
 		List<String[]> userList = singlePlayer(uid);
 

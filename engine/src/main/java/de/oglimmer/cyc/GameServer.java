@@ -42,6 +42,7 @@ public class GameServer {
 			GameServer gs = new GameServer();
 			gs.runServer();
 		} catch (IOException e) {
+			e.printStackTrace();
 			log.error("Failed to start GameServer", e);
 		}
 	}

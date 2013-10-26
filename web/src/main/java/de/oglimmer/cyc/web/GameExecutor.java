@@ -104,7 +104,7 @@ public enum GameExecutor {
 			if (userId != null) {
 				outToServer.writeBytes(userId + '\n');
 			} else {
-				outToServer.writeBytes("\n");
+				outToServer.writeBytes("full\n");
 			}
 			if (!"ok".equals(inFromServer.readLine())) {
 				log.error("Call to game server returned error.");

@@ -22,12 +22,18 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Contai
 
 	public ApplicationProfiles(int noCompanies) {
 		profiles = new ArrayList<>();
-		int count = (int) (noCompanies + Math.random() * noCompanies * 4);
+		createApplications(noCompanies * 2, noCompanies, JobPosition.CHEF);
+		createApplications(noCompanies * 2, noCompanies, JobPosition.WAITER);
+		createApplications(noCompanies, 0, JobPosition.MANAGER);
+	}
+
+	private void createApplications(int m, int n, JobPosition jp) {
+		int count = (int) (Math.random() * m + n);
 		for (int i = 0; i < count; i++) {
 			int quali = (int) (Math.random() * 10) + 1;
 			int salary = (int) (Math.random() * 1000 * quali) + 200 * quali;
 			ApplicationProfile p = new ApplicationProfile(surnames[(int) (surnames.length * Math.random())] + ", "
-					+ forenames[(int) (forenames.length * Math.random())], quali, gerRandomJobPos(), salary);
+					+ forenames[(int) (forenames.length * Math.random())], quali, jp, salary);
 			profiles.add(p);
 		}
 	}
@@ -55,24 +61,6 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Contai
 		} else if (goodOffers.size() > 1) {
 			return goodOffers.get((int) (Math.random() * goodOffers.size()));
 		}
-		return null;
-	}
-
-	private JobPosition gerRandomJobPos() {
-		switch ((int) (Math.random() * 8)) {
-		case 0:
-		case 1:
-		case 2:
-			return JobPosition.CHEF;
-		case 3:
-		case 4:
-		case 5:
-			return JobPosition.WAITER;
-		case 6:
-		case 7:
-			return JobPosition.MANAGER;
-		}
-		assert false;
 		return null;
 	}
 
