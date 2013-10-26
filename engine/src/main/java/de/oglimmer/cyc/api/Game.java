@@ -1,6 +1,5 @@
 package de.oglimmer.cyc.api;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -67,7 +66,7 @@ public class Game {
 
 		RealEstateProfiles.readCities(cities, userList.size());
 
-		readScripts(userList);
+		readScripts(userList, writeGameResult);
 
 		processGame();
 
@@ -348,7 +347,7 @@ public class Game {
 		ThreadLocal.resetCompany();
 	}
 
-	private void readScripts(List<String[]> userList) {
+	private void readScripts(List<String[]> userList, boolean writeGameResult) {
 
 		ContextFactory contextFactory = ContextFactory.getGlobal();
 		Context context = contextFactory.enterContext();
@@ -365,7 +364,7 @@ public class Game {
 
 				Object jsCompany = new SandboxNativeJavaObject(scope, company, Company.class);
 				prototype.put("company", scope, jsCompany);
-				Object jsSystemout = new SandboxNativeJavaObject(scope, System.out, PrintStream.class);
+				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, writeGameResult), DebugAdapter.class);
 				prototype.put("out", scope, jsSystemout);
 
 				try {

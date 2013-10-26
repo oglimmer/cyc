@@ -44,6 +44,7 @@
 		    
 		    function onSubmitForm(button) {
 		    	document.mainForm.saveRun.disabled = true;
+		    	$(".log").html("");
 		    	var data = {};
 		    	data["__fp"] = document.mainForm.elements["__fp"].value;
 		    	data["_sourcePage"] = document.mainForm.elements["_sourcePage"].value;
@@ -71,7 +72,7 @@
 		    function checkForUpdateSaveTest() {
 		    	
 		    	$.get(document.mainForm.action+"?checkForUpdateSaveTest=", function(returnData) {
-		    		
+		    		console.log(returnData.lastRun +"!="+ lastRun+"="+(returnData.lastRun == lastRun));
 		    		if(returnData.lastRun != lastRun) {
 		    			lastRun = returnData.lastRun;
 						$(".log").html(returnData.html);

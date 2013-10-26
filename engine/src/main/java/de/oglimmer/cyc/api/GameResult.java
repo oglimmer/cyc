@@ -20,6 +20,8 @@ public class GameResult {
 
 	@JsonIgnore
 	private StringBuilder error = new StringBuilder();
+	@JsonIgnore
+	private StringBuilder debug = new StringBuilder();
 
 	public int getTotalDays() {
 		return totalDays;
@@ -83,7 +85,7 @@ public class GameResult {
 		if (error.length() == 0) {
 			error.append("<hr/>");
 		}
-		error.append(caw.toString().replace("\n", "<br(/>"));
+		error.append(caw.toString().replace("\n", "<br/>"));
 	}
 
 	@JsonIgnore
@@ -94,5 +96,21 @@ public class GameResult {
 	@JsonIgnore
 	public void setError(StringBuilder error) {
 		this.error = error;
+	}
+
+	@JsonIgnore
+	public StringBuilder getDebug() {
+		return debug;
+	}
+
+	@JsonIgnore
+	public void setDebug(StringBuilder debug) {
+		this.debug = debug;
+	}
+
+	public void addDebug(String debug) {
+		if (this.debug.length() < 2_000_000) {
+			this.debug.append(debug).append("<br/>");
+		}
 	}
 }

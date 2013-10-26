@@ -54,7 +54,9 @@ public enum GameApp {
 			String lastError = gameRun.getResult().getError().toString();
 
 			User u = userDao.get(uid);
-			u.setLastError(lastError.isEmpty() ? "Your script ran successfully." : lastError);
+			lastError = gameRun.getResult().getDebug().toString()
+					+ (lastError.isEmpty() ? "Your script ran successfully." : lastError);
+			u.setLastError(lastError);
 			u.setLastPrivateRun(new Date());
 			userDao.update(u);
 		}
