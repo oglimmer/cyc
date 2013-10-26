@@ -24,23 +24,24 @@ import org.mozilla.javascript.ClassShutter;
 public class SandboxClassShutter implements ClassShutter {
 	public boolean visibleToScripts(String fullClassName) {
 		switch (fullClassName) {
-		case "de.oglimmer.cyc.api.Company":
-		case "de.oglimmer.cyc.api.HumanResources":
-		case "de.oglimmer.cyc.api.ApplicationProfiles":
 		case "de.oglimmer.cyc.api.ApplicationProfile":
-		case "de.oglimmer.cyc.api.RealEstateProfile":
-		case "de.oglimmer.cyc.api.RealEstateProfiles":
-		case "de.oglimmer.cyc.api.Menu":
-		case "de.oglimmer.cyc.api.MenuEntry":
-		case "de.oglimmer.cyc.api.Grocer":
+		case "de.oglimmer.cyc.api.ApplicationProfiles":
+		case "de.oglimmer.cyc.api.Company":
+		case "de.oglimmer.cyc.api.DebugAdapter":
 		case "de.oglimmer.cyc.api.Employee":
 		case "de.oglimmer.cyc.api.Establishment":
-		case "de.oglimmer.cyc.api.JobPosition":
+		case "de.oglimmer.cyc.api.Food":
 		case "de.oglimmer.cyc.api.FoodDelivery":
 		case "de.oglimmer.cyc.api.FoodUnit":
-		case "de.oglimmer.cyc.api.Food":
+		case "de.oglimmer.cyc.api.Grocer":
+		case "de.oglimmer.cyc.api.HumanResources":
+		case "de.oglimmer.cyc.api.InteriorAccessory":
+		case "de.oglimmer.cyc.api.JobPosition":
+		case "de.oglimmer.cyc.api.Menu":
+		case "de.oglimmer.cyc.api.MenuEntry":
+		case "de.oglimmer.cyc.api.RealEstateProfile":
+		case "de.oglimmer.cyc.api.RealEstateProfiles":
 		case "de.oglimmer.cyc.api.UnmodifiableIterator":
-		case "de.oglimmer.cyc.api.DebugAdapter":
 		case "java.lang.String":
 		case "java.util.HashSet":
 		case "java.util.ArrayList":
