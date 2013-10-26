@@ -38,6 +38,7 @@ public class SandboxClassShutter implements ClassShutter {
 		case "de.oglimmer.cyc.api.JobPosition":
 		case "de.oglimmer.cyc.api.FoodDelivery":
 		case "de.oglimmer.cyc.api.FoodUnit":
+		case "de.oglimmer.cyc.api.Food":
 		case "de.oglimmer.cyc.api.UnmodifiableIterator":
 		case "de.oglimmer.cyc.api.DebugAdapter":
 		case "java.lang.String":
