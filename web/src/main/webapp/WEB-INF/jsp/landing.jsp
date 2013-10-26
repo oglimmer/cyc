@@ -19,12 +19,12 @@
 			<s:form beanclass="de.oglimmer.cyc.web.actions.LandingActionBean"	
 				focus="">
 				<div>
-					<label for="username" style="display: inline-block;width:100px;text-align: right;">Username</label> <s:text name="username" style="width:140px;" />
+					<label for="username" style="display: inline-block;width:100px;text-align: right;">Username</label> <s:text name="username" style="width:130px;" />
 				</div>
 				<div style="width:255px;float:left;">
-					<label for="password" style="display: inline-block;width:100px;text-align: right;">Password</label> <s:password name="password" style="width:140px;" />
+					<label for="password" style="display: inline-block;width:100px;text-align: right;">Password</label> <s:password name="password" style="width:130px;" />
 				</div>
-				<div style="float:left;width:440px;">
+				<div style="float:left;width:445px;">
 					<div style="float:left">
 						<s:submit name="login" value="Login" />
 					</div>	
