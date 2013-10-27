@@ -453,9 +453,9 @@ public class Game {
 			try {
 				if (!c.isBankrupt()) {
 					for (Employee e : c.getHumanResources().getEmployeesInt()) {
-						c.decCash(e.getSalary());
 						result.get(c.getName()).addTotalNumSalariesPaid(e.getJobPosition().toString(), e.getSalary(),
 								totalDay);
+						c.decCash(e.getSalary());
 						log.debug("{} payed ${} for {}", c.getName(), e.getSalary(), e.getName());
 					}
 				}
@@ -471,8 +471,8 @@ public class Game {
 				if (!c.isBankrupt()) {
 					for (Establishment e : c.getEstablishmentsInt()) {
 						if (e.isRented()) {
-							c.decCash(e.getLeaseCost());
 							result.get(c.getName()).addTotalOnRent(e.getLeaseCost());
+							c.decCash(e.getLeaseCost());
 							log.debug("{} payed ${} for {}", c.getName(), e.getLeaseCost(), e.getAddress());
 						}
 					}
