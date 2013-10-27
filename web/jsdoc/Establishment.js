@@ -59,7 +59,7 @@ Establishment.prototype.locationSize;
 Establishment.prototype.rented;
 
 /**
-* A list of interior accessories in this establishment. Read-only.
+* A string list of interior accessories in this establishment. Read-only.
 * 
 * @property interiorAccessories
 * @type {List}
@@ -67,7 +67,7 @@ Establishment.prototype.rented;
 Establishment.prototype.interiorAccessories;
 
 /**
-* A list of FoodUnit currently stored in this property. Rotten food gets removed automatically. Read-Only.
+* A list of <a href="FoodUnit.js">FoodUnit</a> currently stored in this property. Rotten food gets removed automatically. Read-Only.
 * 
 * @property storedFoodUnits
 * @type {List}
