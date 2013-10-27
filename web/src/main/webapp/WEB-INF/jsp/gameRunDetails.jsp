@@ -44,7 +44,7 @@
 				<c:forEach items="${actionBean.result.guestsTotalPerCity}" var="entry">
 					<tr> 
 	  					<td>Total guest for ${entry.key}</td>
-	  					<td><fmt:formatNumber value="${entry.value}" type="number"/></td>
+	  					<td><fmt:formatNumber value="${entry.value}" type="number"/> (<fmt:formatNumber value="${entry.value/actionBean.result.totalDays}" maxFractionDigits="0" type="number"/> p.day)</td>
 	  				</tr>
 				</c:forEach>
 			</table> 
