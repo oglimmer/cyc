@@ -37,6 +37,9 @@
 			<br/>
 			As we see the company class has ha menu property which could be used to add, remove or list our menu entries. 
 			We add a simple Chicken Kebab with nothing than meat and bread for $3.<br/>
+			If you want to create other meals, these are the available ingredients: 
+			SALAD, TOMATO, ONION, BREAD, LAMB_MEAT, CHICKEN_MEAT, BEEF_MEAT, CABBAGE, SPICES, GARLIC_SAUCE.<br/>
+			<br/>
 			Next we need to rent a restaurant. Let's implement the realEstateAgent event:<br/>  
 			<br/>
 			<div style="width:700px;height:85px;position:relative;"><pre id="code2">company.realEstateAgent = function(realEstateProfiles) {
@@ -81,6 +84,8 @@
 		company.establishments.get(0).buyInteriorAccessoriesNotExist("COUNTER");
 	}	
 };</pre></div>
+			<br/>
+			If you want to buy other interiors you can choose between: TABLE, CHAIR, COUNTER, VERTICAL_ROTISSERIE, TOASTER, OVEN, COFFEE_MACHINE, BEVERAGE_COOLER, FRIDGE.<br/>
 			<br/>
 			Since we want to serve food we need to buy ingredients according to our menu. We only have a super simple
 			Chicken Kebab, so we buy chicken meat and bread.<br/>
