@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Company {
-	//	private Logger log = LoggerFactory.getLogger(Company.class);
+	private Logger log = LoggerFactory.getLogger(Company.class);
 
 	private Game game;
 
@@ -49,11 +52,17 @@ public class Company {
 
 	void incCash(int change) {
 		assert change >= 0;
-		cash += change;
+		assert cash > -1;
+		if (cash <= -1) {
+			log.error("{} got money even if bankrupt", name);
+		} else {
+			cash += change;
+		}
 	}
 
 	void decCash(int change) throws OutOfMoneyException {
 		assert change >= 0;
+		assert cash > -1;
 		if (cash - change < 0) {
 			setBankrupt();
 			throw new OutOfMoneyException(this);
@@ -92,8 +101,14 @@ public class Company {
 	}
 
 	private void setBankrupt() {
+		log.debug("{} became bankrupt on {}", name, game.getCurrentDay());
 		game.getResult().get(getName()).setBankruptOnDay(game.getCurrentDay());
 		cash = -1;
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			log.error("", e);
+		}
 	}
 
 	Game getGame() {
