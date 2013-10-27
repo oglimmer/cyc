@@ -34,6 +34,8 @@ public class GameServer {
 					throw new RuntimeException("Exit not allowed");
 				}
 			});
+		} else {
+			log.info("No SecurityManager set!");
 		}
 
 		GroovyInitializer.init();
@@ -62,6 +64,7 @@ public class GameServer {
 			startTime = new Date();
 			serverSocket = new ServerSocket();
 			serverSocket.bind(new InetSocketAddress("127.0.0.1", SERVER_PORT));
+			log.debug("Bind on 127.0.0.1:" + SERVER_PORT + " successful.");
 			while (running) {
 				new Thread(new SocketHandler(serverSocket.accept())).start();
 			}
@@ -125,10 +128,14 @@ public class GameServer {
 			tpe.submit(new Runnable() {
 				@Override
 				public void run() {
-					if ("full".equals(clientRequest)) {
-						GameRunStarter.INSTANCE.startFullGame();
-					} else {
-						GameRunStarter.INSTANCE.startCheckRun(clientRequest);
+					try {
+						if ("full".equals(clientRequest)) {
+							GameRunStarter.INSTANCE.startFullGame();
+						} else {
+							GameRunStarter.INSTANCE.startCheckRun(clientRequest);
+						}
+					} catch (Throwable e) {
+						log.error("Uncaught throwable", e);
 					}
 				}
 			});

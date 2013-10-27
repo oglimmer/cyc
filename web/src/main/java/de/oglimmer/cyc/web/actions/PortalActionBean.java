@@ -12,6 +12,8 @@ import net.sourceforge.stripes.action.Resolution;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.oglimmer.cyc.dao.GameRunDao;
 import de.oglimmer.cyc.dao.UserDao;
@@ -23,6 +25,8 @@ import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.GameExecutor;
 
 public class PortalActionBean extends BaseAction {
+	private static Logger log = LoggerFactory.getLogger(PortalActionBean.class);
+
 	private static final String VIEW = "/WEB-INF/jsp/portal.jsp";
 
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
@@ -124,8 +128,13 @@ public class PortalActionBean extends BaseAction {
 		user.setActive(true);
 		userDao.update(user);
 
-		GameExecutor.INSTANCE.runGame((String) getContext().getRequest().getSession().getAttribute("userid"));
-		output = "Saved & check run queued.";
+		try {
+			GameExecutor.INSTANCE.runGame((String) getContext().getRequest().getSession().getAttribute("userid"));
+			output = "Saved & check run queued.";
+		} catch (Exception e) {
+			log.debug("Failed to run check run", e);
+			output = "Internal server error";
+		}
 
 		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
 	}
@@ -139,7 +148,7 @@ public class PortalActionBean extends BaseAction {
 			json.put("nextRun", getNextRun());
 			output = json.toString();
 		} catch (JSONException e) {
-			e.printStackTrace();
+			log.error("Failed to create JSON response", e);
 		}
 
 		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
@@ -154,7 +163,7 @@ public class PortalActionBean extends BaseAction {
 
 			output = json.toString();
 		} catch (JSONException e) {
-			e.printStackTrace();
+			log.error("Failed to create JSON response", e);
 		}
 
 		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");

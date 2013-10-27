@@ -27,7 +27,7 @@ import de.oglimmer.cyc.GameServer;
 public enum GameExecutor {
 	INSTANCE;
 
-	private static final String TMP_SECURITY_POLICY = "/tmp/security.policy";
+	private static final String TMP_SECURITY_POLICY = System.getProperty("java.io.tmpdir") + "/security.policy";
 
 	private static Logger log = LoggerFactory.getLogger(GameExecutor.class);
 
@@ -95,7 +95,7 @@ public enum GameExecutor {
 		}
 	}
 
-	public void runGame(final String userId) {
+	public void runGame(final String userId) throws IOException {
 		Socket clientSocket = null;
 		try {
 			clientSocket = getClientSocket();
@@ -106,12 +106,12 @@ public enum GameExecutor {
 			} else {
 				outToServer.writeBytes("full\n");
 			}
-			if (!"ok".equals(inFromServer.readLine())) {
-				log.error("Call to game server returned error.");
+			String serverResponse = inFromServer.readLine();
+			if (!"ok".equals(serverResponse)) {
+				log.error("Call to game server returned error:{}", serverResponse);
+				throw new IOException("Server returned:" + serverResponse);
 			}
 
-		} catch (IOException e) {
-			log.error("Failed to connect to game-server", e);
 		} finally {
 			if (clientSocket != null) {
 				try {
@@ -188,7 +188,11 @@ public enum GameExecutor {
 				Date now = new Date();
 
 				if (nextRun.before(now)) {
-					runGame(null);
+					try {
+						runGame(null);
+					} catch (IOException e) {
+						log.error("Failed to run game", e);
+					}
 					Calendar cal = GregorianCalendar.getInstance();
 					cal.add(Calendar.MINUTE, RUN_EVERY_MINUTES);
 					nextRun = cal.getTime();
