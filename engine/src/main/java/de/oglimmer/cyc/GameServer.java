@@ -98,31 +98,13 @@ public class GameServer {
 					try (DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream())) {
 						final String clientRequest = inFromClient.readLine();
 						if ("exit".equals(clientRequest)) {
-							running = false;
-							serverSocket.close();
-							outToClient.writeBytes("shutdown in progress\n");
+							handleExit(outToClient);
 						} else if ("up".equals(clientRequest)) {
-							log.info("Uptime: {}", startTime);
-							outToClient.writeBytes("Uptime: " + startTime + "\n");
+							handleUp(outToClient);
 						} else if ("status".equals(clientRequest)) {
-							log.info("Running: {}", running);
-							log.info("Queue-size: {}", tpe.getQueue().size());
-							outToClient.writeBytes("Running: " + running + "\n");
-							outToClient.writeBytes("Queue-size: " + tpe.getQueue().size() + "\n");
+							handleStatus(outToClient);
 						} else {
-							log.debug("Received: " + clientRequest);
-
-							tpe.submit(new Runnable() {
-								@Override
-								public void run() {
-									if ("full".equals(clientRequest)) {
-										GameApp.INSTANCE.startFullGame();
-									} else {
-										GameApp.INSTANCE.startCheckRun(clientRequest);
-									}
-								}
-							});
-							outToClient.writeBytes("ok\n");
+							handleRunGame(outToClient, clientRequest);
 						}
 					}
 				}
@@ -135,6 +117,40 @@ public class GameServer {
 					log.debug("Failed to close server socket", e);
 				}
 			}
+		}
+
+		private void handleRunGame(DataOutputStream outToClient, final String clientRequest) throws IOException {
+			log.debug("Received: " + clientRequest);
+
+			tpe.submit(new Runnable() {
+				@Override
+				public void run() {
+					if ("full".equals(clientRequest)) {
+						GameRunStarter.INSTANCE.startFullGame();
+					} else {
+						GameRunStarter.INSTANCE.startCheckRun(clientRequest);
+					}
+				}
+			});
+			outToClient.writeBytes("ok\n");
+		}
+
+		private void handleStatus(DataOutputStream outToClient) throws IOException {
+			log.info("Running: {}", running);
+			log.info("Queue-size: {}", tpe.getQueue().size());
+			outToClient.writeBytes("Running: " + running + "\n");
+			outToClient.writeBytes("Queue-size: " + tpe.getQueue().size() + "\n");
+		}
+
+		private void handleUp(DataOutputStream outToClient) throws IOException {
+			log.info("Uptime: {}", startTime);
+			outToClient.writeBytes("Uptime: " + startTime + "\n");
+		}
+
+		private void handleExit(DataOutputStream outToClient) throws IOException {
+			running = false;
+			serverSocket.close();
+			outToClient.writeBytes("shutdown in progress\n");
 		}
 	}
 

@@ -18,10 +18,10 @@ import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 
-public enum GameApp {
+public enum GameRunStarter {
 	INSTANCE;
 
-	private static Logger log = LoggerFactory.getLogger(GameApp.class);
+	private static Logger log = LoggerFactory.getLogger(GameRunStarter.class);
 
 	public static final String VERSION = "1.0";
 
