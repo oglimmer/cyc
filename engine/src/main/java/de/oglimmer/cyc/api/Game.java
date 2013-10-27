@@ -393,6 +393,7 @@ public class Game {
 
 	public void processRealEstateBusiness() {
 		RealEstateProfiles ap = new RealEstateProfiles(cities, companies.size());
+		log.debug(ap.toString());
 		boolean pickedOne = true;
 		while (ap.iterator().hasNext() && pickedOne) {
 			pickedOne = false;
