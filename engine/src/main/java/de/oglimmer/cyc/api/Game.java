@@ -218,7 +218,9 @@ public class Game {
 		log.debug("Day: {}/{}", day, currentDay);
 
 		for (Company c : companies) {
-			result.get(c.getName()).addEstablishmentsByDays(c.getEstablishments().size());
+			if (!c.isBankrupt()) {
+				result.get(c.getName()).addEstablishmentsByDays(c.getEstablishments().size());
+			}
 		}
 
 		grocer.initDay();
@@ -364,7 +366,8 @@ public class Game {
 
 				Object jsCompany = new SandboxNativeJavaObject(scope, company, Company.class);
 				prototype.put("company", scope, jsCompany);
-				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, writeGameResult), DebugAdapter.class);
+				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, writeGameResult),
+						DebugAdapter.class);
 				prototype.put("out", scope, jsSystemout);
 
 				try {
@@ -482,9 +485,11 @@ public class Game {
 	public void processHumanResources() {
 
 		ApplicationProfiles ap = new ApplicationProfiles(companies.size());
+		log.debug(ap.toString());
 
 		boolean pickedOne = true;
 		while (ap.iterator().hasNext() && pickedOne) {
+			log.debug("round...");
 			pickedOne = false;
 
 			for (Company c : companies) {

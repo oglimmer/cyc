@@ -88,13 +88,13 @@
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 							<td>Avg restaurants per day:</td>
-							<td align="right"><fmt:formatNumber value="${entry.value.establishmentsByDays / actionBean.result.totalDays}" type="number"/></td>
+							<td align="right"><fmt:formatNumber value="${entry.value.establishmentsByDays / (actionBean.result.totalDays<entry.value.bankruptOnDay||entry.value.bankruptOnDay==0?actionBean.result.totalDays:entry.value.bankruptOnDay) }" type="number"/></td>
 						</tr>
 						<c:set var="counter" value="${counter + 1}"/>
 						<c:forEach items="${entry.value.staffByDays}" var="entryStaff">
 							<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
-								<td>Avg number of ${entryStaff.key}'s per day:</td>
-								<td align="right"><fmt:formatNumber value="${entryStaff.value/actionBean.result.totalDays}" type="number"/></td>
+								<td>Avg number of ${entryStaff.key}'s per day:</td>								
+								<td align="right"><fmt:formatNumber value="${entryStaff.value/ (actionBean.result.totalDays<entry.value.bankruptOnDay||entry.value.bankruptOnDay==0?actionBean.result.totalDays:entry.value.bankruptOnDay) }" type="number"/></td>
 							</tr>
 							<c:set var="counter" value="${counter + 1}"/>
 						</c:forEach>
