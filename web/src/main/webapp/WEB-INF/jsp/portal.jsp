@@ -52,12 +52,10 @@
 		    	data.company = editor.getValue();
 		    	$.post(document.mainForm.action, data, function(returnData) {
 					$(".log").html(returnData);
-			    	if(button.name="saveRun" && returnData.toLowerCase().indexOf("error")===-1) {
+			    	if(button.name=="saveRun" && returnData.toLowerCase().indexOf("error")===-1) {
 			    		setTimeout(checkForUpdateSaveTest, 1000);
 			    	} else {
 			    		document.mainForm.saveRun.disabled=false;
-			    		// weird bug (at least in Safari), after the above statement, the button changes its name to "false"
-			    		document.mainForm.saveRun.name="saveRun";
 			    	}
 		    	});
 		    }
