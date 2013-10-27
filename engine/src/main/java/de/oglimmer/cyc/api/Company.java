@@ -104,11 +104,6 @@ public class Company {
 		log.debug("{} became bankrupt on {}", name, game.getCurrentDay());
 		game.getResult().get(getName()).setBankruptOnDay(game.getCurrentDay());
 		cash = -1;
-		try {
-			throw new Exception();
-		} catch (Exception e) {
-			log.error("", e);
-		}
 	}
 
 	Game getGame() {
