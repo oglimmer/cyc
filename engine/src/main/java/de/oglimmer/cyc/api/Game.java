@@ -120,21 +120,6 @@ public class Game {
 		return currentDay;
 	}
 
-	private void processYear(int year) {
-
-		callLaunch();
-		currentDay = 0;
-
-		for (int month = 1; month <= totalMonth; month++) {
-			log.debug("Year: {}", year);
-			processMonth(month);
-		}
-
-		if (year == 1) {
-			payCredits();
-		}
-	}
-
 	private void callLaunch() {
 		for (Company company : companies) {
 			if (!company.isBankrupt()) {
@@ -171,11 +156,27 @@ public class Game {
 		}
 	}
 
+	private void processYear(int year) {
+
+		callLaunch();
+		currentDay = 0;
+
+		for (int month = 1; month <= totalMonth; month++) {
+			log.debug("Year: {}", year);
+			processMonth(month);
+		}
+
+		if (year == 1) {
+			payCredits();
+		}
+	}
+
 	private void processMonth(int month) {
 		log.debug("Month: {}", month);
 
 		processRealEstateBusiness();
 		processHumanResources();
+
 		payRents();
 
 		callMonthly();
@@ -217,11 +218,7 @@ public class Game {
 		currentDay++;
 		log.debug("Day: {}/{}", day, currentDay);
 
-		for (Company c : companies) {
-			if (!c.isBankrupt()) {
-				result.get(c.getName()).addEstablishmentsByDays(c.getEstablishments().size());
-			}
-		}
+		incDailyCounter();
 
 		grocer.initDay();
 
@@ -237,6 +234,18 @@ public class Game {
 
 		cleanFoodStorages();
 
+	}
+
+	private void incDailyCounter() {
+		for (Company c : companies) {
+			if (!c.isBankrupt()) {
+				PlayerResult playerResult = result.get(c.getName());
+				playerResult.addEstablishmentsByDays(c.getEstablishments().size());
+				for (Employee e : c.getHumanResources().getEmployeesInt()) {
+					playerResult.addStaffByDays(e.getJobPosition().toString());
+				}
+			}
+		}
 	}
 
 	private void callWeekly() {
@@ -453,8 +462,7 @@ public class Game {
 			try {
 				if (!c.isBankrupt()) {
 					for (Employee e : c.getHumanResources().getEmployeesInt()) {
-						result.get(c.getName()).addTotalNumSalariesPaid(e.getJobPosition().toString(), e.getSalary(),
-								totalDay);
+						result.get(c.getName()).addTotalOnSalaries(e.getJobPosition().toString(), e.getSalary());
 						c.decCash(e.getSalary());
 						log.debug("{} payed ${} for {}", c.getName(), e.getSalary(), e.getName());
 					}

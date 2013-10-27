@@ -38,6 +38,8 @@ public class PlayerResult {
 		this.name = name;
 	}
 
+	// --------------------------------------------------------------------------------
+
 	public String getName() {
 		return name;
 	}
@@ -45,6 +47,8 @@ public class PlayerResult {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	// --------------------------------------------------------------------------------
 
 	public long getTotalOnRent() {
 		return totalOnRent;
@@ -58,6 +62,8 @@ public class PlayerResult {
 		this.totalOnRent += rent;
 	}
 
+	// --------------------------------------------------------------------------------
+
 	public long getTotalRealEstate() {
 		return totalRealEstate;
 	}
@@ -69,6 +75,8 @@ public class PlayerResult {
 	public void addTotalRealEstate(long realEstate) {
 		this.totalRealEstate += realEstate;
 	}
+
+	// --------------------------------------------------------------------------------
 
 	public long getEstablishmentsByDays() {
 		return establishmentsByDays;
@@ -82,6 +90,8 @@ public class PlayerResult {
 		this.establishmentsByDays += l;
 	}
 
+	// --------------------------------------------------------------------------------
+
 	public long getTotalAssets() {
 		return totalAssets;
 	}
@@ -89,6 +99,8 @@ public class PlayerResult {
 	public void setTotalAssets(long totalAssets) {
 		this.totalAssets = totalAssets;
 	}
+
+	// --------------------------------------------------------------------------------
 
 	public CountMap<String> getStaffByDays() {
 		return staffByDays;
@@ -98,10 +110,11 @@ public class PlayerResult {
 		this.staffByDays = staffByDays;
 	}
 
-	public void addTotalNumSalariesPaid(String jobPosition, int salary, int days) {
-		totalOnSalaries.add(jobPosition, salary);
-		staffByDays.add(jobPosition, days);
+	public void addStaffByDays(String jobPosition) {
+		staffByDays.add(jobPosition, 1);
 	}
+
+	// --------------------------------------------------------------------------------
 
 	public CountMap<String> getTotalOnSalaries() {
 		return totalOnSalaries;
@@ -110,6 +123,12 @@ public class PlayerResult {
 	public void setTotalOnSalaries(CountMap<String> totalOnSalaries) {
 		this.totalOnSalaries = totalOnSalaries;
 	}
+
+	public void addTotalOnSalaries(String jobPosition, int salary) {
+		totalOnSalaries.add(jobPosition, salary);
+	}
+
+	// --------------------------------------------------------------------------------
 
 	public CountMap<String> getTotalPurchasedFoodUnits() {
 		return totalPurchasedFoodUnits;
@@ -132,6 +151,8 @@ public class PlayerResult {
 		totalPurchasedFoodCosts.add(food, totalCost);
 	}
 
+	// --------------------------------------------------------------------------------
+
 	public CountMap<String> getTotalRottenFood() {
 		return totalRottenFood;
 	}
@@ -140,8 +161,14 @@ public class PlayerResult {
 		this.totalRottenFood = totalRottenFood;
 	}
 
+	// --------------------------------------------------------------------------------
+
 	public CountMap<String> getServedFoodPerTypeUnits() {
 		return servedFoodPerTypeUnits;
+	}
+
+	public void setServedFoodPerTypeUnits(CountMap<String> servedFoodPerType) {
+		this.servedFoodPerTypeUnits = servedFoodPerType;
 	}
 
 	@JsonIgnore
@@ -153,9 +180,7 @@ public class PlayerResult {
 		return total;
 	}
 
-	public void setServedFoodPerTypeUnits(CountMap<String> servedFoodPerType) {
-		this.servedFoodPerTypeUnits = servedFoodPerType;
-	}
+	// --------------------------------------------------------------------------------
 
 	public CountMap<String> getServedFoodPerEstablishmentUnits() {
 		return servedFoodPerEstablishmentUnits;
@@ -174,8 +199,14 @@ public class PlayerResult {
 		return total;
 	}
 
+	// --------------------------------------------------------------------------------
+
 	public CountMap<String> getServedFoodPerTypeRevenue() {
 		return servedFoodPerTypeRevenue;
+	}
+
+	public void setServedFoodPerTypeRevenue(CountMap<String> servedFoodPerTypeRevenue) {
+		this.servedFoodPerTypeRevenue = servedFoodPerTypeRevenue;
 	}
 
 	@JsonIgnore
@@ -187,9 +218,7 @@ public class PlayerResult {
 		return total;
 	}
 
-	public void setServedFoodPerTypeRevenue(CountMap<String> servedFoodPerTypeRevenue) {
-		this.servedFoodPerTypeRevenue = servedFoodPerTypeRevenue;
-	}
+	// --------------------------------------------------------------------------------
 
 	public CountMap<String> getServedFoodPerEstablishmentRevenue() {
 		return servedFoodPerEstablishmentRevenue;
@@ -208,12 +237,16 @@ public class PlayerResult {
 		return total;
 	}
 
+	// --------------------------------------------------------------------------------
+
 	public void addServedFoodServed(String est, String name, int price) {
 		servedFoodPerEstablishmentUnits.add(est, 1);
 		servedFoodPerTypeUnits.add(name, 1);
 		servedFoodPerEstablishmentRevenue.add(est, price);
 		servedFoodPerTypeRevenue.add(name, price);
 	}
+
+	// --------------------------------------------------------------------------------
 
 	public CountMap<String> getGuestsYouPerCity() {
 		return guestsYouPerCity;
@@ -223,6 +256,8 @@ public class PlayerResult {
 		this.guestsYouPerCity = guestsYouPerCity;
 	}
 
+	// --------------------------------------------------------------------------------
+
 	public CountMap<String> getGuestsLeftPerCity() {
 		return guestsLeftPerCity;
 	}
@@ -230,6 +265,8 @@ public class PlayerResult {
 	public void setGuestsLeftPerCity(CountMap<String> guestsLeftPerCity) {
 		this.guestsLeftPerCity = guestsLeftPerCity;
 	}
+
+	// --------------------------------------------------------------------------------
 
 	public CountMap<String> getGuestsOutOfIngPerCity() {
 		return guestsOutOfIngPerCity;
@@ -254,6 +291,8 @@ public class PlayerResult {
 		}
 	}
 
+	// --------------------------------------------------------------------------------
+
 	public int getBankruptOnDay() {
 		return bankruptOnDay;
 	}
@@ -261,5 +300,7 @@ public class PlayerResult {
 	public void setBankruptOnDay(int bankruptOnDay) {
 		this.bankruptOnDay = bankruptOnDay;
 	}
+
+	// --------------------------------------------------------------------------------
 
 }

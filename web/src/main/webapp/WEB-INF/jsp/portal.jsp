@@ -44,7 +44,7 @@
 		    
 		    function onSubmitForm(button) {
 		    	document.mainForm.saveRun.disabled = true;
-		    	$(".log").html("");
+		    	$(".log").html("processing request ...");
 		    	var data = {};
 		    	data["__fp"] = document.mainForm.elements["__fp"].value;
 		    	data["_sourcePage"] = document.mainForm.elements["_sourcePage"].value;
