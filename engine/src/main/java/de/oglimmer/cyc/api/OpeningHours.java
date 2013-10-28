@@ -10,14 +10,19 @@ public class OpeningHours {
 
 	private Logger log = LoggerFactory.getLogger(OpeningHours.class);
 	private Game game;
+	private int baseGuests;
+	private int rndGuests;
 
 	public OpeningHours(Game game) {
 		this.game = game;
+		baseGuests = (int) (Math.random() * 30 + 35);
+		rndGuests = (int) (Math.random() * 50 + 75);
+		log.debug("Game uses rnd*numberOfCompanies*{}+{}", rndGuests, baseGuests);
 	}
 
 	public void runBusiness() {
 		for (String city : game.getCities()) {
-			int totalGuests = (int) (Math.random() * game.getCompanies().size() * 100) + 50;
+			int totalGuests = (int) (Math.random() * game.getCompanies().size() * rndGuests) + baseGuests;
 			log.debug("Guests for today in {}: {}", city, totalGuests);
 			game.getResult().getGuestsTotalPerCity().add(city, totalGuests);
 
