@@ -50,7 +50,7 @@
 			</table> 
 		</div>	
 		
-		<div class="centerElement">
+		<div class="centerElement" style="font-size:0.8em">
 				
 				<c:forEach items="${actionBean.result.playerResults}" var="entry">
 					<c:set var="counter" value="0"/>
@@ -78,7 +78,10 @@
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 							<td>Total on renting real estates:</td>
-							<td align="right"><fmt:formatNumber value="${entry.value.totalOnRent }" type="currency"/></td>
+							<td align="right">
+								<fmt:formatNumber value="${entry.value.totalOnRent}" type="currency"/>
+								/ <fmt:formatNumber value="${entry.value.totalOnRent / actionBean.result.totalDays * 30 }" type="currency"/>
+							</td>
 						</tr>
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
@@ -101,7 +104,10 @@
 						<c:forEach items="${entry.value.totalOnSalaries}" var="entryStaff">
 							<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 								<td>Total salary for ${entryStaff.key}</td>
-								<td align="right"><fmt:formatNumber value="${entryStaff.value}" type="currency"/></td>
+								<td align="right">
+									<fmt:formatNumber value="${entryStaff.value}" type="currency"/>
+									/ <fmt:formatNumber value="${entryStaff.value / actionBean.result.totalDays * 30}" type="currency"/>
+								</td>
 							</tr>
 							<c:set var="counter" value="${counter + 1}"/>
 						</c:forEach>
