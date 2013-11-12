@@ -1,8 +1,8 @@
 <%@include file="/WEB-INF/jsp/common/include_taglibs.jsp"%>
 
-<s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
+<s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp" style="width:90%">
   <s:layout-component name="center">
-	
+  
 		<div style="font-size:0.6em;text-align:right;">
 			Version ${currentVersion} <a href="../apidocs/index.html" target="_blank">API</a> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.actions.TutorialActionBean" >Tutorial</s:link> &nbsp;
@@ -22,11 +22,14 @@
 		<div class="centerElement">
 			
 			<h2>Your company</h2>
-		
+
 			<s:form name="mainForm" beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" focus="" onsubmit="return false;">
-				<div style="width:700px;height:500px;position:relative;"><pre id="editor">${actionBean.company}</pre></div>
+				<div style="width:97%;height:500px;position:relative;"><pre id="editor">${actionBean.company}</pre></div>
 				<s:textarea name="company" style="display:none"></s:textarea>
-				<s:submit name="saveRun" value="Save and check" onclick="onSubmitForm(this);" />				
+				<s:submit name="saveRun" value="Save and check" onclick="onSubmitForm(this);" />
+				<c:if test="${actionBean.fullRun}">
+					<s:submit name="fullRun" value="Start global run" onclick="onSubmitFormFull(this);" />
+				</c:if>				
 			</s:form>
 			
 		</div>	
@@ -41,6 +44,17 @@
 		    var editor = ace.edit("editor");
 		    editor.setTheme("ace/theme/terminal");
 		    editor.getSession().setMode("ace/mode/javascript");
+		    
+		    function onSubmitFormFull(button) {
+		    	var data = {};
+		    	data["__fp"] = document.mainForm.elements["__fp"].value;
+		    	data["_sourcePage"] = document.mainForm.elements["_sourcePage"].value;
+		    	data[button.name] = document.mainForm.elements[button.name].value;
+		    	data.company = editor.getValue();
+		    	$.post(document.mainForm.action, data, function(returnData) {
+		    		$(".log").html(returnData);
+		    	});
+		    }
 		    
 		    function onSubmitForm(button) {
 		    	document.mainForm.saveRun.disabled = true;

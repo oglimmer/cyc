@@ -17,10 +17,8 @@
 		
 	</div>
 
-	<div class="center">
-	
+	<div class="center" style="${style}">
 		<s:layout-component name="center"/>
-		
 	</div>
 	
 	<div class="footer">

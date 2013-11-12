@@ -13,6 +13,7 @@ public class User {
 	private String password;
 	private String email;
 	private boolean active;
+	private int permission;
 
 	private String mainJavaScript;
 
@@ -102,6 +103,14 @@ public class User {
 
 	public void setLastPrivateRun(Date Date) {
 		this.lastPrivateRun = Date;
+	}
+
+	public int getPermission() {
+		return permission;
+	}
+
+	public void setPermission(int permission) {
+		this.permission = permission;
 	}
 
 }

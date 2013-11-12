@@ -6,3 +6,4 @@ web/target/
 engine/.classpath
 rules/.classpath
 web/.classpath
+web/src/main/webapp/apidocs/

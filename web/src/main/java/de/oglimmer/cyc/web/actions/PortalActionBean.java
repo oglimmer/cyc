@@ -40,6 +40,8 @@ public class PortalActionBean extends BaseAction {
 	private int totalRuns;
 	private String lastWinner;
 
+	private boolean fullRun;
+
 	public String getCompany() {
 		return company;
 	}
@@ -88,6 +90,14 @@ public class PortalActionBean extends BaseAction {
 		this.lastRun = lastRun;
 	}
 
+	public boolean isFullRun() {
+		return fullRun;
+	}
+
+	public void setFullRun(boolean fullRun) {
+		this.fullRun = fullRun;
+	}
+
 	@Before
 	public void getNextRunFromGameEngine() {
 		Date date = GameExecutor.INSTANCE.getNextRun();
@@ -110,6 +120,7 @@ public class PortalActionBean extends BaseAction {
 		company = user.getMainJavaScript();
 		output = user.getLastError();
 		lastRun = user.getLastPrivateRun();
+		fullRun = user.getPermission() > 0;
 	}
 
 	@DefaultHandler
@@ -136,6 +147,23 @@ public class PortalActionBean extends BaseAction {
 			output = "Internal server error";
 		}
 
+		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
+	}
+
+	public Resolution fullRun() {
+		String userId = (String) getContext().getRequest().getSession().getAttribute("userid");
+		try {
+			User user = userDao.get(userId);
+			if (user.getPermission() > 0) {
+				GameExecutor.INSTANCE.runGame(null);
+				output = "Global run started ... wait";
+			} else {
+				throw new Exception("User " + userId + " has no permission to start a full run");
+			}
+		} catch (Exception e) {
+			log.debug("Failed to run check run", e);
+			output = "Internal server error";
+		}
 		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
 	}
 
