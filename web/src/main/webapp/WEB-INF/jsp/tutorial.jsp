@@ -116,6 +116,10 @@
 			In the next global run of the game, you're restaurant will participate and we can see how well it competes.<br/>
 			<br/>
 			<span style="font-weight:bolder">You can use out.println("..."); in your script to output debug information.<br/></span>
+			<c:if test="${not empty sessionScope.userid}">
+				<br/>
+				To replace your code with the default implementation from this tutorial, click <a href="javascript:void(0);" onclick="replaceCode();">here</a>.<br/>
+			</c:if> 
 			<br/>
 			For future optimizations of your restaurant, you probably want to browse the <a href="../apidocs/index.html" target="_blank">API documentation</a>.<br/> 
 		</div>	
@@ -194,7 +198,39 @@
     editor.setTheme("ace/theme/terminal");
     editor.getSession().setMode("ace/mode/javascript");
     editor.setReadOnly(true);
+    
+    function replaceCode() {
+    	$( "#dialog-confirm" ).dialog({
+    	      resizable: false,
+    	      height:380,
+    	      width:500,
+    	      modal: true,
+    	      buttons: {
+    	        "Delete my code": function() {
+    	          	$( this ).dialog( "close" );
+					$.get("Tutorial.action?replaceCode=", function(returnData) {
+						$( "<div title='Result'>"+returnData+".</div>" ).dialog({
+						      modal: true,
+						      buttons: {
+						        Ok: function() {
+						          $( this ).dialog( "close" );
+						        }
+						      }
+						    });
+					});
+    	        },
+    	        Cancel: function() {
+    	          $( this ).dialog( "close" );
+    	        }
+    	      }
+    	    });
+    }
+    
 	</script>	
+	
+	<div id="dialog-confirm" title="Delete your code?">
+  		<p>Are you sure you want to replace your current code with the default implementation?</p><p>All the code you wrote will be deleted!</p>
+	</div>
 	
 	</s:layout-component>
 </s:layout-render>
