@@ -7,10 +7,9 @@ import java.util.List;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.EcmaError;
+import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.WrappedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -171,15 +170,14 @@ public class Game {
 
 				try {
 					context.evaluateString(scope, user[1], company.getName(), 1, null);
-				} catch (WrappedException e) {
-					if (!(e.getCause() instanceof GameException)) {
+				} catch (RhinoException e) {
+					if (e.getCause() instanceof GameException) {
+						log.info("Failed to initialize the JavaScript, but found a GameException", e);
+					} else {
 						result.addError(e);
-						log.error("Failed to initialize the JavaScript", e);
+						log.error("Failed to initialize the JavaScript. Player " + company.getName() + " bankrupt", e);
+						company.setBankruptFromError(e);
 					}
-				} catch (EcmaError e) {
-					result.addError(e);
-					log.error("Failed to initialize the JavaScript. Player " + company.getName() + " bankrupt", e);
-					company.setBankruptFromError(e);
 				}
 
 				companies.add(company);
