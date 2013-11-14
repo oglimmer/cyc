@@ -10,6 +10,9 @@ public class PlayerResult {
 	private long totalOnRent;
 	private long totalRealEstate;
 	private long establishmentsByDays;
+	
+	private long totalBribe;
+	private long totalInterior;
 
 	private int bankruptOnDay;
 
@@ -127,6 +130,15 @@ public class PlayerResult {
 	public void addTotalOnSalaries(String jobPosition, int salary) {
 		totalOnSalaries.add(jobPosition, salary);
 	}
+	
+	@JsonIgnore
+	public long getSalariesTotal() {
+		long total = 0;
+		for (Long l : totalOnSalaries.values()) {
+			total += l;
+		}
+		return total;
+	}
 
 	// --------------------------------------------------------------------------------
 
@@ -149,6 +161,15 @@ public class PlayerResult {
 	public void addTotalPurchasedFood(String food, int units, int totalCost) {
 		totalPurchasedFoodUnits.add(food, units);
 		totalPurchasedFoodCosts.add(food, totalCost);
+	}
+	
+	@JsonIgnore
+	public long getPurchasedFoodCostsTotal() {
+		long total = 0;
+		for (Long l : totalPurchasedFoodCosts.values()) {
+			total += l;
+		}
+		return total;
 	}
 
 	// --------------------------------------------------------------------------------
@@ -303,4 +324,29 @@ public class PlayerResult {
 
 	// --------------------------------------------------------------------------------
 
+	public long getTotalBribe() {
+		return totalBribe;
+	}
+
+	public void setTotalBribe(long totalBribe) {
+		this.totalBribe = totalBribe;
+	}
+	
+	public void addTotalBribe(long totalBribe) {
+		this.totalBribe += totalBribe;
+	}
+
+	// --------------------------------------------------------------------------------
+
+	public long getTotalInterior() {
+		return totalInterior;
+	}
+
+	public void setTotalInterior(long totalInterior) {
+		this.totalInterior = totalInterior;
+	}
+	
+	public void addTotalInterior(long totalInterior) {
+		this.totalInterior += totalInterior;
+	}
 }

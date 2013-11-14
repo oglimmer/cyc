@@ -53,6 +53,7 @@
 		<div class="centerElement" style="font-size:0.8em">
 				
 				<c:forEach items="${actionBean.result.playerResults}" var="entry">
+					<c:set var="expenses" value="${5000+entry.value.totalOnRent+entry.value.salariesTotal+entry.value.purchasedFoodCostsTotal+entry.value.totalBribe+entry.value.totalInterior }"/>
 					<c:set var="counter" value="0"/>
 					<div>Company: ${entry.key}</div>
 					<table>
@@ -63,8 +64,22 @@
 									<fmt:formatNumber value="${entry.value.totalAssets }" type="currency"/>
 								</c:if>
 								<c:if test = "${entry.value.totalAssets == -1}">Bankrupt</c:if>
+							</td>							
+						</tr>
+						<c:set var="counter" value="${counter + 1}"/>
+						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
+							<td>Total Earnings:</td>
+							<td align="right" width="170">
+								<fmt:formatNumber value="${entry.value.servedFoodRevenueTotal}" type="currency"/>
 							</td>
 						</tr>
+						<c:set var="counter" value="${counter + 1}"/>
+						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
+							<td>Total Expenses:</td>
+							<td align="right" width="170">
+								<fmt:formatNumber value="${expenses}" type="currency"/>
+							</td>
+						</tr>						
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 							<td>Initial credit:</td>
@@ -87,6 +102,16 @@
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 							<td>Total on buying real estates:</td>
 							<td align="right"><fmt:formatNumber value="${entry.value.totalRealEstate}" type="currency"/></td>
+						</tr>
+						<c:set var="counter" value="${counter + 1}"/>
+						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
+							<td>Total on real estate broker bribes:</td>
+							<td align="right"><fmt:formatNumber value="${entry.value.totalBribe}" type="currency"/></td>
+						</tr>
+						<c:set var="counter" value="${counter + 1}"/>
+						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
+							<td>Total on interior accessories:</td>
+							<td align="right"><fmt:formatNumber value="${entry.value.totalInterior}" type="currency"/></td>
 						</tr>
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">

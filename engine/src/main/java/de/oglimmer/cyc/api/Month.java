@@ -200,6 +200,7 @@ public class Month {
 						Boolean buy = (Boolean) en.get("buy");
 						Company company = (Company) en.get("company");
 						company.decCash(bribe);
+						game.getResult().get(company.getName()).addTotalBribe(bribe);
 						Establishment est = new Establishment(company, p.getCity(), p.getLocationQuality(),
 								p.getLocationSize(), p.getLeaseCost(), p.getSalePrice());
 						company.getEstablishmentsInt().add(est);

@@ -100,6 +100,7 @@ public class Establishment {
 		if (parent.getCash() >= total) {
 			try {
 				parent.decCash(total);
+				parent.getGame().getResult().get(parent.getName()).addTotalInterior(total);
 				for (InteriorAccessory ia : iaToAdd) {
 					interiorAccessories.add(ia);
 					log.debug(parent.getName() + " bought " + ia + " for " + getAddress());
@@ -127,6 +128,7 @@ public class Establishment {
 		if (parent.getCash() >= total) {
 			try {
 				parent.decCash(total);
+				parent.getGame().getResult().get(parent.getName()).addTotalInterior(total);
 				for (InteriorAccessory ia : iaToAll) {
 					interiorAccessories.add(ia);
 					log.debug(parent.getName() + " bought " + ia + " for " + getAddress());
