@@ -113,23 +113,22 @@ public class Day {
 
 	private void cleanFoodStorages() {
 		for (Company c : game.getCompanies()) {
-			if (!c.isBankrupt()) {
-				for (Establishment est : c.getEstablishmentsInt()) {
-					for (Iterator<FoodUnit> it = est.getStoredFoodUnitsInt().iterator(); it.hasNext();) {
-						FoodUnit fu = it.next();
-						if (fu.getUnits() == 0) {
+			// we want to run this for bankrupt companies as well, to show what food got rotten
+			for (Establishment est : c.getEstablishmentsInt()) {
+				for (Iterator<FoodUnit> it = est.getStoredFoodUnitsInt().iterator(); it.hasNext();) {
+					FoodUnit fu = it.next();
+					if (fu.getUnits() == 0) {
+						it.remove();
+						// log.debug("Removed an empty food-unit of {} for {} in {}", fu.getFood(),
+						// c.getName(), est.getAddress());
+					} else {
+						fu.decPullDate();
+						if (fu.getPullDate() == 0) {
 							it.remove();
-							// log.debug("Removed an empty food-unit of {} for {} in {}", fu.getFood(),
-							// c.getName(), est.getAddress());
-						} else {
-							fu.decPullDate();
-							if (fu.getPullDate() == 0) {
-								it.remove();
-								log.debug("Removed a rotten food-unit of {} for {} with {} in {}", fu.getFood(),
-										c.getName(), fu.getUnits(), est.getAddress());
-								game.getResult().get(c.getName()).getTotalRottenFood()
-										.add(fu.getFood().toString(), fu.getUnits());
-							}
+							log.debug("Removed a rotten food-unit of {} for {} with {} in {}", fu.getFood(),
+									c.getName(), fu.getUnits(), est.getAddress());
+							game.getResult().get(c.getName()).getTotalRottenFood()
+									.add(fu.getFood().toString(), fu.getUnits());
 						}
 					}
 				}
