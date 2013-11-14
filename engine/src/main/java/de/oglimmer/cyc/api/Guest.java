@@ -14,8 +14,6 @@ public class Guest {
 
 	private GameResult result;
 
-	private GuestRule rule = new GuestRule();
-
 	public Guest(GameResult result) {
 		this.result = result;
 	}
@@ -62,7 +60,7 @@ public class Guest {
 
 	@SuppressWarnings("unchecked")
 	private Collection<MenuEntry> selectMenu(Company c) {
-		return (Collection<MenuEntry>) rule.selectMenu(c);
+		return (Collection<MenuEntry>) GuestRule.INSTACE.selectMenu(c);
 	}
 
 	private void satisfyIngredient(List<FoodUnit> foodStores, Food ingredient) throws MissingIngredient {

@@ -39,8 +39,7 @@ public class Establishment {
 	}
 
 	int getScore() {
-		EstablishmentRule r = new EstablishmentRule();
-		return r.getScore(this, log, JobPosition.class, InteriorAccessory.class);
+		return EstablishmentRule.INSTACE.getScore(this, log);
 	}
 
 	public boolean isRented() {

@@ -29,6 +29,10 @@
 	<logger name="de.oglimmer.cyc.api.Establishment"	level="error"></logger>
 	<logger name="de.oglimmer.cyc.api.Grocer" 			level="error"></logger>
 
+	<logger name="de.oglimmer.cyc.api.EstablishmentRules.groovy"	level="error"></logger>
+	<logger name="de.oglimmer.cyc.api.GuestRules.groovy"			level="error"></logger>
+	<logger name="de.oglimmer.cyc.api.MenuEntryRules.groovy"		level="error"></logger>
+
 	<logger name="de.oglimmer.cyc" 						level="debug"></logger>
 
 	<root level="error">

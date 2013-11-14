@@ -38,7 +38,7 @@ public class GameServer {
 			log.info("No SecurityManager set!");
 		}
 
-		GroovyInitializer.init();
+		GroovyInitializer.globalInit();
 
 		try {
 			GameServer gs = new GameServer();

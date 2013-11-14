@@ -1,5 +1,7 @@
 public class Tester implements de.oglimmer.cyc.api.IGuestRule {
     
+	public org.slf4j.Logger log;
+	
  	public java.util.Collection selectMenu(Object c) {
 		def basePerc = 100;
 		def ret = new ArrayList<>();
