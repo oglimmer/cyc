@@ -67,7 +67,7 @@ Establishment.prototype.rented;
 Establishment.prototype.interiorAccessories;
 
 /**
-* A list of <a href="FoodUnit.js">FoodUnit</a> currently stored in this property. Rotten food gets removed automatically. Read-Only.
+* A list of <a href="FoodUnit.html">FoodUnit</a> currently stored in this property. Rotten food gets removed automatically. Read-Only.
 * 
 * @property storedFoodUnits
 * @type {List}
