@@ -5,6 +5,8 @@ import java.util.Set;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class PlayerResult {
+	private static final int MAX_DEBUG_OUTPUT = 4048;
+
 	private String name;
 	private long totalAssets;
 	private long totalOnRent;
@@ -35,6 +37,8 @@ public class PlayerResult {
 	private CountMap<String> missingIngredients = new CountMap<>();
 
 	private StringBuilder debug = new StringBuilder();
+	@JsonIgnore
+	private int debugLength;
 
 	public PlayerResult() {
 	}
@@ -363,9 +367,10 @@ public class PlayerResult {
 	}
 
 	public void addDebug(String debug) {
-		if (this.debug.length() < 1024) {
+		if (debugLength < MAX_DEBUG_OUTPUT) {
 			this.debug.append(debug).append("<br/>");
-			if (this.debug.length() >= 1024) {
+			debugLength += debug.length();
+			if (debugLength >= MAX_DEBUG_OUTPUT) {
 				this.debug.append(debug).append("[...]");
 			}
 		}

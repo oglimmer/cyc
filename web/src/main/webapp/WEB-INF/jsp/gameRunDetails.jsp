@@ -5,7 +5,7 @@
   
 		<div class="centerElement">
 			<span style="float:left">Details</span> 
-			<span style="float:right"><a href="javascript:void(0);" onclick="history.back()">Back</a></span>
+			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean">Back</s:link></span>
 			<hr style="clear:both;visibility:hidden;margin:0px;"/> 
 		</div>
 
