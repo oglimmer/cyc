@@ -2,6 +2,7 @@
 
 <s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
   <s:layout-component name="center">
+  
 		<div class="centerElement">
 			<span style="float:left">Details</span> 
 			<span style="float:right"><a href="javascript:void(0);" onclick="history.back()">Back</a></span>
@@ -9,7 +10,6 @@
 		</div>
 
 		<div class="centerElement">
-			
 			Start: <fmt:formatDate type="both" dateStyle="short" timeStyle="medium" value="${actionBean.startTime}" />
 			 (ran for <fmt:formatNumber value="${(actionBean.endTime.time-actionBean.startTime.time)/1000 }" type="number" maxFractionDigits="0"/> secs and used <fmt:formatNumber value="${actionBean.memUsed/1024 }" type="number"/> kBytes of RAM)
 		</div>	
@@ -244,6 +244,13 @@
 				</c:forEach>	
 				
 		</div>	
+
+		<div style="padding-bottom:40px;">
+			<div>Your log output:</div>
+			<div style="padding-left:20px;">
+				${actionBean.result.playerResults[actionBean.username].debug }
+			</div>
+		</div>
 				
 
 	</s:layout-component>

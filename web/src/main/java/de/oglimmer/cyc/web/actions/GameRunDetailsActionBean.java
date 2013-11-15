@@ -10,19 +10,24 @@ import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 import de.oglimmer.cyc.api.GameResult;
 import de.oglimmer.cyc.dao.GameRunDao;
+import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
+import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.GameRun;
+import de.oglimmer.cyc.model.User;
 
 public class GameRunDetailsActionBean extends BaseAction {
 
 	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
 	private GameResult result;
 	private Date startTime;
 	private Date endTime;
 	private long memUsed;
 	private List<String> participants;
+	private String username;
 
 	public GameResult getResult() {
 		return result;
@@ -64,8 +69,19 @@ public class GameRunDetailsActionBean extends BaseAction {
 		this.participants = participants;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	@Before
 	public void getNextRunFromGameEngine() {
+		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
+		username = user.getUsername();
+
 		String gameRunId = getContext().getRequest().getParameter("gameRunId");
 		GameRun gr = null;
 		if (gameRunId == null) {

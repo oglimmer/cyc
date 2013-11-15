@@ -10,7 +10,7 @@ public class PlayerResult {
 	private long totalOnRent;
 	private long totalRealEstate;
 	private long establishmentsByDays;
-	
+
 	private long totalBribe;
 	private long totalInterior;
 
@@ -33,6 +33,8 @@ public class PlayerResult {
 	private CountMap<String> guestsOutOfIngPerCity = new CountMap<>();
 
 	private CountMap<String> missingIngredients = new CountMap<>();
+
+	private StringBuilder debug = new StringBuilder();
 
 	public PlayerResult() {
 	}
@@ -130,7 +132,7 @@ public class PlayerResult {
 	public void addTotalOnSalaries(String jobPosition, int salary) {
 		totalOnSalaries.add(jobPosition, salary);
 	}
-	
+
 	@JsonIgnore
 	public long getSalariesTotal() {
 		long total = 0;
@@ -162,7 +164,7 @@ public class PlayerResult {
 		totalPurchasedFoodUnits.add(food, units);
 		totalPurchasedFoodCosts.add(food, totalCost);
 	}
-	
+
 	@JsonIgnore
 	public long getPurchasedFoodCostsTotal() {
 		long total = 0;
@@ -331,7 +333,7 @@ public class PlayerResult {
 	public void setTotalBribe(long totalBribe) {
 		this.totalBribe = totalBribe;
 	}
-	
+
 	public void addTotalBribe(long totalBribe) {
 		this.totalBribe += totalBribe;
 	}
@@ -345,8 +347,27 @@ public class PlayerResult {
 	public void setTotalInterior(long totalInterior) {
 		this.totalInterior = totalInterior;
 	}
-	
+
 	public void addTotalInterior(long totalInterior) {
 		this.totalInterior += totalInterior;
+	}
+
+	// --------------------------------------------------------------------------------
+
+	public StringBuilder getDebug() {
+		return debug;
+	}
+
+	public void setDebug(StringBuilder debug) {
+		this.debug = debug;
+	}
+
+	public void addDebug(String debug) {
+		if (this.debug.length() < 1024) {
+			this.debug.append(debug).append("<br/>");
+			if (this.debug.length() >= 1024) {
+				this.debug.append(debug).append("[...]");
+			}
+		}
 	}
 }

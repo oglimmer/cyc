@@ -16,12 +16,12 @@ public class GameResult {
 	private int totalDays;
 	private Map<String, PlayerResult> playerResults = new HashMap<>();
 	private CountMap<String> guestsTotalPerCity = new CountMap<>();
+	/** names of all companies went bankrupt in this run */
 	private Set<String> errors = new HashSet<>();
 
+	/** contains all stack traces */
 	@JsonIgnore
 	private StringBuilder error = new StringBuilder();
-	@JsonIgnore
-	private StringBuilder debug = new StringBuilder();
 
 	public int getTotalDays() {
 		return totalDays;
@@ -98,19 +98,4 @@ public class GameResult {
 		this.error = error;
 	}
 
-	@JsonIgnore
-	public StringBuilder getDebug() {
-		return debug;
-	}
-
-	@JsonIgnore
-	public void setDebug(StringBuilder debug) {
-		this.debug = debug;
-	}
-
-	public void addDebug(String debug) {
-		if (this.debug.length() < 2_000_000) {
-			this.debug.append(debug).append("<br/>");
-		}
-	}
 }

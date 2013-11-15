@@ -3,16 +3,14 @@ package de.oglimmer.cyc.api;
 public class DebugAdapter {
 
 	private GameResult gameResult;
-	private boolean writeGameResult;
+	private String name;
 
-	public DebugAdapter(GameResult gameResult, boolean writeGameResult) {
+	public DebugAdapter(GameResult gameResult, String name) {
 		this.gameResult = gameResult;
-		this.writeGameResult = writeGameResult;
+		this.name = name;
 	}
 
 	public void println(String str) {
-		if (!writeGameResult) {
-			gameResult.addDebug(str);
-		}
+		gameResult.get(name).addDebug(str);
 	}
 }

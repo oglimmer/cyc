@@ -164,7 +164,7 @@ public class Game {
 
 				Object jsCompany = new SandboxNativeJavaObject(scope, company, Company.class);
 				prototype.put("company", scope, jsCompany);
-				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, writeGameResult),
+				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, company.getName()),
 						DebugAdapter.class);
 				prototype.put("out", scope, jsSystemout);
 

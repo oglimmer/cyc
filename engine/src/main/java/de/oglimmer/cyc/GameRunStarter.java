@@ -23,6 +23,7 @@ public enum GameRunStarter {
 
 	private static Logger log = LoggerFactory.getLogger(GameRunStarter.class);
 
+	private static final int ROUNDS_TO_BE_EXCLUDED = 10;
 	public static final String VERSION = "1.0";
 
 	private int year, month, day;
@@ -55,7 +56,7 @@ public enum GameRunStarter {
 			String lastError = gameRun.getResult().getError().toString();
 
 			User u = userDao.get(uid);
-			lastError = gameRun.getResult().getDebug().toString()
+			lastError = gameRun.getResult().get(u.getUsername()).getDebug().toString()
 					+ (lastError.isEmpty() ? "Your script ran successfully." : lastError);
 			u.setLastError(lastError);
 			u.setLastPrivateRun(new Date());
@@ -87,7 +88,8 @@ public enum GameRunStarter {
 
 		List<User> ul = userDao.findAllUser();
 		for (User u : ul) {
-			if (playersToRemove.containsKey(u.getUsername()) && playersToRemove.get(u.getUsername()) == 3) {
+			if (playersToRemove.containsKey(u.getUsername())
+					&& playersToRemove.get(u.getUsername()) == ROUNDS_TO_BE_EXCLUDED) {
 				u.setActive(false);
 				userDao.update(u);
 			}
@@ -98,7 +100,7 @@ public enum GameRunStarter {
 	private Map<String, Integer> findBankruptPlayers() {
 		Map<String, Integer> playersToRemove = new HashMap<>();
 		GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
-		List<GameRun> runHistory = dao.findAllGameRun(3);
+		List<GameRun> runHistory = dao.findAllGameRun(ROUNDS_TO_BE_EXCLUDED);
 		for (GameRun gr : runHistory) {
 			for (String parti : gr.getParticipants()) {
 				Long total = gr.getResult().getPlayerResults().get(parti).getTotalAssets();
