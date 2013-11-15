@@ -167,6 +167,7 @@ public class Game {
 				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, company.getName()),
 						DebugAdapter.class);
 				prototype.put("out", scope, jsSystemout);
+				prototype.put("console", scope, jsSystemout);
 
 				try {
 					context.evaluateString(scope, user[1], company.getName(), 1, null);

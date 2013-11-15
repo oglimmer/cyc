@@ -13,4 +13,8 @@ public class DebugAdapter {
 	public void println(String str) {
 		gameResult.get(name).addDebug(str);
 	}
+
+	public void log(String str) {
+		println(str);
+	}
 }
