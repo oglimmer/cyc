@@ -3,11 +3,13 @@ package de.oglimmer.cyc.api;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -96,6 +98,17 @@ public class GameResult {
 	@JsonIgnore
 	public void setError(StringBuilder error) {
 		this.error = error;
+	}
+
+	public void sortPlayers() {
+		Map<String, PlayerResult> tmpMap = new TreeMap<>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				return o1.compareTo(o2);
+			}
+		});
+		tmpMap.putAll(playerResults);
+		playerResults = tmpMap;
 	}
 
 }

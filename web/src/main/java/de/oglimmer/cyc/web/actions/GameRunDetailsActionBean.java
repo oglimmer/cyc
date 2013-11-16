@@ -93,6 +93,7 @@ public class GameRunDetailsActionBean extends BaseAction {
 			gr = dao.get(gameRunId);
 		}
 		if (gr != null) {
+			gr.getResult().sortPlayers();
 			setResult(gr.getResult());
 			setMemUsed(gr.getMemUsed());
 			setStartTime(gr.getStartTime());
