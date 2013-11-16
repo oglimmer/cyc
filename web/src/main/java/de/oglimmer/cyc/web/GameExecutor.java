@@ -2,6 +2,7 @@ package de.oglimmer.cyc.web;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,6 +10,8 @@ import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -141,9 +144,14 @@ public enum GameExecutor {
 
 			log.debug(Arrays.toString(commandLineArgs));
 
-			Runtime.getRuntime().exec(commandLineArgs);
+			Files.createDirectories(Paths.get(rootPath + "/WEB-INF/engineLogs"));
 
-			TimeUnit.SECONDS.sleep(5);
+			ProcessBuilder pb = new ProcessBuilder(commandLineArgs);
+			pb.redirectError(new File(rootPath + "/WEB-INF/engineLogs/engine.err"));
+			pb.redirectOutput(new File(rootPath + "/WEB-INF/engineLogs/engine.out"));
+			pb.start();
+
+			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
 		} catch (IOException e) {
 			log.error("Failed to process the child process", e);
@@ -153,11 +161,10 @@ public enum GameExecutor {
 
 	private String[] createCommandLineArray() {
 		StringBuilder buff = new StringBuilder();
-		Collection<String> commandLineCol = new ArrayList<>();
-		commandLineCol.add("java");
-		commandLineCol.add("-Xms2M");
-		commandLineCol.add("-Xmx96M");
-		commandLineCol.add("-cp");
+		buff.append("java");
+		buff.append(" -Xms2M");
+		buff.append(" -Xmx96M");
+		buff.append(" -cp ");
 
 		for (String s : jarDependencies) {
 			buff.append(rootPath + base + s + ":");
@@ -165,16 +172,19 @@ public enum GameExecutor {
 		buff.append(rootPath + base + engineJar + ":");
 		buff.append(rootPath + base + rulesJar + ":");
 
+		buff.append(" -Dcyc.web-inf-lib=" + rootPath + base);
+		buff.append(" -Djava.security.policy=" + TMP_SECURITY_POLICY);
+
+		// buff.append(" -Xdebug");
+		// buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
+
+		buff.append(" ");
+		buff.append(GameServer.class.getName());
+
+		Collection<String> commandLineCol = new ArrayList<>();
+		commandLineCol.add("sh");
+		commandLineCol.add("-c");
 		commandLineCol.add(buff.toString());
-
-		commandLineCol.add("-Dcyc.web-inf-lib=" + rootPath + base);
-		commandLineCol.add("-Djava.security.policy=" + TMP_SECURITY_POLICY);
-
-		// commandLineCol.add("-Xdebug");
-		// commandLineCol.add("-Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
-
-		commandLineCol.add(GameServer.class.getName());
-
 		String[] commandLineArgs = commandLineCol.toArray(new String[commandLineCol.size()]);
 		return commandLineArgs;
 	}
