@@ -8,6 +8,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -145,8 +146,14 @@ public class GameServer {
 		private void handleStatus(DataOutputStream outToClient) throws IOException {
 			log.info("Running: {}", running);
 			log.info("Queue-size: {}", tpe.getQueue().size());
+			NumberFormat nf = NumberFormat.getIntegerInstance();
+			log.info("Memory(free/max/total): {}/{}/{}", nf.format(Runtime.getRuntime().freeMemory()),
+					nf.format(Runtime.getRuntime().maxMemory()), nf.format(Runtime.getRuntime().totalMemory()));
 			outToClient.writeBytes("Running: " + running + "\n");
 			outToClient.writeBytes("Queue-size: " + tpe.getQueue().size() + "\n");
+			outToClient.writeBytes("Memory(free/max/total): " + nf.format(Runtime.getRuntime().freeMemory()) + "/"
+					+ nf.format(Runtime.getRuntime().maxMemory()) + "/" + nf.format(Runtime.getRuntime().totalMemory())
+					+ "\n");
 		}
 
 		private void handleUp(DataOutputStream outToClient) throws IOException {
