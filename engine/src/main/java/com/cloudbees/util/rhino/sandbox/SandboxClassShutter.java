@@ -45,6 +45,7 @@ public class SandboxClassShutter implements ClassShutter {
 		case "java.lang.String":
 		case "java.util.HashSet":
 		case "java.util.ArrayList":
+		case "java.util.ArrayList$Itr":
 		case "java.util.Collections$UnmodifiableSet":
 		case "java.util.Collections$UnmodifiableCollection$1":
 		case "java.util.Collections$UnmodifiableRandomAccessList":
