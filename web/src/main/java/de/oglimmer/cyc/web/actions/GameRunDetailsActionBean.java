@@ -2,7 +2,9 @@ package de.oglimmer.cyc.web.actions;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -28,6 +30,7 @@ public class GameRunDetailsActionBean extends BaseAction {
 	private long memUsed;
 	private List<String> participants;
 	private String username;
+	private Map<String, Boolean> showCode = new HashMap<>();
 
 	public GameResult getResult() {
 		return result;
@@ -77,6 +80,14 @@ public class GameRunDetailsActionBean extends BaseAction {
 		this.username = username;
 	}
 
+	public Map<String, Boolean> getShowCode() {
+		return showCode;
+	}
+
+	public void setShowCode(Map<String, Boolean> showCode) {
+		this.showCode = showCode;
+	}
+
 	@Before
 	public void getNextRunFromGameEngine() {
 		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
@@ -84,7 +95,7 @@ public class GameRunDetailsActionBean extends BaseAction {
 
 		String gameRunId = getContext().getRequest().getParameter("gameRunId");
 		GameRun gr = null;
-		if (gameRunId == null) {
+		if (gameRunId == null || gameRunId.isEmpty()) {
 			List<GameRun> listGameRuns = dao.findAllGameRun(1);
 			if (listGameRuns.size() > 0) {
 				gr = listGameRuns.get(0);
@@ -99,6 +110,12 @@ public class GameRunDetailsActionBean extends BaseAction {
 			setStartTime(gr.getStartTime());
 			setEndTime(gr.getEndTime());
 			setParticipants(gr.getParticipants());
+			for (String p : gr.getParticipants()) {
+				List<User> openSourceUsers = userDao.findByOpenSource(p.toLowerCase());
+				if (openSourceUsers.size() > 0) {
+					showCode.put(p, true);
+				}
+			}
 		}
 	}
 

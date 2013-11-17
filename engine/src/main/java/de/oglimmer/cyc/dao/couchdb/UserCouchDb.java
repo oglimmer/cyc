@@ -30,4 +30,9 @@ public class UserCouchDb extends CouchDbRepositorySupport<User> implements UserD
 	public List<User> findByEmail(String email) {
 		return queryView("by_email", email);
 	}
+
+	@Override
+	public List<User> findByOpenSource(String username) {
+		return queryView("by_openSource", username);
+	}
 }

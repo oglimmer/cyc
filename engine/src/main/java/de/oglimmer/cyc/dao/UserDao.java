@@ -13,4 +13,6 @@ public interface UserDao extends GenericRepository<User> {
 	List<User> findAllUser();
 
 	List<User> findByEmail(String email);
+	
+	List<User> findByOpenSource(String username);
 }

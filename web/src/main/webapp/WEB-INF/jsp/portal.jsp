@@ -29,7 +29,8 @@
 				<s:submit name="saveRun" value="Save and check" onclick="onSubmitForm(this);" />
 				<c:if test="${actionBean.fullRun}">
 					<s:submit name="fullRun" value="Start global run" onclick="onSubmitFormFull(this);" />
-				</c:if>				
+				</c:if>		
+				<s:checkbox name="openSource" onchange="onOpenSourceChanged()" /><span style="font-size:0.7em;">Publish my source code</span>		
 			</s:form>
 			
 		</div>	
@@ -44,6 +45,14 @@
 		    var editor = ace.edit("editor");
 		    editor.setTheme("ace/theme/terminal");
 		    editor.getSession().setMode("ace/mode/javascript");
+		    
+		    function onOpenSourceChanged() {
+		    	if(document.mainForm.openSource.checked) {
+		    		$.get(document.mainForm.action+"?openSourceChangedOn=");
+		    	} else {
+		    		$.get(document.mainForm.action+"?openSourceChangedOff=");
+		    	}
+		    }
 		    
 		    function onSubmitFormFull(button) {
 		    	var data = {};

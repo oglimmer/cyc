@@ -30,6 +30,13 @@
 							<c:if test = "${tmpAsset == -1}">
 								Bankrupt on day ${actionBean.result.playerResults[element].bankruptOnDay}
 								<c:if test="${actionBean.result.errors.contains(element) }">(JS error)</c:if>
+							</c:if>
+							<c:if test="${actionBean.showCode[element] }">
+								<s:link beanclass="de.oglimmer.cyc.web.actions.ShowCodeActionBean">
+									<s:param name="username">${element }</s:param>
+									<s:param name="gameRunId">${param.gameRunId }</s:param>
+									[Code]
+								</s:link>
 							</c:if>	  					
 	  					</td>
 	  				</tr>

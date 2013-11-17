@@ -20,6 +20,8 @@ public class User {
 	private String lastError;
 	private Date lastPrivateRun;
 
+	private int openSource;
+
 	public User() {
 	}
 
@@ -111,6 +113,14 @@ public class User {
 
 	public void setPermission(int permission) {
 		this.permission = permission;
+	}
+
+	public int getOpenSource() {
+		return openSource;
+	}
+
+	public void setOpenSource(int openSource) {
+		this.openSource = openSource;
 	}
 
 }

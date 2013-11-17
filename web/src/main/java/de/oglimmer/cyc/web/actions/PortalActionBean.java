@@ -41,6 +41,7 @@ public class PortalActionBean extends BaseAction {
 	private String lastWinner;
 
 	private boolean fullRun;
+	private boolean openSource;
 
 	public String getCompany() {
 		return company;
@@ -98,6 +99,14 @@ public class PortalActionBean extends BaseAction {
 		this.fullRun = fullRun;
 	}
 
+	public boolean isOpenSource() {
+		return openSource;
+	}
+
+	public void setOpenSource(boolean openSource) {
+		this.openSource = openSource;
+	}
+
 	@Before
 	public void getNextRunFromGameEngine() {
 		Date date = GameExecutor.INSTANCE.getNextRun();
@@ -121,6 +130,7 @@ public class PortalActionBean extends BaseAction {
 		output = user.getLastError();
 		lastRun = user.getLastPrivateRun();
 		fullRun = user.getPermission() > 0;
+		openSource = user.getOpenSource() > 0;
 	}
 
 	@DefaultHandler
@@ -194,6 +204,20 @@ public class PortalActionBean extends BaseAction {
 			log.error("Failed to create JSON response", e);
 		}
 
+		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
+	}
+
+	public Resolution openSourceChangedOn() {
+		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
+		user.setOpenSource(1);
+		userDao.update(user);
+		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
+	}
+
+	public Resolution openSourceChangedOff() {
+		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
+		user.setOpenSource(0);
+		userDao.update(user);
 		return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
 	}
 
