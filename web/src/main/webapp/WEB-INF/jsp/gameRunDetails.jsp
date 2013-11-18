@@ -44,7 +44,6 @@
 			</table> 
 		</div>	
 		
-
 		<div class="centerElement">
 			<table>
 				<tr>
@@ -52,6 +51,36 @@
 					<tr> 
 	  					<td>Total guest for ${entry.key}</td>
 	  					<td><fmt:formatNumber value="${entry.value}" type="number"/> (<fmt:formatNumber value="${entry.value/actionBean.result.totalDays}" maxFractionDigits="0" type="number"/> p.day)</td>
+	  				</tr>
+				</c:forEach>
+			</table> 
+		</div>	
+		
+		<div class="centerElement">
+			<table>
+				<tr>
+					<th>Deliciousness of meals</th>
+				</tr>
+				<tr>
+				<c:forEach items="${actionBean.result.foodChart}" var="entry">
+					<tr> 
+	  					<td>${entry.key}</td>
+	  					<td><fmt:formatNumber value="${entry.value}" type="percent" maxFractionDigits="0"/></td>
+	  				</tr>
+				</c:forEach>
+			</table> 
+		</div>	
+		
+		<div class="centerElement">
+			<table>
+				<tr>
+					<th>Establishment's appeal</th>
+				</tr>
+				<tr>
+				<c:forEach items="${actionBean.result.establishmentChart}" var="entry">
+					<tr> 
+	  					<td>${entry.key}</td> 
+	  					<td><fmt:formatNumber value="${entry.value}" type="percent" maxFractionDigits="0"/></td>
 	  				</tr>
 				</c:forEach>
 			</table> 

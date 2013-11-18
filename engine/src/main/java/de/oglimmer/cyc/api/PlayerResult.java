@@ -4,6 +4,9 @@ import java.util.Set;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import de.oglimmer.cyc.util.AverageMap;
+import de.oglimmer.cyc.util.CountMap;
+
 public class PlayerResult {
 	private static final int MAX_DEBUG_OUTPUT = 4048;
 
@@ -39,6 +42,9 @@ public class PlayerResult {
 	private StringBuilder debug = new StringBuilder();
 	@JsonIgnore
 	private int debugLength;
+
+	private AverageMap<String> menuEntryScore = new AverageMap<>();
+	private AverageMap<String> establishmentScore = new AverageMap<>();
 
 	public PlayerResult() {
 	}
@@ -375,4 +381,34 @@ public class PlayerResult {
 			}
 		}
 	}
+
+	// --------------------------------------------------------------------------------
+
+	public AverageMap<String> getMenuEntryScore() {
+		return menuEntryScore;
+	}
+
+	public void setMenuEntryScore(AverageMap<String> menuEntryScore) {
+		this.menuEntryScore = menuEntryScore;
+	}
+
+	public void addMenuEntryScore(String menuName, int deli) {
+		menuEntryScore.add(menuName, deli);
+	}
+
+	// --------------------------------------------------------------------------------
+
+	public AverageMap<String> getEstablishmentScore() {
+		return establishmentScore;
+	}
+
+	public void setEstablishmentScore(AverageMap<String> establishmentScore) {
+		this.establishmentScore = establishmentScore;
+	}
+
+	public void addEstablishmentScore(String address, int score) {
+		establishmentScore.add(address, score);
+	}
+
+	// --------------------------------------------------------------------------------
 }

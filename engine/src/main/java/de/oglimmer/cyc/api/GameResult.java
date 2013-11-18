@@ -8,10 +8,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import de.oglimmer.cyc.util.Average;
+import de.oglimmer.cyc.util.CountMap;
 
 public class GameResult {
 
@@ -111,4 +115,73 @@ public class GameResult {
 		playerResults = tmpMap;
 	}
 
+	@JsonIgnore
+	public Map<String, Double> getFoodChart() {
+		HashMap<String, Double> base = new HashMap<>();
+
+		double max = -1;
+		for (String playName : playerResults.keySet()) {
+			PlayerResult pr = playerResults.get(playName);
+			for (Entry<String, Average> en : pr.getMenuEntryScore().entrySet()) {
+				base.put(en.getKey() + " (" + playName + ")", en.getValue().average());
+				if (max < en.getValue().average()) {
+					max = en.getValue().average();
+				}
+			}
+		}
+		for (String s : base.keySet()) {
+			base.put(s, base.get(s) / max);
+		}
+
+		ValueComparator vc = new ValueComparator(base);
+		TreeMap<String, Double> sorted = new TreeMap<>(vc);
+		sorted.putAll(base);
+
+		return sorted;
+	}
+
+	@JsonIgnore
+	public Map<String, Double> getEstablishmentChart() {
+		HashMap<String, Double> base = new HashMap<>();
+
+		double max = -1;
+		for (String playName : playerResults.keySet()) {
+			PlayerResult pr = playerResults.get(playName);
+			for (Entry<String, Average> en : pr.getEstablishmentScore().entrySet()) {
+				base.put(en.getKey() + " (" + playName + ")", en.getValue().average());
+				if (max < en.getValue().average()) {
+					max = en.getValue().average();
+				}
+			}
+		}
+		for (String s : base.keySet()) {
+			base.put(s, base.get(s) / max);
+		}
+
+		ValueComparator vc = new ValueComparator(base);
+		TreeMap<String, Double> sorted = new TreeMap<>(vc);
+		sorted.putAll(base);
+
+		return sorted;
+	}
+
+}
+
+class ValueComparator implements Comparator<String> {
+
+	private Map<String, Double> base;
+
+	ValueComparator(Map<String, Double> base) {
+		this.base = base;
+	}
+
+	@Override
+	public int compare(String a, String b) {
+		Double x = base.get(a);
+		Double y = base.get(b);
+		if (x.equals(y)) {
+			return a.compareTo(b);
+		}
+		return -1 * x.compareTo(y);
+	}
 }

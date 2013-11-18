@@ -21,45 +21,60 @@ public class OpeningHours {
 	}
 
 	public void runBusiness() {
-		for (String city : game.getCities()) {
-			int totalGuests = (int) (Math.random() * game.getCompanies().size() * rndGuests) + baseGuests;
-			log.debug("Guests for today in {}: {}", city, totalGuests);
-			game.getResult().getGuestsTotalPerCity().add(city, totalGuests);
 
-			int totalScore = 0;
-			Map<Integer, Establishment> estList = new LinkedHashMap<>();
-			for (Company c : game.getCompanies()) {
-				if (!c.isBankrupt()) {
-					for (Establishment est : c.getEstablishmentsInt()) {
-						if (est.getAddress().startsWith(city)) {
-							int score = est.getScore();
-							if (score > 0) {
-								estList.put(totalScore + score, est);
-								totalScore += score;
-							}
+		calcDeliciosnessStats();
+
+		for (String city : game.getCities()) {
+			processCity(city);
+		}
+	}
+
+	private void processCity(String city) {
+		Map<Integer, Establishment> estList = new LinkedHashMap<>();
+		int totalScore = buildEstablishmentScoresMap(city, estList);
+
+		if (estList.isEmpty()) {
+			log.debug("No suiteable restaurants in {}", city);
+		} else {
+			processGuests(city, estList, totalScore);
+		}
+	}
+
+	private void processGuests(String city, Map<Integer, Establishment> estList, int totalScore) {
+		int totalGuests = (int) (Math.random() * game.getCompanies().size() * rndGuests) + baseGuests;
+		log.debug("Guests for today in {}: {}", city, totalGuests);
+		game.getResult().getGuestsTotalPerCity().add(city, totalGuests);
+		while (totalGuests-- > 0) {
+			Guest guest = new Guest(game.getResult());
+			guest.dine(city, estList, totalScore);
+		}
+	}
+
+	private int buildEstablishmentScoresMap(String city, Map<Integer, Establishment> estList) {
+		int totalScore = 0;
+		for (Company c : game.getCompanies()) {
+			if (!c.isBankrupt()) {
+				for (Establishment est : c.getEstablishmentsInt()) {
+					if (est.getAddress().startsWith(city)) {
+						int score = est.getScore();
+						game.getResult().get(c.getName()).addEstablishmentScore(est.getAddress(), score);
+						if (score > 0) {
+							estList.put(totalScore + score, est);
+							totalScore += score;
 						}
 					}
 				}
 			}
+		}
+		return totalScore;
+	}
 
-			if (estList.isEmpty()) {
-				log.debug("No suiteable restaurants in {}", city);
-			} else {
-				while (totalGuests-- > 0) {
-					Guest guest = new Guest(game.getResult());
-					log.debug("A guest thinks about food in {}", city);
-					double rnd = Math.random() * totalScore;
-					for (Integer i : estList.keySet()) {
-						assert rnd != -1;
-						if (rnd <= i) {
-							Establishment est = estList.get(i);
-							log.debug("A guest decided for {} by {}", est.getAddress(), est.getParent().getName());
-							guest.serveGuest(est.getParent(), est, city);
-							rnd = -1;
-							break;
-						}
-					}
-					assert rnd == -1;
+	private void calcDeliciosnessStats() {
+		for (Company c : game.getCompanies()) {
+			if (!c.isBankrupt()) {
+				for (MenuEntry me : c.getMenu()) {
+					int del = me.getDeliciousness();
+					game.getResult().get(c.getName()).addMenuEntryScore(me.getName(), del);
 				}
 			}
 		}

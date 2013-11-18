@@ -3,6 +3,7 @@ package de.oglimmer.cyc.api;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -18,7 +19,23 @@ public class Guest {
 		this.result = result;
 	}
 
-	void serveGuest(Company c, Establishment est, String city) {
+	void dine(String city, Map<Integer, Establishment> estList, int totalScore) {
+		log.debug("A guest thinks about food in {}", city);
+		double rnd = Math.random() * totalScore;
+		for (Integer i : estList.keySet()) {
+			assert rnd != -1;
+			if (rnd <= i) {
+				Establishment est = estList.get(i);
+				log.debug("A guest decided for {} by {}", est.getAddress(), est.getParent().getName());
+				serveGuest(est.getParent(), est, city);
+				rnd = -1;
+				break;
+			}
+		}
+		assert rnd == -1;
+	}
+
+	private void serveGuest(Company c, Establishment est, String city) {
 		result.get(c.getName()).getGuestsYouPerCity().add(city, 1);
 		try {
 			if (c.getMenu().size() > 0) {

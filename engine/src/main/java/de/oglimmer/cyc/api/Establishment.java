@@ -8,9 +8,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.oglimmer.cyc.util.CountMap;
+
 public class Establishment {
 
 	private Logger log = LoggerFactory.getLogger(Establishment.class);
+
+	private static CountMap<String> cityNames = new CountMap<>();
 
 	private Company parent;
 
@@ -30,7 +34,7 @@ public class Establishment {
 	public Establishment(Company parent, String city, int locationQuality, int locationSize, int leaseCost,
 			int salePrice) {
 		this.parent = parent;
-		this.address = nextAddress(parent, city);
+		this.address = nextAddress(city);
 		this.locationQuality = locationQuality;
 		this.locationSize = locationSize;
 		this.salePrice = salePrice;
@@ -201,13 +205,8 @@ public class Establishment {
 				+ ", locationQuality=" + locationQuality + ", locationSize=" + locationSize + "]";
 	}
 
-	private static String nextAddress(Company company, String city) {
-		int estsInCity = 1;
-		for (Establishment est : company.getEstablishments()) {
-			if (est.getAddress().startsWith(city)) {
-				estsInCity++;
-			}
-		}
-		return city + "-" + estsInCity;
+	private static String nextAddress(String city) {
+		cityNames.add(city, 1);
+		return city + "-" + cityNames.get(city);
 	}
 }

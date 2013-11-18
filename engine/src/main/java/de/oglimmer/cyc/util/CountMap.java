@@ -1,4 +1,4 @@
-package de.oglimmer.cyc.api;
+package de.oglimmer.cyc.util;
 
 import java.util.HashMap;
 
