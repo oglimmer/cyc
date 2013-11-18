@@ -19,7 +19,7 @@ function HumanResources() {
 HumanResources.prototype.hiringProcess;
 
 /**
-* Returns a set of all employees your company employs. Read-only.
+* Returns a list of all employees your company employs. Read-only.
 * 
 * @property employees
 * @type {List}

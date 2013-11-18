@@ -171,6 +171,26 @@ public class Establishment {
 		return Collections.unmodifiableList(storedFoodUnits);
 	}
 
+	public List<Employee> getEmployees() {
+		List<Employee> subList = new ArrayList<>();
+		for (Employee e : parent.getHumanResources().getEmployees()) {
+			if (e.getEstablishment() == this) {
+				subList.add(e);
+			}
+		}
+		return subList;
+	}
+
+	public List<Employee> getEmployees(String jp) {
+		List<Employee> subList = new ArrayList<>();
+		for (Employee e : parent.getHumanResources().getEmployees(jp)) {
+			if (e.getEstablishment() == this) {
+				subList.add(e);
+			}
+		}
+		return subList;
+	}
+
 	Company getParent() {
 		return parent;
 	}

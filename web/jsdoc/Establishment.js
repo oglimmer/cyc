@@ -75,6 +75,14 @@ Establishment.prototype.interiorAccessories;
 Establishment.prototype.storedFoodUnits;
 
 /**
+* Returns a list of all employees for this establishment. Read-only.
+* 
+* @property employees
+* @type {List}
+*/
+Establishment.prototype.employees;
+
+/**
 * Buys this establishment.
 *
 * @method buy
@@ -163,4 +171,14 @@ Establishment.prototype.layOffAllEmployees = function() {
  * @method sellInteriorAccessories
  */
 Establishment.prototype.sellInteriorAccessories = function() {
+};
+
+/**
+ * Returns a subset of employees
+ *
+ * @method getEmployees
+ * @param {String} jobProfile A job profile to filter for: CHEF, WAITER, MANAGER
+ * @return {List} a filtered set of employees matching your desired job profile 
+ */
+Establishment.prototype.getEmployees = function(jobPosition) {
 };
