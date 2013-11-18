@@ -42,7 +42,7 @@ Employee.prototype.jobPosition;
 Employee.prototype.salary;
 
 /**
-* The establishment where the employee is working. Read-Only.
+* The establishment where the employee is working. Read-Write, so it is possible to dispatch the employee to another establishment.
 * 
 * @property establishment
 * @type {Establishment}

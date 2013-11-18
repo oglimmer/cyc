@@ -134,7 +134,7 @@ Establishment.prototype.sendFood = function(foodUnit) {
 };
 
 /**
-* Vacates the property. Works only if you rented it.
+* Vacates the property. Works only if you rented it. This method lays off all employees and sells all interior accessories as well.
 *
 * @method vacate
 */
@@ -142,9 +142,25 @@ Establishment.prototype.vacate = function() {
 };
 
 /**
-* Sells the property. Works only if you own it.
+* Sells the property. Works only if you own it. This method lays off all employees and sells all interior accessories as well.
 *
 * @method sell
 */
 Establishment.prototype.sell = function() {
+};
+
+/**
+* Lays off all employees at this property.
+*
+* @method layOffAllEmployees
+*/
+Establishment.prototype.layOffAllEmployees = function() {
+};
+
+/**
+ * Sells all interior accessories in this property for 90% of the acquisition cost.
+ *
+ * @method sellInteriorAccessories
+ */
+Establishment.prototype.sellInteriorAccessories = function() {
 };

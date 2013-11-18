@@ -53,6 +53,7 @@ public class FoodUnit {
 		for (int i = 0; i < numberEst; i++) {
 			company.getEstablishments().get(i).sendFood(new FoodUnit(food, units / numberEst, pullDate));
 		}
+		units = 0;
 	}
 
 	@Override

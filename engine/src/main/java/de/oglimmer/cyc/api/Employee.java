@@ -40,6 +40,10 @@ public class Employee {
 		return establishment;
 	}
 
+	public void setEstablishment(Establishment establishment) {
+		this.establishment = establishment;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee [name=" + name + ", qualification=" + qualification + ", jobPosition=" + jobPosition

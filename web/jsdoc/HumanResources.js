@@ -37,10 +37,19 @@ HumanResources.prototype.getEmployees = function(jobProfile) {
 };
 
 /**
-* Lays the employee off.
+* Lays off the employee.
 *
 * @method layOff
 * @param {Employee} employee Employee to lay off
 */
 HumanResources.prototype.layOff = function(employee) {
+};
+
+/**
+ * Lays off all employees at a certain establishment.
+ *
+ * @method layOffAll
+ * @param {Establishment} Establishment to lay off all employees
+ */
+HumanResources.prototype.layOffAll = function(establishment) {
 };

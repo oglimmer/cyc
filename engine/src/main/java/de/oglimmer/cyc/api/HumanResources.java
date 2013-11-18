@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,15 @@ public class HumanResources {
 
 	public void layOff(Employee emp) {
 		employees.remove(emp);
+	}
+
+	public void layOffAll(Establishment establishment) {
+		for (Iterator<Employee> it = employees.iterator(); it.hasNext();) {
+			Employee e = it.next();
+			if (e.getEstablishment() == establishment) {
+				it.remove();
+			}
+		}
 	}
 
 	@Override

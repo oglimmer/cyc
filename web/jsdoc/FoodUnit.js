@@ -38,14 +38,14 @@ FoodUnit.prototype.pullDate;
 *
 * @method split
 * @param {Number} units Amount of units you want to have in the newly created FoodUnit
-* @return {FoodUnit} a newly created FoodUnit
+* @return {FoodUnit} a newly created FoodUnit or null if units is larger than number of units available.
 */
 FoodUnit.prototype.split = function(units) {
 	
 };
 
 /**
-* Splits this FoodUnit into as many as you have restaurants and sends one package to each restaurant.
+* Splits this FoodUnit into as many as you have restaurants and sends one package to each restaurant. This FoodUnit has 0 units afterwards.
 *
 * @method distributeEqually
 */

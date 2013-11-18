@@ -68,6 +68,8 @@ public class Establishment {
 
 	public void sell() {
 		if (!rented) {
+			layOffAllEmployees();
+			sellInteriorAccessories();
 			parent.getEstablishmentsInt().remove(this);
 			parent.incCash(salePrice);
 		}
@@ -75,7 +77,21 @@ public class Establishment {
 
 	public void vacate() {
 		if (rented) {
+			layOffAllEmployees();
+			sellInteriorAccessories();
 			parent.getEstablishmentsInt().remove(this);
+		}
+	}
+
+	public void layOffAllEmployees() {
+		parent.getHumanResources().layOffAll(this);
+	}
+
+	public void sellInteriorAccessories() {
+		for (InteriorAccessory ia : interiorAccessories) {
+			int cost = (int) (ia.getAssetCost() * 0.9);
+			parent.incCash(cost);
+			parent.getGame().getResult().get(parent.getName()).addTotalInterior(-cost);
 		}
 	}
 
