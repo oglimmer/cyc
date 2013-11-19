@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ public class Establishment {
 	private int locationSize; // 25..250
 
 	private List<InteriorAccessory> interiorAccessories = new ArrayList<>();
-	private List<FoodUnit> storedFoodUnits = new ArrayList<>();
+	private Set<FoodUnit> storedFoodUnits = new TreeSet<>(new FoodUnit.FoodUnitComparator());
 
 	public Establishment(Company parent, String city, int locationQuality, int locationSize, int leaseCost,
 			int salePrice) {
@@ -167,12 +169,12 @@ public class Establishment {
 		storedFoodUnits.add(foodUnit);
 	}
 
-	List<FoodUnit> getStoredFoodUnitsInt() {
+	Set<FoodUnit> getStoredFoodUnitsInt() {
 		return storedFoodUnits;
 	}
 
-	public List<FoodUnit> getStoredFoodUnits() {
-		return Collections.unmodifiableList(storedFoodUnits);
+	public Set<FoodUnit> getStoredFoodUnits() {
+		return Collections.unmodifiableSet(storedFoodUnits);
 	}
 
 	public List<Employee> getEmployees() {
@@ -209,4 +211,5 @@ public class Establishment {
 		cityNames.add(city, 1);
 		return city + "-" + cityNames.get(city);
 	}
+
 }

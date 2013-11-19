@@ -1,5 +1,8 @@
 package de.oglimmer.cyc.api;
 
+import java.util.Comparator;
+import java.util.Set;
+
 public class FoodUnit {
 
 	private int units;
@@ -30,7 +33,7 @@ public class FoodUnit {
 		return pullDate;
 	}
 
-	void decUnits() {
+	private void decUnits() {
 		units--;
 	}
 
@@ -61,4 +64,23 @@ public class FoodUnit {
 		return "FoodUnit [units=" + units + ", food=" + food + ", pullDate=" + pullDate + "]";
 	}
 
+	static void satisfyIngredient(Set<FoodUnit> foodStores, Food ingredient) throws MissingIngredient {
+		boolean done = false;
+		for (FoodUnit fuS : foodStores) {
+			if (fuS.getFood() == ingredient && fuS.getUnits() > 0) {
+				fuS.decUnits();
+				done = true;
+			}
+		}
+		if (!done) {
+			throw new MissingIngredient(ingredient);
+		}
+	}
+
+	static class FoodUnitComparator implements Comparator<FoodUnit> {
+		@Override
+		public int compare(FoodUnit o1, FoodUnit o2) {
+			return Integer.compare(o1.getPullDate(), o2.getPullDate());
+		}
+	}
 }

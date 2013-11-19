@@ -2,7 +2,6 @@ package de.oglimmer.cyc.api;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -58,11 +57,11 @@ public class Guest {
 	private void servedDish(Company c, Establishment est, MenuEntry foodSel) throws MissingIngredient {
 		log.debug("Guest went to {} in {} and ordered {} for ${}", c.getName(), est.getAddress(), foodSel,
 				foodSel.getPrice());
-		List<FoodUnit> foodStores = est.getStoredFoodUnitsInt();
+		Set<FoodUnit> foodStores = est.getStoredFoodUnitsInt();
 		Set<Food> missingIngredients = new HashSet<>();
 		for (Food f : foodSel.getIngredients()) {
 			try {
-				satisfyIngredient(foodStores, f);
+				FoodUnit.satisfyIngredient(foodStores, f);
 			} catch (MissingIngredient e) {
 				missingIngredients.addAll(e.getMissingIngredients());
 			}
@@ -78,19 +77,6 @@ public class Guest {
 	@SuppressWarnings("unchecked")
 	private Collection<MenuEntry> selectMenu(Company c) {
 		return (Collection<MenuEntry>) GuestRule.INSTACE.selectMenu(c);
-	}
-
-	private void satisfyIngredient(List<FoodUnit> foodStores, Food ingredient) throws MissingIngredient {
-		boolean done = false;
-		for (FoodUnit fuS : foodStores) {
-			if (fuS.getFood() == ingredient && fuS.getUnits() > 0) {
-				fuS.decUnits();
-				done = true;
-			}
-		}
-		if (!done) {
-			throw new MissingIngredient(ingredient);
-		}
 	}
 
 }
