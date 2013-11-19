@@ -80,6 +80,9 @@ public class FoodUnit {
 	static class FoodUnitComparator implements Comparator<FoodUnit> {
 		@Override
 		public int compare(FoodUnit o1, FoodUnit o2) {
+			if (o1.getPullDate() == o2.getPullDate()) {
+				return Integer.compare(o1.hashCode(), o2.hashCode());
+			}
 			return Integer.compare(o1.getPullDate(), o2.getPullDate());
 		}
 	}
