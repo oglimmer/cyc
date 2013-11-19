@@ -48,13 +48,15 @@ public class Grocer {
 	}
 
 	public void bulkOrder(String food, int unitsPerDay, int days) throws OutOfMoneyException {
-		Company c = ThreadLocal.getCompany();
-		int totalUnits = days * unitsPerDay;
-		int cost = Math.max(1, (int) (getPrice(food, totalUnits)));
-		c.decCash(cost);
-		log.debug(c.getName() + " bought {} (over {} days) of {} for total ${}", totalUnits, days, food, cost);
-		foodOrders.add(new FoodOrder(c, Food.valueOf(food), unitsPerDay, days));
-		game.getResult().get(c.getName()).addTotalPurchasedFood(food, totalUnits, cost);
+		if (unitsPerDay > 0 && days > 0) {
+			Company c = ThreadLocal.getCompany();
+			int totalUnits = days * unitsPerDay;
+			int cost = Math.max(1, (int) (getPrice(food, totalUnits)));
+			c.decCash(cost);
+			log.debug(c.getName() + " bought {} (over {} days) of {} for total ${}", totalUnits, days, food, cost);
+			foodOrders.add(new FoodOrder(c, Food.valueOf(food), unitsPerDay, days));
+			game.getResult().get(c.getName()).addTotalPurchasedFood(food, totalUnits, cost);
+		}
 	}
 
 	List<FoodOrder> getFoodOrders() {
