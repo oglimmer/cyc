@@ -44,6 +44,9 @@ HOW TO INSTALL
        },
        "by_email": {
            "map": "function(doc) { if(doc.email) {emit(doc.email.toLowerCase(), doc._id)} }"
+       },
+       "by_openSource": {
+           "map": "function(doc) { if(doc.username && doc.openSource==1) {emit(doc.username.toLowerCase(), doc._id)} }"
        }
    }
 }
