@@ -212,7 +212,7 @@ public enum GameExecutor {
 				try {
 					TimeUnit.SECONDS.sleep(15);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					// don't care about this
 				}
 			}
 
