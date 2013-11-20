@@ -76,7 +76,11 @@ public class LandingActionBean extends BaseAction {
 	@DefaultHandler
 	@DontValidate
 	public Resolution show() {
-		return new ForwardResolution(VIEW);
+		if (getContext().getRequest().getSession().getAttribute("userid") != null) {
+			return new RedirectResolution(PortalActionBean.class);
+		} else {
+			return new ForwardResolution(VIEW);
+		}
 	}
 
 	public Resolution login() {
