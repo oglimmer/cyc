@@ -3,9 +3,11 @@ package de.oglimmer.cyc.web.actions;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.Before;
-import de.oglimmer.cyc.GameRunStarter;
 
 abstract public class BaseAction implements ActionBean {
+
+	private static final String VERSION = "1.0.1";
+
 	private ActionBeanContext context;
 
 	@Override
@@ -20,6 +22,6 @@ abstract public class BaseAction implements ActionBean {
 
 	@Before
 	public void setVersion() {
-		getContext().getRequest().setAttribute("currentVersion", GameRunStarter.VERSION);
+		getContext().getRequest().setAttribute("currentVersion", VERSION);
 	}
 }

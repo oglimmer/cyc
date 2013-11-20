@@ -24,7 +24,6 @@ public enum GameRunStarter {
 	private static Logger log = LoggerFactory.getLogger(GameRunStarter.class);
 
 	private static final int ROUNDS_TO_BE_EXCLUDED = 10;
-	public static final String VERSION = "1.0.1";
 
 	private int year, month, day;
 	private boolean writeGameResult;

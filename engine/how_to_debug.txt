@@ -9,7 +9,7 @@ HOW TO DEBUG
 
 4.) execute:
 
-java  -cp ./lib/hamcrest-core-1.3.jar:./lib/js-1.7R2.jar:./lib/slf4j-api-1.7.5.jar:./lib/logback-classic-1.0.13.jar:./lib/logback-core-1.0.13.jar:./lib/org.ektorp-1.2.2.jar:./lib/jackson-core-asl-1.8.6.jar:./lib/jackson-mapper-asl-1.8.6.jar:./lib/httpclient-4.1.1.jar:./lib/httpcore-4.1.jar:./lib/commons-logging-1.1.1.jar:./lib/commons-codec-1.4.jar:./lib/httpclient-cache-4.1.1.jar:./lib/commons-io-2.0.1.jar:./lib/groovy-all-2.1.7.jar:./lib/engine-0.1-SNAPSHOT.jar:./lib/rules-0.1-SNAPSHOT.jar -Dcyc.web-inf-lib=./lib/ -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n -Dcyc.security=disable -ea de.oglimmer.cyc.GameServer
+java  -cp ./lib/hamcrest-core-1.3.jar:./lib/js-1.7R2.jar:./lib/slf4j-api-1.7.5.jar:./lib/logback-classic-1.0.13.jar:./lib/logback-core-1.0.13.jar:./lib/org.ektorp-1.2.2.jar:./lib/jackson-core-asl-1.8.6.jar:./lib/jackson-mapper-asl-1.8.6.jar:./lib/httpclient-4.1.1.jar:./lib/httpcore-4.1.jar:./lib/commons-logging-1.1.1.jar:./lib/commons-codec-1.4.jar:./lib/httpclient-cache-4.1.1.jar:./lib/commons-io-2.0.1.jar:./lib/groovy-all-2.1.7.jar:./lib/engine-0.1-SNAPSHOT.jar:./lib/rules-0.1-SNAPSHOT.jar:./lib/persistence-0.1-SNAPSHOT.jar -Dcyc.web-inf-lib=./lib/ -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n -Dcyc.security=disable -ea de.oglimmer.cyc.GameServer
 
 5.) connect a remote debugger at port 4000
 

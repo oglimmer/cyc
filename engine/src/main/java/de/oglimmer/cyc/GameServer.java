@@ -21,7 +21,7 @@ import de.oglimmer.cyc.api.GroovyInitializer;
 
 public class GameServer {
 
-	/* used in security.policy as well */
+	/* used in security.policy as well & de.oglimmer.cyc.web.GameExecutor.getClientSocket() */
 	public static final int SERVER_PORT = 9998;
 
 	private static Logger log = LoggerFactory.getLogger(GameServer.class);

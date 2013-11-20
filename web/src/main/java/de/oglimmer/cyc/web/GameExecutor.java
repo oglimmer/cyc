@@ -25,8 +25,6 @@ import java.util.zip.ZipInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.oglimmer.cyc.GameServer;
-
 public enum GameExecutor {
 	INSTANCE;
 
@@ -44,6 +42,7 @@ public enum GameExecutor {
 
 	private final String engineJar = "engine-0.1-SNAPSHOT.jar";
 	private final String rulesJar = "rules-0.1-SNAPSHOT.jar";
+	private final String persistenceJar = "persistence-0.1-SNAPSHOT.jar";
 
 	private static final int RUN_EVERY_MINUTES = 15;
 
@@ -129,10 +128,11 @@ public enum GameExecutor {
 	private synchronized Socket getClientSocket() throws UnknownHostException, IOException {
 		Socket clientSocket;
 		try {
-			clientSocket = new Socket("localhost", GameServer.SERVER_PORT);
+			/* port defined in de.oglimmer.cyc.GameServer.SERVER_PORT */
+			clientSocket = new Socket("localhost", 9998);
 		} catch (ConnectException e) {
 			startServer();
-			clientSocket = new Socket("localhost", GameServer.SERVER_PORT);
+			clientSocket = new Socket("localhost", 9998);
 		}
 		return clientSocket;
 	}
@@ -171,6 +171,7 @@ public enum GameExecutor {
 		}
 		buff.append(rootPath + base + engineJar + ":");
 		buff.append(rootPath + base + rulesJar + ":");
+		buff.append(rootPath + base + persistenceJar + ":");
 
 		buff.append(" -Dcyc.web-inf-lib=" + rootPath + base);
 		buff.append(" -Djava.security.policy=" + TMP_SECURITY_POLICY);
@@ -179,7 +180,7 @@ public enum GameExecutor {
 		// buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
 
 		buff.append(" ");
-		buff.append(GameServer.class.getName());
+		buff.append("de.oglimmer.cyc.GameServer");
 
 		Collection<String> commandLineCol = new ArrayList<>();
 		commandLineCol.add("sh");

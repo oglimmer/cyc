@@ -95,7 +95,7 @@
 		</dependency>
 		<dependency>
 			<groupId>de.oglimmer.cyc</groupId>
-			<artifactId>engine</artifactId>
+			<artifactId>persistence</artifactId>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
