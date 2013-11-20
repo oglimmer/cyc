@@ -18,6 +18,8 @@ HOW TO INSTALL
 
 2.) The database needs to have these views:
 
+<pre>
+<code>
 {
    "_id": "_design/GameRun",
    "_rev": "....",
@@ -50,5 +52,7 @@ HOW TO INSTALL
        }
    }
 }
+</code>
+</pre>
 
 3.) Before you build the project via "mvn package" and deploy the war into a Servetl 3.0 compliant web container you might want to edit the rules under rules/src/main/resources/*.groovy (but for testing purposes the default rules work as well)
