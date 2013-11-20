@@ -1,6 +1,6 @@
 package de.oglimmer.cyc.api;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -308,6 +308,10 @@ public class PlayerResult {
 	public void setGuestsOutOfIngPerCity(CountMap<String> guestsOutOfIngPerCity) {
 		this.guestsOutOfIngPerCity = guestsOutOfIngPerCity;
 	}
+	
+	public void addGuestsOutOfIngPerCity(String city) {
+		guestsOutOfIngPerCity.add(city, 1);
+	}
 
 	public CountMap<String> getMissingIngredients() {
 		return missingIngredients;
@@ -317,9 +321,8 @@ public class PlayerResult {
 		this.missingIngredients = missingIngredients;
 	}
 
-	public void addGuestsOutOfIngPerCity(String city, Set<Food> missingIngredients) {
-		this.guestsOutOfIngPerCity.add(city, 1);
-		for (Food f : missingIngredients) {
+	public void addMissingIngredients(Collection<?> missingIngredients) {		
+		for (Object f : missingIngredients) {
 			this.missingIngredients.add(f.toString(), 1);
 		}
 	}

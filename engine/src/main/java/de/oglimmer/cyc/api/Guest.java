@@ -49,7 +49,8 @@ public class Guest {
 				}
 			}
 		} catch (MissingIngredient e) {
-			result.get(c.getName()).addGuestsOutOfIngPerCity(city, e.getMissingIngredients());
+			result.get(c.getName()).addGuestsOutOfIngPerCity(city);
+			result.get(c.getName()).addMissingIngredients(e.getMissingIngredients());
 			log.debug("Unable to prepare meal, missing {}", e.getMissingIngredients());
 		}
 	}

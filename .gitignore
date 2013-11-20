@@ -1,9 +1,11 @@
 engine/target/
 rules/target/
 web/target/
+persistence/target/
 .project
 .settings/
 engine/.classpath
 rules/.classpath
 web/.classpath
+persistence/.classpath
 web/src/main/webapp/apidocs/

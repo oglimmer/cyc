@@ -13,5 +13,6 @@
     <module>engine</module>
     <module>web</module>
     <module>rules</module>
+    <module>persistence</module>
   </modules>
 </project>
