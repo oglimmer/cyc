@@ -1,4 +1,4 @@
-package de.oglimmer.cyc;
+package de.oglimmer.cyc.engineContainer;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,36 +17,19 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.oglimmer.cyc.api.GroovyInitializer;
-
 public class GameServer {
-
 	/* used in security.policy as well & de.oglimmer.cyc.web.GameExecutor.getClientSocket() */
 	public static final int SERVER_PORT = 9998;
 
 	private static Logger log = LoggerFactory.getLogger(GameServer.class);
 
-	public static void main(String[] args) {
-
-		if (!"disable".equals(System.getProperty("cyc.security"))) {
-			System.setSecurityManager(new SecurityManager() {
-				@Override
-				public void checkExit(int status) {
-					throw new RuntimeException("Exit not allowed");
-				}
-			});
-		} else {
-			log.info("No SecurityManager set!");
-		}
-
-		GroovyInitializer.globalInit();
-
+	public static void main(String[] args) throws Exception {
 		try {
 			GameServer gs = new GameServer();
 			gs.runServer();
 		} catch (IOException e) {
 			e.printStackTrace();
-			log.error("Failed to start GameServer", e);
+			log.error("Failed to start StartEngine", e);
 		}
 	}
 
@@ -54,6 +37,7 @@ public class GameServer {
 	private ServerSocket serverSocket;
 	private ThreadPoolExecutor tpe;
 	private Date startTime;
+	private EngineLoader engineLoader = new EngineLoader();
 
 	public GameServer() {
 		tpe = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
@@ -66,6 +50,18 @@ public class GameServer {
 			serverSocket = new ServerSocket();
 			serverSocket.bind(new InetSocketAddress("127.0.0.1", SERVER_PORT));
 			log.debug("Bind on 127.0.0.1:" + SERVER_PORT + " successful.");
+
+			if (!"disable".equals(System.getProperty("cyc.security"))) {
+				System.setSecurityManager(new SecurityManager() {
+					@Override
+					public void checkExit(int status) {
+						throw new RuntimeException("Exit not allowed");
+					}
+				});
+			} else {
+				log.info("No SecurityManager set!");
+			}
+
 			while (running) {
 				new Thread(new SocketHandler(serverSocket.accept())).start();
 			}
@@ -131,14 +127,15 @@ public class GameServer {
 				public void run() {
 					try {
 						if ("full".equals(clientRequest)) {
-							GameRunStarter.INSTANCE.startFullGame();
+							engineLoader.startGame(null);
 						} else {
-							GameRunStarter.INSTANCE.startCheckRun(clientRequest);
+							engineLoader.startGame(clientRequest);
 						}
 					} catch (Throwable e) {
 						log.error("Uncaught throwable", e);
 					}
 				}
+
 			});
 			outToClient.writeBytes("ok\n");
 		}
@@ -149,11 +146,13 @@ public class GameServer {
 			NumberFormat nf = NumberFormat.getIntegerInstance();
 			log.info("Memory(free/max/total): {}/{}/{}", nf.format(Runtime.getRuntime().freeMemory()),
 					nf.format(Runtime.getRuntime().maxMemory()), nf.format(Runtime.getRuntime().totalMemory()));
+			log.info("Current dir: {}", engineLoader.getBaseDir() + engineLoader.getCurrentDir());
 			outToClient.writeBytes("Running: " + running + "\n");
 			outToClient.writeBytes("Queue-size: " + tpe.getQueue().size() + "\n");
 			outToClient.writeBytes("Memory(free/max/total): " + nf.format(Runtime.getRuntime().freeMemory()) + "/"
 					+ nf.format(Runtime.getRuntime().maxMemory()) + "/" + nf.format(Runtime.getRuntime().totalMemory())
 					+ "\n");
+			outToClient.writeBytes("Current dir: " + engineLoader.getBaseDir() + engineLoader.getCurrentDir() + "\n");
 		}
 
 		private void handleUp(DataOutputStream outToClient) throws IOException {
@@ -164,8 +163,9 @@ public class GameServer {
 		private void handleExit(DataOutputStream outToClient) throws IOException {
 			running = false;
 			serverSocket.close();
+			engineLoader.stop();
 			outToClient.writeBytes("shutdown in progress\n");
 		}
-	}
 
+	}
 }

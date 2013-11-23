@@ -3,8 +3,6 @@ package de.oglimmer.cyc.web;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
@@ -19,8 +17,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,21 +24,7 @@ import org.slf4j.LoggerFactory;
 public enum GameExecutor {
 	INSTANCE;
 
-	private static final String TMP_SECURITY_POLICY = System.getProperty("java.io.tmpdir") + "/security.policy";
-
 	private static Logger log = LoggerFactory.getLogger(GameExecutor.class);
-
-	private final String[] jarDependencies = new String[] { "hamcrest-core-1.3.jar", "js-1.7R2.jar",
-			"slf4j-api-1.7.5.jar", "logback-classic-1.0.13.jar", "logback-core-1.0.13.jar", "org.ektorp-1.2.2.jar",
-			"jackson-core-asl-1.8.6.jar", "jackson-mapper-asl-1.8.6.jar", "httpclient-4.1.1.jar", "httpcore-4.1.jar",
-			"commons-logging-1.1.1.jar", "commons-codec-1.4.jar", "httpclient-cache-4.1.1.jar", "commons-io-2.0.1.jar",
-			"groovy-all-2.1.7.jar" };
-
-	private final String base = "/WEB-INF/lib/";
-
-	private final String engineJar = "engine-0.1-SNAPSHOT.jar";
-	private final String rulesJar = "rules-0.1-SNAPSHOT.jar";
-	private final String persistenceJar = "persistence-0.1-SNAPSHOT.jar";
 
 	private static final int RUN_EVERY_MINUTES = 15;
 
@@ -75,26 +57,6 @@ public enum GameExecutor {
 	public void stop() {
 		running = false;
 		thread.interrupt();
-	}
-
-	private void unzip(String zipFile) throws IOException {
-		byte[] buffer = new byte[1024];
-		try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile))) {
-			ZipEntry ze = zis.getNextEntry();
-			while (ze != null) {
-				String fileName = ze.getName();
-				if ("security.policy".equals(fileName)) {
-					try (FileOutputStream fos = new FileOutputStream(TMP_SECURITY_POLICY)) {
-						int len;
-						while ((len = zis.read(buffer)) > 0) {
-							fos.write(buffer, 0, len);
-						}
-					}
-				}
-				ze = zis.getNextEntry();
-			}
-			zis.closeEntry();
-		}
 	}
 
 	public void runGame(final String userId) throws IOException {
@@ -139,7 +101,6 @@ public enum GameExecutor {
 
 	public void startServer() throws IOException {
 		try {
-			unzip(rootPath + base + engineJar);
 			String[] commandLineArgs = createCommandLineArray();
 
 			log.debug(Arrays.toString(commandLineArgs));
@@ -160,27 +121,18 @@ public enum GameExecutor {
 	}
 
 	private String[] createCommandLineArray() {
+		String home = System.getProperty("cyc.home");
 		StringBuilder buff = new StringBuilder();
 		buff.append("java");
 		buff.append(" -Xms2M");
 		buff.append(" -Xmx96M");
-		buff.append(" -cp ");
-
-		for (String s : jarDependencies) {
-			buff.append(rootPath + base + s + ":");
-		}
-		buff.append(rootPath + base + engineJar + ":");
-		buff.append(rootPath + base + rulesJar + ":");
-		buff.append(rootPath + base + persistenceJar + ":");
-
-		buff.append(" -Dcyc.web-inf-lib=" + rootPath + base);
-		buff.append(" -Djava.security.policy=" + TMP_SECURITY_POLICY);
+		buff.append(" -Dcyc.home=" + home);
+		buff.append(" -Djava.security.policy=" + home + "/security.policy");
 
 		// buff.append(" -Xdebug");
 		// buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
 
-		buff.append(" ");
-		buff.append("de.oglimmer.cyc.GameServer");
+		buff.append(" -jar " + home + "/engine-container-0.1-SNAPSHOT-jar-with-dependencies.jar");
 
 		Collection<String> commandLineCol = new ArrayList<>();
 		commandLineCol.add("sh");

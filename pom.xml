@@ -36,6 +36,7 @@
 
   <modules>
     <module>engine</module>
+    <module>engine-container</module>
     <module>web</module>
     <module>rules</module>
     <module>persistence</module>

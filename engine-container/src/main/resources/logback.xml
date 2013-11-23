@@ -8,9 +8,9 @@
 	</appender>
 
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${cyc.web-inf-lib}/../logs/detail_run_log.txt</file>
+		<file>${cyc.home}/logs/detail_run_log.txt</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${cyc.web-inf-lib}/../logs/detail_run_log-%d{yyyy-MM-dd}.%i..txt</fileNamePattern>
+			<fileNamePattern>${cyc.home}/logs/detail_run_log-%d{yyyy-MM-dd}.%i..txt</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>100MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>

@@ -3,7 +3,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.oglimmer.cyc</groupId>
-	<artifactId>engine</artifactId>
+	<artifactId>engine-container</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -37,6 +37,11 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>de.oglimmer.cyc.engineContainer.GameServer</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 				<executions>
 					<execution>
@@ -48,9 +53,25 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>${basedir}/src/main/scripts/buildDist.sh</executable>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -59,30 +80,19 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>rhino</groupId>
-			<artifactId>js</artifactId>
-			<version>1.7R2</version>
+			<groupId>org.xeustechnologies</groupId>
+			<artifactId>jcl-core</artifactId>
+			<version>2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.5</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.ektorp</groupId>
-			<artifactId>org.ektorp</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>de.oglimmer.cyc</groupId>
-			<artifactId>rules</artifactId>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>de.oglimmer.cyc</groupId>
-			<artifactId>persistence</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
 		</dependency>
 	</dependencies>
 

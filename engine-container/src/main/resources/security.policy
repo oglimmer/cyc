@@ -1,0 +1,86 @@
+
+// Standard extensions get all permissions by default
+
+grant codeBase "file:${{java.ext.dirs}}/*" {
+	permission java.security.AllPermission;
+};
+
+// MacOS X extensions START
+grant codeBase "file:${user.home}/Library/Java/Extensions/*" {
+	permission java.security.AllPermission;
+};
+
+grant codeBase "file:/Library/Java/Extensions/*" {
+	permission java.security.AllPermission;
+};
+
+grant codeBase "file:/System/Library/Java/Extensions/*" {
+	permission java.security.AllPermission;
+};
+
+grant codeBase "file:/Network/Library/Java/Extensions/*" {
+	permission java.security.AllPermission;
+};
+// MacOS X extensions END
+
+grant {	
+	permission groovy.security.GroovyCodeSourcePermission "/groovy/script";
+	permission java.io.FilePermission "${cyc.home}", "read";
+	permission java.io.FilePermission "${cyc.home}/logs/-", "read,write";
+	permission java.io.FilePermission "/groovy/script", "read";
+	permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.text.resources";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.util.resources";
+	permission java.lang.RuntimePermission "accessDeclaredMembers";
+	permission java.lang.RuntimePermission "closeClassLoader";
+	permission java.lang.RuntimePermission "createClassLoader";
+	permission java.lang.RuntimePermission "getClassLoader";
+	permission java.lang.RuntimePermission "getProtectionDomain";
+	permission java.lang.RuntimePermission "modifyThread";
+	permission java.lang.RuntimePermission "readFileDescriptor";
+	permission java.lang.RuntimePermission "writeFileDescriptor";
+	permission java.net.NetPermission "getProxySelector";
+	permission java.net.SocketPermission "127.0.0.1:-", "accept,resolve";
+	permission java.net.SocketPermission "127.0.0.1:5984", "connect,resolve";
+	permission java.net.SocketPermission "localhost", "resolve";
+	permission java.security.SecurityPermission "getProperty.networkaddress.cache.negative.ttl";
+	permission java.security.SecurityPermission "getProperty.networkaddress.cache.ttl";
+	permission java.util.logging.LoggingPermission "control";
+	permission java.util.PropertyPermission "ANTLR_DO_NOT_EXIT", "read";
+	permission java.util.PropertyPermission "ANTLR_USE_DIRECT_CLASS_LOADING", "read";
+	permission java.util.PropertyPermission "file.encoding", "read";
+	permission java.util.PropertyPermission "groovy.ast", "read";
+	permission java.util.PropertyPermission "groovy.default.scriptExtension", "read";
+	permission java.util.PropertyPermission "groovy.source.encoding", "read";
+	permission java.util.PropertyPermission "groovy.target.bytecode", "read";
+	permission java.util.PropertyPermission "groovy.target.directory", "read";
+	permission java.util.PropertyPermission "groovy.target.indy", "read";
+	permission java.util.PropertyPermission "groovyjarjarantlr.ast", "read";
+	permission java.util.PropertyPermission "java.home", "read";
+	permission java.util.PropertyPermission "java.net.useSystemProxies", "read";
+	permission java.util.PropertyPermission "java.protocol.handler.pkgs", "read";
+	permission java.util.PropertyPermission "java.util.Arrays.useLegacyMergeSort", "read";
+	permission java.util.PropertyPermission "jcl.autoProxy", "read";
+	permission java.util.PropertyPermission "line.separator", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.diagnostics.dest", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.Log", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.log", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.Log.allowFlawedContext", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.Log.allowFlawedDiscovery", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.Log.allowFlawedHierarchy", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.LogFactory", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.LogFactory.HashtableImpl", "read";
+	permission java.util.PropertyPermission "org.ektorp.support.AutoUpdateViewOnChange", "read";
+	permission java.util.PropertyPermission "org.ektorp.support.UpdateDesignDocOnDiff", "read";
+	permission java.util.PropertyPermission "socksProxyHost", "read";
+	permission java.util.PropertyPermission "sun.io.serialization.extendedDebugInfo", "read";
+	permission java.util.PropertyPermission "sun.net.inetaddr.ttl", "read";
+	permission java.util.PropertyPermission "sun.net.maxDatagramSockets", "read";
+	permission java.util.PropertyPermission "sun.reflect.proxy.allowsNewInstance", "read";
+	permission java.util.PropertyPermission "sun.reflect.proxy.allowsNullLoader", "read";
+	permission java.util.PropertyPermission "sun.util.logging.disableCallerCheck", "read";
+	permission java.util.PropertyPermission "user.dir", "read";
+
+};
+

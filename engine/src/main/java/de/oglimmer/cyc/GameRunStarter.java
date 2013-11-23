@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.oglimmer.cyc.api.Game;
+import de.oglimmer.cyc.api.GroovyInitializer;
 import de.oglimmer.cyc.dao.GameRunDao;
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
@@ -18,8 +19,7 @@ import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 
-public enum GameRunStarter {
-	INSTANCE;
+public class GameRunStarter {
 
 	private static Logger log = LoggerFactory.getLogger(GameRunStarter.class);
 
@@ -30,7 +30,7 @@ public enum GameRunStarter {
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
 	public void startFullGame() {
-
+		GroovyInitializer.globalInit();
 		log.debug("Running full game");
 		List<String[]> userList = allPlayers();
 
@@ -45,7 +45,7 @@ public enum GameRunStarter {
 
 	public void startCheckRun(String uid) {
 		assert uid != null && !uid.isEmpty();
-
+		GroovyInitializer.globalInit();
 		List<String[]> userList = singlePlayer(uid);
 
 		if (!userList.isEmpty()) {
