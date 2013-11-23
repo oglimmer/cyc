@@ -55,4 +55,8 @@ HOW TO INSTALL
 </code>
 </pre>
 
-3.) Before you build the project via "mvn package" and deploy the war into a Servetl 3.0 compliant web container you might want to edit the rules under rules/src/main/resources/*.groovy (but for testing purposes the default rules work as well)
+3.) Before you build the project you might want to edit the rules under rules/src/main/resources/*.groovy (but for testing purposes the default rules work as well)
+
+4.) mvn package
+
+5.) Add -Dcyc.home=$CLONE_DIR/engine-container/target/dist as JVM parameter to your Servlet 3.0 compliant web container
