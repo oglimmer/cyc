@@ -10,7 +10,9 @@ import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.web.DoesNotRequireLogin;
 
+@DoesNotRequireLogin
 public class ShowCodeActionBean extends BaseAction {
 	// private static Logger log = LoggerFactory.getLogger(ShowCodeActionBean.class);
 

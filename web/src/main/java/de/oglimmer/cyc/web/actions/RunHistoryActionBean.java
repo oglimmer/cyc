@@ -11,7 +11,9 @@ import de.oglimmer.cyc.dao.GameRunDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
 import de.oglimmer.cyc.model.GameRun;
+import de.oglimmer.cyc.web.DoesNotRequireLogin;
 
+@DoesNotRequireLogin
 public class RunHistoryActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/runHistory.jsp";
 

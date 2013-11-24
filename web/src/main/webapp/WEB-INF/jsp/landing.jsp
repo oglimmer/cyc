@@ -8,7 +8,8 @@
 		<div class="centerElement">
 			Coyorest is an online multi player coding competition - you might want to call it a game as well. The goal is to implement your
 			restaurant managing logic in a better, more optimal, way than all the other players.<br/>
-			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.actions.TutorialActionBean" >Tutorial</s:link> or the <a href="../apidocs/index.html" target="_blank">API</a>
+			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.actions.TutorialActionBean" >Tutorial</s:link> or the <a href="../apidocs/index.html" target="_blank">API</a>.<br/>
+			Here are results of the <s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean" >latest competitions</s:link>.
 		</div>
 		
 		<div>

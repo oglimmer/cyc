@@ -18,7 +18,9 @@ import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.web.DoesNotRequireLogin;
 
+@DoesNotRequireLogin
 public class GameRunDetailsActionBean extends BaseAction {
 
 	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
@@ -90,8 +92,11 @@ public class GameRunDetailsActionBean extends BaseAction {
 
 	@Before
 	public void getNextRunFromGameEngine() {
-		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
-		username = user.getUsername();
+		String userId = (String) getContext().getRequest().getSession().getAttribute("userid");
+		if (userId != null) {
+			User user = userDao.get(userId);
+			username = user.getUsername();
+		}
 
 		String gameRunId = getContext().getRequest().getParameter("gameRunId");
 		GameRun gr = null;
