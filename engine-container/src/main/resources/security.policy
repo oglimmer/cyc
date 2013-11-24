@@ -26,6 +26,7 @@ grant codeBase "file:/Network/Library/Java/Extensions/*" {
 grant {	
 	permission groovy.security.GroovyCodeSourcePermission "/groovy/script";
 	permission java.io.FilePermission "${cyc.home}", "read";
+	permission java.io.FilePermission "${cyc.home}/-", "read";
 	permission java.io.FilePermission "${cyc.home}/logs/-", "read,write";
 	permission java.io.FilePermission "/groovy/script", "read";
 	permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
@@ -40,6 +41,7 @@ grant {
 	permission java.lang.RuntimePermission "modifyThread";
 	permission java.lang.RuntimePermission "readFileDescriptor";
 	permission java.lang.RuntimePermission "writeFileDescriptor";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.net.www.protocol.jar";
 	permission java.net.NetPermission "getProxySelector";
 	permission java.net.SocketPermission "127.0.0.1:-", "accept,resolve";
 	permission java.net.SocketPermission "127.0.0.1:5984", "connect,resolve";
@@ -73,6 +75,16 @@ grant {
 	permission java.util.PropertyPermission "org.apache.commons.logging.LogFactory.HashtableImpl", "read";
 	permission java.util.PropertyPermission "org.ektorp.support.AutoUpdateViewOnChange", "read";
 	permission java.util.PropertyPermission "org.ektorp.support.UpdateDesignDocOnDiff", "read";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.AbstractClassLoader$SystemLoader", "read";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.AbstractClassLoader$ParentLoader", "read";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.AbstractClassLoader$CurrentLoader", "read";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.AbstractClassLoader$ThreadContextLoader", "read";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.JarClassLoader$LocalLoader", "read";
+	permission java.util.PropertyPermission "jcl.suppressCollisionException", "read";
+	permission java.util.PropertyPermission "jcl.suppressMissingResourceException", "read";
+	permission java.util.PropertyPermission "osgi.bootdelegation", "read";
+	permission java.util.PropertyPermission "osgi.bootdelegation.strict", "read";
+	permission java.util.PropertyPermission "org.osgi.framework.bootdelegation", "read";
 	permission java.util.PropertyPermission "socksProxyHost", "read";
 	permission java.util.PropertyPermission "sun.io.serialization.extendedDebugInfo", "read";
 	permission java.util.PropertyPermission "sun.net.inetaddr.ttl", "read";

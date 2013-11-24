@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -103,6 +104,8 @@ public class GameServer {
 							handleUp(outToClient);
 						} else if ("status".equals(clientRequest)) {
 							handleStatus(outToClient);
+						} else if ("version".equals(clientRequest)) {
+							handleVersion(outToClient);
 						} else {
 							handleRunGame(outToClient, clientRequest);
 						}
@@ -116,6 +119,17 @@ public class GameServer {
 				} catch (IOException e) {
 					log.debug("Failed to close server socket", e);
 				}
+			}
+		}
+
+		private void handleVersion(DataOutputStream outToClient) throws IOException {
+			try {
+				String version = engineLoader.getVersion();
+				log.info("Version: {}", version);
+				outToClient.writeBytes("Version: " + version + "\n");
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+					| NoSuchMethodException | SecurityException e) {
+				log.error("Failed to get version from engine", e);
 			}
 		}
 

@@ -54,6 +54,15 @@ public class EngineLoader {
 		}
 	}
 
+	public String getVersion() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException {
+		JclObjectFactory factory = JclObjectFactory.getInstance();
+
+		Object obj = factory.create(jcl, "de.oglimmer.cyc.GameRunStarter");
+		Method m = obj.getClass().getMethod("getVersion", new Class[0]);
+		return (String) m.invoke(obj);
+	}
+
 	private JarClassLoader initClassLoader() {
 		JarClassLoader jcl = new JarClassLoader();
 

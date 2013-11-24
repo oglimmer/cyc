@@ -1,10 +1,15 @@
 package de.oglimmer.cyc;
 
+import java.io.IOException;
+import java.net.URL;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +66,32 @@ public class GameRunStarter {
 			u.setLastPrivateRun(new Date());
 			userDao.update(u);
 		}
+	}
+
+	public String getVersion() {
+		String commit = "?";
+		String version = "?";
+		String creationDate = "?";
+
+		Class<?> clazz = this.getClass();
+		String className = clazz.getSimpleName() + ".class";
+		String classPath = clazz.getResource(className).toString();
+		if (classPath.startsWith("jar")) {
+			try {
+				String manifestPath = classPath.substring(0, classPath.lastIndexOf("!") + 1) + "/META-INF/MANIFEST.MF";
+				Manifest manifest = new Manifest(new URL(manifestPath).openStream());
+				Attributes attr = manifest.getMainAttributes();
+				commit = attr.getValue("SVN-Revision-No");
+				version = attr.getValue("CYC-Version");
+				long time = Long.parseLong(attr.getValue("Creation-Date"));
+				creationDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
+						.format(new Date(time));
+			} catch (IOException e) {
+				log.error("Failed to get engine version", e);
+			}
+		}
+
+		return "V" + version + " [Commit#" + commit + "] build " + creationDate;
 	}
 
 	private List<String[]> allPlayers() {

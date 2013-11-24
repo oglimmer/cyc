@@ -24,7 +24,7 @@
 	</div>
 	
 	<div class="footer">
-		Created by oglimmer.de &nbsp;
+		${actionBean.longVersion } - Created by oglimmer.de &nbsp;
 	</div>
 </body>
 </html>
