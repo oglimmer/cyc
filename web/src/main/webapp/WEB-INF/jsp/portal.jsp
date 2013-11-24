@@ -23,8 +23,10 @@
 			
 			<h2>Your company</h2>
 
+			<!-- ATTENTION: the retrieval of actionBean.company must be done via c:out to properly escape html-tags within the javascript code.  -->
+
 			<s:form name="mainForm" beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" focus="" onsubmit="return false;">
-				<div style="width:97%;height:500px;position:relative;"><pre id="editor">${actionBean.company}</pre></div>
+				<div style="width:97%;height:500px;position:relative;"><pre id="editor"><c:out value="${actionBean.company}"/></pre></div>
 				<s:textarea name="company" style="display:none"></s:textarea>
 				<s:submit name="saveRun" value="Save and check" onclick="onSubmitForm(this);" />
 				<c:if test="${actionBean.fullRun}">
