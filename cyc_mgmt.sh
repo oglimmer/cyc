@@ -12,16 +12,16 @@ BUILD=
 WAR=
 ENGINE=
 
-while getopts ':hbw:e:' option; do
+while getopts ':hbwe' option; do
   case "$option" in
     h) echo "$usage"
        exit
        ;;
     b) BUILD=YES
-	     ;;
-    w) WAR=$OPTARG
        ;;
-    e) ENGINE=$OPTARG
+    w) WAR=YES
+       ;;
+    e) ENGINE=YES
        ;;
     :) printf "missing argument for -%s\n" "$OPTARG" >&2
        echo "$usage" >&2
@@ -36,19 +36,29 @@ done
 shift $((OPTIND - 1))
 
 
-if [ "$BUILD" == 'YES' ]; then
-	git pull
-	mvn clean package	
+if [ -n "$BUILD" ]; then
+  git pull
+  mvn clean package 
 fi
 
 if [ -n "$WAR" ]; then
-	echo "Deploying war with version = $WAR"
-	cp web/target/cyr##001.war /var/lib/tomcat/webapps/cyr##$WAR.war
+  for file in `ls -1 /var/lib/tomcat/webapps/cyr*.war | sort -r| awk '{gsub(/\/.*\/|cyr##|.war/,"",$1); printf("%03d\n",++$1);}'`
+  do
+    VERSION=$file
+    break
+  done
+  echo "Deploying war with version = $VERSION"
+  cp web/target/cyr##001.war /var/lib/tomcat/webapps/cyr##$VERSION.war
 fi
 
 if [ -n "$ENGINE" ]; then
-	echo "Deploying engine with version = $ENGINE"
-	mkdir /usr/local/cyr-engine-container/tmp-deploy
-	cp engine/target/engine-0.1-SNAPSHOT-jar-with-dependencies.jar /usr/local/cyr-engine-container/tmp-deploy
-	mv /usr/local/cyr-engine-container/tmp-deploy /usr/local/cyr-engine-container/cyc$ENGINE
+        for file in `ls -1 /usr/local/cyr-engine-container/cyc* | sort -r| awk '{gsub(/\/.*\/|cyc##/,"",$1); printf("%03d\n",++$1);}'`
+        do
+                VERSION=$file
+                break
+        done
+  echo "Deploying engine with version = $VERSION"
+  mkdir /usr/local/cyr-engine-container/tmp-deploy
+  cp engine/target/engine-0.1-SNAPSHOT-jar-with-dependencies.jar /usr/local/cyr-engine-container/tmp-deploy
+  mv /usr/local/cyr-engine-container/tmp-deploy /usr/local/cyr-engine-container/cyc$VERSION
 fi
