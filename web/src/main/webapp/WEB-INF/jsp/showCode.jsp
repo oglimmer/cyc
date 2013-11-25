@@ -13,7 +13,7 @@
 		</div>
   
 		<div>
-			<div style="width:97%;height:800px;position:relative;"><pre id="editor">${actionBean.companyCode}</pre></div>
+			<div style="width:97%;height:800px;position:relative;"><pre id="editor"><c:out value="${actionBean.company}"/></pre></div>
 		</div>	
 		
 		<script src="src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
