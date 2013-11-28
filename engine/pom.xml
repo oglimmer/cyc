@@ -35,6 +35,7 @@
 	</properties>
 
 	<build>
+		<finalName>engine</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
