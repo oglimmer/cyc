@@ -15,14 +15,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class GameServer {
 	/* used in security.policy as well & de.oglimmer.cyc.web.GameExecutor.getClientSocket() */
 	public static final int SERVER_PORT = 9998;
-
-	private static Logger log = LoggerFactory.getLogger(GameServer.class);
 
 	public static void main(String[] args) throws Exception {
 		assert System.getProperty("cyc.home") != null;
