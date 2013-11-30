@@ -1,7 +1,7 @@
 {
     "name": "CodeYourRestaurant",
     "description": "A JavaScript game",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "url": "http://cyr.oglimmer.de",
     "options": {
         "outdir": "../src/main/webapp/apidocs"

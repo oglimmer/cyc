@@ -1,3 +1,5 @@
 #!/bin/sh
 
-yuidoc .
+if which yuidoc >/dev/null; then
+	yuidoc .
+fi

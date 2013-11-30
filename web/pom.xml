@@ -78,6 +78,23 @@
 					</archive>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>${basedir}/jsdoc/createdoc.sh</executable>
+					<workingDirectory>${basedir}/jsdoc</workingDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
