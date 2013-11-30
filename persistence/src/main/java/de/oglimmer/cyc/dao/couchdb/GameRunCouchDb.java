@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.ViewQuery;
+import org.ektorp.ViewResult.Row;
 import org.ektorp.support.CouchDbRepositorySupport;
 
 import de.oglimmer.cyc.dao.GameRunDao;
@@ -30,6 +31,7 @@ public class GameRunCouchDb extends CouchDbRepositorySupport<GameRun> implements
 	@Override
 	public int sizeAllGameRun() {
 		ViewQuery q = createQuery("count");
-		return db.queryView(q).getRows().get(0).getValueAsInt();
+		List<Row> rows = db.queryView(q).getRows();
+		return rows.isEmpty() ? 0 : rows.get(0).getValueAsInt();
 	}
 }

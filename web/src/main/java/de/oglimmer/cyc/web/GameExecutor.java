@@ -122,6 +122,7 @@ public enum GameExecutor {
 
 	private String[] createCommandLineArray() {
 		String home = System.getProperty("cyc.home");
+		assert home != null;
 		StringBuilder buff = new StringBuilder();
 		buff.append("java");
 		buff.append(" -Xms2M");

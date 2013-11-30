@@ -2,11 +2,16 @@ package de.oglimmer.cyc.api;
 
 import java.util.Collection;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import de.oglimmer.cyc.util.AverageMap;
 import de.oglimmer.cyc.util.CountMap;
 
+@NoArgsConstructor
+@Data
 public class PlayerResult {
 	private static final int MAX_DEBUG_OUTPUT = 4048;
 
@@ -46,97 +51,24 @@ public class PlayerResult {
 	private AverageMap<String> menuEntryScore = new AverageMap<>();
 	private AverageMap<String> establishmentScore = new AverageMap<>();
 
-	public PlayerResult() {
-	}
-
 	public PlayerResult(String name) {
 		this.name = name;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public long getTotalOnRent() {
-		return totalOnRent;
-	}
-
-	public void setTotalOnRent(long totalOnRent) {
-		this.totalOnRent = totalOnRent;
 	}
 
 	public void addTotalOnRent(long rent) {
 		this.totalOnRent += rent;
 	}
 
-	// --------------------------------------------------------------------------------
-
-	public long getTotalRealEstate() {
-		return totalRealEstate;
-	}
-
-	public void setTotalRealEstate(long totalRealEstate) {
-		this.totalRealEstate = totalRealEstate;
-	}
-
 	public void addTotalRealEstate(long realEstate) {
 		this.totalRealEstate += realEstate;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public long getEstablishmentsByDays() {
-		return establishmentsByDays;
-	}
-
-	public void setEstablishmentsByDays(long establishmentsByDays) {
-		this.establishmentsByDays = establishmentsByDays;
 	}
 
 	public void addEstablishmentsByDays(long l) {
 		this.establishmentsByDays += l;
 	}
 
-	// --------------------------------------------------------------------------------
-
-	public long getTotalAssets() {
-		return totalAssets;
-	}
-
-	public void setTotalAssets(long totalAssets) {
-		this.totalAssets = totalAssets;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getStaffByDays() {
-		return staffByDays;
-	}
-
-	public void setStaffByDays(CountMap<String> staffByDays) {
-		this.staffByDays = staffByDays;
-	}
-
 	public void addStaffByDays(String jobPosition) {
 		staffByDays.add(jobPosition, 1);
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getTotalOnSalaries() {
-		return totalOnSalaries;
-	}
-
-	public void setTotalOnSalaries(CountMap<String> totalOnSalaries) {
-		this.totalOnSalaries = totalOnSalaries;
 	}
 
 	public void addTotalOnSalaries(String jobPosition, int salary) {
@@ -150,24 +82,6 @@ public class PlayerResult {
 			total += l;
 		}
 		return total;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getTotalPurchasedFoodUnits() {
-		return totalPurchasedFoodUnits;
-	}
-
-	public void setTotalPurchasedFoodUnits(CountMap<String> totalFood) {
-		this.totalPurchasedFoodUnits = totalFood;
-	}
-
-	public CountMap<String> getTotalPurchasedFoodCosts() {
-		return totalPurchasedFoodCosts;
-	}
-
-	public void setTotalPurchasedFoodCosts(CountMap<String> totalFood) {
-		this.totalPurchasedFoodCosts = totalFood;
 	}
 
 	public void addTotalPurchasedFood(String food, int units, int totalCost) {
@@ -184,26 +98,6 @@ public class PlayerResult {
 		return total;
 	}
 
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getTotalRottenFood() {
-		return totalRottenFood;
-	}
-
-	public void setTotalRottenFood(CountMap<String> totalRottenFood) {
-		this.totalRottenFood = totalRottenFood;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getServedFoodPerTypeUnits() {
-		return servedFoodPerTypeUnits;
-	}
-
-	public void setServedFoodPerTypeUnits(CountMap<String> servedFoodPerType) {
-		this.servedFoodPerTypeUnits = servedFoodPerType;
-	}
-
 	@JsonIgnore
 	public long getServedFoodUnitsTotal() {
 		long total = 0;
@@ -211,16 +105,6 @@ public class PlayerResult {
 			total += l;
 		}
 		return total;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getServedFoodPerEstablishmentUnits() {
-		return servedFoodPerEstablishmentUnits;
-	}
-
-	public void setServedFoodPerEstablishmentUnits(CountMap<String> servedFoodPerEstablishment) {
-		this.servedFoodPerEstablishmentUnits = servedFoodPerEstablishment;
 	}
 
 	@JsonIgnore
@@ -232,16 +116,6 @@ public class PlayerResult {
 		return total;
 	}
 
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getServedFoodPerTypeRevenue() {
-		return servedFoodPerTypeRevenue;
-	}
-
-	public void setServedFoodPerTypeRevenue(CountMap<String> servedFoodPerTypeRevenue) {
-		this.servedFoodPerTypeRevenue = servedFoodPerTypeRevenue;
-	}
-
 	@JsonIgnore
 	public long getServedFoodRevenueTotal() {
 		long total = 0;
@@ -249,16 +123,6 @@ public class PlayerResult {
 			total += l;
 		}
 		return total;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getServedFoodPerEstablishmentRevenue() {
-		return servedFoodPerEstablishmentRevenue;
-	}
-
-	public void setServedFoodPerEstablishmentRevenue(CountMap<String> servedFoodPerEstablishmentRevenue) {
-		this.servedFoodPerEstablishmentRevenue = servedFoodPerEstablishmentRevenue;
 	}
 
 	@JsonIgnore
@@ -270,8 +134,6 @@ public class PlayerResult {
 		return total;
 	}
 
-	// --------------------------------------------------------------------------------
-
 	public void addServedFoodServed(String est, String name, int price) {
 		servedFoodPerEstablishmentUnits.add(est, 1);
 		servedFoodPerTypeUnits.add(name, 1);
@@ -279,100 +141,22 @@ public class PlayerResult {
 		servedFoodPerTypeRevenue.add(name, price);
 	}
 
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getGuestsYouPerCity() {
-		return guestsYouPerCity;
-	}
-
-	public void setGuestsYouPerCity(CountMap<String> guestsYouPerCity) {
-		this.guestsYouPerCity = guestsYouPerCity;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getGuestsLeftPerCity() {
-		return guestsLeftPerCity;
-	}
-
-	public void setGuestsLeftPerCity(CountMap<String> guestsLeftPerCity) {
-		this.guestsLeftPerCity = guestsLeftPerCity;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public CountMap<String> getGuestsOutOfIngPerCity() {
-		return guestsOutOfIngPerCity;
-	}
-
-	public void setGuestsOutOfIngPerCity(CountMap<String> guestsOutOfIngPerCity) {
-		this.guestsOutOfIngPerCity = guestsOutOfIngPerCity;
-	}
-	
 	public void addGuestsOutOfIngPerCity(String city) {
 		guestsOutOfIngPerCity.add(city, 1);
 	}
 
-	public CountMap<String> getMissingIngredients() {
-		return missingIngredients;
-	}
-
-	public void setMissingIngredients(CountMap<String> missingIngredients) {
-		this.missingIngredients = missingIngredients;
-	}
-
-	public void addMissingIngredients(Collection<?> missingIngredients) {		
+	public void addMissingIngredients(Collection<?> missingIngredients) {
 		for (Object f : missingIngredients) {
 			this.missingIngredients.add(f.toString(), 1);
 		}
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public int getBankruptOnDay() {
-		return bankruptOnDay;
-	}
-
-	public void setBankruptOnDay(int bankruptOnDay) {
-		this.bankruptOnDay = bankruptOnDay;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public long getTotalBribe() {
-		return totalBribe;
-	}
-
-	public void setTotalBribe(long totalBribe) {
-		this.totalBribe = totalBribe;
 	}
 
 	public void addTotalBribe(long totalBribe) {
 		this.totalBribe += totalBribe;
 	}
 
-	// --------------------------------------------------------------------------------
-
-	public long getTotalInterior() {
-		return totalInterior;
-	}
-
-	public void setTotalInterior(long totalInterior) {
-		this.totalInterior = totalInterior;
-	}
-
 	public void addTotalInterior(long totalInterior) {
 		this.totalInterior += totalInterior;
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public StringBuilder getDebug() {
-		return debug;
-	}
-
-	public void setDebug(StringBuilder debug) {
-		this.debug = debug;
 	}
 
 	public void addDebug(String debug) {
@@ -385,33 +169,12 @@ public class PlayerResult {
 		}
 	}
 
-	// --------------------------------------------------------------------------------
-
-	public AverageMap<String> getMenuEntryScore() {
-		return menuEntryScore;
-	}
-
-	public void setMenuEntryScore(AverageMap<String> menuEntryScore) {
-		this.menuEntryScore = menuEntryScore;
-	}
-
 	public void addMenuEntryScore(String menuName, int deli) {
 		menuEntryScore.add(menuName, deli);
-	}
-
-	// --------------------------------------------------------------------------------
-
-	public AverageMap<String> getEstablishmentScore() {
-		return establishmentScore;
-	}
-
-	public void setEstablishmentScore(AverageMap<String> establishmentScore) {
-		this.establishmentScore = establishmentScore;
 	}
 
 	public void addEstablishmentScore(String address, int score) {
 		establishmentScore.add(address, score);
 	}
 
-	// --------------------------------------------------------------------------------
 }

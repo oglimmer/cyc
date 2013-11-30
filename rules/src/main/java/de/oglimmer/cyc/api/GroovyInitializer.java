@@ -5,13 +5,13 @@ import groovy.lang.GroovyObject;
 
 import java.io.IOException;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.codehaus.groovy.control.CompilationFailedException;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class GroovyInitializer<T> {
-
-	private static Logger log = LoggerFactory.getLogger(GroovyInitializer.class);
 
 	public static void globalInit() {
 		EstablishmentRule.INSTACE.toString();
@@ -26,8 +26,7 @@ public class GroovyInitializer<T> {
 			ClassLoader parentCL = GroovyInitializer.class.getClassLoader();
 			try (GroovyClassLoader loader = new GroovyClassLoader(parentCL)) {
 				@SuppressWarnings("deprecation")
-				Class<?> groovyClass = loader.parseClass(GroovyInitializer.class.getResourceAsStream("/" + filename),
-						filename);
+				Class<?> groovyClass = loader.parseClass(GroovyInitializer.class.getResourceAsStream("/" + filename), filename);
 
 				groovyObject = (GroovyObject) groovyClass.newInstance();
 				groovyObject.setProperty("log", LoggerFactory.getLogger(filename));

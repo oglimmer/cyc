@@ -12,6 +12,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import de.oglimmer.cyc.util.Average;
@@ -19,31 +22,25 @@ import de.oglimmer.cyc.util.CountMap;
 
 public class GameResult {
 
+	@Getter
+	@Setter
 	private int totalDays;
+
+	@Getter
+	@Setter
 	private Map<String, PlayerResult> playerResults = new HashMap<>();
+
+	@Getter
+	@Setter
 	private CountMap<String> guestsTotalPerCity = new CountMap<>();
+
 	/** names of all companies went bankrupt in this run */
+	@Getter
+	@Setter
 	private Set<String> errors = new HashSet<>();
 
 	/** contains all stack traces */
-	@JsonIgnore
 	private StringBuilder error = new StringBuilder();
-
-	public int getTotalDays() {
-		return totalDays;
-	}
-
-	public void setTotalDays(int totalDays) {
-		this.totalDays = totalDays;
-	}
-
-	public Map<String, PlayerResult> getPlayerResults() {
-		return playerResults;
-	}
-
-	public void setPlayerResults(Map<String, PlayerResult> playerResults) {
-		this.playerResults = playerResults;
-	}
 
 	public PlayerResult get(String name) {
 		PlayerResult pr = playerResults.get(name);
@@ -52,14 +49,6 @@ public class GameResult {
 			playerResults.put(name, pr);
 		}
 		return pr;
-	}
-
-	public CountMap<String> getGuestsTotalPerCity() {
-		return guestsTotalPerCity;
-	}
-
-	public void setGuestsTotalPerCity(CountMap<String> guestsTotalPerCity) {
-		this.guestsTotalPerCity = guestsTotalPerCity;
 	}
 
 	@JsonIgnore
@@ -74,14 +63,6 @@ public class GameResult {
 			}
 		}
 		return desc;
-	}
-
-	public Set<String> getErrors() {
-		return errors;
-	}
-
-	public void setErrors(Set<String> errors) {
-		this.errors = errors;
 	}
 
 	public void addError(Throwable t) {

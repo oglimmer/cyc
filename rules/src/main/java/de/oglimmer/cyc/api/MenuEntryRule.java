@@ -11,7 +11,7 @@ public enum MenuEntryRule {
 	}
 
 	/**
-	 * base deliciouness is 5. max 10, min 0.
+	 * base deliciousness is 5. max 10, min 0.
 	 */
 	int getDeliciousness(Object ingredients, Object price) {
 		return ini.getGroovyObject().getDeliciousness(ingredients, price);

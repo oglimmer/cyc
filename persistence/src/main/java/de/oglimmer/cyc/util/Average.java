@@ -1,12 +1,19 @@
 package de.oglimmer.cyc.util;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
 public class Average {
 
-	private long total;
-	private int num;
+	private @Getter
+	@Setter
+	long total;
 
-	public Average() {
-	}
+	private @Getter
+	@Setter
+	int num;
 
 	public Average(long value) {
 		total = value;
@@ -20,22 +27,6 @@ public class Average {
 
 	public double average() {
 		return total / num;
-	}
-
-	public long getTotal() {
-		return total;
-	}
-
-	public void setTotal(long total) {
-		this.total = total;
-	}
-
-	public int getNum() {
-		return num;
-	}
-
-	public void setNum(int num) {
-		this.num = num;
 	}
 
 }
