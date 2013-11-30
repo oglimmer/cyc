@@ -25,6 +25,8 @@ public class GameServer {
 	private static Logger log = LoggerFactory.getLogger(GameServer.class);
 
 	public static void main(String[] args) throws Exception {
+		assert System.getProperty("cyc.home") != null;
+
 		try {
 			GameServer gs = new GameServer();
 			gs.runServer();
@@ -38,10 +40,15 @@ public class GameServer {
 	private ServerSocket serverSocket;
 	private ThreadPoolExecutor tpe;
 	private Date startTime;
-	private EngineLoader engineLoader = new EngineLoader();
+	private EngineLoader engineLoader;
 
 	public GameServer() {
 		tpe = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		if ("true".equalsIgnoreCase(System.getProperty("cyc.debug"))) {
+			engineLoader = new DebugEngineLoader();
+		} else {
+			engineLoader = new EngineLoader();
+		}
 	}
 
 	public void runServer() throws IOException, SocketException {
@@ -128,7 +135,7 @@ public class GameServer {
 				log.info("Version: {}", version);
 				outToClient.writeBytes("Version: " + version + "\n");
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-					| NoSuchMethodException | SecurityException e) {
+					| NoSuchMethodException | SecurityException | InstantiationException | ClassNotFoundException e) {
 				log.error("Failed to get version from engine", e);
 			}
 		}

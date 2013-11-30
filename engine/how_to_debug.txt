@@ -1,17 +1,15 @@
 HOW TO DEBUG
 ============
 
-1.) mvn package the project
+1.) set CYC_ENGINE_CONTAINER to whatever you want
 
-2.) run buildDist.sh
+2.) cyc_mgmt.sh -b -e -c
 
-3.) step into dist directory
+3.) step inside CYC_ENGINE_CONTAINER and execute:
 
-4.) execute:
+java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n -Dcyc.security=disable  -Dcyc.home=. -ea -jar engine-container-jar-with-dependencies.jar
 
-java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n -Dcyc.security=disable  -Dcyc.home=. -ea -jar engine-container-0.1-SNAPSHOT-jar-with-dependencies.jar
-
-5.) connect a remote debugger at port 4000
+4.) connect a remote debugger at port 4000
 
 EXTRAS
 ======
@@ -19,3 +17,5 @@ EXTRAS
 # check the engine-container/src/main/resources/logback.xml. Remove the loggers for de.oglimmer.cyc.api.* to enable debug logging for certain classes.
 
 # to check the security.policy, remove -Dcyc.security=disable and replace with -Djava.security.policy=security.policy. You also might want to add -Djava.security.debug=access:failure
+
+# To debug in Eclipse add the engine project to the engine-container project and set -Dcyc.home=${workspace_loc:engine-container}/target -Dcyc.security=disable -Dcyc.debug=true -ea
