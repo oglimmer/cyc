@@ -9,6 +9,8 @@ import org.mozilla.javascript.WrappedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.oglimmer.cyc.api.ApplicationProfile.Offer;
+
 public class Month {
 
 	private Logger log = LoggerFactory.getLogger(Month.class);
@@ -133,12 +135,12 @@ public class Month {
 
 			for (Iterator<ApplicationProfile> it = ap.iteratorInt(); it.hasNext();) {
 				ApplicationProfile p = it.next();
-				Entry<Company, Object[]> en = ap.getMaxOfferFor(p);
+				Entry<Company, Offer> en = ApplicationProfiles.getMaxOfferFor(p);
 				if (en != null) {
 					pickedOne = true;
 					it.remove();
-					Establishment est = (Establishment) en.getValue()[0];
-					Integer offer = (Integer) en.getValue()[1];
+					Establishment est = (Establishment) en.getValue().getEstablishment();
+					Integer offer = (Integer) en.getValue().getSalary();
 					Company company = en.getKey();
 					if (offer >= p.getDesiredSalary()) {
 						hire(p, offer, est, company);

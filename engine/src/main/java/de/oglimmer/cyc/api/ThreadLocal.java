@@ -5,10 +5,13 @@ public class ThreadLocal {
 	private static java.lang.ThreadLocal<Company> threadLocal = new java.lang.ThreadLocal<>();
 
 	public static Company getCompany() {
-		return threadLocal.get();
+		Company company = threadLocal.get();
+		assert company != null;
+		return company;
 	}
 
 	public static void setCompany(Company company) {
+		assert company != null;
 		threadLocal.set(company);
 	}
 

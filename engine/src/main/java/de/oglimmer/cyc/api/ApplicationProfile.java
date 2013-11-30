@@ -3,6 +3,8 @@ package de.oglimmer.cyc.api;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Value;
+
 public class ApplicationProfile {
 
 	private String name;
@@ -11,7 +13,7 @@ public class ApplicationProfile {
 	private JobPosition jobPosition;
 
 	private int desiredSalary;
-	private Map<Company, Object[]> offeredSalary;
+	private Map<Company, Offer> offeredSalary;
 
 	public ApplicationProfile(String name, int qualification, JobPosition jobPosition, int desiredSalary) {
 		super();
@@ -31,10 +33,12 @@ public class ApplicationProfile {
 	}
 
 	public void offer(Establishment est, int salary) {
-		this.offeredSalary.put(ThreadLocal.getCompany(), new Object[] { est, salary });
+		Company company = ThreadLocal.getCompany();
+		assert est.getParent() == company;
+		this.offeredSalary.put(company, new Offer(est, salary));
 	}
 
-	Map<Company, Object[]> getOfferedSalary() {
+	Map<Company, Offer> getOfferedSalary() {
 		return offeredSalary;
 	}
 
@@ -60,4 +64,9 @@ public class ApplicationProfile {
 				+ ", desiredSalary=" + desiredSalary + "]";
 	}
 
+	@Value
+	class Offer {
+		private Establishment establishment;
+		private int salary;
+	}
 }

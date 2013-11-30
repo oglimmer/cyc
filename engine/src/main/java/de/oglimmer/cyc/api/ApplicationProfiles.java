@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.oglimmer.cyc.api.ApplicationProfile.Offer;
+
 public class ApplicationProfiles implements Iterable<ApplicationProfile>, Container<ApplicationProfile> {
 
 	private String[] surnames = { "Smith", "Jones", "Taylor", "Brown", "Williams", "Wilson", "Johnson", "Davies",
@@ -27,6 +29,10 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Contai
 		createApplications(noCompanies, 0, JobPosition.MANAGER);
 	}
 
+	private ApplicationProfiles(List<ApplicationProfile> profiles) {
+		this.profiles = profiles;
+	}
+
 	private void createApplications(int m, int n, JobPosition jp) {
 		int count = (int) (Math.random() * m + n);
 		for (int i = 0; i < count; i++) {
@@ -38,22 +44,18 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Contai
 		}
 	}
 
-	public ApplicationProfiles(List<ApplicationProfile> profiles) {
-		this.profiles = profiles;
-	}
-
-	Entry<Company, Object[]> getMaxOfferFor(ApplicationProfile p) {
-		Map<Company, Object[]> offeredSal = p.getOfferedSalary();
+	static Entry<Company, Offer> getMaxOfferFor(ApplicationProfile p) {
+		Map<Company, Offer> offeredSal = p.getOfferedSalary();
 		int maxOff = -1;
-		List<Entry<Company, Object[]>> goodOffers = new ArrayList<>();
-		for (Entry<Company, Object[]> en : offeredSal.entrySet()) {
-			if (maxOff < (Integer) en.getValue()[1]) {
+		List<Entry<Company, Offer>> goodOffers = new ArrayList<>();
+		for (Entry<Company, Offer> en : offeredSal.entrySet()) {
+			if (maxOff < (Integer) en.getValue().getSalary()) {
 				goodOffers.clear();
 				goodOffers.add(en);
-				maxOff = (Integer) en.getValue()[1];
-			} else if (maxOff == (Integer) en.getValue()[1]) {
+				maxOff = (Integer) en.getValue().getSalary();
+			} else if (maxOff == (Integer) en.getValue().getSalary()) {
 				goodOffers.add(en);
-				maxOff = (Integer) en.getValue()[1];
+				maxOff = (Integer) en.getValue().getSalary();
 			}
 		}
 		if (goodOffers.size() == 1) {
