@@ -1,5 +1,7 @@
 package de.oglimmer.cyc.web.actions;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
@@ -24,47 +26,26 @@ public class ChangePasswordActionBean extends BaseAction {
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String passwordOld;
+
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String passwordNew;
+
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String password2;
+
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String email;
 
 	private User user;
-
-	public String getPasswordOld() {
-		return passwordOld;
-	}
-
-	public void setPasswordOld(String passwordOld) {
-		this.passwordOld = passwordOld;
-	}
-
-	public String getPasswordNew() {
-		return passwordNew;
-	}
-
-	public void setPasswordNew(String passwordNew) {
-		this.passwordNew = passwordNew;
-	}
-
-	public String getPassword2() {
-		return password2;
-	}
-
-	public void setPassword2(String password2) {
-		this.password2 = password2;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 	@Before
 	public void load() {

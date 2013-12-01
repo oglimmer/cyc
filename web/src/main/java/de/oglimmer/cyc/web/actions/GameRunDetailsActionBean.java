@@ -1,11 +1,12 @@
 package de.oglimmer.cyc.web.actions;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -26,69 +27,27 @@ public class GameRunDetailsActionBean extends BaseAction {
 	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
+	@Getter
+	@Setter
 	private GameResult result;
+	@Getter
+	@Setter
 	private Date startTime;
+	@Getter
+	@Setter
 	private Date endTime;
+	@Getter
+	@Setter
 	private long memUsed;
+	@Getter
+	@Setter
 	private List<String> participants;
+	@Getter
+	@Setter
 	private String username;
+	@Getter
+	@Setter
 	private Map<String, Boolean> showCode = new HashMap<>();
-
-	public GameResult getResult() {
-		return result;
-	}
-
-	public void setResult(GameResult result) {
-		this.result = result;
-	}
-
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-
-	public long getMemUsed() {
-		return memUsed;
-	}
-
-	public void setMemUsed(long memUsed) {
-		this.memUsed = memUsed;
-	}
-
-	public Collection<String> getParticipants() {
-		return participants;
-	}
-
-	public void setParticipants(List<String> participants) {
-		this.participants = participants;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public Map<String, Boolean> getShowCode() {
-		return showCode;
-	}
-
-	public void setShowCode(Map<String, Boolean> showCode) {
-		this.showCode = showCode;
-	}
 
 	@Before
 	public void getNextRunFromGameEngine() {

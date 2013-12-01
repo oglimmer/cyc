@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.Before;
@@ -16,26 +18,12 @@ abstract public class BaseAction implements ActionBean {
 	private static final String API_VERSION = "1.0.1";
 	private static String longVersionCache;
 
+	@Getter
+	@Setter
 	private ActionBeanContext context;
+	@Getter
+	@Setter
 	private String longVersion;
-
-	public String getLongVersion() {
-		return longVersion;
-	}
-
-	public void setLongVersion(String longVersion) {
-		this.longVersion = longVersion;
-	}
-
-	@Override
-	public ActionBeanContext getContext() {
-		return context;
-	}
-
-	@Override
-	public void setContext(ActionBeanContext context) {
-		this.context = context;
-	}
 
 	@Before
 	public void retrieveVersion() {

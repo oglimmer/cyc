@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -32,80 +34,32 @@ public class PortalActionBean extends BaseAction {
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
 
+	@Getter
+	@Setter
 	private String company;
+	@Getter
+	@Setter
 	private String output;
+	@Getter
+	@Setter
 	private Date lastRun;
 
+	@Getter
+	@Setter
 	private String nextRun;
+	@Getter
+	@Setter
 	private int totalRuns;
+	@Getter
+	@Setter
 	private String lastWinner;
 
+	@Getter
+	@Setter
 	private boolean fullRun;
+	@Getter
+	@Setter
 	private boolean openSource;
-
-	public String getCompany() {
-		return company;
-	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	public String getOutput() {
-		return output;
-	}
-
-	public void setOutput(String output) {
-		this.output = output;
-	}
-
-	public String getNextRun() {
-		return nextRun;
-	}
-
-	public void setNextRun(String nextRun) {
-		this.nextRun = nextRun;
-	}
-
-	public int getTotalRuns() {
-		return totalRuns;
-	}
-
-	public void setTotalRuns(int totalRuns) {
-		this.totalRuns = totalRuns;
-	}
-
-	public String getLastWinner() {
-		return lastWinner;
-	}
-
-	public void setLastWinner(String lastWinner) {
-		this.lastWinner = lastWinner;
-	}
-
-	public Date getLastRun() {
-		return lastRun;
-	}
-
-	public void setLastRun(Date lastRun) {
-		this.lastRun = lastRun;
-	}
-
-	public boolean isFullRun() {
-		return fullRun;
-	}
-
-	public void setFullRun(boolean fullRun) {
-		this.fullRun = fullRun;
-	}
-
-	public boolean isOpenSource() {
-		return openSource;
-	}
-
-	public void setOpenSource(boolean openSource) {
-		this.openSource = openSource;
-	}
 
 	@Before
 	public void getNextRunFromGameEngine() {

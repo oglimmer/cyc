@@ -1,12 +1,15 @@
 package de.oglimmer.cyc.web.actions;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
@@ -22,15 +25,9 @@ public class TutorialActionBean extends BaseAction {
 
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
+	@Getter
+	@Setter
 	private String output;
-
-	public String getOutput() {
-		return output;
-	}
-
-	public void setOutput(String output) {
-		this.output = output;
-	}
 
 	@DefaultHandler
 	public Resolution show() {

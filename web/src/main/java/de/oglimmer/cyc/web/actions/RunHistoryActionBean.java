@@ -2,6 +2,8 @@ package de.oglimmer.cyc.web.actions;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -19,15 +21,9 @@ public class RunHistoryActionBean extends BaseAction {
 
 	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
 
+	@Getter
+	@Setter
 	private List<GameRun> runHistory;
-
-	public void setRunHistory(List<GameRun> runHistory) {
-		this.runHistory = runHistory;
-	}
-
-	public List<GameRun> getRunHistory() {
-		return runHistory;
-	}
 
 	@Before
 	public void loadRunHistory() {

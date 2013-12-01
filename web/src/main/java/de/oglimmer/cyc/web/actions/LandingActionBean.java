@@ -2,6 +2,8 @@ package de.oglimmer.cyc.web.actions;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
@@ -29,26 +31,14 @@ public class LandingActionBean extends BaseAction {
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String username;
 
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String password;
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	@ValidationMethod
 	public void validateUser(ValidationErrors errors) {

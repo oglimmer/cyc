@@ -18,20 +18,26 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public enum GameExecutor {
 	INSTANCE;
-
-	private static Logger log = LoggerFactory.getLogger(GameExecutor.class);
 
 	private static final int RUN_EVERY_MINUTES = 15;
 
 	private boolean running;
+	
+	@Getter
 	private Date nextRun = new Date();
+	
 	private Runner runner = new Runner();
+	
 	private Thread thread;
+	
+	@Setter
 	private String rootPath;
 
 	private GameExecutor() {
@@ -44,14 +50,6 @@ public enum GameExecutor {
 		thread = new Thread(runner);
 		thread.start();
 
-	}
-
-	public void setRootPath(String rootPath) {
-		this.rootPath = rootPath;
-	}
-
-	public Date getNextRun() {
-		return nextRun;
 	}
 
 	public void stop() {

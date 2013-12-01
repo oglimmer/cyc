@@ -2,6 +2,8 @@ package de.oglimmer.cyc.web.actions;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -27,45 +29,21 @@ public class RegisterActionBean extends BaseAction {
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String username;
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String password;
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String password2;
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String email;
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword2() {
-		return password2;
-	}
-
-	public void setPassword2(String password2) {
-		this.password2 = password2;
-	}
 
 	@DefaultHandler
 	@DontValidate

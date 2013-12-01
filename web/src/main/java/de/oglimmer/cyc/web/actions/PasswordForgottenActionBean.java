@@ -2,6 +2,8 @@ package de.oglimmer.cyc.web.actions;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -35,15 +37,9 @@ public class PasswordForgottenActionBean extends BaseAction {
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
 	@Validate(required = true)
+	@Getter
+	@Setter
 	private String email;
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 	@DefaultHandler
 	@DontValidate

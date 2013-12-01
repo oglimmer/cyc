@@ -2,6 +2,8 @@ package de.oglimmer.cyc.web.actions;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -20,24 +22,12 @@ public class ShowCodeActionBean extends BaseAction {
 
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
+	@Getter
+	@Setter
 	private String companyCode;
+	@Getter
+	@Setter
 	private String companyName;
-
-	public String getCompanyCode() {
-		return companyCode;
-	}
-
-	public void setCompanyCode(String companyCode) {
-		this.companyCode = companyCode;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
 
 	@Before(on = { "show" })
 	public void loadFromDb() {
