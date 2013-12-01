@@ -11,8 +11,11 @@ public class EvaluatorTest {
 
 	@Test
 	public void foodPriceChangeTest() throws EvaluationException {
-		Constants.INSTACE.getFoodPriceChange(5);
-		Assert.assertTrue(true);
+		for (int i = 0; i < 5000; i++) {
+			double b = i / 100;
+			double np = Constants.INSTACE.getFoodPriceChange(b);
+			Assert.assertTrue("np=" + np, np >= b * 0.98 && np <= b * 1.02);
+		}
 	}
 
 	@Test

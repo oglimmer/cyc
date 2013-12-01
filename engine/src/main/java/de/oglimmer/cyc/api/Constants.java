@@ -10,19 +10,25 @@ import net.sourceforge.jeval.Evaluator;
 import de.oglimmer.cyc.api.Grocer.BulkOrderDiscount;
 import de.oglimmer.cyc.util.EvalSignumFunction;
 
+/**
+ * CLASS IS NOT THREAD SAFE!!!
+ * 
+ * @author oli
+ */
 public enum Constants {
 	INSTACE;
 
 	private Properties prop = new Properties();
+	private Evaluator e;
 
 	@SneakyThrows(value = IOException.class)
 	private Constants() {
 		prop.load(Constants.class.getResourceAsStream("/cyc-engine.properties"));
+		e = new Evaluator(EvaluationConstants.SINGLE_QUOTE, false, true, false, true);
+		e.putFunction(new EvalSignumFunction());
 	}
 
 	private Evaluator getEval() {
-		Evaluator e = new Evaluator(EvaluationConstants.SINGLE_QUOTE, false, true, false, true);
-		e.putFunction(new EvalSignumFunction());
 		return e;
 	}
 
@@ -87,7 +93,7 @@ public enum Constants {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("foodPriceChange"));
 		eval.putVariable("currentPrice", Double.toString(currentPrice));
-		return (int) (Double.parseDouble(eval.evaluate()));
+		return Double.parseDouble(eval.evaluate());
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
