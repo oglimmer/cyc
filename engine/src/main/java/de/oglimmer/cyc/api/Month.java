@@ -4,16 +4,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.WrappedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.oglimmer.cyc.api.ApplicationProfile.Offer;
 
+@Slf4j
 public class Month {
-
-	private Logger log = LoggerFactory.getLogger(Month.class);
 
 	private Game game;
 	private Day day;

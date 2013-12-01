@@ -1,13 +1,12 @@
 package de.oglimmer.cyc.api;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.WrappedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class Year {
-
-	private Logger log = LoggerFactory.getLogger(Year.class);
 
 	private Month month;
 	private Game game;
@@ -58,8 +57,9 @@ public class Year {
 		for (Company company : game.getCompanies()) {
 			if (!company.isBankrupt()) {
 				try {
-					log.debug("Company {} paid the initial bank credit $55,000", company.getName());
-					company.decCash(55_000);
+					log.debug("Company {} paid the initial bank credit ${}", company.getName(),
+							Constants.INSTACE.getCreditPayback());
+					company.decCash(Constants.INSTACE.getCreditPayback());
 				} catch (OutOfMoneyException e) {
 					log.debug("Company [] is bankrupt", e.getCompany());
 				}

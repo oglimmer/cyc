@@ -5,14 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Grocer {
-	private Logger log = LoggerFactory.getLogger(Grocer.class);
 
 	private Map<Food, Double> currentPrices = new HashMap<>();
 
+	@Getter(AccessLevel.PACKAGE)
 	private List<FoodOrder> foodOrders = new ArrayList<>();
 
 	private Game game;
@@ -27,18 +31,12 @@ public class Grocer {
 	public double getPrice(String food, int units) {
 		log.debug("Current price for {} is ${} per unit", food, currentPrices.get(Food.valueOf(food)));
 		double basePrice = units * currentPrices.get(Food.valueOf(food));
-		if (units > 10) {
-			basePrice *= 0.99;
-		} else if (units > 100) {
-			basePrice *= 0.95;
-		} else if (units > 500) {
-			basePrice *= 0.90;
-		} else if (units > 1000) {
-			basePrice *= 0.85;
-		} else if (units > 5000) {
-			basePrice *= 0.80;
-		} else if (units > 10000) {
-			basePrice *= 0.70;
+		BulkOrderDiscount[] bulkOrderDiscounts = Constants.INSTACE.getBulkOrderDiscounts();
+		for (BulkOrderDiscount bod : bulkOrderDiscounts) {
+			if (units >= bod.getStartingAmount()) {
+				basePrice *= bod.getDiscount();
+				break;
+			}
 		}
 		return basePrice;
 	}
@@ -59,19 +57,13 @@ public class Grocer {
 		}
 	}
 
-	List<FoodOrder> getFoodOrders() {
-		return foodOrders;
-	}
-
 	void initDay() {
 		for (Food f : Food.values()) {
-			int ud = Math.random() > 0.5 ? 1 : -1;
-			double change = Math.random() / 50;
-			change *= ud;
-			currentPrices.put(f, currentPrices.get(f) + currentPrices.get(f) * change);
+			currentPrices.put(f, Constants.INSTACE.getFoodPriceChange(currentPrices.get(f)));
 		}
 	}
 
+	@Data
 	class FoodOrder {
 		private Company company;
 		private Food food;
@@ -85,36 +77,14 @@ public class Grocer {
 			this.days = days;
 		}
 
-		public Company getCompany() {
-			return company;
-		}
-
-		public void setCompany(Company company) {
-			this.company = company;
-		}
-
-		public Food getFood() {
-			return food;
-		}
-
-		public void setFood(Food food) {
-			this.food = food;
-		}
-
-		public int getUnits() {
-			return units;
-		}
-
-		public void setUnits(int units) {
-			this.units = units;
-		}
-
-		public int getDays() {
-			return days;
-		}
-
 		void decDays() {
 			this.days--;
 		}
+	}
+
+	@Value
+	static class BulkOrderDiscount {
+		private int startingAmount;
+		private double discount;
 	}
 }

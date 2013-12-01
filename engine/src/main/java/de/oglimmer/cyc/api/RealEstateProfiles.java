@@ -13,21 +13,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class RealEstateProfiles implements Iterable<RealEstateProfile>, Container<RealEstateProfile> {
-
-	private static Logger log = LoggerFactory.getLogger(RealEstateProfiles.class);
 
 	private List<RealEstateProfile> profiles = new ArrayList<>();
 
 	public RealEstateProfiles(List<String> cities, int noCompanies) {
 		for (int i = 0; i < noCompanies; i++) {
-			int locationQuality = (int) (Math.random() * 10) + 1;
-			int locationSize = (int) (Math.random() * 225) + 25;
-			int salePrice = (int) (Math.random() * locationQuality * 800) * locationSize;
-			int leaseCosts = (int) ((Math.random() * locationQuality * 8) + 1) * locationSize;
+			int locationQuality = Constants.INSTACE.getLocationQuality();
+			int locationSize = Constants.INSTACE.getLocationSize();
+			int salePrice = Constants.INSTACE.getSalePrice(locationQuality, locationSize);
+			int leaseCosts = Constants.INSTACE.getLeaseCosts(locationQuality, locationSize);
 			profiles.add(new RealEstateProfile(cities.get((int) (Math.random() * cities.size())), salePrice,
 					leaseCosts, locationQuality, locationSize));
 		}

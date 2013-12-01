@@ -3,20 +3,19 @@ package de.oglimmer.cyc.api;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class OpeningHours {
 
-	private Logger log = LoggerFactory.getLogger(OpeningHours.class);
 	private Game game;
 	private int baseGuests;
 	private int rndGuests;
 
 	public OpeningHours(Game game) {
 		this.game = game;
-		baseGuests = (int) (Math.random() * 30 + 35);
-		rndGuests = (int) (Math.random() * 50 + 75);
+		baseGuests = Constants.INSTACE.getBaseGuests();
+		rndGuests = Constants.INSTACE.getRndGuests();
 		log.debug("Game uses rnd*numberOfCompanies*{}+{}", rndGuests, baseGuests);
 	}
 

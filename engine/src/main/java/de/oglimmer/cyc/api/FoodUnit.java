@@ -3,10 +3,15 @@ package de.oglimmer.cyc.api;
 import java.util.Comparator;
 import java.util.Set;
 
+import lombok.Getter;
+
 public class FoodUnit {
 
+	@Getter
 	private int units;
+	@Getter
 	private Food food;
+	@Getter
 	private int pullDate;
 
 	public FoodUnit(Food food, int units) {
@@ -19,18 +24,6 @@ public class FoodUnit {
 		this.food = food;
 		this.units = units;
 		this.pullDate = pullDate;
-	}
-
-	public int getUnits() {
-		return units;
-	}
-
-	public Food getFood() {
-		return food;
-	}
-
-	public int getPullDate() {
-		return pullDate;
 	}
 
 	private void decUnits() {

@@ -5,13 +5,16 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.cloudbees.util.rhino.sandbox.SandboxContextFactory;
 import com.cloudbees.util.rhino.sandbox.SandboxNativeJavaObject;
@@ -21,72 +24,40 @@ import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
 import de.oglimmer.cyc.model.GameRun;
 
+@Slf4j
 public class Game {
 
 	static {
 		ContextFactory.initGlobal(new SandboxContextFactory());
 	}
-
-	private Logger log = LoggerFactory.getLogger(Game.class);
-
+	@Getter(AccessLevel.PACKAGE)
 	private Grocer grocer = new Grocer(this);
 
+	@Getter(AccessLevel.PACKAGE)
 	private Collection<Company> companies = new ArrayList<>();
 
+	@Getter(AccessLevel.PACKAGE)
 	private GameResult result = new GameResult();
+	@Getter(AccessLevel.PACKAGE)
 	private GameRun gameRun = new GameRun();
 
+	@Getter(AccessLevel.PACKAGE)
 	private List<String> cities = new ArrayList<>();
 
+	@Getter(AccessLevel.PACKAGE)
 	private final int totalYear;
+	@Getter(AccessLevel.PACKAGE)
 	private final int totalMonth;
+	@Getter(AccessLevel.PACKAGE)
 	private final int totalDay;
+	@Getter(AccessLevel.PACKAGE)
+	@Setter(AccessLevel.PACKAGE)
 	private int currentDay;
 
 	public Game(int totalYear, int totalMonth, int totalDay) {
 		this.totalYear = totalYear;
 		this.totalMonth = totalMonth;
 		this.totalDay = totalDay;
-	}
-
-	GameResult getResult() {
-		return result;
-	}
-
-	Collection<Company> getCompanies() {
-		return companies;
-	}
-
-	Grocer getGrocer() {
-		return grocer;
-	}
-
-	GameRun getGameRun() {
-		return gameRun;
-	}
-
-	List<String> getCities() {
-		return cities;
-	}
-
-	int getTotalYear() {
-		return totalYear;
-	}
-
-	int getTotalMonth() {
-		return totalMonth;
-	}
-
-	int getTotalDay() {
-		return totalDay;
-	}
-
-	void setCurrentDay(int currentDay) {
-		this.currentDay = currentDay;
-	}
-
-	int getCurrentDay() {
-		return currentDay;
 	}
 
 	public GameRun executeGame(List<String[]> userList, boolean writeGameResult) {

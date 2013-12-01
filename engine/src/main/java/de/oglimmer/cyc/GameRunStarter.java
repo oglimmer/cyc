@@ -11,9 +11,7 @@ import java.util.Map;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.extern.slf4j.Slf4j;
 import de.oglimmer.cyc.api.Game;
 import de.oglimmer.cyc.api.GroovyInitializer;
 import de.oglimmer.cyc.dao.GameRunDao;
@@ -24,9 +22,8 @@ import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 
+@Slf4j
 public class GameRunStarter {
-
-	private static Logger log = LoggerFactory.getLogger(GameRunStarter.class);
 
 	private static final int ROUNDS_TO_BE_EXCLUDED = 10;
 

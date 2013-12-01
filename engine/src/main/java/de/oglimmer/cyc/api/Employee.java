@@ -1,14 +1,24 @@
 package de.oglimmer.cyc.api;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Employee {
 
+	@Getter
 	private String name;
 
+	@Getter
 	private int qualification;
+
+	@Getter
 	private JobPosition jobPosition;
 
+	@Getter
 	private int salary;
 
+	@Getter
+	@Setter
 	private Establishment establishment;
 
 	public Employee(String name, Establishment est, int qualification, JobPosition jobPosition, int salary) {
@@ -18,30 +28,6 @@ public class Employee {
 		this.jobPosition = jobPosition;
 		this.salary = salary;
 		this.establishment = est;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public int getQualification() {
-		return qualification;
-	}
-
-	public JobPosition getJobPosition() {
-		return jobPosition;
-	}
-
-	public int getSalary() {
-		return salary;
-	}
-
-	public Establishment getEstablishment() {
-		return establishment;
-	}
-
-	public void setEstablishment(Establishment establishment) {
-		this.establishment = establishment;
 	}
 
 	@Override

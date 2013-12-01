@@ -13,33 +13,27 @@ import de.oglimmer.cyc.api.ApplicationProfile.Offer;
 
 public class ApplicationProfiles implements Iterable<ApplicationProfile>, Container<ApplicationProfile> {
 
-	private String[] surnames = { "Smith", "Jones", "Taylor", "Brown", "Williams", "Wilson", "Johnson", "Davies",
-			"Robinson", "Wright", "Thompson", "Evans", "Walker", "White", "Roberts", "Green", "Hall", "Wood",
-			"Jackson", "Clarke" };
-
-	private String[] forenames = { "Jacob", "Oliver", "Riley", "Jack", "Alfie", "Harry", "Charlie", "Dylan", "William",
-			"Mason", "Amelia", "Ava", "Mia", "Lily", "Olivia", "Ruby", "Seren", "Evie", "Ella", "Grace", "Emily" };
-
 	private List<ApplicationProfile> profiles;
 
 	public ApplicationProfiles(int noCompanies) {
 		profiles = new ArrayList<>();
-		createApplications(noCompanies * 2, noCompanies, JobPosition.CHEF);
-		createApplications(noCompanies * 2, noCompanies, JobPosition.WAITER);
-		createApplications(noCompanies, 0, JobPosition.MANAGER);
+		createApplications(noCompanies, JobPosition.CHEF);
+		createApplications(noCompanies, JobPosition.WAITER);
+		createApplications(noCompanies, JobPosition.MANAGER);
 	}
 
 	private ApplicationProfiles(List<ApplicationProfile> profiles) {
 		this.profiles = profiles;
 	}
 
-	private void createApplications(int m, int n, JobPosition jp) {
-		int count = (int) (Math.random() * m + n);
+	private void createApplications(int noCompanies, JobPosition jp) {
+		Constants consts = Constants.INSTACE;
+		int count = consts.getNumberApplicationProfiles(jp.toString(), noCompanies);
 		for (int i = 0; i < count; i++) {
-			int quali = (int) (Math.random() * 10) + 1;
-			int salary = (int) (Math.random() * 1000 * quali) + 200 * quali;
-			ApplicationProfile p = new ApplicationProfile(surnames[(int) (surnames.length * Math.random())] + ", "
-					+ forenames[(int) (forenames.length * Math.random())], quali, jp, salary);
+			int quali = consts.getQualification();
+			int salary = consts.getSalary(quali);
+			ApplicationProfile p = new ApplicationProfile(consts.getEmployeesFirstname() + ", "
+					+ consts.getEmployeesLastname(), quali, jp, salary);
 			profiles.add(p);
 		}
 	}

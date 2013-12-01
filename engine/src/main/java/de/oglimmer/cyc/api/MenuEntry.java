@@ -6,10 +6,19 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class MenuEntry {
+
+	@Getter
 	private String name;
-	private List<Food> ingredients = new ArrayList<>();
+
+	@Getter
+	@Setter
 	private int price;
+
+	private List<Food> ingredients = new ArrayList<>();
 
 	public MenuEntry(String name, String[] ingredients, int price) {
 		this.name = name;
@@ -17,10 +26,6 @@ public class MenuEntry {
 		for (String i : ingredients) {
 			this.ingredients.add(Food.valueOf(i));
 		}
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public List<Food> getIngredients() {
@@ -38,14 +43,6 @@ public class MenuEntry {
 				it.remove();
 			}
 		}
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
 	}
 
 	/**

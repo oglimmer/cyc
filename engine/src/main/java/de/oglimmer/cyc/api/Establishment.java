@@ -7,27 +7,29 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import de.oglimmer.cyc.util.CountMap;
 
+@Slf4j
 public class Establishment {
-
-	private Logger log = LoggerFactory.getLogger(Establishment.class);
 
 	private static CountMap<String> cityNames = new CountMap<>();
 
+	@Getter(AccessLevel.PACKAGE)
 	private Company parent;
-
+	@Getter
 	private String address;
-
+	@Getter
 	private boolean rented;
-
+	@Getter
 	private int salePrice;
+	@Getter
 	private int leaseCost;
-
+	@Getter
 	private int locationQuality;
+	@Getter
 	private int locationSize; // 25..250
 
 	private List<InteriorAccessory> interiorAccessories = new ArrayList<>();
@@ -46,30 +48,6 @@ public class Establishment {
 
 	int getScore() {
 		return EstablishmentRule.INSTACE.getScore(this, log);
-	}
-
-	public boolean isRented() {
-		return rented;
-	}
-
-	public int getLeaseCost() {
-		return leaseCost;
-	}
-
-	public int getLocationQuality() {
-		return locationQuality;
-	}
-
-	public int getLocationSize() {
-		return locationSize;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public int getSalePrice() {
-		return salePrice;
 	}
 
 	public void sell() {
@@ -95,7 +73,7 @@ public class Establishment {
 
 	public void sellInteriorAccessories() {
 		for (InteriorAccessory ia : interiorAccessories) {
-			int cost = (int) (ia.getAssetCost() * 0.9);
+			int cost = (int) (ia.getAssetCost() * Constants.INSTACE.getSellFactorInteriorAccessories());
 			parent.incCash(cost);
 			parent.getGame().getResult().get(parent.getName()).addTotalInterior(-cost);
 		}
@@ -195,10 +173,6 @@ public class Establishment {
 			}
 		}
 		return subList;
-	}
-
-	Company getParent() {
-		return parent;
 	}
 
 	@Override

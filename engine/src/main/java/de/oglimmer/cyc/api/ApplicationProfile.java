@@ -3,16 +3,25 @@ package de.oglimmer.cyc.api;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.Value;
 
 public class ApplicationProfile {
 
+	@Getter
 	private String name;
 
+	@Getter
 	private int qualification;
+
+	@Getter
 	private JobPosition jobPosition;
 
+	@Getter
 	private int desiredSalary;
+
+	@Getter(AccessLevel.PACKAGE)
 	private Map<Company, Offer> offeredSalary;
 
 	public ApplicationProfile(String name, int qualification, JobPosition jobPosition, int desiredSalary) {
@@ -21,11 +30,7 @@ public class ApplicationProfile {
 		this.qualification = qualification;
 		this.jobPosition = jobPosition;
 		this.desiredSalary = desiredSalary;
-		init();
-	}
-
-	void init() {
-		offeredSalary = new HashMap<>();
+		this.offeredSalary = new HashMap<>();
 	}
 
 	public void offer(Establishment est) {
@@ -36,26 +41,6 @@ public class ApplicationProfile {
 		Company company = ThreadLocal.getCompany();
 		assert est.getParent() == company;
 		this.offeredSalary.put(company, new Offer(est, salary));
-	}
-
-	Map<Company, Offer> getOfferedSalary() {
-		return offeredSalary;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public int getQualification() {
-		return qualification;
-	}
-
-	public JobPosition getJobPosition() {
-		return jobPosition;
-	}
-
-	public int getDesiredSalary() {
-		return desiredSalary;
 	}
 
 	@Override

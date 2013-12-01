@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Company {
-	private Logger log = LoggerFactory.getLogger(Company.class);
-
-	private Game game;
-
-	private String name;
 
 	public Runnable launch;
 	public Runnable doDaily;
@@ -21,33 +18,31 @@ public class Company {
 	public CallbackFunction realEstateAgent;
 	public CallbackFunction foodDelivery;
 
+	@Getter(AccessLevel.PACKAGE)
+	private Game game;
+
+	@Getter
+	private String name;
+
+	@Getter
 	private int cash;
 
-	private List<Establishment> establishments = new ArrayList<>();
-
+	@Getter
 	private HumanResources humanResources = new HumanResources();
 
+	@Getter
 	private Grocer grocer;
 
+	@Getter
 	private Menu menu = new Menu();
+
+	private List<Establishment> establishments = new ArrayList<>();
 
 	public Company(Game game, String name, Grocer grocer) {
 		this.game = game;
 		this.name = name;
-		this.cash = 50_000;
+		this.cash = Constants.INSTACE.getStartCredit();
 		this.grocer = grocer;
-	}
-
-	public HumanResources getHumanResources() {
-		return humanResources;
-	}
-
-	public int getCash() {
-		return cash;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	void incCash(int change) {
@@ -78,16 +73,8 @@ public class Company {
 		return establishments;
 	}
 
-	public Grocer getGrocer() {
-		return grocer;
-	}
-
 	boolean isBankrupt() {
 		return cash == -1;
-	}
-
-	public Menu getMenu() {
-		return menu;
 	}
 
 	@Override
@@ -106,7 +93,4 @@ public class Company {
 		cash = -1;
 	}
 
-	Game getGame() {
-		return game;
-	}
 }

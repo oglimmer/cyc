@@ -3,17 +3,30 @@ package de.oglimmer.cyc.api;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 public class RealEstateProfile {
 
+	@Getter
 	private String city;
 
+	@Getter
 	private int salePrice;
+
+	@Getter
 	private int leaseCost;
 
+	@Getter
 	private int locationQuality;
+
+	@Getter
 	private int locationSize;
 
+	@Getter(AccessLevel.PACKAGE)
 	private Map<Company, Map<String, Integer>> offers;
+
+	@Getter(AccessLevel.PACKAGE)
 	private Map<Company, Integer> bribes;
 
 	public RealEstateProfile(String city, int salePrice, int leaseCosts, int locationQuality, int locationSize) {
@@ -22,12 +35,8 @@ public class RealEstateProfile {
 		this.leaseCost = leaseCosts;
 		this.locationQuality = locationQuality;
 		this.locationSize = locationSize;
-		init();
-	}
-
-	void init() {
-		offers = new HashMap<>();
-		bribes = new HashMap<>();
+		this.offers = new HashMap<>();
+		this.bribes = new HashMap<>();
 	}
 
 	public void tryLease(int bribe) {
@@ -42,34 +51,6 @@ public class RealEstateProfile {
 		map.put("buy", 1);
 		map.put("bribe", bribe);
 		offers.put(ThreadLocal.getCompany(), map);
-	}
-
-	Map<Company, Map<String, Integer>> getOffers() {
-		return offers;
-	}
-
-	Map<Company, Integer> getBribes() {
-		return bribes;
-	}
-
-	public int getSalePrice() {
-		return salePrice;
-	}
-
-	public int getLocationQuality() {
-		return locationQuality;
-	}
-
-	public int getLeaseCost() {
-		return leaseCost;
-	}
-
-	public int getLocationSize() {
-		return locationSize;
-	}
-
-	public String getCity() {
-		return city;
 	}
 
 	@Override
