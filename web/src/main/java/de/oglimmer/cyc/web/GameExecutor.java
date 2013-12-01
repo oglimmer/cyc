@@ -133,7 +133,7 @@ public enum GameExecutor {
 		// buff.append(" -Xdebug");
 		// buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
 
-		buff.append(" -jar " + home + "/engine-container-0.1-SNAPSHOT-jar-with-dependencies.jar");
+		buff.append(" -jar " + home + "/engine-container-jar-with-dependencies.jar");
 
 		Collection<String> commandLineCol = new ArrayList<>();
 		commandLineCol.add("sh");
