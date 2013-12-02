@@ -4,16 +4,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.WrappedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.oglimmer.cyc.api.Grocer.FoodOrder;
 
+@Slf4j
 public class Day {
-
-	private Logger log = LoggerFactory.getLogger(Day.class);
 
 	private Game game;
 	private OpeningHours openingHours;
@@ -54,9 +53,8 @@ public class Day {
 				for (Employee e : c.getHumanResources().getEmployeesInt()) {
 					playerResult.addStaffByDays(e.getJobPosition().toString());
 				}
-				log.debug("{} at day {} => est={}, staff={} ", c.getName(), game.getCurrentDay(),
-						game.getResult().get(c.getName()).getEstablishmentsByDays(), game.getResult().get(c.getName())
-								.getStaffByDays());
+				log.debug("{} at day {} => est={}, staff={} ", c.getName(), game.getCurrentDay(), game.getResult().get(c.getName())
+						.getEstablishmentsByDays(), game.getResult().get(c.getName()).getStaffByDays());
 			} else {
 				log.debug("{} is bankrupt...", c.getName());
 			}
@@ -78,8 +76,7 @@ public class Day {
 					}
 				} catch (EcmaError e) {
 					game.getResult().addError(e);
-					log.error("Failed to call the company.doWeekly handler. Player " + company.getName() + " bankrupt",
-							e);
+					log.error("Failed to call the company.doWeekly handler. Player " + company.getName() + " bankrupt", e);
 					company.setBankruptFromError(e);
 				}
 			}
@@ -102,8 +99,7 @@ public class Day {
 					}
 				} catch (EcmaError e) {
 					game.getResult().addError(e);
-					log.error("Failed to call the company.doDaily handler. Player " + company.getName() + " bankrupt",
-							e);
+					log.error("Failed to call the company.doDaily handler. Player " + company.getName() + " bankrupt", e);
 					company.setBankruptFromError(e);
 				}
 			}
@@ -125,10 +121,9 @@ public class Day {
 						fu.decPullDate();
 						if (fu.getPullDate() == 0) {
 							it.remove();
-							log.debug("Removed a rotten food-unit of {} for {} with {} in {}", fu.getFood(),
-									c.getName(), fu.getUnits(), est.getAddress());
-							game.getResult().get(c.getName()).getTotalRottenFood()
-									.add(fu.getFood().toString(), fu.getUnits());
+							log.debug("Removed a rotten food-unit of {} for {} with {} in {}", fu.getFood(), c.getName(), fu.getUnits(),
+									est.getAddress());
+							game.getResult().get(c.getName()).getTotalRottenFood().add(fu.getFood().toString(), fu.getUnits());
 						}
 					}
 				}

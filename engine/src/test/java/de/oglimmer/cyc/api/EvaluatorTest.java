@@ -92,6 +92,7 @@ public class EvaluatorTest {
 			int val = Constants.INSTACE.getQualification();
 			if (min > val) {
 				min = val;
+
 			}
 			if (max < val) {
 				max = val;
@@ -148,8 +149,8 @@ public class EvaluatorTest {
 				max = val;
 			}
 		}
-		Assert.assertTrue(min >= 0);
-		Assert.assertTrue(max <= 20000);
+		Assert.assertTrue(min >= 1250);
+		Assert.assertTrue(max <= 2499);
 		System.out.println("rangeTestSalePriceLow=" + min + " -> " + max);
 	}
 
@@ -157,7 +158,7 @@ public class EvaluatorTest {
 	public void rangeTestSalePriceHigh() {
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getSalePrice(10, 249);
+			int val = Constants.INSTACE.getSalePrice(10, 250);
 			if (min > val) {
 				min = val;
 			}
@@ -165,8 +166,8 @@ public class EvaluatorTest {
 				max = val;
 			}
 		}
-		Assert.assertTrue(min >= 0);
-		Assert.assertTrue(max <= 2_000_000);
+		Assert.assertTrue(min >= 125000);
+		Assert.assertTrue(max <= 250000);
 		System.out.println("rangeTestSalePriceHigh=" + min + " -> " + max);
 	}
 
@@ -182,8 +183,8 @@ public class EvaluatorTest {
 				max = val;
 			}
 		}
-		Assert.assertTrue(min >= 25);
-		Assert.assertTrue(max <= 224);
+		Assert.assertTrue("min<" + min, min >= 250);
+		Assert.assertTrue("max>" + max, max <= 374);
 		System.out.println("rangeTestLeaseCostsLow=" + min + " -> " + max);
 	}
 
@@ -191,7 +192,7 @@ public class EvaluatorTest {
 	public void rangeTestLeaseCostsHigh() {
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getLeaseCosts(10, 249);
+			int val = Constants.INSTACE.getLeaseCosts(10, 250);
 			if (min > val) {
 				min = val;
 			}
@@ -199,8 +200,8 @@ public class EvaluatorTest {
 				max = val;
 			}
 		}
-		Assert.assertTrue(min >= 250);
-		Assert.assertTrue(max <= 20_250);
+		Assert.assertTrue(min >= 25000);
+		Assert.assertTrue(max <= 37500);
 		System.out.println("rangeTestLeaseCostsHigh=" + min + " -> " + max);
 	}
 }
