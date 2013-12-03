@@ -9,6 +9,14 @@ function RealEstateProfiles() {
 }
 
 /**
+ * The number of cities in this game. The more competing players, the more cities.
+ * 
+ * @property numberCities
+ * @type {Number}
+ */
+RealEstateProfiles.prototype.numberCities;
+
+/**
 * Java-like iterator to loop over all RealEstateProfiles within this presentation.
 *
 * @method iterator

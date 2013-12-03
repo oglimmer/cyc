@@ -51,14 +51,6 @@ RealEstateProfile.prototype.locationQuality;
 RealEstateProfile.prototype.locationSize;
 
 /**
- * The number of cities in this game. The more competing players, the more cities.
- * 
- * @property numberCities
- * @type {Number}
- */
-RealEstateProfile.prototype.numberCities;
-
-/**
 * Let you try to lease the property. If there are competing offerings you might not get it.
 *
 * @method tryLease
