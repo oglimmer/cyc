@@ -10,6 +10,8 @@ where:
     -c  engine-container: deploys the engine-container
     -e  engine: deploys the engine file with a new version"
 
+cd ${0%/*}
+
 if [ -z "$CYC_WEBAPPS" ]; then
   CYC_WEBAPPS=/var/lib/tomcat/webapps
 fi
