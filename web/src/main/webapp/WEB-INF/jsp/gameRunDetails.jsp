@@ -90,6 +90,8 @@
 				
 				<c:forEach items="${actionBean.result.playerResults}" var="entry">
 					<c:set var="expenses" value="${5000+entry.value.totalOnRent+entry.value.salariesTotal+entry.value.purchasedFoodCostsTotal+entry.value.totalBribe+entry.value.totalInterior }"/>
+					<c:set var="daysInPlay" value="${actionBean.result.totalDays<entry.value.bankruptOnDay||entry.value.bankruptOnDay==0?actionBean.result.totalDays:entry.value.bankruptOnDay}"/>
+					<fmt:formatNumber var="monthInPlay" value="${daysInPlay/30}" maxFractionDigits="0" />
 					<c:set var="counter" value="0"/>
 					<div>Company: ${entry.key}</div>
 					<table>
@@ -131,7 +133,7 @@
 							<td>Total on renting real estates:</td>
 							<td align="right">
 								<fmt:formatNumber value="${entry.value.totalOnRent}" type="currency"/>
-								/ <fmt:formatNumber value="${entry.value.totalOnRent / actionBean.result.totalDays * 30 }" type="currency"/>
+								/ <fmt:formatNumber value="${entry.value.totalOnRent / monthInPlay }" type="currency"/>
 							</td>
 						</tr>
 						<c:set var="counter" value="${counter + 1}"/>
@@ -152,13 +154,13 @@
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 							<td>Avg restaurants per day:</td>
-							<td align="right"><fmt:formatNumber value="${entry.value.establishmentsByDays / (actionBean.result.totalDays<entry.value.bankruptOnDay||entry.value.bankruptOnDay==0?actionBean.result.totalDays:entry.value.bankruptOnDay) }" type="number"/></td>
+							<td align="right"><fmt:formatNumber value="${entry.value.establishmentsByDays / daysInPlay }" type="number"/></td>
 						</tr>
 						<c:set var="counter" value="${counter + 1}"/>
 						<c:forEach items="${entry.value.staffByDays}" var="entryStaff">
 							<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 								<td>Avg number of ${entryStaff.key}'s per day:</td>								
-								<td align="right"><fmt:formatNumber value="${entryStaff.value/ (actionBean.result.totalDays<entry.value.bankruptOnDay||entry.value.bankruptOnDay==0?actionBean.result.totalDays:entry.value.bankruptOnDay) }" type="number"/></td>
+								<td align="right"><fmt:formatNumber value="${entryStaff.value/ daysInPlay }" type="number"/></td>
 							</tr>
 							<c:set var="counter" value="${counter + 1}"/>
 						</c:forEach>
@@ -167,7 +169,7 @@
 								<td>Total salary for ${entryStaff.key}</td>
 								<td align="right">
 									<fmt:formatNumber value="${entryStaff.value}" type="currency"/>
-									/ <fmt:formatNumber value="${entryStaff.value / actionBean.result.totalDays * 30}" type="currency"/>
+									/ <fmt:formatNumber value="${entryStaff.value /monthInPlay }" type="currency"/>
 								</td>
 							</tr>
 							<c:set var="counter" value="${counter + 1}"/>
@@ -176,21 +178,30 @@
 						<c:forEach items="${entry.value.totalPurchasedFoodUnits}" var="entryUnits">
 							<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 								<td>Total purchased food units of ${entryUnits.key}</td>
-								<td align="right"><fmt:formatNumber value="${entryUnits.value}" type="number"/></td>
+								<td align="right">
+									<fmt:formatNumber value="${entryUnits.value}" type="number"/>
+									/ <fmt:formatNumber value="${entryUnits.value / daysInPlay}" type="number" maxFractionDigits="1"/>
+								</td>
 							</tr>
 							<c:set var="counter" value="${counter + 1}"/>
 						</c:forEach>
 						<c:forEach items="${entry.value.totalPurchasedFoodCosts}" var="entryUnits">
 							<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 								<td>Total purchased food costs for ${entryUnits.key}</td>
-								<td align="right"><fmt:formatNumber value="${entryUnits.value}" type="currency"/></td>
+								<td align="right">
+									<fmt:formatNumber value="${entryUnits.value}" type="currency"/>
+									/ <fmt:formatNumber value="${entryUnits.value / entry.value.totalPurchasedFoodUnits[entryUnits.key]}" type="currency"/>
+								</td>
 							</tr>
 							<c:set var="counter" value="${counter + 1}"/>
 						</c:forEach>
 						<c:forEach items="${entry.value.totalRottenFood}" var="entryUnits">
 							<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 								<td>Total rotten food units of ${entryUnits.key}</td>
-								<td align="right"><fmt:formatNumber value="${entryUnits.value}" type="number"/></td>
+								<td align="right">
+									<fmt:formatNumber value="${entryUnits.value}" type="number"/>
+									/ <fmt:formatNumber value="${entryUnits.value / daysInPlay}" type="number" maxFractionDigits="1" />
+								</td>
 							</tr>
 							<c:set var="counter" value="${counter + 1}"/>
 						</c:forEach>
