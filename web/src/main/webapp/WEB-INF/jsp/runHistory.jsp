@@ -1,6 +1,6 @@
 <%@include file="/WEB-INF/jsp/common/include_taglibs.jsp"%>
 
-<s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
+<s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp" style="width:90%">
   <s:layout-component name="center">
 
 		<div class="centerElement">
@@ -17,8 +17,10 @@
 					<th>Winner</th>
 					<th></th>
 				</tr>
+			<c:set var="counter" value="1"/>
 			<c:forEach items="${actionBean.runHistory}" var="entry">
-				<tr> 
+				<c:set var="counter" value="${counter + 1}"/>
+				<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}"> 
 	 				<td><fmt:formatDate type="both" dateStyle="medium" timeStyle="medium" value="${entry.startTime}" /></td>
 	 				<td>${entry.participants}</td>
 	 				<td>${entry.result.winner}</td>
