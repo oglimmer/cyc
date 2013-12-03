@@ -142,4 +142,12 @@ public enum Constants {
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
 
+	@SneakyThrows(value = EvaluationException.class)
+	public int getNumberCities(int noPlayer) {
+		Evaluator eval = getEval();
+		eval.parse(prop.getProperty("numberCities"));
+		eval.putVariable("noPlayer", Integer.toString(noPlayer));
+		return (int) (Double.parseDouble(eval.evaluate()));
+	}
+
 }

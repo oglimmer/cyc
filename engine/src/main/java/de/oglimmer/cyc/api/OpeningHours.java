@@ -40,7 +40,8 @@ public class OpeningHours {
 	}
 
 	private void processGuests(String city, Map<Integer, Establishment> estList, int totalScore) {
-		int totalGuests = (int) (Math.random() * game.getCompanies().size() * rndGuests) + game.getCompanies().size() * baseGuests;
+		int totalGuests = (int) (((Math.random() * game.getCompanies().size() * rndGuests) + game.getCompanies().size()
+				* baseGuests) / game.getCities().size());
 		log.debug("Guests for today in {}: {}", city, totalGuests);
 		game.getResult().getGuestsTotalPerCity().add(city, totalGuests);
 		while (totalGuests-- > 0) {

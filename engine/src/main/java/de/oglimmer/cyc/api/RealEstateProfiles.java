@@ -13,14 +13,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class RealEstateProfiles implements Iterable<RealEstateProfile>, Container<RealEstateProfile> {
 
 	private List<RealEstateProfile> profiles = new ArrayList<>();
+	@Getter
+	private int numberCities;
 
 	public RealEstateProfiles(List<String> cities, int noCompanies) {
+		this.numberCities = cities.size();
 		for (int i = 0; i < noCompanies; i++) {
 			int locationQuality = Constants.INSTACE.getLocationQuality();
 			int locationSize = Constants.INSTACE.getLocationSize();
@@ -42,7 +46,8 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Containe
 			log.error("Failed to read cities", e);
 		}
 		Collections.shuffle(cities);
-		while (cities.size() != Math.max(1, (int) Math.sqrt(noPlayer))) {
+		int numberOfCities = Constants.INSTACE.getNumberCities(noPlayer);
+		while (cities.size() != numberOfCities) {
 			cities.remove(0);
 		}
 	}
@@ -105,6 +110,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Containe
 		return resultOffering;
 	}
 
+	@Override
 	public RealEstateProfile get(int index) {
 		try {
 			return profiles.get(index);
@@ -169,4 +175,5 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Containe
 			r.run(rep);
 		}
 	}
+
 }
