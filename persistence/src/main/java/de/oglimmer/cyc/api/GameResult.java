@@ -111,7 +111,8 @@ public class GameResult {
 			}
 		}
 		for (String s : base.keySet()) {
-			base.put(s, base.get(s) / max);
+			double val = Math.round(base.get(s) / max * 20) / 20d;
+			base.put(s, val);
 		}
 
 		ValueComparator vc = new ValueComparator(base);
@@ -136,7 +137,8 @@ public class GameResult {
 			}
 		}
 		for (String s : base.keySet()) {
-			base.put(s, base.get(s) / max);
+			double val = Math.round(base.get(s) / max * 20) / 20d;
+			base.put(s, val);
 		}
 
 		ValueComparator vc = new ValueComparator(base);
