@@ -130,7 +130,7 @@ public enum GameExecutor {
 
 		// buff.append(" -Xdebug");
 		// buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
-		buff.append(" -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.port=9997 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false");
+		// buff.append(" -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.port=9997 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false");
 
 		buff.append(" -jar " + home + "/engine-container-jar-with-dependencies.jar");
 
