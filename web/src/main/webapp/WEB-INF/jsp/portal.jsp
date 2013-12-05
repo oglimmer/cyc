@@ -32,7 +32,7 @@
 				<c:if test="${actionBean.fullRun}">
 					<s:submit name="fullRun" value="Start global run" onclick="onSubmitFormFull(this);" />
 				</c:if>		
-				<s:checkbox name="openSource" onchange="onOpenSourceChanged()" /><span style="font-size:0.7em;">Publish my source code</span>		
+				<s:checkbox name="openSource" onchange="onOpenSourceChanged()" /><span style="font-size:0.7em;">Show my source code to the public</span>		
 			</s:form>
 			
 		</div>	
