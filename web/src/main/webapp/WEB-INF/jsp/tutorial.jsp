@@ -15,7 +15,7 @@
 			So it is time to see how to make some money.<br/>
 			<br/>
 			You need to write JavaScript code to run your restaurant. 
-			The only variable you get from the engine is called "company" and is an instance of the class <a href="../apidocs/classes/Campaign.html" target="apidoc">Company</a>.<br/>
+			The only variable you get from the engine is called "company" and is an instance of the class <a href="../apidocs/classes/Company.html" target="apidoc">Company</a>.<br/>
 			<br/>
 			<span style="font-style:italic">All you need to do</span> is implement 7 functions, which are getting called for:
 			<ul>
