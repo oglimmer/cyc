@@ -29,14 +29,14 @@ public enum GameExecutor {
 	private static final int RUN_EVERY_MINUTES = 15;
 
 	private boolean running;
-	
+
 	@Getter
 	private Date nextRun = new Date();
-	
+
 	private Runner runner = new Runner();
-	
+
 	private Thread thread;
-	
+
 	@Setter
 	private String rootPath;
 
@@ -123,13 +123,14 @@ public enum GameExecutor {
 		assert home != null;
 		StringBuilder buff = new StringBuilder();
 		buff.append("java");
-		buff.append(" -Xms2M");
-		buff.append(" -Xmx96M");
+		// buff.append(" -Xms2M");
+		// buff.append(" -Xmx96M");
 		buff.append(" -Dcyc.home=" + home);
 		buff.append(" -Djava.security.policy=" + home + "/security.policy");
 
 		// buff.append(" -Xdebug");
 		// buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
+		buff.append(" -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.port=9997 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false");
 
 		buff.append(" -jar " + home + "/engine-container-jar-with-dependencies.jar");
 
