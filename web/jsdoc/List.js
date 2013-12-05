@@ -1,7 +1,13 @@
 
 /**
-* Container class. Represents a list of other elements.
-*
+* Container class. Represents a list of other elements.<br/>
+* Loop through a list:<br/>
+* <br/>
+* for(var it = theList.iterator() ; it.hasNext() ; ){<br/>
+* &nbsp;&nbsp;var element = it.next();<br/>
+* &nbsp;&nbsp;console.log(element);<br/>
+* }<br/>
+* <br/>
 * @class List
 * @constructor
 */

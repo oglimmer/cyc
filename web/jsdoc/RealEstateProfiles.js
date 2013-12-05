@@ -9,12 +9,12 @@ function RealEstateProfiles() {
 }
 
 /**
- * The number of cities in this game. The more competing players, the more cities.
+ * A list of <a href="DataPair.html">DataPair</a> with name=name of a city and value=total number of restaurants in this city. 
  * 
- * @property numberCities
- * @type {Number}
+ * @property citiesToRestaurants
+ * @type {List}
  */
-RealEstateProfiles.prototype.numberCities;
+RealEstateProfiles.prototype.citiesToRestaurants;
 
 /**
 * Java-like iterator to loop over all RealEstateProfiles within this presentation.

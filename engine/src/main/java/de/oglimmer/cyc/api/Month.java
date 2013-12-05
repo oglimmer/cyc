@@ -162,7 +162,7 @@ public class Month {
 	}
 
 	public void processRealEstateBusiness() {
-		RealEstateProfiles ap = new RealEstateProfiles(game.getCities(), game.getCompanies().size());
+		RealEstateProfiles ap = new RealEstateProfiles(game.getCities(), game.getCompanies());
 		log.debug(ap.toString());
 		boolean pickedOne = true;
 		while (ap.iterator().hasNext() && pickedOne) {

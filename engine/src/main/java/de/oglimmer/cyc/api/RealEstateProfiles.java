@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,19 +14,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import de.oglimmer.cyc.util.CountMap;
 
 @Slf4j
 public class RealEstateProfiles implements Iterable<RealEstateProfile>, Container<RealEstateProfile> {
 
 	private List<RealEstateProfile> profiles = new ArrayList<>();
-	@Getter
-	private int numberCities;
 
-	public RealEstateProfiles(List<String> cities, int noCompanies) {
-		this.numberCities = cities.size();
-		for (int i = 0; i < noCompanies; i++) {
+	private List<DataPair> citiesToRestaurants = new ArrayList<>();
+
+	public RealEstateProfiles(List<String> cities, Collection<Company> companies) {
+		CountMap<String> tmpCountMap = new CountMap<>();
+		for (String city : cities) {
+			tmpCountMap.add(city, 0);
+		}
+		for (Company c : companies) {
+			if (!c.isBankrupt()) {
+				for (Establishment est : c.getEstablishments()) {
+					tmpCountMap.add(est.getAddress().substring(0, est.getAddress().indexOf("-")), 1);
+				}
+			}
+		}
+		for (String city : tmpCountMap.keySet()) {
+			citiesToRestaurants.add(new DataPair(city, tmpCountMap.get(city)));
+		}
+
+		for (int i = 0; i < companies.size(); i++) {
 			int locationQuality = Constants.INSTACE.getLocationQuality();
 			int locationSize = Constants.INSTACE.getLocationSize();
 			int salePrice = Constants.INSTACE.getSalePrice(locationQuality, locationSize);
@@ -59,6 +74,10 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Containe
 
 	Iterator<RealEstateProfile> iteratorInt() {
 		return profiles.iterator();
+	}
+
+	public List<DataPair> getCitiesToRestaurants() {
+		return Collections.unmodifiableList(citiesToRestaurants);
 	}
 
 	Map<String, Object> getOfferFor(RealEstateProfile p) {
