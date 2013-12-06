@@ -57,9 +57,8 @@ public class Year {
 		for (Company company : game.getCompanies()) {
 			if (!company.isBankrupt()) {
 				try {
-					log.debug("Company {} paid the initial bank credit ${}", company.getName(),
-							Constants.INSTACE.getCreditPayback());
-					company.decCash(Constants.INSTACE.getCreditPayback());
+					log.debug("Company {} paid the initial bank credit ${}", company.getName(), game.getConstants().getCreditPayback());
+					company.decCash(game.getConstants().getCreditPayback());
 				} catch (OutOfMoneyException e) {
 					log.debug("Company [] is bankrupt", e.getCompany());
 				}

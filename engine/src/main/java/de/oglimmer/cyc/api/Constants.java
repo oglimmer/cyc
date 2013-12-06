@@ -11,19 +11,22 @@ import de.oglimmer.cyc.api.Grocer.BulkOrderDiscount;
 import de.oglimmer.cyc.util.EvalSignumFunction;
 
 /**
- * CLASS IS NOT THREAD SAFE!!!
+ * CLASS IS NOT THREAD SAFE!!! (as Evaluator isn't it)
  * 
  * @author oli
  */
-public enum Constants {
-	INSTACE;
+public class Constants {
+
+	public enum Mode {
+		FULL, SINGLE
+	}
 
 	private Properties prop = new Properties();
 	private Evaluator e;
 
 	@SneakyThrows(value = IOException.class)
-	private Constants() {
-		prop.load(Constants.class.getResourceAsStream("/cyc-engine.properties"));
+	public Constants(Mode mode) {
+		prop.load(Constants.class.getResourceAsStream(mode == Mode.FULL ? "/cyc-engine-full.properties" : "/cyc-engine-single.properties"));
 		e = new Evaluator(EvaluationConstants.SINGLE_QUOTE, false, true, false, true);
 		e.putFunction(new EvalSignumFunction());
 	}
@@ -150,4 +153,23 @@ public enum Constants {
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
 
+	public int getRuntimeYear() {
+		return Integer.parseInt(prop.getProperty("runtime.year"));
+	}
+
+	public int getRuntimeMonth() {
+		return Integer.parseInt(prop.getProperty("runtime.month"));
+	}
+
+	public int getRuntimeDay() {
+		return Integer.parseInt(prop.getProperty("runtime.day"));
+	}
+
+	@SneakyThrows(value = EvaluationException.class)
+	public int getNumberRealEstateProfiles(int noCompanies) {
+		Evaluator eval = getEval();
+		eval.parse(prop.getProperty("numberRealEstateProfiles"));
+		eval.putVariable("noCompanies", Integer.toString(noCompanies));
+		return (int) (Double.parseDouble(eval.evaluate()));
+	}
 }

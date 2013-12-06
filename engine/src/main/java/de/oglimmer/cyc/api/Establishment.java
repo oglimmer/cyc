@@ -35,8 +35,7 @@ public class Establishment {
 	private List<InteriorAccessory> interiorAccessories = new ArrayList<>();
 	private Set<FoodUnit> storedFoodUnits = new TreeSet<>(new FoodUnit.FoodUnitComparator());
 
-	public Establishment(Company parent, String city, int locationQuality, int locationSize, int leaseCost,
-			int salePrice) {
+	public Establishment(Company parent, String city, int locationQuality, int locationSize, int leaseCost, int salePrice) {
 		this.parent = parent;
 		this.address = nextAddress(city);
 		this.locationQuality = locationQuality;
@@ -73,7 +72,7 @@ public class Establishment {
 
 	public void sellInteriorAccessories() {
 		for (InteriorAccessory ia : interiorAccessories) {
-			int cost = (int) (ia.getAssetCost() * Constants.INSTACE.getSellFactorInteriorAccessories());
+			int cost = (int) (ia.getAssetCost() * parent.getGame().getConstants().getSellFactorInteriorAccessories());
 			parent.incCash(cost);
 			parent.getGame().getResult().get(parent.getName()).addTotalInterior(-cost);
 		}
@@ -177,8 +176,8 @@ public class Establishment {
 
 	@Override
 	public String toString() {
-		return "Establishment [address=" + address + ", rented=" + rented + ", leaseCost=" + leaseCost
-				+ ", locationQuality=" + locationQuality + ", locationSize=" + locationSize + "]";
+		return "Establishment [address=" + address + ", rented=" + rented + ", leaseCost=" + leaseCost + ", locationQuality=" + locationQuality
+				+ ", locationSize=" + locationSize + "]";
 	}
 
 	private static String nextAddress(String city) {

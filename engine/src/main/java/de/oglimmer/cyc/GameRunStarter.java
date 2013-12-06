@@ -12,6 +12,7 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 import lombok.extern.slf4j.Slf4j;
+import de.oglimmer.cyc.api.Constants;
 import de.oglimmer.cyc.api.Game;
 import de.oglimmer.cyc.api.GroovyInitializer;
 import de.oglimmer.cyc.dao.GameRunDao;
@@ -27,7 +28,6 @@ public class GameRunStarter {
 
 	private static final int ROUNDS_TO_BE_EXCLUDED = 10;
 
-	private int year, month, day;
 	private boolean writeGameResult;
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
@@ -37,7 +37,7 @@ public class GameRunStarter {
 		List<String[]> userList = allPlayers();
 
 		if (!userList.isEmpty()) {
-			Game game = new Game(year, month, day);
+			Game game = new Game(Constants.Mode.FULL);
 			game.executeGame(userList, writeGameResult);
 		}
 
@@ -51,7 +51,7 @@ public class GameRunStarter {
 		List<String[]> userList = singlePlayer(uid);
 
 		if (!userList.isEmpty()) {
-			Game game = new Game(year, month, day);
+			Game game = new Game(Constants.Mode.SINGLE);
 			GameRun gameRun = game.executeGame(userList, writeGameResult);
 
 			String lastError = gameRun.getResult().getError().toString();
@@ -81,8 +81,7 @@ public class GameRunStarter {
 				commit = attr.getValue("SVN-Revision-No");
 				version = attr.getValue("CYC-Version");
 				long time = Long.parseLong(attr.getValue("Creation-Date"));
-				creationDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
-						.format(new Date(time));
+				creationDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date(time));
 			} catch (IOException e) {
 				log.error("Failed to get engine version", e);
 			}
@@ -103,9 +102,6 @@ public class GameRunStarter {
 			}
 		}
 
-		day = 30;
-		month = 12;
-		year = 1;
 		return userList;
 	}
 
@@ -115,8 +111,7 @@ public class GameRunStarter {
 
 		List<User> ul = userDao.findAllUser();
 		for (User u : ul) {
-			if (playersToRemove.containsKey(u.getUsername())
-					&& playersToRemove.get(u.getUsername()) == ROUNDS_TO_BE_EXCLUDED) {
+			if (playersToRemove.containsKey(u.getUsername()) && playersToRemove.get(u.getUsername()) == ROUNDS_TO_BE_EXCLUDED) {
 				u.setActive(false);
 				userDao.update(u);
 			}
@@ -150,9 +145,6 @@ public class GameRunStarter {
 		User u = userDao.get(uid);
 		userList.add(new String[] { u.getUsername(), u.getMainJavaScript() });
 		log.debug("Adding player to game:" + u.getUsername());
-		day = 10;
-		month = 6;
-		year = 1;
 		return userList;
 	}
 

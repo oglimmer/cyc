@@ -15,25 +15,25 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Contai
 
 	private List<ApplicationProfile> profiles;
 
-	public ApplicationProfiles(int noCompanies) {
+	public ApplicationProfiles(Game game, int noCompanies) {
 		profiles = new ArrayList<>();
-		createApplications(noCompanies, JobPosition.CHEF);
-		createApplications(noCompanies, JobPosition.WAITER);
-		createApplications(noCompanies, JobPosition.MANAGER);
+		createApplications(game, noCompanies, JobPosition.CHEF);
+		createApplications(game, noCompanies, JobPosition.WAITER);
+		createApplications(game, noCompanies, JobPosition.MANAGER);
 	}
 
 	private ApplicationProfiles(List<ApplicationProfile> profiles) {
 		this.profiles = profiles;
 	}
 
-	private void createApplications(int noCompanies, JobPosition jp) {
-		Constants consts = Constants.INSTACE;
+	private void createApplications(Game game, int noCompanies, JobPosition jp) {
+		Constants consts = game.getConstants();
 		int count = consts.getNumberApplicationProfiles(jp.toString(), noCompanies);
 		for (int i = 0; i < count; i++) {
 			int quali = consts.getQualification();
 			int salary = consts.getSalary(quali);
-			ApplicationProfile p = new ApplicationProfile(consts.getEmployeesFirstname() + ", "
-					+ consts.getEmployeesLastname(), quali, jp, salary);
+			ApplicationProfile p = new ApplicationProfile(consts.getEmployeesFirstname() + ", " + consts.getEmployeesLastname(), quali, jp,
+					salary);
 			profiles.add(p);
 		}
 	}

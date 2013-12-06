@@ -41,7 +41,7 @@ public class Company {
 	public Company(Game game, String name, Grocer grocer) {
 		this.game = game;
 		this.name = name;
-		this.cash = Constants.INSTACE.getStartCredit();
+		this.cash = game.getConstants().getStartCredit();
 		this.grocer = grocer;
 	}
 

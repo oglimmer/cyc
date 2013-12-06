@@ -19,6 +19,7 @@ import org.mozilla.javascript.ScriptableObject;
 import com.cloudbees.util.rhino.sandbox.SandboxContextFactory;
 import com.cloudbees.util.rhino.sandbox.SandboxNativeJavaObject;
 
+import de.oglimmer.cyc.api.Constants.Mode;
 import de.oglimmer.cyc.dao.GameRunDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
@@ -30,6 +31,7 @@ public class Game {
 	static {
 		ContextFactory.initGlobal(new SandboxContextFactory());
 	}
+
 	@Getter(AccessLevel.PACKAGE)
 	private Grocer grocer = new Grocer(this);
 
@@ -54,17 +56,21 @@ public class Game {
 	@Setter(AccessLevel.PACKAGE)
 	private int currentDay;
 
-	public Game(int totalYear, int totalMonth, int totalDay) {
-		this.totalYear = totalYear;
-		this.totalMonth = totalMonth;
-		this.totalDay = totalDay;
+	@Getter(AccessLevel.PACKAGE)
+	private Constants constants;
+
+	public Game(Mode mode) {
+		constants = new Constants(mode);
+		this.totalYear = constants.getRuntimeYear();
+		this.totalMonth = constants.getRuntimeMonth();
+		this.totalDay = constants.getRuntimeDay();
 	}
 
 	public GameRun executeGame(List<String[]> userList, boolean writeGameResult) {
 
 		gameRun.setStartTime(new Date());
 
-		RealEstateProfiles.readCities(cities, userList.size());
+		RealEstateProfiles.readCities(this, cities, userList.size());
 
 		readScripts(userList, writeGameResult);
 
@@ -135,8 +141,7 @@ public class Game {
 
 				Object jsCompany = new SandboxNativeJavaObject(scope, company, Company.class);
 				prototype.put("company", scope, jsCompany);
-				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, company.getName()),
-						DebugAdapter.class);
+				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, company.getName()), DebugAdapter.class);
 				prototype.put("out", scope, jsSystemout);
 				prototype.put("console", scope, jsSystemout);
 

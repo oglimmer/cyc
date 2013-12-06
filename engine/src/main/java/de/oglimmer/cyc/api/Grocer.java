@@ -31,7 +31,7 @@ public class Grocer {
 	public double getPrice(String food, int units) {
 		log.debug("Current price for {} is ${} per unit", food, currentPrices.get(Food.valueOf(food)));
 		double basePrice = units * currentPrices.get(Food.valueOf(food));
-		BulkOrderDiscount[] bulkOrderDiscounts = Constants.INSTACE.getBulkOrderDiscounts();
+		BulkOrderDiscount[] bulkOrderDiscounts = game.getConstants().getBulkOrderDiscounts();
 		for (BulkOrderDiscount bod : bulkOrderDiscounts) {
 			if (units >= bod.getStartingAmount()) {
 				basePrice *= bod.getDiscount();
@@ -59,7 +59,7 @@ public class Grocer {
 
 	void initDay() {
 		for (Food f : Food.values()) {
-			currentPrices.put(f, Constants.INSTACE.getFoodPriceChange(currentPrices.get(f)));
+			currentPrices.put(f, game.getConstants().getFoodPriceChange(currentPrices.get(f)));
 		}
 	}
 

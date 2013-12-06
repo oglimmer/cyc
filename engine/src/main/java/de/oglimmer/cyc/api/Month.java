@@ -55,9 +55,7 @@ public class Month {
 					}
 				} catch (EcmaError e) {
 					game.getResult().addError(e);
-					log.error(
-							"Failed to call the company.doMonthly handler. Player " + company.getName() + " bankrupt",
-							e);
+					log.error("Failed to call the company.doMonthly handler. Player " + company.getName() + " bankrupt", e);
 					company.setBankruptFromError(e);
 				}
 			}
@@ -70,8 +68,7 @@ public class Month {
 			try {
 				if (!c.isBankrupt()) {
 					for (Employee e : c.getHumanResources().getEmployeesInt()) {
-						game.getResult().get(c.getName())
-								.addTotalOnSalaries(e.getJobPosition().toString(), e.getSalary());
+						game.getResult().get(c.getName()).addTotalOnSalaries(e.getJobPosition().toString(), e.getSalary());
 						c.decCash(e.getSalary());
 						log.debug("{} payed ${} for {}", c.getName(), e.getSalary(), e.getName());
 					}
@@ -102,7 +99,7 @@ public class Month {
 
 	public void processHumanResources() {
 
-		ApplicationProfiles ap = new ApplicationProfiles(game.getCompanies().size());
+		ApplicationProfiles ap = new ApplicationProfiles(game, game.getCompanies().size());
 		log.debug(ap.toString());
 
 		boolean pickedOne = true;
@@ -123,8 +120,7 @@ public class Month {
 							}
 						} catch (EcmaError e) {
 							game.getResult().addError(e);
-							log.error("Failed to call the company.hiringProcess handler. Player " + c.getName()
-									+ " bankrupt", e);
+							log.error("Failed to call the company.hiringProcess handler. Player " + c.getName() + " bankrupt", e);
 							c.setBankruptFromError(e);
 						}
 					}
@@ -157,12 +153,11 @@ public class Month {
 
 	private void hire(ApplicationProfile p, int salary, Establishment est, Company company) {
 		log.debug("{} hired {} for ${}", company.getName(), p, salary);
-		company.getHumanResources().getEmployeesInt()
-				.add(new Employee(p.getName(), est, p.getQualification(), p.getJobPosition(), salary));
+		company.getHumanResources().getEmployeesInt().add(new Employee(p.getName(), est, p.getQualification(), p.getJobPosition(), salary));
 	}
 
 	public void processRealEstateBusiness() {
-		RealEstateProfiles ap = new RealEstateProfiles(game.getCities(), game.getCompanies());
+		RealEstateProfiles ap = new RealEstateProfiles(game, game.getCities(), game.getCompanies());
 		log.debug(ap.toString());
 		boolean pickedOne = true;
 		while (ap.iterator().hasNext() && pickedOne) {
@@ -181,8 +176,7 @@ public class Month {
 							}
 						} catch (EcmaError e) {
 							game.getResult().addError(e);
-							log.error("Failed to call the company.realEstateAgent handler. Player " + c.getName()
-									+ " bankrupt", e);
+							log.error("Failed to call the company.realEstateAgent handler. Player " + c.getName() + " bankrupt", e);
 							c.setBankruptFromError(e);
 						}
 					}
@@ -202,8 +196,8 @@ public class Month {
 						Company company = (Company) en.get("company");
 						company.decCash(bribe);
 						game.getResult().get(company.getName()).addTotalBribe(bribe);
-						Establishment est = new Establishment(company, p.getCity(), p.getLocationQuality(),
-								p.getLocationSize(), p.getLeaseCost(), p.getSalePrice());
+						Establishment est = new Establishment(company, p.getCity(), p.getLocationQuality(), p.getLocationSize(),
+								p.getLeaseCost(), p.getSalePrice());
 						company.getEstablishmentsInt().add(est);
 						if (buy) {
 							log.debug("{} bought {} for ${}", company.getName(), p, p.getSalePrice());

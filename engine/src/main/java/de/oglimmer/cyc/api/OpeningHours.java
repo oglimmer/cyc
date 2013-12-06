@@ -14,8 +14,8 @@ public class OpeningHours {
 
 	public OpeningHours(Game game) {
 		this.game = game;
-		baseGuests = Constants.INSTACE.getBaseGuests();
-		rndGuests = Constants.INSTACE.getRndGuests();
+		baseGuests = game.getConstants().getBaseGuests();
+		rndGuests = game.getConstants().getRndGuests();
 		log.debug("Game uses rnd*numberOfCompanies*{}+{}", rndGuests, baseGuests);
 	}
 
@@ -40,8 +40,8 @@ public class OpeningHours {
 	}
 
 	private void processGuests(String city, Map<Integer, Establishment> estList, int totalScore) {
-		int totalGuests = (int) (((Math.random() * game.getCompanies().size() * rndGuests) + game.getCompanies().size()
-				* baseGuests) / game.getCities().size());
+		int totalGuests = (int) (((Math.random() * game.getCompanies().size() * rndGuests) + game.getCompanies().size() * baseGuests) / game
+				.getCities().size());
 		log.debug("Guests for today in {}: {}", city, totalGuests);
 		game.getResult().getGuestsTotalPerCity().add(city, totalGuests);
 		while (totalGuests-- > 0) {

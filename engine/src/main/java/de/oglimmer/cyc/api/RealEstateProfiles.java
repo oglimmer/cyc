@@ -24,7 +24,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Containe
 
 	private List<DataPair> citiesToRestaurants = new ArrayList<>();
 
-	public RealEstateProfiles(List<String> cities, Collection<Company> companies) {
+	public RealEstateProfiles(Game game, List<String> cities, Collection<Company> companies) {
 		CountMap<String> tmpCountMap = new CountMap<>();
 		for (String city : cities) {
 			tmpCountMap.add(city, 0);
@@ -40,20 +40,19 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Containe
 			citiesToRestaurants.add(new DataPair(city, tmpCountMap.get(city)));
 		}
 
-		for (int i = 0; i < companies.size(); i++) {
-			int locationQuality = Constants.INSTACE.getLocationQuality();
-			int locationSize = Constants.INSTACE.getLocationSize();
-			int salePrice = Constants.INSTACE.getSalePrice(locationQuality, locationSize);
-			int leaseCosts = Constants.INSTACE.getLeaseCosts(locationQuality, locationSize);
-			profiles.add(new RealEstateProfile(cities.get((int) (Math.random() * cities.size())), salePrice,
-					leaseCosts, locationQuality, locationSize));
+		for (int i = 0; i < game.getConstants().getNumberRealEstateProfiles(companies.size()); i++) {
+			int locationQuality = game.getConstants().getLocationQuality();
+			int locationSize = game.getConstants().getLocationSize();
+			int salePrice = game.getConstants().getSalePrice(locationQuality, locationSize);
+			int leaseCosts = game.getConstants().getLeaseCosts(locationQuality, locationSize);
+			profiles.add(new RealEstateProfile(cities.get((int) (Math.random() * cities.size())), salePrice, leaseCosts, locationQuality,
+					locationSize));
 		}
 	}
 
-	public static void readCities(List<String> cities, int noPlayer) {
+	public static void readCities(Game game, List<String> cities, int noPlayer) {
 		String line;
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(
-				RealEstateProfiles.class.getResourceAsStream("/uk_cities.csv")))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(RealEstateProfiles.class.getResourceAsStream("/uk_cities.csv")))) {
 			while ((line = br.readLine()) != null) {
 				cities.add(line);
 			}
@@ -61,7 +60,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Containe
 			log.error("Failed to read cities", e);
 		}
 		Collections.shuffle(cities);
-		int numberOfCities = Constants.INSTACE.getNumberCities(noPlayer);
+		int numberOfCities = game.getConstants().getNumberCities(noPlayer);
 		while (cities.size() != numberOfCities) {
 			cities.remove(0);
 		}
