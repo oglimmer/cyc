@@ -14,8 +14,8 @@ import org.xeustechnologies.jcl.JclObjectFactory;
 @Slf4j
 public class EngineLoader {
 
-	private String currentDir = null;
-	private String baseDir;
+	protected String currentDir = null;
+	protected String baseDir;
 	private Thread dirScannerThread;
 	private boolean running;
 	private JarClassLoader jcl;
@@ -43,8 +43,8 @@ public class EngineLoader {
 		return baseDir;
 	}
 
-	public void startGame(String clientRequest) throws NoSuchMethodException, IllegalAccessException,
-			InvocationTargetException, InstantiationException, ClassNotFoundException {
+	public void startGame(String clientRequest) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
+			InstantiationException, ClassNotFoundException {
 
 		Object obj = createGameRunStarter();
 		if (clientRequest == null || clientRequest.trim().isEmpty()) {
@@ -56,24 +56,22 @@ public class EngineLoader {
 		}
 	}
 
-	public String getVersion() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, SecurityException, InstantiationException, ClassNotFoundException {
+	public String getVersion() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
+			SecurityException, InstantiationException, ClassNotFoundException {
 		Object obj = createGameRunStarter();
 		Method m = obj.getClass().getMethod("getVersion", new Class[0]);
 		return (String) m.invoke(obj);
 	}
 
-	protected Object createGameRunStarter() throws InstantiationException, IllegalAccessException,
-			ClassNotFoundException {
+	protected Object createGameRunStarter() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		JclObjectFactory factory = JclObjectFactory.getInstance();
 		return factory.create(jcl, "de.oglimmer.cyc.GameRunStarter");
 	}
 
-	private JarClassLoader initClassLoader() {
-		JarClassLoader jcl = new JarClassLoader();
+	protected void initClassLoader() {
+		jcl = new JarClassLoader();
 
 		jcl.add(baseDir + currentDir);
-		return jcl;
 	}
 
 	private void findLatestDir() {
@@ -92,7 +90,7 @@ public class EngineLoader {
 		if (currentDir == null || !currentDir.equals(dirName)) {
 			log.debug("Switching to new engine directory:" + dirName);
 			currentDir = dirName;
-			jcl = initClassLoader();
+			initClassLoader();
 		}
 	}
 
