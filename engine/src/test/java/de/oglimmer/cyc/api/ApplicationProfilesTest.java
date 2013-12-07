@@ -11,7 +11,8 @@ public class ApplicationProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestSingle() {
-		Company comp = new Company(null, "compA", null);
+		Game game = new Game(Constants.Mode.FULL);
+		Company comp = new Company(game, "compA", null);
 		Establishment est = new Establishment(comp, "cityA", 5, 10, 500, 2000);
 		ApplicationProfile p = new ApplicationProfile("appA", 5, JobPosition.CHEF, 2000);
 		ThreadLocal.setCompany(comp);
@@ -25,8 +26,9 @@ public class ApplicationProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestDuo() {
-		Company comp1 = new Company(null, "compA", null);
-		Company comp2 = new Company(null, "compB", null);
+		Game game = new Game(Constants.Mode.FULL);
+		Company comp1 = new Company(game, "compA", null);
+		Company comp2 = new Company(game, "compB", null);
 		Establishment est1 = new Establishment(comp1, "cityA", 5, 10, 500, 2000);
 		Establishment est2 = new Establishment(comp2, "cityA", 5, 10, 500, 2000);
 		ApplicationProfile p = new ApplicationProfile("appA", 5, JobPosition.CHEF, 2000);

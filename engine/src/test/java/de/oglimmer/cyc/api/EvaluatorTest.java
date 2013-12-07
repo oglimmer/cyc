@@ -9,18 +9,20 @@ import de.oglimmer.cyc.api.Grocer.BulkOrderDiscount;
 
 public class EvaluatorTest {
 
+	private Constants constants = new Constants(Constants.Mode.FULL);
+
 	@Test
 	public void foodPriceChangeTest() throws EvaluationException {
 		for (int i = 0; i < 5000; i++) {
 			double b = i / 100;
-			double np = Constants.INSTACE.getFoodPriceChange(b);
+			double np = constants.getFoodPriceChange(b);
 			Assert.assertTrue("np=" + np, np >= b * 0.98 && np <= b * 1.02);
 		}
 	}
 
 	@Test
 	public void bulkOrderDiscountsTest() throws EvaluationException {
-		BulkOrderDiscount[] bods = Constants.INSTACE.getBulkOrderDiscounts();
+		BulkOrderDiscount[] bods = constants.getBulkOrderDiscounts();
 		int prevAmount = -1;
 		double prevDiscount = 1;
 		for (BulkOrderDiscount bod : bods) {
@@ -36,7 +38,7 @@ public class EvaluatorTest {
 		int NO_COMP = 10;
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getNumberApplicationProfiles("chef", NO_COMP);
+			int val = constants.getNumberApplicationProfiles("chef", NO_COMP);
 			if (min > val) {
 				min = val;
 			}
@@ -54,7 +56,7 @@ public class EvaluatorTest {
 		int NO_COMP = 10;
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getNumberApplicationProfiles("waiter", NO_COMP);
+			int val = constants.getNumberApplicationProfiles("waiter", NO_COMP);
 			if (min > val) {
 				min = val;
 			}
@@ -72,7 +74,7 @@ public class EvaluatorTest {
 		int NO_COMP = 10;
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getNumberApplicationProfiles("manager", NO_COMP);
+			int val = constants.getNumberApplicationProfiles("manager", NO_COMP);
 			if (min > val) {
 				min = val;
 			}
@@ -89,7 +91,7 @@ public class EvaluatorTest {
 	public void rangeTestQualification() {
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getQualification();
+			int val = constants.getQualification();
 			if (min > val) {
 				min = val;
 
@@ -107,7 +109,7 @@ public class EvaluatorTest {
 	public void rangeTestSalaryLow() {
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getSalary(1);
+			int val = constants.getSalary(1);
 			if (min > val) {
 				min = val;
 			}
@@ -124,7 +126,7 @@ public class EvaluatorTest {
 	public void rangeTestSalaryHigh() {
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getSalary(10);
+			int val = constants.getSalary(10);
 			if (min > val) {
 				min = val;
 			}
@@ -141,7 +143,7 @@ public class EvaluatorTest {
 	public void rangeTestSalePriceLow() {
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getSalePrice(1, 25);
+			int val = constants.getSalePrice(1, 25);
 			if (min > val) {
 				min = val;
 			}
@@ -158,7 +160,7 @@ public class EvaluatorTest {
 	public void rangeTestSalePriceHigh() {
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getSalePrice(10, 250);
+			int val = constants.getSalePrice(10, 250);
 			if (min > val) {
 				min = val;
 			}
@@ -175,7 +177,7 @@ public class EvaluatorTest {
 	public void rangeTestLeaseCostsLow() {
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getLeaseCosts(1, 25);
+			int val = constants.getLeaseCosts(1, 25);
 			if (min > val) {
 				min = val;
 			}
@@ -192,7 +194,7 @@ public class EvaluatorTest {
 	public void rangeTestLeaseCostsHigh() {
 		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
 		for (int i = 0; i < 1000; i++) {
-			int val = Constants.INSTACE.getLeaseCosts(10, 250);
+			int val = constants.getLeaseCosts(10, 250);
 			if (min > val) {
 				min = val;
 			}
