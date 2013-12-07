@@ -44,6 +44,7 @@ public class SandboxClassShutter implements ClassShutter {
 		case "de.oglimmer.cyc.api.UnmodifiableIterator":
 		case "de.oglimmer.cyc.api.DataPair":
 		case "de.oglimmer.cyc.api.CycCollections$UnmodifiableList":
+		case "de.oglimmer.cyc.api.CycCollections$UnmodifiableCollection$1":
 		case "de.oglimmer.cyc.api.CycCollections$UnmodifiableSet":
 		case "java.lang.String":
 		case "java.lang.Long":
