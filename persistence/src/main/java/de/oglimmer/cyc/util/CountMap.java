@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class CountMap<K> extends HashMap<K, Long> {
 
-	private static final long serialVersionUID = -536698358913841475L;
+	private static final long serialVersionUID = 1L;
 
 	public void add(K key, long value) {
 		Long currentVal = get(key);

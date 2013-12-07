@@ -2,7 +2,6 @@ package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,8 +27,8 @@ public class MenuEntry {
 		}
 	}
 
-	public List<Food> getIngredients() {
-		return Collections.unmodifiableList(ingredients);
+	public JavaScriptList<Food> getIngredients() {
+		return CycCollections.unmodifiableList(ingredients);
 	}
 
 	public void addIngredient(String i) {

@@ -1,7 +1,8 @@
 
 
 /**
-* Object used as the parameter for the Campaign method foodDelivery
+* Object used as the parameter for the Campaign method foodDelivery.
+* Container class (behaves like a <a href="List.html">List</a>).
 *
 * @class FoodDelivery
 * @constructor

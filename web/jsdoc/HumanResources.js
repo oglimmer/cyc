@@ -1,7 +1,7 @@
 
 
 /**
-* Give you access to all of you employees.
+* Give you access to all of you employees. Manager class.
 *
 * @class HumanResources
 * @constructor
@@ -27,7 +27,7 @@ HumanResources.prototype.hiringProcess;
 HumanResources.prototype.employees;
 
 /**
-* Returns a subset of employees
+* Returns a <a href="List.html">list</a> of employees. This is a subset of all available employees.
 *
 * @method getEmployees
 * @param {String} jobProfile A job profile to filter for: CHEF, WAITER, MANAGER

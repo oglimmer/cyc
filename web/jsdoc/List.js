@@ -1,10 +1,23 @@
 
 /**
-* Container class. Represents a list of other elements.<br/>
-* Loop through a list:<br/>
+* Container class. Represents a list of other elements. Helper class.<br/><br/>
+* Loop through a list the JavaScript way:<br/>
+* <br/>
+* theList.each(function(element) {<br/>
+* &nbsp;&nbsp;console.log(element);<br/>
+* });<br/>
+* <br/><br/>
+* Loop through a list the Java way:<br/>
 * <br/>
 * for(var it = theList.iterator() ; it.hasNext() ; ){<br/>
 * &nbsp;&nbsp;var element = it.next();<br/>
+* &nbsp;&nbsp;console.log(element);<br/>
+* }<br/>
+* <br/><br/>
+* Loop through a list the good ol' fashioned way:<br/>
+* <br/>
+* for(var i=0; i&lt;theList.size(); i++){<br/>
+* &nbsp;&nbsp;var element = theList.get(i);<br/>
 * &nbsp;&nbsp;console.log(element);<br/>
 * }<br/>
 * <br/>
@@ -54,4 +67,13 @@ List.prototype.get = function(index) {
 	
 };
 
+/**
+* JavaScript-like callback to loop over all items
+* 
+*
+* @method each
+* @param {Function} forEachElement Will be called for each available items. Needs to have one parameter.
+*/
+List.prototype.each = function() {	
+};
 

@@ -15,7 +15,7 @@ import net.sourceforge.stripes.action.Before;
 
 abstract public class BaseAction implements ActionBean {
 
-	private static final String API_VERSION = "1.0.2";
+	private static final String API_VERSION = "1.0.3";
 	private static String longVersionCache;
 
 	@Getter

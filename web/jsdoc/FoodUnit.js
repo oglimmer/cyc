@@ -1,6 +1,7 @@
 
 /**
 * Represents a package of unit you got delivered and subsequently stored in your restaurants.
+* Data class.
 *
 * @class FoodUnit
 * @constructor

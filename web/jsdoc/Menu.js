@@ -1,6 +1,8 @@
 
 /**
-* The menu available in your restaurants
+* The menu available in your restaurants. Container class (behaves like a <a href="List.html">List</a>).<br/>
+* <br/>
+* You need to have at least one <a href="MenuEntry.html">MenuEntry</a> in your menu, but people appreciate to be able to pick between more than one.  
 *
 * @class Menu
 * @constructor
@@ -24,7 +26,7 @@ Menu.prototype.add = function(name, ingredients, price) {
 /**
 * Removes an entry from your menu
 *
-* @method launch
+* @method remove
 * @param {String} name The name of one of your meals you'd like to remove
 */
 Menu.prototype.remove = function(name) {

@@ -1,5 +1,9 @@
 /**
- * A meal you offer.
+ * A meal you offer. Data class.<br/>
+ * <br/>
+ * To create a new MenuEntry use the add method in <a href="Menu.html">Menu</a>. A higher price
+ * is accepted if more ingredients are in a menu. But try to make a meal delicious, because really
+ * nobody likes bad tasting food.
  * 
  * @class MenuEntry
  * @constructor
@@ -17,7 +21,7 @@ function MenuEntry() {
 MenuEntry.prototype.name;
 
 /**
- * A list of the ingredients in this meal. Read-only.
+ * A <a href="List.html">list</a> of the ingredients in this meal. Read-only.
  * 
  * @property ingredients
  * @type {List}

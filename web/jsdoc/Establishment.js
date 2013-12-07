@@ -1,13 +1,15 @@
 
 /**
-* A restaurant
+* A restaurant. Data class.<br/>
+* <br/>
+* After you leased a restaurant you need to buy at least a COUNTER, but it makes sense to buy
+* a complete set of interior accessories.
 *
 * @class Establishment
 * @constructor
 */
 function Establishment() {
 }
-
 
 /**
 * Where the property is located. Read-only.
@@ -59,7 +61,7 @@ Establishment.prototype.locationSize;
 Establishment.prototype.rented;
 
 /**
-* A string list of interior accessories in this establishment. Read-only.
+* A string <a href="List.html">list</a> of interior accessories in this establishment. Read-only.
 * 
 * @property interiorAccessories
 * @type {List}
@@ -67,10 +69,10 @@ Establishment.prototype.rented;
 Establishment.prototype.interiorAccessories;
 
 /**
-* A list of <a href="FoodUnit.html">FoodUnit</a> currently stored in this property. Rotten food gets removed automatically. Read-Only.
+* A <a href="Set.html">set</a> of <a href="FoodUnit.html">FoodUnit</a> currently stored in this property. Rotten food gets removed automatically. Read-Only.
 * 
 * @property storedFoodUnits
-* @type {List}
+* @type {Set}
 */
 Establishment.prototype.storedFoodUnits;
 
@@ -174,7 +176,7 @@ Establishment.prototype.sellInteriorAccessories = function() {
 };
 
 /**
- * Returns a subset of employees
+ * Returns a <a href="List.html">list</a> employees. This list is a subset of all employee at this establishment.
  *
  * @method getEmployees
  * @param {String} jobProfile A job profile to filter for: CHEF, WAITER, MANAGER

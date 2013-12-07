@@ -1,11 +1,19 @@
 
 
 /**
-* Represents a profile during a presentation of an real estate agent
-*
-* @class RealEstateProfile
-* @constructor
-*/
+ * Represents a profile during a presentation of an real estate agent. Data
+ * class.<br/> <br/> 
+ * You only deal with this class in company.realEstateAgent
+ * function. There you look into all available RealEstateProfile objects and
+ * lease at least one restaurant. A place with a high
+ * locationQuality*locationSize/leaseCost value is always a good venue. Use the
+ * tryLease method to try to lease the restaurant. If more than one player tries
+ * to lease, the landlord will pick the offer with the highest bribe. If you buy the restaurant
+ * through the tryAcquisition method the value will be counted towards you final total assets.
+ * 
+ * @class RealEstateProfile
+ * @constructor
+ */
 function RealEstateProfile() {
 
 }

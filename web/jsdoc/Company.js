@@ -50,7 +50,7 @@ function Company() {
 Company.prototype.humanResources;
 
 /**
-* A list of all of your restaurants
+* A <a href="List.html">list</a> of all of your restaurants
 * 
 * @property establishments
 * @type {List}

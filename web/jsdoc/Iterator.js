@@ -1,7 +1,7 @@
 
 
 /**
-* Used to loop over a list/set of elements.
+* Used to loop over a list/set of elements. Helper class.
 *
 * @class Iterator
 * @constructor

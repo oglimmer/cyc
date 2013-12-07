@@ -1,6 +1,15 @@
 
 /**
-* Container object used as the parameter for the Campaign method realEstateAgent
+* Container object used as the parameter for the Campaign method realEstateAgent.
+* Container class (behaves like a <a href="List.html">List</a>).<br/>
+* <br/>
+* The parameter in the company.realEstateAgent function. 
+* Before looping through the objects of <a href="RealEstateProfile.html">RealEstateProfile</a>
+* you probably want to use one of the sortBy* methods in this class.<br/>
+* If many players are in the game there will more than one city. In this case you can loop through the
+* citiesToRestaurants property to see how many restaurants are in each city. Keep in mind that a city
+* has only a certain number of guests, thus the more restaurants are in a city 
+* the more competitive struggle there is.
 *
 * @class RealEstateProfiles
 * @constructor
@@ -9,7 +18,7 @@ function RealEstateProfiles() {
 }
 
 /**
- * A list of <a href="DataPair.html">DataPair</a> with name=name of a city and value=total number of restaurants in this city. 
+ * A <a href="List.html">list</a> of <a href="DataPair.html">DataPair</a> with name=name of a city and value=total number of restaurants in this city. 
  * 
  * @property citiesToRestaurants
  * @type {List}

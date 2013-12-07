@@ -1,6 +1,11 @@
 
 /**
-* Container object used as the parameter for the HumanResources method hiringProcess
+* Container object used as the parameter for the HumanResources method hiringProcess.
+* Container class (behaves like a <a href="List.html">List</a>).<br/>
+* <br/>
+* The parameter in the company.humanResources.hiringProcess function. 
+* Before looping through the objects of <a href="ApplicationProfile.html">ApplicationProfile</a>
+* you probably want to use one of the sortBy* and/or subList method in this class.  
 *
 * @class ApplicationProfiles
 * @constructor
@@ -41,12 +46,12 @@ ApplicationProfiles.prototype.get = function(index) {
 };
 
 /**
-* Returns a new list containing only elements which's job position matches the parameter
+* Returns a new ApplicationProfiles object containing only elements which's job position matches the parameter
 * 
 *
 * @method subList
 * @param {String} jobPosition filter used to create the new list
-* @return {ApplicationProfiles} returns self
+* @return {ApplicationProfiles} returns a new object of the same class
 */
 ApplicationProfiles.prototype.subList = function(jobPosition) {	
 };

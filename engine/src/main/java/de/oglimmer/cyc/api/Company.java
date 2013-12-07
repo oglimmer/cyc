@@ -1,7 +1,6 @@
 package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import lombok.AccessLevel;
@@ -65,8 +64,8 @@ public class Company {
 		cash -= change;
 	}
 
-	public List<Establishment> getEstablishments() {
-		return Collections.unmodifiableList(establishments);
+	public JavaScriptList<Establishment> getEstablishments() {
+		return CycCollections.unmodifiableList(establishments);
 	}
 
 	List<Establishment> getEstablishmentsInt() {

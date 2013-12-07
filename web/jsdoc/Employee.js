@@ -1,6 +1,9 @@
 
 /**
-* A member of your staff
+* A member of your staff. Data class.<br/>
+* <br/>
+* This class could be used to get information about your current staff. The only writable
+* property is establishment, as you can send an employee to another restaurant.
 *
 * @class Employee
 * @constructor
@@ -18,7 +21,7 @@ function Employee() {
 Employee.prototype.name;
 
 /**
-* Qualification of this employee for his role. Rangs from 1 to 10. Higher means better. Read-Only.
+* Qualification of this employee for his role. Ranges from 1 to 10. Higher means better. Read-Only.
 * 
 * @property qualification
 * @type {Number}

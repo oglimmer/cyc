@@ -1,6 +1,12 @@
 
 /**
-* Represents an application to your company.
+* Represents an application to your company. Data class.<br/>
+* <br/>
+* You only deal with this class in company.humanResources.hiringProcess function. There you
+* look into all available ApplicationProfile objects and recruit at least one chef and one waiter. Someone with
+* a high qualification/desiredSalary quotient is always a good candidate. Use the offer method to try
+* to hire him/her. If more than one player makes an offer, the candidate will pick the offer with the
+* highest salary.
 *
 * @class ApplicationProfile
 * @constructor

@@ -2,7 +2,6 @@ package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,18 +17,18 @@ public class HumanResources {
 		return employees;
 	}
 
-	public List<Employee> getEmployees() {
-		return Collections.unmodifiableList(employees);
+	public JavaScriptList<Employee> getEmployees() {
+		return CycCollections.unmodifiableList(employees);
 	}
 
-	public List<Employee> getEmployees(String jp) {
+	public JavaScriptList<Employee> getEmployees(String jp) {
 		List<Employee> subList = new ArrayList<>();
 		for (Employee e : employees) {
 			if (e.getJobPosition().toString().equalsIgnoreCase(jp)) {
 				subList.add(e);
 			}
 		}
-		return subList;
+		return CycCollections.unmodifiableList(subList);
 	}
 
 	Map<JobPosition, Integer> getSummary(Establishment est) {

@@ -2,7 +2,6 @@ package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -35,7 +34,8 @@ public class Establishment {
 	private List<InteriorAccessory> interiorAccessories = new ArrayList<>();
 	private Set<FoodUnit> storedFoodUnits = new TreeSet<>(new FoodUnit.FoodUnitComparator());
 
-	public Establishment(Company parent, String city, int locationQuality, int locationSize, int leaseCost, int salePrice) {
+	public Establishment(Company parent, String city, int locationQuality, int locationSize, int leaseCost,
+			int salePrice) {
 		this.parent = parent;
 		this.address = nextAddress(city);
 		this.locationQuality = locationQuality;
@@ -138,8 +138,8 @@ public class Establishment {
 		}
 	}
 
-	public List<InteriorAccessory> getInteriorAccessories() {
-		return Collections.unmodifiableList(interiorAccessories);
+	public JavaScriptList<InteriorAccessory> getInteriorAccessories() {
+		return CycCollections.unmodifiableList(interiorAccessories);
 	}
 
 	public void sendFood(FoodUnit foodUnit) {
@@ -150,34 +150,34 @@ public class Establishment {
 		return storedFoodUnits;
 	}
 
-	public Set<FoodUnit> getStoredFoodUnits() {
-		return Collections.unmodifiableSet(storedFoodUnits);
+	public JavaScriptSet<FoodUnit> getStoredFoodUnits() {
+		return CycCollections.unmodifiableSet(storedFoodUnits);
 	}
 
-	public List<Employee> getEmployees() {
+	public JavaScriptList<Employee> getEmployees() {
 		List<Employee> subList = new ArrayList<>();
 		for (Employee e : parent.getHumanResources().getEmployees()) {
 			if (e.getEstablishment() == this) {
 				subList.add(e);
 			}
 		}
-		return subList;
+		return CycCollections.unmodifiableList(subList);
 	}
 
-	public List<Employee> getEmployees(String jp) {
+	public JavaScriptList<Employee> getEmployees(String jp) {
 		List<Employee> subList = new ArrayList<>();
 		for (Employee e : parent.getHumanResources().getEmployees(jp)) {
 			if (e.getEstablishment() == this) {
 				subList.add(e);
 			}
 		}
-		return subList;
+		return CycCollections.unmodifiableList(subList);
 	}
 
 	@Override
 	public String toString() {
-		return "Establishment [address=" + address + ", rented=" + rented + ", leaseCost=" + leaseCost + ", locationQuality=" + locationQuality
-				+ ", locationSize=" + locationSize + "]";
+		return "Establishment [address=" + address + ", rented=" + rented + ", leaseCost=" + leaseCost
+				+ ", locationQuality=" + locationQuality + ", locationSize=" + locationSize + "]";
 	}
 
 	private static String nextAddress(String city) {

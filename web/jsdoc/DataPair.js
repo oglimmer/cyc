@@ -1,6 +1,8 @@
 
 /**
-* Holds a string and a long.
+* Holds a string and a long. Data class.<br/>
+* <br/>
+* Used in the return list of RealEstateProfiles.citiesToRestaurants
 *
 * @class DataPair
 * @constructor
