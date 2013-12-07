@@ -10,15 +10,15 @@ public class CLTest {
 
 	@Ignore
 	@Test
-	public void unloadClassTest() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException,
-			ClassNotFoundException, InterruptedException {
+	public void unloadClassTest() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
+			InstantiationException, ClassNotFoundException, InterruptedException {
 
 		EngineLoader el = new EngineLoader() {
 			protected void init() {
 			}
 		};
 		el.baseDir = "";
-		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i < 42; i++) {
 			System.out.println("----:" + i);
 			el.currentDir = "/usr/local/cyr-engine-container/cyc0" + (i < 10 ? "0" + i : i);
 			el.initClassLoader();

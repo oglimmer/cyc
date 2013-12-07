@@ -9,6 +9,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.security.Policy;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -23,8 +24,8 @@ public class GameServer {
 	public static final int SERVER_PORT = 9998;
 
 	public static void main(String[] args) throws Exception {
+		Policy.setPolicy(new CycPolicy(Policy.getPolicy()));
 		assert System.getProperty("cyc.home") != null;
-		log.info("Using cyc.home={}", System.getProperty("cyc.home"));
 
 		try {
 			GameServer gs = new GameServer();
@@ -100,7 +101,8 @@ public class GameServer {
 		@Override
 		public void run() {
 			try {
-				try (BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()))) {
+				try (BufferedReader inFromClient = new BufferedReader(new InputStreamReader(
+						connectionSocket.getInputStream()))) {
 					try (DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream())) {
 						final String clientRequest = inFromClient.readLine();
 						if ("exit".equals(clientRequest)) {
@@ -132,8 +134,8 @@ public class GameServer {
 				String version = engineLoader.getVersion();
 				log.info("Version: {}", version);
 				outToClient.writeBytes("Version: " + version + "\n");
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException
-					| InstantiationException | ClassNotFoundException e) {
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+					| NoSuchMethodException | SecurityException | InstantiationException | ClassNotFoundException e) {
 				log.error("Failed to get version from engine", e);
 			}
 		}
@@ -169,7 +171,8 @@ public class GameServer {
 			outToClient.writeBytes("Running: " + running + "\n");
 			outToClient.writeBytes("Queue-size: " + tpe.getQueue().size() + "\n");
 			outToClient.writeBytes("Memory(free/max/total): " + nf.format(Runtime.getRuntime().freeMemory()) + "/"
-					+ nf.format(Runtime.getRuntime().maxMemory()) + "/" + nf.format(Runtime.getRuntime().totalMemory()) + "\n");
+					+ nf.format(Runtime.getRuntime().maxMemory()) + "/" + nf.format(Runtime.getRuntime().totalMemory())
+					+ "\n");
 			outToClient.writeBytes("Current dir: " + engineLoader.getBaseDir() + engineLoader.getCurrentDir() + "\n");
 		}
 

@@ -29,7 +29,7 @@ public class EngineLoader {
 		if (!baseDir.endsWith("/")) {
 			baseDir += "/";
 		}
-		log.debug("Using baseDir={}", baseDir);
+		log.debug("Using cyc.home={}", baseDir);
 		findLatestDir();
 		dirScannerThread = new Thread(new DirectoryScanner());
 		dirScannerThread.start();
@@ -43,8 +43,8 @@ public class EngineLoader {
 		return baseDir;
 	}
 
-	public void startGame(String clientRequest) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
-			InstantiationException, ClassNotFoundException {
+	public void startGame(String clientRequest) throws NoSuchMethodException, IllegalAccessException,
+			InvocationTargetException, InstantiationException, ClassNotFoundException {
 
 		Object obj = createGameRunStarter();
 		if (clientRequest == null || clientRequest.trim().isEmpty()) {
@@ -56,14 +56,15 @@ public class EngineLoader {
 		}
 	}
 
-	public String getVersion() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-			SecurityException, InstantiationException, ClassNotFoundException {
+	public String getVersion() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException, InstantiationException, ClassNotFoundException {
 		Object obj = createGameRunStarter();
 		Method m = obj.getClass().getMethod("getVersion", new Class[0]);
 		return (String) m.invoke(obj);
 	}
 
-	protected Object createGameRunStarter() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+	protected Object createGameRunStarter() throws InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
 		JclObjectFactory factory = JclObjectFactory.getInstance();
 		return factory.create(jcl, "de.oglimmer.cyc.GameRunStarter");
 	}

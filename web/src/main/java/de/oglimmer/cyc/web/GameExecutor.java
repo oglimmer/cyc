@@ -123,14 +123,15 @@ public enum GameExecutor {
 		assert home != null;
 		StringBuilder buff = new StringBuilder();
 		buff.append("java");
-		// buff.append(" -Xms2M");
-		// buff.append(" -Xmx96M");
+		buff.append(" -Xmx256M");
+		buff.append(" -XX:MaxPermSize=256M");
 		buff.append(" -Dcyc.home=" + home);
 		buff.append(" -Djava.security.policy=" + home + "/security.policy");
 
 		// buff.append(" -Xdebug");
 		// buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
-		// buff.append(" -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.port=9997 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false");
+
+		// buff.append(" -Dcom.sun.management.jmxremote.port=9997 -Dcom.sun.management.jmxremote.password.file=jmxremote.password -Dcom.sun.management.jmxremote.ssl=false");
 
 		buff.append(" -jar " + home + "/engine-container-jar-with-dependencies.jar");
 
