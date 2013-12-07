@@ -47,6 +47,11 @@ public class Year {
 					game.getResult().addError(e);
 					log.error("Failed to call the company.launch handler. Player " + company.getName() + " bankrupt", e);
 					company.setBankruptFromError(e);
+				} catch (Exception e) {
+					game.getResult().addError(e);
+					log.error("Exception:Failed to call the company.launch handler. Player " + company.getName()
+							+ " bankrupt", e);
+					company.setBankruptFromError(e);
 				}
 			}
 		}
@@ -57,7 +62,8 @@ public class Year {
 		for (Company company : game.getCompanies()) {
 			if (!company.isBankrupt()) {
 				try {
-					log.debug("Company {} paid the initial bank credit ${}", company.getName(), game.getConstants().getCreditPayback());
+					log.debug("Company {} paid the initial bank credit ${}", company.getName(), game.getConstants()
+							.getCreditPayback());
 					company.decCash(game.getConstants().getCreditPayback());
 				} catch (OutOfMoneyException e) {
 					log.debug("Company [] is bankrupt", e.getCompany());
