@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import org.xeustechnologies.jcl.JarClassLoader;
@@ -86,7 +87,7 @@ public class EngineLoader {
 			}
 		}
 		if (maxNum == -1) {
-			throw new RuntimeException("No game-engine found at " + baseDir);
+			throw new NoEngineException(baseDir);
 		}
 		if (currentDir == null || !currentDir.equals(dirName)) {
 			log.debug("Switching to new engine directory:" + dirName);
@@ -109,14 +110,15 @@ public class EngineLoader {
 
 	class DirectoryScanner implements Runnable {
 		@Override
+		@SneakyThrows(value = InterruptedException.class)
 		public void run() {
 			running = true;
 			while (running) {
 				try {
 					findLatestDir();
 					TimeUnit.SECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					// ignore
+				} catch (NoEngineException e) {
+					TimeUnit.MINUTES.sleep(1);
 				} catch (Exception e) {
 					log.error("DirectoryScanner failed", e);
 				}
