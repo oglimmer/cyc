@@ -2,8 +2,7 @@ package de.oglimmer.cyc.api;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.mozilla.javascript.EcmaError;
-import org.mozilla.javascript.WrappedException;
+import org.mozilla.javascript.RhinoException;
 
 @Slf4j
 public class Year {
@@ -38,20 +37,13 @@ public class Year {
 						ThreadLocal.setCompany(company);
 						company.launch.run();
 					}
-				} catch (WrappedException e) {
+				} catch (RhinoException e) {
 					if (!(e.getCause() instanceof GameException)) {
 						game.getResult().addError(e);
-						log.error("Failed to call the company.launch handler", e);
+						log.error("Failed to call the company.launch handler. Player " + company.getName()
+								+ " bankrupt", e);
+						company.setBankruptFromError(e);
 					}
-				} catch (EcmaError e) {
-					game.getResult().addError(e);
-					log.error("Failed to call the company.launch handler. Player " + company.getName() + " bankrupt", e);
-					company.setBankruptFromError(e);
-				} catch (Exception e) {
-					game.getResult().addError(e);
-					log.error("Exception:Failed to call the company.launch handler. Player " + company.getName()
-							+ " bankrupt", e);
-					company.setBankruptFromError(e);
 				}
 			}
 		}

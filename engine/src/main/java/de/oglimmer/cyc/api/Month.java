@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import lombok.extern.slf4j.Slf4j;
 
 import org.mozilla.javascript.EcmaError;
+import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.WrappedException;
 
 import de.oglimmer.cyc.api.ApplicationProfile.Offer;
@@ -48,15 +49,13 @@ public class Month {
 						ThreadLocal.setCompany(company);
 						company.doMonthly.run();
 					}
-				} catch (WrappedException e) {
+				} catch (RhinoException e) {
 					if (!(e.getCause() instanceof GameException)) {
 						game.getResult().addError(e);
-						log.error("Failed to call the company.doMonthly handler", e);
+						log.error("Failed to call the company.launch handler. Player " + company.getName()
+								+ " bankrupt", e);
+						company.setBankruptFromError(e);
 					}
-				} catch (EcmaError e) {
-					game.getResult().addError(e);
-					log.error("Failed to call the company.doMonthly handler. Player " + company.getName() + " bankrupt", e);
-					company.setBankruptFromError(e);
 				}
 			}
 		}

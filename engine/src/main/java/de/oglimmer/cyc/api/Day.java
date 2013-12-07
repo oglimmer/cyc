@@ -6,8 +6,7 @@ import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.mozilla.javascript.EcmaError;
-import org.mozilla.javascript.WrappedException;
+import org.mozilla.javascript.RhinoException;
 
 import de.oglimmer.cyc.api.Grocer.FoodOrder;
 
@@ -53,8 +52,9 @@ public class Day {
 				for (Employee e : c.getHumanResources().getEmployeesInt()) {
 					playerResult.addStaffByDays(e.getJobPosition().toString());
 				}
-				log.debug("{} at day {} => est={}, staff={} ", c.getName(), game.getCurrentDay(), game.getResult().get(c.getName())
-						.getEstablishmentsByDays(), game.getResult().get(c.getName()).getStaffByDays());
+				log.debug("{} at day {} => est={}, staff={} ", c.getName(), game.getCurrentDay(),
+						game.getResult().get(c.getName()).getEstablishmentsByDays(), game.getResult().get(c.getName())
+								.getStaffByDays());
 			} else {
 				log.debug("{} is bankrupt...", c.getName());
 			}
@@ -69,15 +69,13 @@ public class Day {
 						ThreadLocal.setCompany(company);
 						company.doWeekly.run();
 					}
-				} catch (WrappedException e) {
+				} catch (RhinoException e) {
 					if (!(e.getCause() instanceof GameException)) {
 						game.getResult().addError(e);
-						log.error("Failed to call the company.doWeekly handler", e);
+						log.error("Failed to call the company.launch handler. Player " + company.getName()
+								+ " bankrupt", e);
+						company.setBankruptFromError(e);
 					}
-				} catch (EcmaError e) {
-					game.getResult().addError(e);
-					log.error("Failed to call the company.doWeekly handler. Player " + company.getName() + " bankrupt", e);
-					company.setBankruptFromError(e);
 				}
 			}
 		}
@@ -92,15 +90,13 @@ public class Day {
 						ThreadLocal.setCompany(company);
 						company.doDaily.run();
 					}
-				} catch (WrappedException e) {
+				} catch (RhinoException e) {
 					if (!(e.getCause() instanceof GameException)) {
 						game.getResult().addError(e);
-						log.error("Failed to call the company.doDaily handler", e);
+						log.error("Failed to call the company.launch handler. Player " + company.getName()
+								+ " bankrupt", e);
+						company.setBankruptFromError(e);
 					}
-				} catch (EcmaError e) {
-					game.getResult().addError(e);
-					log.error("Failed to call the company.doDaily handler. Player " + company.getName() + " bankrupt", e);
-					company.setBankruptFromError(e);
 				}
 			}
 		}
@@ -121,9 +117,10 @@ public class Day {
 						fu.decPullDate();
 						if (fu.getPullDate() == 0) {
 							it.remove();
-							log.debug("Removed a rotten food-unit of {} for {} with {} in {}", fu.getFood(), c.getName(), fu.getUnits(),
-									est.getAddress());
-							game.getResult().get(c.getName()).getTotalRottenFood().add(fu.getFood().toString(), fu.getUnits());
+							log.debug("Removed a rotten food-unit of {} for {} with {} in {}", fu.getFood(),
+									c.getName(), fu.getUnits(), est.getAddress());
+							game.getResult().get(c.getName()).getTotalRottenFood()
+									.add(fu.getFood().toString(), fu.getUnits());
 						}
 					}
 				}
@@ -157,15 +154,12 @@ public class Day {
 						ThreadLocal.setCompany(c);
 						c.foodDelivery.run(fd);
 					}
-				} catch (WrappedException e) {
+				} catch (RhinoException e) {
 					if (!(e.getCause() instanceof GameException)) {
 						game.getResult().addError(e);
-						log.error("Failed to call the company.foodDelivery handler", e);
+						log.error("Failed to call the company.launch handler. Player " + c.getName() + " bankrupt", e);
+						c.setBankruptFromError(e);
 					}
-				} catch (EcmaError e) {
-					game.getResult().addError(e);
-					log.error("Failed to call the company.foodDelivery handler. Player " + c.getName() + " bankrupt", e);
-					c.setBankruptFromError(e);
 				}
 			}
 		}
