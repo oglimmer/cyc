@@ -115,6 +115,7 @@ public class CycPolicy extends Policy {
 			String peName = pe.getName();
 			if (isFilePermission(permission)) {
 				peName = reduce(peName, true);
+				log.debug("Check IO: {} ==? {} => {}", pName, peName, pName.matches(peName));
 			}
 			if (pName.matches(peName) && pe.matchActions(permission.getActions())) {
 				// log.debug("GRANTED for {}:{}:{}", permission.getClass().getName(), pName, permission.getActions());
