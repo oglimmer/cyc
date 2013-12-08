@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.MemoryType;
+import java.lang.management.MemoryUsage;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -11,6 +15,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -105,10 +110,10 @@ public class GameServer {
 						final String clientRequest = inFromClient.readLine();
 						if ("exit".equals(clientRequest)) {
 							handleExit(outToClient);
-						} else if ("up".equals(clientRequest)) {
-							handleUp(outToClient);
 						} else if ("status".equals(clientRequest)) {
-							handleStatus(outToClient);
+							handleStatus(outToClient, false);
+						} else if ("extstatus".equals(clientRequest)) {
+							handleStatus(outToClient, true);
 						} else if ("version".equals(clientRequest)) {
 							handleVersion(outToClient);
 						} else {
@@ -159,24 +164,48 @@ public class GameServer {
 			outToClient.writeBytes("ok\n");
 		}
 
-		private void handleStatus(DataOutputStream outToClient) throws IOException {
-			log.info("Running: {}", running);
-			log.info("Queue-size: {}", tpe.getQueue().size());
+		private void handleStatus(DataOutputStream outToClient, boolean extended) throws IOException {
+			boolean lRunning = running;
+			int queueSize = tpe.getQueue().size();
+			int active = tpe.getActiveCount();
 			NumberFormat nf = NumberFormat.getIntegerInstance();
-			log.info("Memory(free/max/total): {}/{}/{}", nf.format(Runtime.getRuntime().freeMemory()),
-					nf.format(Runtime.getRuntime().maxMemory()), nf.format(Runtime.getRuntime().totalMemory()));
-			log.info("Current dir: {}", engineLoader.getBaseDir() + engineLoader.getCurrentDir());
-			outToClient.writeBytes("Running: " + running + "\n");
-			outToClient.writeBytes("Queue-size: " + tpe.getQueue().size() + "\n");
-			outToClient.writeBytes("Memory(free/max/total): " + nf.format(Runtime.getRuntime().freeMemory()) + "/"
-					+ nf.format(Runtime.getRuntime().maxMemory()) + "/" + nf.format(Runtime.getRuntime().totalMemory())
-					+ "\n");
-			outToClient.writeBytes("Current dir: " + engineLoader.getBaseDir() + engineLoader.getCurrentDir() + "\n");
-		}
-
-		private void handleUp(DataOutputStream outToClient) throws IOException {
+			String freeMem = nf.format(Runtime.getRuntime().freeMemory());
+			String maxMem = nf.format(Runtime.getRuntime().maxMemory());
+			String totalMem = nf.format(Runtime.getRuntime().totalMemory());
+			String curDir = engineLoader.getBaseDir() + engineLoader.getCurrentDir();
+			log.info("Running: {}", lRunning);
+			log.info("Queue-size: {}", queueSize);
+			log.info("Active: {}", active);
+			log.info("Current dir: {}", curDir);
 			log.info("Uptime: {}", startTime);
+			log.info("Memory(free/total/max): {}/{}/{}", freeMem, totalMem, maxMem);
+			outToClient.writeBytes("Running: " + lRunning + "\n");
+			outToClient.writeBytes("Queue-size: " + queueSize + "\n");
+			outToClient.writeBytes("Active: " + active + "\n");
+			outToClient.writeBytes("Current dir: " + curDir + "\n");
 			outToClient.writeBytes("Uptime: " + startTime + "\n");
+			outToClient.writeBytes("Memory(free/total/max): " + freeMem + "/" + totalMem + "/" + maxMem + "\n");
+			if (extended) {
+				Iterator<MemoryPoolMXBean> iter = ManagementFactory.getMemoryPoolMXBeans().iterator();
+				while (iter.hasNext()) {
+					MemoryPoolMXBean item = iter.next();
+					String name = item.getName();
+					MemoryType type = item.getType();
+					MemoryUsage usage = item.getUsage();
+					MemoryUsage peak = item.getPeakUsage();
+					MemoryUsage collections = item.getCollectionUsage();
+					log.debug("{} ({})", name, type);
+					outToClient.writeBytes(name + " (" + type + ")\n");
+					log.debug("Usage:{}", usage.toString());
+					outToClient.writeBytes("Usage:" + usage + "\n");
+					log.debug("Peak:{}", peak.toString());
+					outToClient.writeBytes("Peak:" + peak + "\n");
+					if (collections != null) {
+						log.debug("Collections:{}", collections.toString());
+						outToClient.writeBytes("Collections:" + collections + "\n");
+					}
+				}
+			}
 		}
 
 		private void handleExit(DataOutputStream outToClient) throws IOException {
