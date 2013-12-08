@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.Policy;
 import java.util.concurrent.TimeUnit;
 
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import org.xeustechnologies.jcl.JarClassLoader;
@@ -72,6 +72,8 @@ public class EngineLoader {
 
 	protected void initClassLoader() {
 		jcl = new JarClassLoader();
+		// Needed for proper garbage collection of the old JarClassLoader inside sun.security.provider.PolicyFile
+		Policy.getPolicy().refresh();
 
 		jcl.add(baseDir + currentDir);
 	}
@@ -110,15 +112,18 @@ public class EngineLoader {
 
 	class DirectoryScanner implements Runnable {
 		@Override
-		@SneakyThrows(value = InterruptedException.class)
 		public void run() {
 			running = true;
 			while (running) {
 				try {
 					findLatestDir();
 					TimeUnit.SECONDS.sleep(5);
+				} catch (InterruptedException e) {
 				} catch (NoEngineException e) {
-					TimeUnit.MINUTES.sleep(1);
+					try {
+						TimeUnit.MINUTES.sleep(1);
+					} catch (InterruptedException e1) {
+					}
 				} catch (Exception e) {
 					log.error("DirectoryScanner failed", e);
 				}

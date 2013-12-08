@@ -9,7 +9,6 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.security.Policy;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -24,7 +23,6 @@ public class GameServer {
 	public static final int SERVER_PORT = 9998;
 
 	public static void main(String[] args) throws Exception {
-		Policy.setPolicy(new CycPolicy(Policy.getPolicy()));
 		assert System.getProperty("cyc.home") != null;
 
 		try {
