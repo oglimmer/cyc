@@ -2,24 +2,20 @@ package de.oglimmer.cyc.web.actions;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 
+@Slf4j
 @DoesNotRequireLogin
 public class TutorialActionBean extends BaseAction {
-
-	private static Logger log = LoggerFactory.getLogger(TutorialActionBean.class);
 
 	private static final String VIEW = "/WEB-INF/jsp/tutorial.jsp";
 

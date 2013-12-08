@@ -6,6 +6,7 @@
 		<div style="font-size:0.6em;text-align:right;">
 			API Version ${API_Version} <a href="../apidocs/index.html" target="_blank">API</a> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.actions.TutorialActionBean" >Tutorial</s:link> &nbsp;
+			<s:link beanclass="de.oglimmer.cyc.web.actions.FaqActionBean" >FAQ</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" event="exit" >Log off</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.actions.ChangePasswordActionBean" >Change password</s:link>			
 		</div>

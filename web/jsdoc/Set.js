@@ -9,7 +9,8 @@
 * <br/><br/>
 * Loop through a Set the Java way:<br/>
 * <br/>
-* for(var it = theSet.iterator() ; it.hasNext() ; ){<br/>
+* var it = theSet.iterator();
+* while(it.hasNext()) {<br/>
 * &nbsp;&nbsp;var element = it.next();<br/>
 * &nbsp;&nbsp;console.log(element);<br/>
 * }<br/>
