@@ -91,7 +91,7 @@ if [ -n "$ENGINE_CONTAINER" ]; then
 	cp engine-container/target/engine-container-jar-with-dependencies.jar $CYC_ENGINE_CONTAINER
 	cp engine-container/target/classes/security.policy $CYC_ENGINE_CONTAINER	
 	mkdir -p $CYC_ENGINE_CONTAINER/logs
-	echo "java -Djava.security.policy=security.policy -Dcyc.home=.  -jar engine-container-jar-with-dependencies.jar" >$CYC_ENGINE_CONTAINER/run.sh
+	echo "java -Xmx256M -XX:MaxPermSize=256M -Djava.security.policy=security.policy -Dcyc.home=.  -jar engine-container-jar-with-dependencies.jar" >$CYC_ENGINE_CONTAINER/run.sh
 	chmod 777 $CYC_ENGINE_CONTAINER/run.sh
 fi
 
