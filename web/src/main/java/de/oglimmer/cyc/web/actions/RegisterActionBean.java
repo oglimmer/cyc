@@ -16,6 +16,8 @@ import net.sourceforge.stripes.validation.ValidationMethod;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.google.common.html.HtmlEscapers;
+
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
@@ -53,9 +55,6 @@ public class RegisterActionBean extends BaseAction {
 
 	@ValidationMethod
 	public void validateUser(ValidationErrors errors) {
-		if (getUsername().contains("<") || getUsername().contains(">")) {
-			errors.add("password", new SimpleError("The username must not contain any HTML"));
-		}
 		if (getPassword() == null || !getPassword().equals(getPassword2())) {
 			errors.add("password", new SimpleError("The confirmation password doesn''t match the password."));
 		}
@@ -70,7 +69,7 @@ public class RegisterActionBean extends BaseAction {
 
 	public Resolution register() {
 		String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
-		User user = new User(getUsername(), hashed, getEmail());
+		User user = new User(HtmlEscapers.htmlEscaper().escape(getUsername()), hashed, getEmail());
 		user.setMainJavaScript("//click the Tutorial link in the upper right\r\rcompany.humanResources.hiringProcess = function(applicationProfiles) {    \r};\r\rcompany.realEstateAgent = function(realEstateProfiles) {\r};\r\rcompany.doMonthly = function() {\r};\r\rcompany.doWeekly = function() {\r};\r\rcompany.doDaily = function() {\r};\r\rcompany.foodDelivery = function(foodDelivery) {\r};\r");
 		userDao.add(user);
 		return new RedirectResolution(LandingActionBean.class);

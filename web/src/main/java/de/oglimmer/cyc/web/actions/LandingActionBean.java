@@ -18,6 +18,8 @@ import net.sourceforge.stripes.validation.ValidationMethod;
 import org.ektorp.DocumentNotFoundException;
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.google.common.html.HtmlEscapers;
+
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
@@ -44,7 +46,8 @@ public class LandingActionBean extends BaseAction {
 	public void validateUser(ValidationErrors errors) {
 		getContext().getRequest().getSession().removeAttribute("userid");
 		try {
-			List<User> userList = userDao.findByUsername(username.toLowerCase());
+			String uname = HtmlEscapers.htmlEscaper().escape(getUsername()).toLowerCase();
+			List<User> userList = userDao.findByUsername(uname);
 			if (userList.size() == 1) {
 				User user = userList.get(0);
 				checkPassword(errors, getContext(), user, password);

@@ -8,6 +8,8 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+import com.google.common.html.HtmlEscapers;
+
 public class MenuEntry {
 
 	@Getter
@@ -20,7 +22,7 @@ public class MenuEntry {
 	private List<Food> ingredients = new ArrayList<>();
 
 	public MenuEntry(String name, String[] ingredients, int price) {
-		this.name = name;
+		this.name = HtmlEscapers.htmlEscaper().escape(name);
 		this.price = price;
 		for (String i : ingredients) {
 			this.ingredients.add(Food.valueOf(i));
