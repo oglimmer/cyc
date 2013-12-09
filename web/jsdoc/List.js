@@ -9,7 +9,7 @@
 * <br/><br/>
 * Loop through a list the Java way:<br/>
 * <br/>
-* var it = theList.iterator();
+* var it = theList.iterator();<br/>
 * while(it.hasNext()) {<br/>
 * &nbsp;&nbsp;var element = it.next();<br/>
 * &nbsp;&nbsp;console.log(element);<br/>
