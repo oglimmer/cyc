@@ -49,7 +49,7 @@ public class Day {
 			if (!c.isBankrupt()) {
 				PlayerResult playerResult = game.getResult().get(c.getName());
 				playerResult.addEstablishmentsByDays(c.getEstablishments().size());
-				for (Employee e : c.getHumanResources().getEmployeesInt()) {
+				for (Employee e : c.getHumanResources().getEmployees()) {
 					playerResult.addStaffByDays(e.getJobPosition().toString());
 				}
 				log.debug("{} at day {} => est={}, staff={} ", c.getName(), game.getCurrentDay(),

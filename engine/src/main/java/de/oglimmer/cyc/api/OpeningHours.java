@@ -57,6 +57,7 @@ public class OpeningHours {
 				for (Establishment est : c.getEstablishmentsInt()) {
 					if (est.getAddress().startsWith(city)) {
 						int score = est.getScore();
+						log.debug("Est score: {}:{} ({})", est.getAddress(), score, c.getName());
 						game.getResult().get(c.getName()).addEstablishmentScore(est.getAddress(), score);
 						if (score > 0) {
 							estList.put(totalScore + score, est);

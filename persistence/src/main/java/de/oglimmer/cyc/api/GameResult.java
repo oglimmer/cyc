@@ -98,56 +98,60 @@ public class GameResult {
 
 	@JsonIgnore
 	public Map<String, Double> getFoodChart() {
-		HashMap<String, Double> base = new HashMap<>();
-
+		Map<String, Double> totalMap = new HashMap<>();
 		double max = -1;
+
 		for (String playName : playerResults.keySet()) {
 			PlayerResult pr = playerResults.get(playName);
-			for (Entry<String, Average> en : pr.getMenuEntryScore().entrySet()) {
-				base.put(en.getKey() + " (" + playName + ")", en.getValue().average());
-				if (max < en.getValue().average()) {
-					max = en.getValue().average();
-				}
-			}
-		}
-		for (String s : base.keySet()) {
-			double val = Math.round(base.get(s) / max * 20) / 20d;
-			base.put(s, val);
+			max = buildTotalMap(totalMap, playName, pr.getMenuEntryScore(), max);
 		}
 
-		ValueComparator vc = new ValueComparator(base);
-		TreeMap<String, Double> sorted = new TreeMap<>(vc);
-		sorted.putAll(base);
+		buildResultMap(totalMap, max);
 
-		return sorted;
+		return sortByValue(totalMap);
 	}
 
 	@JsonIgnore
 	public Map<String, Double> getEstablishmentChart() {
-		HashMap<String, Double> base = new HashMap<>();
-
+		Map<String, Double> totalMap = new HashMap<>();
 		double max = -1;
+
 		for (String playName : playerResults.keySet()) {
 			PlayerResult pr = playerResults.get(playName);
-			for (Entry<String, Average> en : pr.getEstablishmentScore().entrySet()) {
-				base.put(en.getKey() + " (" + playName + ")", en.getValue().average());
-				if (max < en.getValue().average()) {
-					max = en.getValue().average();
-				}
-			}
-		}
-		for (String s : base.keySet()) {
-			double val = Math.round(base.get(s) / max * 20) / 20d;
-			base.put(s, val);
+			max = buildTotalMap(totalMap, playName, pr.getEstablishmentScore(), max);
 		}
 
-		ValueComparator vc = new ValueComparator(base);
+		buildResultMap(totalMap, max);
+
+		return sortByValue(totalMap);
+	}
+
+	private Map<String, Double> sortByValue(Map<String, Double> totalMap) {
+		ValueComparator vc = new ValueComparator(totalMap);
 		TreeMap<String, Double> sorted = new TreeMap<>(vc);
-		sorted.putAll(base);
-
+		sorted.putAll(totalMap);
 		return sorted;
 	}
 
+	private void buildResultMap(Map<String, Double> totalMap, double max) {
+		for (String s : totalMap.keySet()) {
+			double val = Math.round(totalMap.get(s) / max * 20) / 20d;
+			totalMap.put(s, val);
+		}
+	}
+
+	private double buildTotalMap(Map<String, Double> totalMap, String playerName, Map<String, Average> map,
+			double baseValue) {
+		double max = baseValue;
+		for (Entry<String, Average> en : map.entrySet()) {
+			double val = en.getValue().average();
+			totalMap.put(en.getKey() + " (" + playerName + ")", val);
+			if (max < en.getValue().average()) {
+				max = en.getValue().average();
+			}
+		}
+		return max;
+	}
 }
 
 class ValueComparator implements Comparator<String> {

@@ -2,10 +2,11 @@ package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import de.oglimmer.cyc.util.CountMap;
 
 public class HumanResources {
 
@@ -31,17 +32,13 @@ public class HumanResources {
 		return CycCollections.unmodifiableList(subList);
 	}
 
-	Map<JobPosition, Integer> getSummary(Establishment est) {
-		Map<JobPosition, Integer> summary = new HashMap<>();
+	Map<JobPosition, Long> getSummary(Establishment est) {
+		CountMap<JobPosition> summary = new CountMap<>();
 		for (JobPosition jp : JobPosition.values()) {
-			summary.put(jp, 0);
+			summary.add(jp, 0);
 		}
-		for (Employee emp : employees) {
-			if (emp.getEstablishment() == est) {
-				int i = summary.get(emp.getJobPosition());
-				i += emp.getQualification();
-				summary.put(emp.getJobPosition(), i);
-			}
+		for (Employee emp : est.getEmployees()) {
+			summary.add(emp.getJobPosition(), emp.getQualification());
 		}
 		return summary;
 	}

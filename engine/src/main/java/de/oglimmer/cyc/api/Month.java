@@ -66,7 +66,7 @@ public class Month {
 		for (Company c : game.getCompanies()) {
 			try {
 				if (!c.isBankrupt()) {
-					for (Employee e : c.getHumanResources().getEmployeesInt()) {
+					for (Employee e : c.getHumanResources().getEmployees()) {
 						game.getResult().get(c.getName()).addTotalOnSalaries(e.getJobPosition().toString(), e.getSalary());
 						c.decCash(e.getSalary());
 						log.debug("{} payed ${} for {}", c.getName(), e.getSalary(), e.getName());
