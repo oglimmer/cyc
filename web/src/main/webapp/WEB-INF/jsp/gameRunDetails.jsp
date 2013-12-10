@@ -59,7 +59,7 @@
 		<div class="centerElement">
 			<table>
 				<tr>
-					<th>Deliciousness of meals</th>
+					<th>Popularity of meals</th>
 				</tr>
 				<tr>
 				<c:forEach items="${actionBean.result.foodChart}" var="entry">

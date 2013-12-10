@@ -103,6 +103,28 @@
 			<div style="font-weight:bolder">Q: The <a href="https://github.com/oglimmer/cyc/tree/master/rules/src/main/resources">core rules</a> of the game look a little bit simple?</div>
 			A: These are not the rules in play. As the game would be too simple if you know the rules, I made them a secret. 
 		</div>		
+
+		<div class="centerElement">
+			<div style="font-weight:bolder">Q: How does the "Popularity of meals" score work?</div>
+			A: Each meal has a particular popularity. It is calculated out of the delicious and its value for money. The best
+			meal in the current game always gets 100% and all other meals get a score relative to the top meal. That means
+			a score of 100% doesn't mean it is the best meal in the world, it just says it was the best meal in the run.
+		</div>		
+
+		<div class="centerElement">
+			<div style="font-weight:bolder">Q: How does the "Establishment's appeal" score work?</div>
+			A: Each restaurant has a particular appeal. It is calculated out of the size, the location quality, the qualification and quantity of the staff,
+			the interior accessories and finally the popularity of all offered meals. The best
+			restaurant in the current game always gets 100% and all other restaurant get a score relative to the top meal. That means
+			a score of 100% doesn't mean it is the best restaurant in the world, it just says it was the best restaurant in the run.
+		</div>		
+
+		<div class="centerElement">
+			<div style="font-weight:bolder">Q: How does the "Establishment's appeal" and "Total visitors in" relate to each other?</div>
+			A: When people are getting hungry they randomly pick a restaurant in the city. However the probability for a particular restaurant to 
+			be picked is its "Establishment's appeal" score in relation to the sum of all scores, e.g. Restaurant A has 100%, restaurant B has 50% and restaurant
+			C has 25%. So the probability for A to get picked is 57% (100/175), for B 29% (50/175) and for C 14% (25/175).
+		</div>		
 		
 		<div style="margin-bottom:40px;">				
 		</div>
