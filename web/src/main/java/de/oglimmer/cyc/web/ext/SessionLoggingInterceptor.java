@@ -14,7 +14,7 @@ public class SessionLoggingInterceptor implements Interceptor {
 	@Override
 	public Resolution intercept(ExecutionContext ctx) throws Exception {
 		HttpServletRequest req = ctx.getActionBeanContext().getRequest();
-		req.getSession().setAttribute("IP", req.getRemoteHost());
+		req.getSession().setAttribute("IP", req.getHeader("X-Forwarded-For"));
 		Resolution res = ctx.proceed();
 		return res;
 	}
