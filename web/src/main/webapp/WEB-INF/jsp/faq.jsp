@@ -18,6 +18,12 @@
 				your meals, experiment with the price for your meals.<br/>
 				Start to check "Total visitors in", "Total visitors who left" for your restaurants as well (more about that in other FAQ sections). 
 		</div>
+
+		<div class="centerElement">
+			<div style="font-weight:bolder">Q: I am going bankrupt on day 360</div>
+			A: After 1 year (or 360 days) you need to pay the credit back. So going bankrupt on day 360 means
+			that you had less than $55,000 at the end of game.  
+		</div>
 		
 		<div class="centerElement">
 			<div style="font-weight:bolder">Q: Why is "Total visitors who left without ordering anything in ..." so high?</div>
