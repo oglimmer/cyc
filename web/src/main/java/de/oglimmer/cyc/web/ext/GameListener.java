@@ -4,6 +4,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.web.GameExecutor;
 
@@ -12,7 +14,10 @@ public class GameListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		GameExecutor.INSTANCE.setRootPath(sce.getServletContext().getRealPath("/"));
+		String realPath = sce.getServletContext().getRealPath("/");
+		GameExecutor.INSTANCE.setRootPath(realPath);
+		GameExecutor.INSTANCE
+				.setWarVersion(StringUtils.substringBefore(StringUtils.substringAfter(realPath, "##"), "/"));
 	}
 
 	@Override

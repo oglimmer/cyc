@@ -40,6 +40,10 @@ public enum GameExecutor {
 	@Setter
 	private String rootPath;
 
+	@Getter
+	@Setter
+	private String warVersion;
+
 	private GameExecutor() {
 
 		Calendar cal = GregorianCalendar.getInstance();
@@ -144,31 +148,36 @@ public enum GameExecutor {
 	}
 
 	class Runner implements Runnable {
+
 		@Override
 		public void run() {
+			try {
+				while (running) {
 
-			while (running) {
+					if (GlobalGameExecutor.INSTANCE.isMaster()) {
+						Date now = new Date();
 
-				Date now = new Date();
+						if (nextRun.before(now)) {
+							try {
+								runGame(null);
+							} catch (IOException e) {
+								log.error("Failed to run game", e);
+							}
+							Calendar cal = GregorianCalendar.getInstance();
+							cal.add(Calendar.MINUTE, RUN_EVERY_MINUTES);
+							nextRun = cal.getTime();
+						}
 
-				if (nextRun.before(now)) {
-					try {
-						runGame(null);
-					} catch (IOException e) {
-						log.error("Failed to run game", e);
 					}
-					Calendar cal = GregorianCalendar.getInstance();
-					cal.add(Calendar.MINUTE, RUN_EVERY_MINUTES);
-					nextRun = cal.getTime();
+					try {
+						TimeUnit.SECONDS.sleep(15);
+					} catch (InterruptedException e) {
+						// don't care about this
+					}
 				}
-
-				try {
-					TimeUnit.SECONDS.sleep(15);
-				} catch (InterruptedException e) {
-					// don't care about this
-				}
+			} finally {
+				GlobalGameExecutor.INSTANCE.close();
 			}
-
 		}
 	}
 
