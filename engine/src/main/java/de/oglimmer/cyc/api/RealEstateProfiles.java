@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import de.oglimmer.cyc.util.CountMap;
 
 @Slf4j
-public class RealEstateProfiles implements Iterable<RealEstateProfile>, Container<RealEstateProfile> {
+public class RealEstateProfiles implements Iterable<RealEstateProfile>, SortableContainer<RealEstateProfile> {
 
 	private List<RealEstateProfile> profiles = new ArrayList<>();
 
@@ -135,6 +135,16 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Containe
 		} catch (IndexOutOfBoundsException e) {
 			return new RealEstateProfile(null, -1, -1, -1, -1);
 		}
+	}
+	
+	@Override
+	public RealEstateProfile getLowest() {
+		return get(0);
+	}
+
+	@Override
+	public RealEstateProfile getHighest() {
+		return get(size() - 1);
 	}
 
 	public RealEstateProfiles sortByLeaseCost() {

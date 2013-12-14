@@ -9,7 +9,8 @@
 * If many players are in the game there will more than one city. In this case you can loop through the
 * citiesToRestaurants property to see how many restaurants are in each city. Keep in mind that a city
 * has only a certain number of guests, thus the more restaurants are in a city 
-* the more competitive struggle there is.
+* the more competitive struggle there is. After
+* sorting you should use lowest/highest attribute to access an element.  
 *
 * @class RealEstateProfiles
 * @constructor
@@ -24,6 +25,22 @@ function RealEstateProfiles() {
  * @type {List}
  */
 RealEstateProfiles.prototype.citiesToRestaurants;
+
+/**
+ * Holds the lowest value element in the list if priorly sorted. Read-Only.   
+ * 
+ * @property lowest
+ * @type {RealEstateProfile}
+ */
+RealEstateProfiles.prototype.lowest;
+
+/**
+ * Holds the highest value element in the list if priorly sorted. Read-Only. 
+ * 
+ * @property highest
+ * @type {RealEstateProfile}
+ */
+RealEstateProfiles.prototype.highest;
 
 /**
 * Java-like iterator to loop over all RealEstateProfiles within this presentation.

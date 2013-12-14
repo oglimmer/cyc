@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 
 import de.oglimmer.cyc.api.ApplicationProfile.Offer;
 
-public class ApplicationProfiles implements Iterable<ApplicationProfile>, Container<ApplicationProfile> {
+public class ApplicationProfiles implements Iterable<ApplicationProfile>, SortableContainer<ApplicationProfile> {
 
 	private List<ApplicationProfile> profiles;
 
@@ -88,6 +88,16 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Contai
 		}
 	}
 
+	@Override
+	public ApplicationProfile getLowest() {
+		return get(0);
+	}
+
+	@Override
+	public ApplicationProfile getHighest() {
+		return get(size() - 1);
+	}
+	
 	public ApplicationProfiles sortByQualification() {
 		Collections.sort(profiles, new Comparator<ApplicationProfile>() {
 			@Override

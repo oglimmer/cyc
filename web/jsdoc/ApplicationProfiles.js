@@ -5,7 +5,8 @@
 * <br/>
 * The parameter in the company.humanResources.hiringProcess function. 
 * Before looping through the objects of <a href="ApplicationProfile.html">ApplicationProfile</a>
-* you probably want to use one of the sortBy* and/or subList method in this class.  
+* you probably want to use one of the sortBy* and/or subList method in this class. After
+* sorting you should use lowest/highest attribute to access an element.  
 *
 * @class ApplicationProfiles
 * @constructor
@@ -14,6 +15,21 @@ function ApplicationProfiles() {
 	
 }
 
+/**
+ * Holds the lowest value element in the list if priorly sorted. Read-Only.   
+ * 
+ * @property lowest
+ * @type {RealEstateProfile}
+ */
+ApplicationProfiles.prototype.lowest;
+
+/**
+ * Holds the highest value element in the list if priorly sorted. Read-Only. 
+ * 
+ * @property highest
+ * @type {RealEstateProfile}
+ */
+ApplicationProfiles.prototype.highest;
 
 /**
 * Java-like iterator to loop over all ApplicationProfiles within this call.
