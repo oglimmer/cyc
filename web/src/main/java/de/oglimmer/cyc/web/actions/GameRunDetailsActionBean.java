@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
@@ -51,10 +53,13 @@ public class GameRunDetailsActionBean extends BaseAction {
 
 	@Before
 	public void getNextRunFromGameEngine() {
-		String userId = (String) getContext().getRequest().getSession().getAttribute("userid");
-		if (userId != null) {
-			User user = userDao.get(userId);
-			username = user.getUsername();
+		HttpSession httpSession = getContext().getRequest().getSession(false);
+		if (httpSession != null) {
+			String userId = (String) httpSession.getAttribute("userid");
+			if (userId != null) {
+				User user = userDao.get(userId);
+				username = user.getUsername();
+			}
 		}
 
 		String gameRunId = getContext().getRequest().getParameter("gameRunId");

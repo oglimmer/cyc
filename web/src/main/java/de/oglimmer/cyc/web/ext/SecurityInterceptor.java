@@ -1,5 +1,7 @@
 package de.oglimmer.cyc.web.ext;
 
+import javax.servlet.http.HttpSession;
+
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -30,7 +32,8 @@ public class SecurityInterceptor implements Interceptor {
 	}
 
 	private boolean isLoggedIn(ActionBeanContext ctx) {
-		return ctx.getRequest().getSession().getAttribute("userid") != null;
+		HttpSession httpSession = ctx.getRequest().getSession(false);
+		return httpSession != null && httpSession.getAttribute("userid") != null;
 	}
 
 }

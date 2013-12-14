@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <%@include file="/WEB-INF/jsp/common/include_taglibs.jsp"%>
 
 <s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
@@ -25,7 +26,7 @@
 	  					<td>
 	  						<c:set var="tmpAsset">${actionBean.result.playerResults[element].totalAssets}</c:set>
 							<c:if test = "${tmpAsset != -1}">
-								<fmt:formatNumber value="${tmpAsset}" type="currency" pattern="¤#,##0.00;-¤#,##0.00"/>
+								<fmt:formatNumber value="${tmpAsset}" type="currency" pattern="Â¤#,##0.00;-Â¤#,##0.00"/>
 							</c:if>
 							<c:if test = "${tmpAsset == -1}">
 								Bankrupt on day ${actionBean.result.playerResults[element].bankruptOnDay}
@@ -126,7 +127,7 @@
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
 							<td>Credit pay back (incl. interest)</td>
-							<td align="right"><fmt:formatNumber value="-55000" type="currency" pattern="¤#,##0.00;-¤#,##0.00"/></td>
+							<td align="right"><fmt:formatNumber value="-55000" type="currency" pattern="Â¤#,##0.00;-Â¤#,##0.00"/></td>
 						</tr>
 						<c:set var="counter" value="${counter + 1}"/>
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">

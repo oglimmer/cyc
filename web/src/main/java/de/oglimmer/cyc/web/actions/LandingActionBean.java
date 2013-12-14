@@ -2,6 +2,8 @@ package de.oglimmer.cyc.web.actions;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -44,14 +46,17 @@ public class LandingActionBean extends BaseAction {
 
 	@ValidationMethod
 	public void validateUser(ValidationErrors errors) {
-		getContext().getRequest().getSession().removeAttribute("userid");
+		HttpSession httpSession = getContext().getRequest().getSession(false);
+		if (httpSession != null) {
+			httpSession.removeAttribute("userid");
+		}
 		try {
 			String uname = HtmlEscapers.htmlEscaper().escape(getUsername()).toLowerCase();
 			List<User> userList = userDao.findByUsername(uname);
 			if (userList.size() == 1) {
 				User user = userList.get(0);
 				checkPassword(errors, getContext(), user, password);
-				getContext().getRequest().getSession().setAttribute("userid", user.getId());
+				getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
 			} else {
 				errors.add("password", new SimpleError("The password is incorrect."));
 			}
@@ -69,7 +74,8 @@ public class LandingActionBean extends BaseAction {
 	@DefaultHandler
 	@DontValidate
 	public Resolution show() {
-		if (getContext().getRequest().getSession().getAttribute("userid") != null) {
+		HttpSession httpSession = getContext().getRequest().getSession(false);
+		if (httpSession != null && httpSession.getAttribute("userid") != null) {
 			return new RedirectResolution(PortalActionBean.class);
 		} else {
 			return new ForwardResolution(VIEW);
