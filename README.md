@@ -11,52 +11,21 @@ WHERE TO PLAY
 
 The game is installed at <a href="http://cyr.oglimmer.de">cyr.oglimmer.de</a>. There are also customized rules in play to make the game even more fun ;)
 
-HOW TO INSTALL
---------------
+HOW TO INSTALL & DEPLOY
+-----------------------
 
-1.) Install CouchDB on localhost:5984 and create a database called "cyc"
+1.) install CouchDB on localhost:5984 and create a database called "cyc"
 
-2.) The database needs to have these views:
+2.) load the views under persistence/src/couchdb/*.json into into localhost:5984/cyc (https://npmjs.org/package/couchviews does the trick easily)
 
-<pre>
-<code>
-{
-   "_id": "_design/GameRun",
-   "_rev": "....",
-   "language": "javascript",
-   "views": {
-       "by_result": {
-           "map": "function(doc) { if(doc.result) {emit(doc.startTime, doc._id)} }"
-       },
-       "count": {
-           "map": "function(doc) {if(doc.result) { emit(null, 1);}}",
-           "reduce": "function(keys, values, combine) { return sum(values); }"
-       }
-   }
-}
+3.) before you build the project you might want to edit the rules under rules/src/main/resources/*.groovy (but for testing purposes the default rules work as well)
+
+4.) set CYC_ENGINE_CONTAINER to an empty directory of your choice
+
+5.) set CYC_WEBAPPS to the webapps directory of a Servlet 3.0 compliant web container. Also add -Dcyc.home=$CYC_ENGINE_CONTAINER as JVM parameter
+
+6.) run "cyc_mgmt.sh -b -w -c -e" to build and deploy everything
+
+7.) just start the web server. it will automatically start the engine process
 
 
-{
-   "_id": "_design/User",
-   "_rev": "...",
-   "language": "javascript",
-   "views": {
-       "by_username": {
-           "map": "function(doc) { if(doc.username) {emit(doc.username.toLowerCase(), doc._id)} }"
-       },
-       "by_email": {
-           "map": "function(doc) { if(doc.email) {emit(doc.email.toLowerCase(), doc._id)} }"
-       },
-       "by_openSource": {
-           "map": "function(doc) { if(doc.username && doc.openSource==1) {emit(doc.username.toLowerCase(), doc._id)} }"
-       }
-   }
-}
-</code>
-</pre>
-
-3.) Before you build the project you might want to edit the rules under rules/src/main/resources/*.groovy (but for testing purposes the default rules work as well)
-
-4.) mvn package
-
-5.) Add -Dcyc.home=$CLONE_DIR/engine-container/target/dist as JVM parameter to your Servlet 3.0 compliant web container
