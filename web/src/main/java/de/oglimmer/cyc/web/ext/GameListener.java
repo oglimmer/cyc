@@ -15,7 +15,6 @@ public class GameListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		String realPath = sce.getServletContext().getRealPath("/");
-		GameExecutor.INSTANCE.setRootPath(realPath);
 		GameExecutor.INSTANCE
 				.setWarVersion(StringUtils.substringBefore(StringUtils.substringAfter(realPath, "##"), "/"));
 	}

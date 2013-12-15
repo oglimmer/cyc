@@ -8,8 +8,6 @@ import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -27,6 +25,7 @@ public enum GameExecutor {
 	INSTANCE;
 
 	private static final int RUN_EVERY_MINUTES = 15;
+	private static final boolean DEBUG_AUTO_START = false;
 
 	private boolean running;
 
@@ -36,9 +35,6 @@ public enum GameExecutor {
 	private Runner runner = new Runner();
 
 	private Thread thread;
-
-	@Setter
-	private String rootPath;
 
 	@Getter
 	@Setter
@@ -103,15 +99,20 @@ public enum GameExecutor {
 
 	public void startServer() throws IOException {
 		try {
-			String[] commandLineArgs = createCommandLineArray();
+			String home = System.getProperty("cyc.home");
+			assert home != null;
+
+			String[] commandLineArgs = createCommandLineArray(home);
 
 			log.debug(Arrays.toString(commandLineArgs));
 
-			Files.createDirectories(Paths.get(rootPath + "/WEB-INF/engineLogs"));
-
 			ProcessBuilder pb = new ProcessBuilder(commandLineArgs);
-			pb.redirectError(new File(rootPath + "/WEB-INF/engineLogs/engine.err"));
-			pb.redirectOutput(new File(rootPath + "/WEB-INF/engineLogs/engine.out"));
+			if (DEBUG_AUTO_START) {
+				pb.inheritIO();
+			} else {
+				pb.redirectError(new File(home + "/logs/engine.err"));
+				pb.redirectOutput(new File(home + "/logs/engine.out"));
+			}
 			pb.start();
 
 			TimeUnit.SECONDS.sleep(3);
@@ -122,9 +123,7 @@ public enum GameExecutor {
 		}
 	}
 
-	private String[] createCommandLineArray() {
-		String home = System.getProperty("cyc.home");
-		assert home != null;
+	private String[] createCommandLineArray(String home) {
 		StringBuilder buff = new StringBuilder();
 		buff.append("java");
 		buff.append(" -Xmx256M");
