@@ -3,6 +3,7 @@ package de.oglimmer.cyc.dao.couchdb;
 import java.util.List;
 
 import org.ektorp.CouchDbConnector;
+import org.ektorp.ViewQuery;
 import org.ektorp.support.CouchDbRepositorySupport;
 import org.ektorp.support.GenerateView;
 
@@ -32,7 +33,8 @@ public class UserCouchDb extends CouchDbRepositorySupport<User> implements UserD
 	}
 
 	@Override
-	public List<User> findByOpenSource(String username) {
-		return queryView("by_openSource", username);
+	public int findByOpenSource(String username) {
+		ViewQuery vq = createQuery("by_openSource").includeDocs(false).key(username);
+		return db.queryView(vq).getSize();
 	}
 }

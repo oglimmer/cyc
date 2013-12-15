@@ -13,6 +13,12 @@ public interface UserDao extends GenericRepository<User> {
 	List<User> findAllUser();
 
 	List<User> findByEmail(String email);
-	
-	List<User> findByOpenSource(String username);
+
+	/**
+	 * Number of rows with "openSource==1" and a matching username
+	 * 
+	 * @param username
+	 * @return
+	 */
+	int findByOpenSource(String username);
 }

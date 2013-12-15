@@ -93,7 +93,6 @@ public class Game {
 
 		gameRun.setResult(result);
 		gameRun.setEndTime(new Date());
-		gameRun.setMemUsed(Runtime.getRuntime().totalMemory());
 
 		if (writeGameResult) {
 			GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());

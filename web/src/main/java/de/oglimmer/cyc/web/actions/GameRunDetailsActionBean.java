@@ -40,9 +40,6 @@ public class GameRunDetailsActionBean extends BaseAction {
 	private Date endTime;
 	@Getter
 	@Setter
-	private long memUsed;
-	@Getter
-	@Setter
 	private List<String> participants;
 	@Getter
 	@Setter
@@ -75,13 +72,11 @@ public class GameRunDetailsActionBean extends BaseAction {
 		if (gr != null) {
 			gr.getResult().sortPlayers();
 			setResult(gr.getResult());
-			setMemUsed(gr.getMemUsed());
 			setStartTime(gr.getStartTime());
 			setEndTime(gr.getEndTime());
 			setParticipants(gr.getParticipants());
 			for (String p : gr.getParticipants()) {
-				List<User> openSourceUsers = userDao.findByOpenSource(p.toLowerCase());
-				if (openSourceUsers.size() > 0) {
+				if (userDao.findByOpenSource(p.toLowerCase()) > 0) {
 					showCode.put(p, true);
 				}
 			}

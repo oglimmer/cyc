@@ -12,7 +12,7 @@
 
 		<div class="centerElement">
 			Start: <fmt:formatDate type="both" dateStyle="short" timeStyle="medium" value="${actionBean.startTime}" />
-			 (ran for <fmt:formatNumber value="${(actionBean.endTime.time-actionBean.startTime.time)/1000 }" type="number" maxFractionDigits="0"/> secs and used <fmt:formatNumber value="${actionBean.memUsed/1024 }" type="number"/> kBytes of RAM)
+			 (ran for <fmt:formatNumber value="${(actionBean.endTime.time-actionBean.startTime.time)/1000 }" type="number" maxFractionDigits="0"/> secs)
 		</div>	
 
 		<div class="centerElement">
