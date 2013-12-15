@@ -83,9 +83,9 @@ public class GameServer {
 		} finally {
 			running = false;
 			log.debug("Server shutdown in progress...");
-			tpe.shutdown();
+			tpe.shutdownNow();
 			try {
-				tpe.awaitTermination(1, TimeUnit.MINUTES);
+				tpe.awaitTermination(2, TimeUnit.MINUTES);
 			} catch (InterruptedException e) {
 				// we dont care if we are interrupted
 			}

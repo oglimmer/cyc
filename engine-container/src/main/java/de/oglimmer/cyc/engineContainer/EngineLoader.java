@@ -100,7 +100,9 @@ public class EngineLoader {
 
 	public void stop() {
 		running = false;
-		dirScannerThread.interrupt();
+		if (dirScannerThread != null) {
+			dirScannerThread.interrupt();
+		}
 	}
 
 	class _FilenameFilter implements FilenameFilter {
