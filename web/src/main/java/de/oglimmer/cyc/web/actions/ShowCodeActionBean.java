@@ -16,7 +16,6 @@ import de.oglimmer.cyc.web.DoesNotRequireLogin;
 
 @DoesNotRequireLogin
 public class ShowCodeActionBean extends BaseAction {
-	// private static Logger log = LoggerFactory.getLogger(ShowCodeActionBean.class);
 
 	private static final String VIEW = "/WEB-INF/jsp/showCode.jsp";
 
