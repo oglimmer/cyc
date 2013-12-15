@@ -1,5 +1,9 @@
 package de.oglimmer.cyc.web;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -10,31 +14,33 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.impl.StdSchedulerFactory;
 
 @Slf4j
 public enum GameExecutor {
 	INSTANCE;
 
-	private static final int RUN_EVERY_MINUTES = 15;
 	private static final boolean DEBUG_AUTO_START = false;
+	private static final String CRON_SCHEDULE = "0 0/15 * * * ?";
 
-	private boolean running;
+	private volatile boolean running;
+	private volatile Thread thread;
 
-	@Getter
-	private Date nextRun = new Date();
-
-	private Runner runner = new Runner();
-
-	private Thread thread;
+	private volatile Trigger trigger;
+	private volatile Scheduler scheduler;
 
 	@Getter
 	@Setter
@@ -42,19 +48,31 @@ public enum GameExecutor {
 
 	private GameExecutor() {
 
-		Calendar cal = GregorianCalendar.getInstance();
-		cal.add(Calendar.MINUTE, RUN_EVERY_MINUTES);
-		nextRun = cal.getTime();
+		trigger = newTrigger().withIdentity("trigger1", "group1").withSchedule(cronSchedule(CRON_SCHEDULE))
+				.forJob("job1", "group1").build();
 
 		running = true;
-		thread = new Thread(runner);
+		thread = new Thread(new MasterToStartObserver(), "MasterObserver-" + Math.random());
 		thread.start();
-
 	}
 
+	@SneakyThrows(value = { SchedulerException.class, InterruptedException.class })
 	public void stop() {
+		GlobalGameExecutor.INSTANCE.close();
+		if (scheduler != null) {
+			scheduler.shutdown(true);
+		}
 		running = false;
-		thread.interrupt();
+		synchronized (thread) {
+			if (thread != null) {
+				thread.interrupt();
+			}
+		}
+		TimeUnit.SECONDS.sleep(1);
+	}
+
+	public Date getNextRun() {
+		return trigger.getFireTimeAfter(new Date());
 	}
 
 	public void runGame(final String userId) throws IOException {
@@ -146,36 +164,45 @@ public enum GameExecutor {
 		return commandLineArgs;
 	}
 
-	class Runner implements Runnable {
+	class MasterToStartObserver implements Runnable {
 
 		@Override
 		public void run() {
+			log.debug("MasterToStartObserver in {} started", warVersion);
 			try {
 				while (running) {
-
 					if (GlobalGameExecutor.INSTANCE.isMaster()) {
-						Date now = new Date();
+						log.debug("Starting Quartz-scheduler in {} now", warVersion);
 
-						if (nextRun.before(now)) {
-							try {
-								runGame(null);
-							} catch (IOException e) {
-								log.error("Failed to run game", e);
-							}
-							Calendar cal = GregorianCalendar.getInstance();
-							cal.add(Calendar.MINUTE, RUN_EVERY_MINUTES);
-							nextRun = cal.getTime();
-						}
+						scheduler = StdSchedulerFactory.getDefaultScheduler();
+						JobDetail job = newJob(GameExecutionJob.class).withIdentity("job1", "group1").build();
 
+						trigger = newTrigger().withIdentity("trigger1", "group1")
+								.withSchedule(cronSchedule(CRON_SCHEDULE)).forJob("job1", "group1").build();
+
+						scheduler.scheduleJob(job, trigger);
+
+						scheduler.start();
+						running = false;
 					}
-					try {
-						TimeUnit.SECONDS.sleep(15);
-					} catch (InterruptedException e) {
-						// don't care about this
-					}
+					sleep();
 				}
-			} finally {
-				GlobalGameExecutor.INSTANCE.close();
+			} catch (SchedulerException e) {
+				log.error("Failed to start Quartz-scheduler in " + warVersion, e);
+			}
+			synchronized (thread) {
+				thread = null;
+			}
+			log.debug("MasterToStartObserver in {} ended", warVersion);
+		}
+
+		private void sleep() {
+			try {
+				if (running) {
+					TimeUnit.SECONDS.sleep(15);
+				}
+			} catch (InterruptedException e) {
+				// don't care about this
 			}
 		}
 	}
