@@ -8,9 +8,20 @@ import org.ektorp.impl.StdCouchDbInstance;
 
 public class CouchDbUtil {
 
-	private static HttpClient httpClient = new StdHttpClient.Builder().build();
-	private static CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
-	private static CouchDbConnector db = dbInstance.createConnector("cyc", false);
+	private static HttpClient httpClient;
+	private static CouchDbInstance dbInstance;
+	private static CouchDbConnector db;
+
+	static {
+		StdHttpClient.Builder builder = new StdHttpClient.Builder();
+		builder.host("localhost");
+		builder.port(5984);
+		// builder.proxy("localhost");
+		// builder.proxyPort(8888);
+		httpClient = builder.build();
+		dbInstance = new StdCouchDbInstance(httpClient);
+		db = dbInstance.createConnector("cyc", false);
+	}
 
 	public static CouchDbConnector getDatabase() {
 		return db;
