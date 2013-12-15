@@ -22,10 +22,10 @@ HOW TO INSTALL & DEPLOY
 
 4.) set CYC_ENGINE_CONTAINER to an empty directory of your choice
 
-5.) set CYC_WEBAPPS to the webapps directory of a Servlet 3.0 compliant web container. Also add -Dcyc.home=$CYC_ENGINE_CONTAINER as JVM parameter
+5.) set CYC_WEBAPPS to the webapps directory of a Servlet 3.0 compliant web container (*). Also add -Dcyc.home=$CYC_ENGINE_CONTAINER as JVM parameter
 
 6.) run "cyc_mgmt.sh -b -w -c -e" to build and deploy everything
 
 7.) just start the web server. it will automatically start the engine process
 
-
+(*) The management script "cyc_mgmt.sh" uses Tomcat's (>= 7.x) parallel deployment feature. 
