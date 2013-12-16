@@ -6,9 +6,7 @@ import java.util.Map.Entry;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.RhinoException;
-import org.mozilla.javascript.WrappedException;
 
 import de.oglimmer.cyc.api.ApplicationProfile.Offer;
 
@@ -52,7 +50,7 @@ public class Month {
 				} catch (RhinoException e) {
 					if (!(e.getCause() instanceof GameException)) {
 						game.getResult().addError(e);
-						log.error("Failed to call the company.launch handler. Player " + company.getName()
+						log.error("Failed to call the company.doMonthly handler. Player " + company.getName()
 								+ " bankrupt", e);
 						company.setBankruptFromError(e);
 					}
@@ -115,7 +113,7 @@ public class Month {
 						} catch (RhinoException e) {
 							if (!(e.getCause() instanceof GameException)) {
 								game.getResult().addError(e);
-								log.error("Failed to call the company.launch handler. Player " + c.getName()
+								log.error("Failed to call the company.hiringProcess handler. Player " + c.getName()
 										+ " bankrupt", e);
 								c.setBankruptFromError(e);
 							}
@@ -166,15 +164,13 @@ public class Month {
 					if (c.realEstateAgent != null) {
 						try {
 							c.realEstateAgent.run(ap);
-						} catch (WrappedException e) {
+						} catch (RhinoException e) {
 							if (!(e.getCause() instanceof GameException)) {
 								game.getResult().addError(e);
-								log.error("Failed to call the company.realEstateAgent handler", e);
+								log.error("Failed to call the company.realEstateAgent handler. Player " + c.getName()
+										+ " bankrupt", e);
+								c.setBankruptFromError(e);
 							}
-						} catch (EcmaError e) {
-							game.getResult().addError(e);
-							log.error("Failed to call the company.realEstateAgent handler. Player " + c.getName() + " bankrupt", e);
-							c.setBankruptFromError(e);
 						}
 					}
 				}
