@@ -101,6 +101,7 @@ public class PortalActionBean extends BaseAction {
 		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
 		user.setMainJavaScript(getCompany());
 		user.setActive(true);
+		user.setLastCodeChangeDate(new Date());
 		userDao.update(user);
 
 		try {

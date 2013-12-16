@@ -22,6 +22,9 @@ public class User {
 	private String lastError;
 	private Date lastPrivateRun;
 	private int openSource;
+	private Date lastLoginDate;
+	private Date createdDate;
+	private Date lastCodeChangeDate;
 
 	public User(String username, String password, String email) {
 		this.username = username;

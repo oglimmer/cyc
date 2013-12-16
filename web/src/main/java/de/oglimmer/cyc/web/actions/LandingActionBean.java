@@ -1,5 +1,6 @@
 package de.oglimmer.cyc.web.actions;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -57,6 +58,8 @@ public class LandingActionBean extends BaseAction {
 				User user = userList.get(0);
 				checkPassword(errors, getContext(), user, password);
 				getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
+				user.setLastLoginDate(new Date());
+				userDao.update(user);
 			} else {
 				errors.add("password", new SimpleError("The password is incorrect."));
 			}
