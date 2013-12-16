@@ -112,15 +112,13 @@ public class Month {
 					if (c.getHumanResources().hiringProcess != null) {
 						try {
 							c.getHumanResources().hiringProcess.run(ap);
-						} catch (WrappedException e) {
+						} catch (RhinoException e) {
 							if (!(e.getCause() instanceof GameException)) {
 								game.getResult().addError(e);
-								log.error("Failed to call the company.hiringProcess handler", e);
+								log.error("Failed to call the company.launch handler. Player " + c.getName()
+										+ " bankrupt", e);
+								c.setBankruptFromError(e);
 							}
-						} catch (EcmaError e) {
-							game.getResult().addError(e);
-							log.error("Failed to call the company.hiringProcess handler. Player " + c.getName() + " bankrupt", e);
-							c.setBankruptFromError(e);
 						}
 					}
 				}
