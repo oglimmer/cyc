@@ -206,4 +206,8 @@ public class Month {
 		}
 	}
 
+	public void close() {
+		day.close();
+	}
+
 }

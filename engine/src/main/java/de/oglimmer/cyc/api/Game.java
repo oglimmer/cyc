@@ -121,6 +121,7 @@ public class Game {
 			year.processYear(yearCount);
 		}
 		result.setTotalDays(currentDay);
+		year.close();
 	}
 
 	private void readScripts(List<String[]> userList, boolean writeGameResult) {

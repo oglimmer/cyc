@@ -64,4 +64,8 @@ public class Year {
 		}
 	}
 
+	public void close() {
+		month.close();
+	}
+
 }

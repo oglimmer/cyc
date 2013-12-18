@@ -165,4 +165,8 @@ public class Day {
 		}
 		ThreadLocal.resetCompany();
 	}
+
+	public void close() {
+		openingHours.close();
+	}
 }

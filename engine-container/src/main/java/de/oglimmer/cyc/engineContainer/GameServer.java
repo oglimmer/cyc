@@ -87,7 +87,7 @@ public class GameServer {
 			try {
 				tpe.awaitTermination(2, TimeUnit.MINUTES);
 			} catch (InterruptedException e) {
-				// we dont care if we are interrupted
+				log.error("Shutdown interrupted", e);
 			}
 			log.debug("Server shutdown completed.");
 		}
@@ -154,6 +154,10 @@ public class GameServer {
 							engineLoader.startGame(null);
 						} else {
 							engineLoader.startGame(clientRequest);
+						}
+					} catch (InvocationTargetException e) {
+						if (!(e.getCause() instanceof InterruptedException)) {
+							log.error("Uncaught throwable", e);
 						}
 					} catch (Throwable e) {
 						log.error("Uncaught throwable", e);
