@@ -38,9 +38,11 @@ public class ApplicationProfile {
 	}
 
 	public void offer(Establishment est, int salary) {
-		Company company = ThreadLocal.getCompany();
-		assert est.getParent() == company;
-		this.offeredSalary.put(company, new Offer(est, salary));
+		if (est != null) {
+			Company company = ThreadLocal.getCompany();
+			assert est.getParent() == company;
+			this.offeredSalary.put(company, new Offer(est, salary));
+		}
 	}
 
 	@Override

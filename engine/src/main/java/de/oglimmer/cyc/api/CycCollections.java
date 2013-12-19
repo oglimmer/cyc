@@ -141,7 +141,11 @@ public class CycCollections {
 		}
 
 		public E get(int index) {
-			return list.get(index);
+			try {
+				return list.get(index);
+			} catch (IndexOutOfBoundsException e) {
+				return null;
+			}
 		}
 
 		public E set(int index, E element) {
