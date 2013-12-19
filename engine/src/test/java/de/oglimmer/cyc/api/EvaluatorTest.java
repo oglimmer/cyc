@@ -23,11 +23,11 @@ public class EvaluatorTest {
 	@Test
 	public void bulkOrderDiscountsTest() throws EvaluationException {
 		BulkOrderDiscount[] bods = constants.getBulkOrderDiscounts();
-		int prevAmount = -1;
-		double prevDiscount = 1;
+		int prevAmount = Integer.MAX_VALUE;
+		double prevDiscount = 0;
 		for (BulkOrderDiscount bod : bods) {
-			Assert.assertTrue(prevAmount < bod.getStartingAmount());
-			Assert.assertTrue(prevDiscount > bod.getDiscount());
+			Assert.assertTrue(prevAmount > bod.getStartingAmount());
+			Assert.assertTrue(prevDiscount < bod.getDiscount());
 			prevAmount = bod.getStartingAmount();
 			prevDiscount = bod.getDiscount();
 		}
