@@ -295,7 +295,7 @@
 
 		<c:if test="${not empty actionBean.username }">
 
-			<div style="padding-bottom:40px;">
+			<div class="log" style="padding-bottom:40px;">
 				<div>Your log output:</div>
 				<div style="padding-left:20px;">
 					${actionBean.result.playerResults[actionBean.username].debug }
