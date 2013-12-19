@@ -141,7 +141,7 @@ public class TcpHandler implements Closeable {
 	public void close() {
 		bossGroup.shutdownGracefully();
 		workerGroup.shutdownGracefully();
-
+		tpe.shutdown();
 		engineLoader.stop();
 	}
 }
