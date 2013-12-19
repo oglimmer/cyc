@@ -29,16 +29,21 @@ public class Grocer {
 	}
 
 	public double getPrice(String food, int units) {
-		log.debug("Current price for {} is ${} per unit", food, currentPrices.get(Food.valueOf(food)));
-		double basePrice = units * currentPrices.get(Food.valueOf(food));
+		double currentPrice = currentPrices.get(Food.valueOf(food));
+		double basePrice = units * currentPrice;
+		double discount = calcDiscount(units);
+		log.debug("Current price for {} is ${} per unit (discount={} at {})", food, currentPrice, discount, units);
+		return discount * basePrice;
+	}
+
+	private double calcDiscount(int units) {
 		BulkOrderDiscount[] bulkOrderDiscounts = game.getConstants().getBulkOrderDiscounts();
 		for (BulkOrderDiscount bod : bulkOrderDiscounts) {
 			if (units >= bod.getStartingAmount()) {
-				basePrice *= bod.getDiscount();
-				break;
+				return bod.getDiscount();
 			}
 		}
-		return basePrice;
+		return 1;
 	}
 
 	public void order(String food, int units) throws OutOfMoneyException {
