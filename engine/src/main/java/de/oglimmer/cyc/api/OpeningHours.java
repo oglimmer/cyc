@@ -2,7 +2,11 @@ package de.oglimmer.cyc.api;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -11,20 +15,40 @@ public class OpeningHours {
 	private Game game;
 	private int baseGuests;
 	private int rndGuests;
+	private ThreadPoolExecutor executor;
 
 	public OpeningHours(Game game) {
 		this.game = game;
 		baseGuests = game.getConstants().getBaseGuests();
 		rndGuests = game.getConstants().getRndGuests();
 		log.debug("Game uses rnd*numberOfCompanies*{}+{}", rndGuests, baseGuests);
+		executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 	}
 
+	@SneakyThrows(value = InterruptedException.class)
 	public void runBusiness() {
 
 		calcDeliciosnessStats();
 
-		for (String city : game.getCities()) {
-			processCity(city);
+		final CountDownLatch cdl = new CountDownLatch(game.getCities().size());
+
+		try {
+			for (final String city : game.getCities()) {
+				Runnable worker = new Runnable() {
+					@Override
+					public void run() {
+						processCity(city);
+						cdl.countDown();
+					}
+				};
+				executor.execute(worker);
+			}
+
+			cdl.await();
+
+		} catch (InterruptedException e) {
+			executor.shutdownNow();
+			throw e;
 		}
 	}
 
@@ -40,8 +64,8 @@ public class OpeningHours {
 	}
 
 	private void processGuests(String city, Map<Integer, Establishment> estList, int totalScore) {
-		int totalGuests = (int) (((Math.random() * game.getCompanies().size() * rndGuests) + game.getCompanies().size() * baseGuests) / game
-				.getCities().size());
+		int totalGuests = (int) (((Math.random() * game.getCompanies().size() * rndGuests) + game.getCompanies().size()
+				* baseGuests) / game.getCities().size());
 		log.debug("Guests for today in {}: {}", city, totalGuests);
 		game.getResult().getGuestsTotalPerCity().add(city, totalGuests);
 		while (totalGuests-- > 0) {
@@ -79,5 +103,9 @@ public class OpeningHours {
 				}
 			}
 		}
+	}
+
+	public void close() {
+		executor.shutdown();
 	}
 }
