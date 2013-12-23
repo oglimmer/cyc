@@ -63,7 +63,7 @@ public class GameRunDetailsActionBean extends BaseAction {
 		GameRun gr = null;
 		if (gameRunId == null || gameRunId.isEmpty()) {
 			List<GameRun> listGameRuns = dao.findAllGameRun(1);
-			if (listGameRuns.size() > 0) {
+			if (!listGameRuns.isEmpty()) {
 				gr = listGameRuns.get(0);
 			}
 		} else {

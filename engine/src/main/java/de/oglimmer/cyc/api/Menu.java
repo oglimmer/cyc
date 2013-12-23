@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import de.oglimmer.cyc.collections.Container;
+import de.oglimmer.cyc.collections.ForEach;
+import de.oglimmer.cyc.collections.UnmodifiableIterator;
+
 public class Menu implements Container<MenuEntry>, Iterable<MenuEntry> {
 
 	private List<MenuEntry> entries = new ArrayList<>();

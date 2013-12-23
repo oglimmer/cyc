@@ -75,13 +75,14 @@ public class GameRunStarter {
 		String classPath = clazz.getResource(className).toString();
 		if (classPath.startsWith("jar")) {
 			try {
-				String manifestPath = classPath.substring(0, classPath.lastIndexOf("!") + 1) + "/META-INF/MANIFEST.MF";
+				String manifestPath = classPath.substring(0, classPath.lastIndexOf('!') + 1) + "/META-INF/MANIFEST.MF";
 				Manifest manifest = new Manifest(new URL(manifestPath).openStream());
 				Attributes attr = manifest.getMainAttributes();
 				commit = attr.getValue("SVN-Revision-No");
 				version = attr.getValue("CYC-Version");
 				long time = Long.parseLong(attr.getValue("Creation-Date"));
-				creationDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date(time));
+				creationDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
+						.format(new Date(time));
 			} catch (IOException e) {
 				log.error("Failed to get engine version", e);
 			}
@@ -111,7 +112,8 @@ public class GameRunStarter {
 
 		List<User> ul = userDao.findAllUser();
 		for (User u : ul) {
-			if (playersToRemove.containsKey(u.getUsername()) && playersToRemove.get(u.getUsername()) == ROUNDS_TO_BE_EXCLUDED) {
+			if (playersToRemove.containsKey(u.getUsername())
+					&& playersToRemove.get(u.getUsername()) == ROUNDS_TO_BE_EXCLUDED) {
 				u.setActive(false);
 				userDao.update(u);
 			}
@@ -148,25 +150,4 @@ public class GameRunStarter {
 		return userList;
 	}
 
-	// private void singlePlayer(String[] args) {
-	// writeGameResult = false;
-	// if (args[0].equals("-file")) {
-	// for (int i = 1; i < args.length; i++) {
-	// try {
-	// String script = new String(Files.readAllBytes(Paths.get(args[i])));
-	// userList.add(new String[] { "Player_" + i, script });
-	// } catch (IOException e) {
-	// log.error("Failed to load script from filesystem", e);
-	// }
-	// }
-	// } else {
-	// log.debug("Running game for user:" + args[0]);
-	// User u = userDao.get(args[0]);
-	// userList.add(new String[] { u.getUsername(), u.getMainJavaScript() });
-	// log.debug("Adding player to game:" + u.getUsername());
-	// }
-	// day = 10;
-	// month = 6;
-	// year = 1;
-	// }
 }

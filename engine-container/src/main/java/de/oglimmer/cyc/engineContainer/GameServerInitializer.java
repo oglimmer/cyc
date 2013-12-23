@@ -20,7 +20,7 @@ public class GameServerInitializer extends ChannelInitializer<SocketChannel> {
 	}
 
 	@Override
-	public void initChannel(SocketChannel ch) throws Exception {
+	public void initChannel(SocketChannel ch) {
 		ChannelPipeline pipeline = ch.pipeline();
 
 		pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));

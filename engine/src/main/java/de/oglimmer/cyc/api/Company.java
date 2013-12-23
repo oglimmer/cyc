@@ -6,6 +6,8 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import de.oglimmer.cyc.collections.CycCollections;
+import de.oglimmer.cyc.collections.JavaScriptList;
 
 @Slf4j
 public class Company {
@@ -90,6 +92,32 @@ public class Company {
 		log.debug("{} became bankrupt on {}", name, game.getCurrentDay());
 		game.getResult().get(getName()).setBankruptOnDay(game.getCurrentDay());
 		cash = -1;
+	}
+
+	void paySalaries() {
+		try {
+			for (Employee e : getHumanResources().getEmployees()) {
+				game.getResult().get(getName()).addTotalOnSalaries(e.getJobPosition().toString(), e.getSalary());
+				decCash(e.getSalary());
+				log.debug("{} payed ${} for {}", getName(), e.getSalary(), e.getName());
+			}
+		} catch (OutOfMoneyException e) {
+			log.debug("Company {} is bankrupt", e.getCompany());
+		}
+	}
+
+	void payRents() {
+		try {
+			for (Establishment e : getEstablishmentsInt()) {
+				if (e.isRented()) {
+					game.getResult().get(getName()).addTotalOnRent(e.getLeaseCost());
+					decCash(e.getLeaseCost());
+					log.debug("{} payed ${} for {}", getName(), e.getLeaseCost(), e.getAddress());
+				}
+			}
+		} catch (OutOfMoneyException e) {
+			log.debug("Company {} is bankrupt", e.getCompany());
+		}
 	}
 
 }

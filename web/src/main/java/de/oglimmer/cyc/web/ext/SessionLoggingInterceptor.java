@@ -20,8 +20,7 @@ public class SessionLoggingInterceptor implements Interceptor {
 			httpSession.setAttribute("IP", req.getHeader("X-Forwarded-For"));
 			httpSession.setAttribute("UA", req.getHeader("User-Agent"));
 		}
-		Resolution res = ctx.proceed();
-		return res;
+		return ctx.proceed();
 	}
 
 }

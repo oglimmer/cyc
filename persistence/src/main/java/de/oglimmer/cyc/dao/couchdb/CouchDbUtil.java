@@ -8,6 +8,10 @@ import org.ektorp.impl.StdCouchDbInstance;
 
 public class CouchDbUtil {
 
+	private CouchDbUtil() {
+		// no code here
+	}
+
 	private static HttpClient httpClient;
 	private static CouchDbInstance dbInstance;
 	private static CouchDbConnector db;
@@ -16,8 +20,12 @@ public class CouchDbUtil {
 		StdHttpClient.Builder builder = new StdHttpClient.Builder();
 		builder.host("localhost");
 		builder.port(5984);
-		// builder.proxy("localhost");
-		// builder.proxyPort(8888);
+		if (System.getProperty("http.proxyHost") != null) {
+			builder.proxy(System.getProperty("http.proxyHost"));
+		}
+		if (System.getProperty("Dhttp.proxyPort") != null) {
+			builder.proxyPort(Integer.parseInt(System.getProperty("Dhttp.proxyPort")));
+		}
 		httpClient = builder.build();
 		dbInstance = new StdCouchDbInstance(httpClient);
 		db = dbInstance.createConnector("cyc", false);

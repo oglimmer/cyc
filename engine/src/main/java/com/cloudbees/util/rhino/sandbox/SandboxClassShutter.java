@@ -23,6 +23,10 @@ import org.mozilla.javascript.ClassShutter;
  */
 public class SandboxClassShutter implements ClassShutter {
 	public boolean visibleToScripts(String fullClassName) {
+		if (fullClassName.startsWith("de.oglimmer.cyc.collections.")) {
+			return true;
+		}
+
 		switch (fullClassName) {
 		case "de.oglimmer.cyc.api.ApplicationProfile":
 		case "de.oglimmer.cyc.api.ApplicationProfiles":
@@ -41,11 +45,6 @@ public class SandboxClassShutter implements ClassShutter {
 		case "de.oglimmer.cyc.api.MenuEntry":
 		case "de.oglimmer.cyc.api.RealEstateProfile":
 		case "de.oglimmer.cyc.api.RealEstateProfiles":
-		case "de.oglimmer.cyc.api.UnmodifiableIterator":
-		case "de.oglimmer.cyc.api.DataPair":
-		case "de.oglimmer.cyc.api.CycCollections$UnmodifiableList":
-		case "de.oglimmer.cyc.api.CycCollections$UnmodifiableCollection$1":
-		case "de.oglimmer.cyc.api.CycCollections$UnmodifiableSet":
 		case "java.lang.String":
 		case "java.lang.Long":
 		case "java.util.HashSet":
@@ -57,7 +56,8 @@ public class SandboxClassShutter implements ClassShutter {
 		case "java.io.PrintStream":
 		case "java.lang.Object":
 			return true;
+		default:
+			return false;
 		}
-		return false;
 	}
 }

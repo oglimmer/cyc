@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import de.oglimmer.cyc.collections.CycCollections;
+import de.oglimmer.cyc.collections.JavaScriptList;
 import de.oglimmer.cyc.util.CountMap;
 
 public class HumanResources {

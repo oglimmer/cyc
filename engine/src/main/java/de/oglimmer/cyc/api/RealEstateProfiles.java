@@ -8,13 +8,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import de.oglimmer.cyc.collections.DataPair;
+import de.oglimmer.cyc.collections.ForEach;
+import de.oglimmer.cyc.collections.SortableContainer;
+import de.oglimmer.cyc.collections.UnmodifiableIterator;
 import de.oglimmer.cyc.util.CountMap;
 
 @Slf4j
@@ -45,15 +49,16 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 			int locationSize = game.getConstants().getLocationSize();
 			int salePrice = game.getConstants().getSalePrice(locationQuality, locationSize);
 			int leaseCosts = game.getConstants().getLeaseCosts(locationQuality, locationSize);
-			profiles.add(new RealEstateProfile(cities.get((int) (Math.random() * cities.size())), salePrice, leaseCosts, locationQuality,
-					locationSize));
+			profiles.add(new RealEstateProfile(cities.get((int) (Math.random() * cities.size())), salePrice,
+					leaseCosts, locationQuality, locationSize));
 		}
 	}
 
 	public static void readCities(Game game, List<String> cities, int noPlayer) {
-		String line;
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(RealEstateProfiles.class.getResourceAsStream("/uk_cities.csv")))) {
-			while ((line = br.readLine()) != null) {
+		
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(
+				RealEstateProfiles.class.getResourceAsStream("/uk_cities.csv")))) {
+			for (String line = br.readLine(); line != null; line = br.readLine()) {
 				cities.add(line);
 			}
 		} catch (IOException e) {
@@ -79,10 +84,46 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		return Collections.unmodifiableList(citiesToRestaurants);
 	}
 
-	Map<String, Object> getOfferFor(RealEstateProfile p) {
+	RealEstateOffer getOfferFor(RealEstateProfile p) {
 		boolean buy = true;
+		List<Entry<Company, Map<String, Integer>>> goodOfferings = getBuyOffers(p);
+		if (goodOfferings.isEmpty()) {
+			buy = false;
+			getLeaseOffers(p, goodOfferings);
+		}
+
+		if (goodOfferings.isEmpty()) {
+			return null;
+		}
+
+		while (goodOfferings.size() > 1) {
+			goodOfferings.remove((int) (Math.random() * goodOfferings.size()));
+		}
+
+		Entry<Company, Map<String, Integer>> en = goodOfferings.iterator().next();
+
+		return new RealEstateOffer(en.getValue().get("bribe"), buy, en.getKey());
+	}
+
+	private void getLeaseOffers(RealEstateProfile p, List<Entry<Company, Map<String, Integer>>> goodOfferings) {
 		int maxOff = -1;
+		for (Entry<Company, Map<String, Integer>> en : p.getOffers().entrySet()) {
+			if (en.getValue().get("buy") == 0) {
+				if (maxOff < en.getValue().get("bribe")) {
+					goodOfferings.clear();
+					goodOfferings.add(en);
+					maxOff = en.getValue().get("bribe");
+				} else if (maxOff == en.getValue().get("bribe")) {
+					goodOfferings.add(en);
+					maxOff = en.getValue().get("bribe");
+				}
+			}
+		}
+	}
+
+	private List<Entry<Company, Map<String, Integer>>> getBuyOffers(RealEstateProfile p) {
 		List<Entry<Company, Map<String, Integer>>> goodOfferings = new ArrayList<>();
+		int maxOff = -1;
 		for (Entry<Company, Map<String, Integer>> en : p.getOffers().entrySet()) {
 			if (en.getValue().get("buy") == 1) {
 				if (maxOff < en.getValue().get("bribe")) {
@@ -95,37 +136,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 				}
 			}
 		}
-		if (goodOfferings.isEmpty()) {
-			buy = false;
-			for (Entry<Company, Map<String, Integer>> en : p.getOffers().entrySet()) {
-				if (en.getValue().get("buy") == 0) {
-					if (maxOff < en.getValue().get("bribe")) {
-						goodOfferings.clear();
-						goodOfferings.add(en);
-						maxOff = en.getValue().get("bribe");
-					} else if (maxOff == en.getValue().get("bribe")) {
-						goodOfferings.add(en);
-						maxOff = en.getValue().get("bribe");
-					}
-				}
-			}
-		}
-
-		if (goodOfferings.size() == 0) {
-			return null;
-		} else if (goodOfferings.size() > 1) {
-			while (goodOfferings.size() > 1) {
-				goodOfferings.remove((int) (Math.random() * goodOfferings.size()));
-			}
-		}
-
-		Map<String, Object> resultOffering = new HashMap<>();
-		Entry<Company, Map<String, Integer>> en = goodOfferings.iterator().next();
-		resultOffering.put("buy", buy);
-		resultOffering.put("company", en.getKey());
-		resultOffering.put("bribe", en.getValue().get("bribe"));
-
-		return resultOffering;
+		return goodOfferings;
 	}
 
 	@Override
@@ -136,7 +147,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 			return new RealEstateProfile(null, -1, -1, -1, -1);
 		}
 	}
-	
+
 	@Override
 	public RealEstateProfile getLowest() {
 		return get(0);
@@ -204,4 +215,10 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		}
 	}
 
+	@Value
+	public static class RealEstateOffer {
+		private int bribe;
+		private boolean buy;
+		private Company company;
+	}
 }

@@ -2,6 +2,10 @@ package de.oglimmer.cyc.api;
 
 public class ThreadLocal {
 
+	private ThreadLocal() {
+		// no code here
+	}
+
 	private static java.lang.ThreadLocal<Company> threadLocal = new java.lang.ThreadLocal<>();
 
 	public static Company getCompany() {

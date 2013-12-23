@@ -18,7 +18,7 @@ public class GameServerHandler extends SimpleChannelInboundHandler<String> {
 	}
 
 	@Override
-	public void channelRead0(ChannelHandlerContext ctx, String request) throws Exception {
+	public void channelRead0(ChannelHandlerContext ctx, String request) {
 
 		String response;
 		if ("exit".equals(request)) {
@@ -39,12 +39,12 @@ public class GameServerHandler extends SimpleChannelInboundHandler<String> {
 	}
 
 	@Override
-	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+	public void channelReadComplete(ChannelHandlerContext ctx) {
 		ctx.flush();
 	}
 
 	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 		log.debug("Unexpected exception from downstream.", cause);
 		ctx.close();
 	}

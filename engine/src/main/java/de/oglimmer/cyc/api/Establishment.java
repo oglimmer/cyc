@@ -9,6 +9,9 @@ import java.util.TreeSet;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import de.oglimmer.cyc.collections.CycCollections;
+import de.oglimmer.cyc.collections.JavaScriptList;
+import de.oglimmer.cyc.collections.JavaScriptSet;
 import de.oglimmer.cyc.util.CountMap;
 
 @Slf4j

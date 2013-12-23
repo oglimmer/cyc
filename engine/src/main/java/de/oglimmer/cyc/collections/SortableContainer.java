@@ -1,4 +1,4 @@
-package de.oglimmer.cyc.api;
+package de.oglimmer.cyc.collections;
 
 public interface SortableContainer<T> extends Container<T> {
 

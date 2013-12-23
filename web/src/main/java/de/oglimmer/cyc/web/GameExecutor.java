@@ -135,6 +135,7 @@ public enum GameExecutor {
 
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
+			// ignore if interrupted
 		} catch (IOException e) {
 			log.error("Failed to process the child process", e);
 			throw e;
@@ -149,10 +150,14 @@ public enum GameExecutor {
 		buff.append(" -Dcyc.home=" + home);
 		buff.append(" -Djava.security.policy=" + home + "/security.policy");
 
-		// buff.append(" -Xdebug");
-		// buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
+		if ("enabled".equalsIgnoreCase(System.getProperty("cyc.remoteDebug"))) {
+			buff.append(" -Xdebug");
+			buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
+		}
 
-		// buff.append(" -Dcom.sun.management.jmxremote.port=9997 -Dcom.sun.management.jmxremote.password.file=jmxremote.password -Dcom.sun.management.jmxremote.ssl=false");
+		if ("enabled".equalsIgnoreCase(System.getProperty("cyc.jmx"))) {
+			buff.append(" -Dcom.sun.management.jmxremote.port=9997 -Dcom.sun.management.jmxremote.password.file=jmxremote.password -Dcom.sun.management.jmxremote.ssl=false");
+		}
 
 		buff.append(" -jar " + home + "/engine-container-jar-with-dependencies.jar");
 
@@ -160,8 +165,7 @@ public enum GameExecutor {
 		commandLineCol.add("sh");
 		commandLineCol.add("-c");
 		commandLineCol.add(buff.toString());
-		String[] commandLineArgs = commandLineCol.toArray(new String[commandLineCol.size()]);
-		return commandLineArgs;
+		return commandLineCol.toArray(new String[commandLineCol.size()]);
 	}
 
 	class MasterToStartObserver implements Runnable {

@@ -1,7 +1,6 @@
 package de.oglimmer.cyc.api;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,54 +41,39 @@ public class Month {
 	private void callMonthly() {
 		for (Company company : game.getCompanies()) {
 			if (!company.isBankrupt()) {
-				try {
-					if (company.doMonthly != null) {
-						ThreadLocal.setCompany(company);
-						company.doMonthly.run();
-					}
-				} catch (RhinoException e) {
-					if (!(e.getCause() instanceof GameException)) {
-						game.getResult().addError(e);
-						log.error("Failed to call the company.doMonthly handler. Player " + company.getName()
-								+ " bankrupt", e);
-						company.setBankruptFromError(e);
-					}
-				}
+				callMonthlyCompany(company);
 			}
 		}
 		ThreadLocal.resetCompany();
 	}
 
+	private void callMonthlyCompany(Company company) {
+		try {
+			if (company.doMonthly != null) {
+				ThreadLocal.setCompany(company);
+				company.doMonthly.run();
+			}
+		} catch (RhinoException e) {
+			if (!(e.getCause() instanceof GameException)) {
+				game.getResult().addError(e);
+				log.error("Failed to call the company.doMonthly handler. Player " + company.getName() + " bankrupt", e);
+				company.setBankruptFromError(e);
+			}
+		}
+	}
+
 	public void paySalaries() {
 		for (Company c : game.getCompanies()) {
-			try {
-				if (!c.isBankrupt()) {
-					for (Employee e : c.getHumanResources().getEmployees()) {
-						game.getResult().get(c.getName()).addTotalOnSalaries(e.getJobPosition().toString(), e.getSalary());
-						c.decCash(e.getSalary());
-						log.debug("{} payed ${} for {}", c.getName(), e.getSalary(), e.getName());
-					}
-				}
-			} catch (OutOfMoneyException e) {
-				log.debug("Company {} is bankrupt", e.getCompany());
+			if (!c.isBankrupt()) {
+				c.paySalaries();
 			}
 		}
 	}
 
 	public void payRents() {
 		for (Company c : game.getCompanies()) {
-			try {
-				if (!c.isBankrupt()) {
-					for (Establishment e : c.getEstablishmentsInt()) {
-						if (e.isRented()) {
-							game.getResult().get(c.getName()).addTotalOnRent(e.getLeaseCost());
-							c.decCash(e.getLeaseCost());
-							log.debug("{} payed ${} for {}", c.getName(), e.getLeaseCost(), e.getAddress());
-						}
-					}
-				}
-			} catch (OutOfMoneyException e) {
-				log.debug("Company {} is bankrupt", e.getCompany());
+			if (!c.isBankrupt()) {
+				c.payRents();
 			}
 		}
 	}
@@ -104,51 +88,65 @@ public class Month {
 			log.debug("round...");
 			pickedOne = false;
 
-			for (Company c : game.getCompanies()) {
-				if (!c.isBankrupt()) {
-					ThreadLocal.setCompany(c);
-					if (c.getHumanResources().hiringProcess != null) {
-						try {
-							c.getHumanResources().hiringProcess.run(ap);
-						} catch (RhinoException e) {
-							if (!(e.getCause() instanceof GameException)) {
-								game.getResult().addError(e);
-								log.error("Failed to call the company.hiringProcess handler. Player " + c.getName()
-										+ " bankrupt", e);
-								c.setBankruptFromError(e);
-							}
-						}
-					}
-				}
-			}
+			callHiringProcess(ap);
 			ThreadLocal.resetCompany();
 
-			for (Iterator<ApplicationProfile> it = ap.iteratorInt(); it.hasNext();) {
-				ApplicationProfile p = it.next();
-				Entry<Company, Offer> en = ApplicationProfiles.getMaxOfferFor(p);
-				if (en != null) {
-					pickedOne = true;
-					it.remove();
-					Establishment est = (Establishment) en.getValue().getEstablishment();
-					Integer offer = (Integer) en.getValue().getSalary();
-					Company company = en.getKey();
-					if (offer >= p.getDesiredSalary()) {
-						hire(p, offer, est, company);
-					} else {
-						double rnd = Math.random() * p.getDesiredSalary();
-						if (rnd < offer) {
-							hire(p, offer, est, company);
-						}
-					}
-				}
-			}
+			pickedOne = processApplicationOffers(ap, pickedOne);
 		}
 
 	}
 
+	private void callHiringProcess(ApplicationProfiles ap) {
+		for (Company c : game.getCompanies()) {
+			if (!c.isBankrupt()) {
+				ThreadLocal.setCompany(c);
+				callHiringProcessCompany(ap, c);
+			}
+		}
+	}
+
+	private void callHiringProcessCompany(ApplicationProfiles ap, Company c) {
+		if (c.getHumanResources().hiringProcess != null) {
+			try {
+				c.getHumanResources().hiringProcess.run(ap);
+			} catch (RhinoException e) {
+				if (!(e.getCause() instanceof GameException)) {
+					game.getResult().addError(e);
+					log.error("Failed to call the company.hiringProcess handler. Player " + c.getName() + " bankrupt",
+							e);
+					c.setBankruptFromError(e);
+				}
+			}
+		}
+	}
+
+	private boolean processApplicationOffers(ApplicationProfiles ap, boolean pickedOne) {
+		for (Iterator<ApplicationProfile> it = ap.iteratorInt(); it.hasNext();) {
+			ApplicationProfile p = it.next();
+			Entry<Company, Offer> en = ApplicationProfiles.getMaxOfferFor(p);
+			if (en != null) {
+				pickedOne = true;
+				it.remove();
+				Establishment est = (Establishment) en.getValue().getEstablishment();
+				Integer offer = (Integer) en.getValue().getSalary();
+				Company company = en.getKey();
+				if (offer >= p.getDesiredSalary()) {
+					hire(p, offer, est, company);
+				} else {
+					double rnd = Math.random() * p.getDesiredSalary();
+					if (rnd < offer) {
+						hire(p, offer, est, company);
+					}
+				}
+			}
+		}
+		return pickedOne;
+	}
+
 	private void hire(ApplicationProfile p, int salary, Establishment est, Company company) {
 		log.debug("{} hired {} for ${}", company.getName(), p, salary);
-		company.getHumanResources().getEmployeesInt().add(new Employee(p.getName(), est, p.getQualification(), p.getJobPosition(), salary));
+		company.getHumanResources().getEmployeesInt()
+				.add(new Employee(p.getName(), est, p.getQualification(), p.getJobPosition(), salary));
 	}
 
 	public void processRealEstateBusiness() {
@@ -158,51 +156,65 @@ public class Month {
 		while (ap.iterator().hasNext() && pickedOne) {
 			pickedOne = false;
 
-			for (Company c : game.getCompanies()) {
-				if (!c.isBankrupt()) {
-					ThreadLocal.setCompany(c);
-					if (c.realEstateAgent != null) {
-						try {
-							c.realEstateAgent.run(ap);
-						} catch (RhinoException e) {
-							if (!(e.getCause() instanceof GameException)) {
-								game.getResult().addError(e);
-								log.error("Failed to call the company.realEstateAgent handler. Player " + c.getName()
-										+ " bankrupt", e);
-								c.setBankruptFromError(e);
-							}
-						}
-					}
-				}
-			}
+			callRealEstateAgents(ap);
 			ThreadLocal.resetCompany();
 
-			for (Iterator<RealEstateProfile> it = ap.iteratorInt(); it.hasNext();) {
-				RealEstateProfile p = it.next();
-				try {
-					Map<String, Object> en = ap.getOfferFor(p);
-					if (en != null) {
-						it.remove();
-						pickedOne = true;
-						Integer bribe = (Integer) en.get("bribe");
-						Boolean buy = (Boolean) en.get("buy");
-						Company company = (Company) en.get("company");
-						company.decCash(bribe);
-						game.getResult().get(company.getName()).addTotalBribe(bribe);
-						Establishment est = new Establishment(company, p.getCity(), p.getLocationQuality(), p.getLocationSize(),
-								p.getLeaseCost(), p.getSalePrice());
-						company.getEstablishmentsInt().add(est);
-						if (buy) {
-							log.debug("{} bought {} for ${}", company.getName(), p, p.getSalePrice());
-							est.buy();
-						} else {
-							log.debug("{} rented {} for ${}", company.getName(), p, p.getLeaseCost());
-						}
-					}
-				} catch (OutOfMoneyException e) {
-					log.debug("Company {} is bankrupt", e.getCompany());
+			pickedOne = processRealEstateOffers(ap, pickedOne);
+		}
+	}
+
+	private void callRealEstateAgents(RealEstateProfiles ap) {
+		for (Company c : game.getCompanies()) {
+			if (!c.isBankrupt()) {
+				ThreadLocal.setCompany(c);
+				callRealEstateAgent(ap, c);
+			}
+		}
+	}
+
+	private void callRealEstateAgent(RealEstateProfiles ap, Company company) {
+		if (company.realEstateAgent != null) {
+			try {
+				company.realEstateAgent.run(ap);
+			} catch (RhinoException e) {
+				if (!(e.getCause() instanceof GameException)) {
+					game.getResult().addError(e);
+					log.error("Failed to call the company.realEstateAgent handler. Player " + company.getName()
+							+ " bankrupt", e);
+					company.setBankruptFromError(e);
 				}
 			}
+		}
+	}
+
+	private boolean processRealEstateOffers(RealEstateProfiles ap, boolean pickedOne) {
+		for (Iterator<RealEstateProfile> it = ap.iteratorInt(); it.hasNext();) {
+			RealEstateProfile p = it.next();
+			RealEstateProfiles.RealEstateOffer en = ap.getOfferFor(p);
+			if (en != null) {
+				it.remove();
+				pickedOne = true;
+				processRealEstateOffer(p, en);
+			}
+		}
+		return pickedOne;
+	}
+
+	private void processRealEstateOffer(RealEstateProfile p, RealEstateProfiles.RealEstateOffer en) {
+		try {
+			en.getCompany().decCash(en.getBribe());
+			game.getResult().get(en.getCompany().getName()).addTotalBribe(en.getBribe());
+			Establishment est = new Establishment(en.getCompany(), p.getCity(), p.getLocationQuality(),
+					p.getLocationSize(), p.getLeaseCost(), p.getSalePrice());
+			en.getCompany().getEstablishmentsInt().add(est);
+			if (en.isBuy()) {
+				log.debug("{} bought {} for ${}", en.getCompany().getName(), p, p.getSalePrice());
+				est.buy();
+			} else {
+				log.debug("{} rented {} for ${}", en.getCompany().getName(), p, p.getLeaseCost());
+			}
+		} catch (OutOfMoneyException e) {
+			log.debug("Company {} is bankrupt", e.getCompany());
 		}
 	}
 

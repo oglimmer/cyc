@@ -2,6 +2,7 @@ package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,26 @@ public class Grocer {
 		for (Food f : Food.values()) {
 			currentPrices.put(f, game.getConstants().getFoodPriceChange(currentPrices.get(f)));
 		}
+	}
+
+	Map<Company, FoodDelivery> createTodaysFoodDelivery() {
+		Map<Company, FoodDelivery> map = new HashMap<Company, FoodDelivery>();
+		for (Iterator<FoodOrder> it = foodOrders.iterator(); it.hasNext();) {
+			FoodOrder fo = it.next();
+			if (fo.getDays() > 1) {
+				fo.decDays();
+			} else {
+				it.remove();
+			}
+			FoodUnit fu = new FoodUnit(fo.getFood(), fo.getUnits());
+			FoodDelivery list = map.get(fo.getCompany());
+			if (list == null) {
+				list = new FoodDelivery();
+				map.put(fo.getCompany(), list);
+			}
+			list.add(fu);
+		}
+		return map;
 	}
 
 	@Data

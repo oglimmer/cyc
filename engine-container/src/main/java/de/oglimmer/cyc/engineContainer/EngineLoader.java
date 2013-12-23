@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.security.Policy;
 import java.util.concurrent.TimeUnit;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import org.xeustechnologies.jcl.JarClassLoader;
@@ -44,8 +45,9 @@ public class EngineLoader {
 		return baseDir;
 	}
 
-	public void startGame(String clientRequest) throws NoSuchMethodException, IllegalAccessException,
-			InvocationTargetException, InstantiationException, ClassNotFoundException {
+	@SneakyThrows(value = { NoSuchMethodException.class, IllegalAccessException.class, InstantiationException.class,
+			ClassNotFoundException.class })
+	public void startGame(String clientRequest) throws InvocationTargetException {
 
 		Object obj = createGameRunStarter();
 		if (clientRequest == null || clientRequest.trim().isEmpty()) {
@@ -57,8 +59,9 @@ public class EngineLoader {
 		}
 	}
 
-	public String getVersion() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, SecurityException, InstantiationException, ClassNotFoundException {
+	@SneakyThrows(value = { IllegalAccessException.class, IllegalArgumentException.class, NoSuchMethodException.class,
+			SecurityException.class, InstantiationException.class, ClassNotFoundException.class })
+	public String getVersion() throws InvocationTargetException {
 		Object obj = createGameRunStarter();
 		Method m = obj.getClass().getMethod("getVersion", new Class[0]);
 		return (String) m.invoke(obj);
@@ -121,10 +124,12 @@ public class EngineLoader {
 					findLatestDir();
 					TimeUnit.SECONDS.sleep(5);
 				} catch (InterruptedException e) {
+					// ignore if interrupted
 				} catch (NoEngineException e) {
 					try {
 						TimeUnit.MINUTES.sleep(1);
 					} catch (InterruptedException e1) {
+						// ignore if interrupted
 					}
 				} catch (Exception e) {
 					log.error("DirectoryScanner failed", e);

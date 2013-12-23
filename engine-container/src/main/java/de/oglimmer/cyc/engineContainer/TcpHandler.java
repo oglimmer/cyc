@@ -57,14 +57,14 @@ public class TcpHandler implements Closeable {
 		log.debug("Server shutdown in progress...");
 	}
 
-	@SneakyThrows
-	public String handleVersion() throws IOException {
+	@SneakyThrows(value = InvocationTargetException.class)
+	public String handleVersion() {
 		String version = engineLoader.getVersion();
 		log.info("Version: {}", version);
 		return "Version: " + version + "\n";
 	}
 
-	public String handleRunGame(final String clientRequest) throws IOException {
+	public String handleRunGame(final String clientRequest) {
 		log.debug("Received: " + clientRequest);
 
 		tpe.submit(new Runnable() {
@@ -78,10 +78,10 @@ public class TcpHandler implements Closeable {
 					}
 				} catch (InvocationTargetException e) {
 					if (!(e.getCause() instanceof InterruptedException)) {
-						log.error("Uncaught throwable", e);
+						log.error("Uncaught Exception", e);
 					}
-				} catch (Throwable e) {
-					log.error("Uncaught throwable", e);
+				} catch (Exception e) {
+					log.error("Uncaught Exception", e);
 				}
 			}
 
@@ -89,7 +89,7 @@ public class TcpHandler implements Closeable {
 		return "ok\n";
 	}
 
-	public String handleStatus(boolean extended) throws IOException {
+	public String handleStatus(boolean extended) {
 		StringBuilder buff = new StringBuilder();
 		int queueSize = tpe.getQueue().size();
 		int active = tpe.getActiveCount();

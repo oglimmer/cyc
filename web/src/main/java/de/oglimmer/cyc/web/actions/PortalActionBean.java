@@ -25,6 +25,7 @@ import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.GameExecutor;
+import de.oglimmer.cyc.web.exception.CycPermissionException;
 
 public class PortalActionBean extends BaseAction {
 	private static Logger log = LoggerFactory.getLogger(PortalActionBean.class);
@@ -72,8 +73,8 @@ public class PortalActionBean extends BaseAction {
 		if (listGameRuns.isEmpty()) {
 			setLastWinner("-");
 		} else {
-			GameRun lastRun = listGameRuns.get(0);
-			setLastWinner(lastRun.getResult().getWinner());
+			GameRun lastGameRun = listGameRuns.get(0);
+			setLastWinner(lastGameRun.getResult().getWinner());
 		}
 	}
 
@@ -123,7 +124,7 @@ public class PortalActionBean extends BaseAction {
 				GameExecutor.INSTANCE.runGame(null);
 				output = "Global run started ... wait";
 			} else {
-				throw new Exception("User " + userId + " has no permission to start a full run");
+				throw new CycPermissionException("User " + userId + " has no permission to start a full run");
 			}
 		} catch (Exception e) {
 			log.debug("Failed to run check run", e);

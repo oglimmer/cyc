@@ -13,7 +13,7 @@ import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.Before;
 
-abstract public class BaseAction implements ActionBean {
+public abstract class BaseAction implements ActionBean {
 
 	private static final String API_VERSION = "1.0.4";
 	private static String longVersionCache;
@@ -21,6 +21,7 @@ abstract public class BaseAction implements ActionBean {
 	@Getter
 	@Setter
 	private ActionBeanContext context;
+
 	@Getter
 	@Setter
 	private String longVersion;

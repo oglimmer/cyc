@@ -72,7 +72,7 @@ public class Game {
 
 		RealEstateProfiles.readCities(this, cities, userList.size());
 
-		readScripts(userList, writeGameResult);
+		readScripts(userList);
 
 		allYears();
 
@@ -124,7 +124,7 @@ public class Game {
 		year.close();
 	}
 
-	private void readScripts(List<String[]> userList, boolean writeGameResult) {
+	private void readScripts(List<String[]> userList) {
 
 		ContextFactory contextFactory = ContextFactory.getGlobal();
 		Context context = contextFactory.enterContext();

@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import de.oglimmer.cyc.api.ApplicationProfile.Offer;
+import de.oglimmer.cyc.collections.ForEach;
+import de.oglimmer.cyc.collections.SortableContainer;
+import de.oglimmer.cyc.collections.UnmodifiableIterator;
 
 public class ApplicationProfiles implements Iterable<ApplicationProfile>, SortableContainer<ApplicationProfile> {
 

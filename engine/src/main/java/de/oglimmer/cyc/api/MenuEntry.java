@@ -10,6 +10,9 @@ import lombok.Setter;
 
 import com.google.common.html.HtmlEscapers;
 
+import de.oglimmer.cyc.collections.CycCollections;
+import de.oglimmer.cyc.collections.JavaScriptList;
+
 public class MenuEntry {
 
 	@Getter
@@ -55,8 +58,7 @@ public class MenuEntry {
 		for (Food f : getIngredients()) {
 			netCost += f.getBasePrice();
 		}
-		double foodScore = netCost / (getPrice() / 3);
-		return foodScore;
+		return netCost / (getPrice() / 3);
 	}
 
 	/**

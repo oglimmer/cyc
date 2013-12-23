@@ -1,14 +1,11 @@
 package de.oglimmer.cyc.api;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.mozilla.javascript.RhinoException;
-
-import de.oglimmer.cyc.api.Grocer.FoodOrder;
 
 @Slf4j
 public class Day {
@@ -111,8 +108,6 @@ public class Day {
 					FoodUnit fu = it.next();
 					if (fu.getUnits() == 0) {
 						it.remove();
-						// log.debug("Removed an empty food-unit of {} for {} in {}", fu.getFood(),
-						// c.getName(), est.getAddress());
 					} else {
 						fu.decPullDate();
 						if (fu.getPullDate() == 0) {
@@ -129,41 +124,34 @@ public class Day {
 	}
 
 	private void deliverFood() {
-		Map<Company, FoodDelivery> map = new HashMap<Company, FoodDelivery>();
-		for (Iterator<FoodOrder> it = game.getGrocer().getFoodOrders().iterator(); it.hasNext();) {
-			FoodOrder fo = it.next();
-			if (fo.getDays() > 1) {
-				fo.decDays();
-			} else {
-				it.remove();
-			}
-			FoodUnit fu = new FoodUnit(fo.getFood(), fo.getUnits());
-			FoodDelivery list = map.get(fo.getCompany());
-			if (list == null) {
-				list = new FoodDelivery();
-				map.put(fo.getCompany(), list);
-			}
-			list.add(fu);
-		}
-		for (Company c : map.keySet()) {
-			if (!c.isBankrupt()) {
-				FoodDelivery fd = map.get(c);
-				log.debug("Food delivery for {} = {}", c.getName(), fd);
-				try {
-					if (c.foodDelivery != null) {
-						ThreadLocal.setCompany(c);
-						c.foodDelivery.run(fd);
-					}
-				} catch (RhinoException e) {
-					if (!(e.getCause() instanceof GameException)) {
-						game.getResult().addError(e);
-						log.error("Failed to call the company.launch handler. Player " + c.getName() + " bankrupt", e);
-						c.setBankruptFromError(e);
-					}
-				}
-			}
-		}
+		Map<Company, FoodDelivery> foodDeliveries = game.getGrocer().createTodaysFoodDelivery();
+		callFoodDeliveries(foodDeliveries);
 		ThreadLocal.resetCompany();
+	}
+
+	private void callFoodDeliveries(Map<Company, FoodDelivery> foodDeliveries) {
+		for (Company c : foodDeliveries.keySet()) {
+			if (!c.isBankrupt()) {
+				FoodDelivery fd = foodDeliveries.get(c);
+				log.debug("Food delivery for {} = {}", c.getName(), fd);
+				callFoodDelivery(c, fd);
+			}
+		}
+	}
+
+	private void callFoodDelivery(Company c, FoodDelivery fd) {
+		try {
+			if (c.foodDelivery != null) {
+				ThreadLocal.setCompany(c);
+				c.foodDelivery.run(fd);
+			}
+		} catch (RhinoException e) {
+			if (!(e.getCause() instanceof GameException)) {
+				game.getResult().addError(e);
+				log.error("Failed to call the company.launch handler. Player " + c.getName() + " bankrupt", e);
+				c.setBankruptFromError(e);
+			}
+		}
 	}
 
 	public void close() {

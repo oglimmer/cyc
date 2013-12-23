@@ -7,13 +7,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Average {
 
-	private @Getter
+	@Getter
 	@Setter
-	long total;
+	private long total;
 
-	private @Getter
+	@Getter
 	@Setter
-	int num;
+	private int num;
 
 	public Average(long value) {
 		total = value;

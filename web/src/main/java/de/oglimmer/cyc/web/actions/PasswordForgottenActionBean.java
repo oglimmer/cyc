@@ -64,15 +64,15 @@ public class PasswordForgottenActionBean extends BaseAction {
 			user.setPassword(hashed);
 			userDao.update(user);
 			try {
-				Email email = new SimpleEmail();
-				email.setHostName("localhost");
-				email.setFrom("no-reply@junta-online.net");
-				email.setSubject("New password");
-				email.setMsg("Your new password is : " + newPass);
-				email.addTo(user.getEmail());
-				email.send();
+				Email simpleEmail = new SimpleEmail();
+				simpleEmail.setHostName("localhost");
+				simpleEmail.setFrom("no-reply@junta-online.net");
+				simpleEmail.setSubject("New password");
+				simpleEmail.setMsg("Your new password is : " + newPass);
+				simpleEmail.addTo(user.getEmail());
+				simpleEmail.send();
 			} catch (EmailException e) {
-				e.printStackTrace();
+				log.error("Failed to send password email", e);
 			}
 		}
 

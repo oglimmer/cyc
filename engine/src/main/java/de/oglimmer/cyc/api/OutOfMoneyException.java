@@ -3,7 +3,7 @@ package de.oglimmer.cyc.api;
 public class OutOfMoneyException extends GameException {
 
 	private static final long serialVersionUID = 1L;
-	private Company company;
+	private final Company company;
 
 	public OutOfMoneyException(Company company) {
 		super();
