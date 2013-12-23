@@ -3,7 +3,6 @@ grant codeBase "file:${cyc.home}/engine-container-jar-with-dependencies.jar" {
 	permission java.io.FilePermission "${cyc.home}/logs/-", "read,write";
 	permission java.net.SocketPermission "127.0.0.1:-", "accept,resolve";
 	permission java.net.SocketPermission "localhost", "resolve";
-	permission java.lang.RuntimePermission "modifyThread";
 	permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";
 	permission java.lang.RuntimePermission "accessClassInPackage.sun.text.resources";
 	permission java.lang.RuntimePermission "accessClassInPackage.sun.util.resources";
@@ -76,7 +75,9 @@ grant codeBase "file:/Network/Library/Java/Extensions/*" {
 
 // Since JCL (Java ClassLoader doesn't support proper codeBase handling, we have to put permission for the engine here)
 // should be: grant codeBase "file:${cyc.home}/cyc*/-" { // sure "*" isn't supported, but that doesn't matter anyway
-grant {	
+grant {
+	// needed as OpeningHours is running multi-threaded	
+	permission java.lang.RuntimePermission "modifyThread";
 	// needed for "version"
 	permission java.io.FilePermission "${cyc.home}/-", "read";
 	// needed for CouchDB access
