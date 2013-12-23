@@ -11,3 +11,5 @@ rules/.classpath
 web/.classpath
 persistence/.classpath
 web/src/main/webapp/apidocs/
+.sonar/
+target/
