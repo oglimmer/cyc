@@ -35,6 +35,7 @@ public class TcpHandler implements Closeable {
 	private EventLoopGroup workerGroup;
 
 	public TcpHandler() {
+		startTime = new Date();
 		bossGroup = new NioEventLoopGroup();
 		workerGroup = new NioEventLoopGroup();
 		tpe = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
