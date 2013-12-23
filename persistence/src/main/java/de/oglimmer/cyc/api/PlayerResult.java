@@ -10,6 +10,11 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import de.oglimmer.cyc.util.AverageMap;
 import de.oglimmer.cyc.util.CountMap;
 
+/**
+ * Thread-safe (parallel access in OpenHours/Guest)
+ * 
+ * @author oli
+ */
 @NoArgsConstructor
 @Data
 public class PlayerResult {
@@ -159,7 +164,7 @@ public class PlayerResult {
 		this.totalInterior += totalInterior;
 	}
 
-	public void addDebug(String debug) {
+	public synchronized void addDebug(String debug) {
 		if (debugLength < MAX_DEBUG_OUTPUT) {
 			this.debug.append(debug).append("<br/>");
 			debugLength += debug.length();

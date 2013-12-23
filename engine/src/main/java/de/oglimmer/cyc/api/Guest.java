@@ -5,14 +5,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Guest {
 
-	private Logger log = LoggerFactory.getLogger(Guest.class);
-
-	private GameResult result;
+	private final GameResult result;
 
 	public Guest(GameResult result) {
 		this.result = result;

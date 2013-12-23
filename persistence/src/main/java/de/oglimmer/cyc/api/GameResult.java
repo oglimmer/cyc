@@ -3,6 +3,7 @@ package de.oglimmer.cyc.api;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +21,11 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import de.oglimmer.cyc.util.Average;
 import de.oglimmer.cyc.util.CountMap;
 
+/**
+ * Thread-safe (parallel access in OpenHours/Guest)
+ * 
+ * @author oli
+ */
 public class GameResult {
 
 	@Getter
@@ -28,7 +34,7 @@ public class GameResult {
 
 	@Getter
 	@Setter
-	private Map<String, PlayerResult> playerResults = new HashMap<>();
+	private Map<String, PlayerResult> playerResults = Collections.synchronizedMap(new HashMap<String, PlayerResult>());
 
 	@Getter
 	@Setter
@@ -37,7 +43,7 @@ public class GameResult {
 	/** names of all companies went bankrupt in this run */
 	@Getter
 	@Setter
-	private Set<String> errors = new HashSet<>();
+	private Set<String> errors = Collections.synchronizedSet(new HashSet<String>());
 
 	/** contains all stack traces */
 	private StringBuilder error = new StringBuilder();
@@ -65,7 +71,7 @@ public class GameResult {
 		return desc;
 	}
 
-	public void addError(Throwable t) {
+	public synchronized void addError(Throwable t) {
 		CharArrayWriter caw = new CharArrayWriter();
 		t.printStackTrace(new PrintWriter(caw));
 

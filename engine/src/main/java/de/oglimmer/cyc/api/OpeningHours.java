@@ -12,10 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OpeningHours {
 
-	private Game game;
-	private int baseGuests;
-	private int rndGuests;
-	private ThreadPoolExecutor executor;
+	private final Game game;
+	private final int baseGuests;
+	private final int rndGuests;
+	private final ThreadPoolExecutor executor;
 
 	public OpeningHours(Game game) {
 		this.game = game;
