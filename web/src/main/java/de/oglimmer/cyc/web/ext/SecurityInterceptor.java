@@ -31,7 +31,7 @@ public class SecurityInterceptor implements Interceptor {
 		}
 	}
 
-	private boolean isLoggedIn(ActionBeanContext ctx) {
+	public static boolean isLoggedIn(ActionBeanContext ctx) {
 		HttpSession httpSession = ctx.getRequest().getSession(false);
 		return httpSession != null && httpSession.getAttribute("userid") != null;
 	}

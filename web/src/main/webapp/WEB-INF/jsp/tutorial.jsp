@@ -117,7 +117,8 @@
 			In the next global run of the game, you're restaurant will participate and we can see how well it competes.<br/>
 			<br/>
 			<span style="font-weight:bolder">You can use console.log("..."); in your script to output debug information.<br/></span>
-			<c:if test="${not empty sessionScope.userid}">
+
+			<c:if test="${actionBean.loggedIn}">
 				<br/>
 				To replace your code with the default implementation from this tutorial, click <a href="javascript:void(0);" onclick="replaceCode();">here</a>.<br/>
 			</c:if> 

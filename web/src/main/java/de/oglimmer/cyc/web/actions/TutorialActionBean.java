@@ -14,6 +14,7 @@ import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
+import de.oglimmer.cyc.web.ext.SecurityInterceptor;
 
 @Slf4j
 @DoesNotRequireLogin
@@ -26,6 +27,10 @@ public class TutorialActionBean extends BaseAction {
 	@Getter
 	@Setter
 	private String output;
+
+	public boolean isLoggedIn() {
+		return SecurityInterceptor.isLoggedIn(getContext());
+	}
 
 	@DefaultHandler
 	public Resolution show() {
