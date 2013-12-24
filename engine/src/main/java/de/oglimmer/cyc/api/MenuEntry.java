@@ -24,6 +24,8 @@ public class MenuEntry {
 
 	private List<Food> ingredients = new ArrayList<>();
 
+	private Integer deliCache;
+
 	public MenuEntry(String name, String[] ingredients, int price) {
 		this.name = HtmlEscapers.htmlEscaper().escape(name);
 		this.price = price;
@@ -38,6 +40,7 @@ public class MenuEntry {
 
 	public void addIngredient(String i) {
 		this.ingredients.add(Food.valueOf(i));
+		deliCache = MenuEntryRule.INSTACE.getDeliciousness(ingredients, price);
 	}
 
 	public void removeIngredient(String i) {
@@ -47,6 +50,7 @@ public class MenuEntry {
 				it.remove();
 			}
 		}
+		deliCache = MenuEntryRule.INSTACE.getDeliciousness(ingredients, price);
 	}
 
 	/**
@@ -65,7 +69,10 @@ public class MenuEntry {
 	 * base deliciouness is 5. max 10, min 0.
 	 */
 	int getDeliciousness() {
-		return MenuEntryRule.INSTACE.getDeliciousness(ingredients, price);
+		if (deliCache == null) {
+			deliCache = MenuEntryRule.INSTACE.getDeliciousness(ingredients, price);
+		}
+		return deliCache;
 	}
 
 	@Override
@@ -73,4 +80,5 @@ public class MenuEntry {
 		return "MenuEntry [name=" + name + ", ingredients=" + Arrays.toString(ingredients.toArray()) + ", price="
 				+ price + "]";
 	}
+
 }
