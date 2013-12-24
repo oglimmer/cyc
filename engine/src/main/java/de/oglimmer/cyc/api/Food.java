@@ -18,17 +18,20 @@ public enum Food {
 
 	public static boolean check(List<Food> list, Food... toSearch) {
 		for (Food food : toSearch) {
-			boolean isThere = false;
-			for (Food f : list) {
-				if (f == food) {
-					isThere = true;
-				}
-			}
-			if (!isThere) {
+			if (!check(list, food)) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private static boolean check(List<Food> list, Food food) {
+		for (Food f : list) {
+			if (f == food) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static int count(List<Food> list, Food toSearch) {
