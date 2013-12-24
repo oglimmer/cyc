@@ -32,7 +32,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		}
 		for (Company c : companies) {
 			if (!c.isBankrupt()) {
-				for (Establishment est : c.getEstablishments()) {
+				for (Establishment est : c.getEstablishmentsInt()) {
 					tmpCountMap.add(est.getAddress().substring(0, est.getAddress().indexOf("-")), 1);
 				}
 			}

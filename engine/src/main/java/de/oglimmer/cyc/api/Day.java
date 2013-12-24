@@ -50,7 +50,7 @@ public class Day {
 
 	private void incDailyCounter(Company c) {
 		PlayerResult playerResult = game.getResult().get(c.getName());
-		playerResult.addEstablishmentsByDays(c.getEstablishments().size());
+		playerResult.addEstablishmentsByDays(c.getEstablishmentsInt().size());
 		for (Employee e : c.getHumanResources().getEmployees()) {
 			playerResult.addStaffByDays(e.getJobPosition().toString());
 		}

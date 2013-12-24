@@ -32,17 +32,26 @@ public class FoodUnit {
 		units--;
 	}
 
-	boolean decPullDate(Establishment est) {
-		pullDate--;
+	/**
+	 * Increases a day for this FoodUnit.
+	 * 
+	 * @param est
+	 *            Establishment where the FoodUnit is currently located. For logging-purposes only.
+	 * @return true if the FoodUnit is empty or rotten
+	 */
+	boolean incDay(Establishment est) {
+		if (units == 0) {
+			return true;
+		}
 
-		if (pullDate == 0 && units != 0) {
+		pullDate--;
+		if (pullDate == 0) {
 			log.debug("Removed a rotten food-unit of {} for {} with {} in {}", food, est.getParent().getName(), units,
 					est.getAddress());
 			est.getParent().getGame().getResult().get(est.getParent().getName()).getTotalRottenFood()
 					.add(food.toString(), units);
 		}
-
-		return pullDate == 0 || units == 0;
+		return pullDate == 0;
 	}
 
 	public FoodUnit split(int units) {
@@ -56,9 +65,9 @@ public class FoodUnit {
 
 	public void distributeEqually() {
 		Company company = ThreadLocal.getCompany();
-		int numberEst = company.getEstablishments().size();
+		int numberEst = company.getEstablishmentsInt().size();
 		for (int i = 0; i < numberEst; i++) {
-			company.getEstablishments().get(i).sendFood(new FoodUnit(food, units / numberEst, pullDate));
+			company.getEstablishmentsInt().get(i).sendFood(new FoodUnit(food, units / numberEst, pullDate));
 		}
 		units = 0;
 	}

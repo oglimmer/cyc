@@ -174,7 +174,7 @@ public class Establishment {
 	void cleanFoodStorage() {
 		for (Iterator<FoodUnit> it = storedFoodUnits.iterator(); it.hasNext();) {
 			FoodUnit fu = it.next();
-			if (!fu.decPullDate(this)) {
+			if (fu.incDay(this)) {
 				it.remove();
 			}
 		}
