@@ -32,7 +32,7 @@ public class GuestDispatcher {
 
 	void serveGuest() {
 		Establishment est = getRandom();
-		// log.debug("A guest decided for {} by {}", est.getAddress(), est.getParent().getName());
+		log.debug("A guest decided for {} by {}", est.getAddress(), est.getParent().getName());
 		serveGuest(est);
 	}
 
@@ -99,8 +99,7 @@ public class GuestDispatcher {
 	}
 
 	private void servedDish(Company c, Establishment est, MenuEntry menu) throws MissingIngredient {
-		// log.debug("Guest went to {} in {} and ordered {} for ${}", c.getName(), est.getAddress(), menu,
-		// menu.getPrice());
+		log.debug("Guest went to {} in {} and ordered {} for ${}", c.getName(), est.getAddress(), menu, menu.getPrice());
 		Set<Food> missingIngredients = cook(est, menu);
 		checkout(c, est, menu, missingIngredients);
 	}
