@@ -73,6 +73,16 @@ public class Company {
 		return CycCollections.unmodifiableList(establishments);
 	}
 
+	public JavaScriptList<Establishment> getEstablishments(String city) {
+		List<Establishment> cityList = new ArrayList<>();
+		for (Establishment est : establishments) {
+			if (est.getAddress().startsWith(city)) {
+				cityList.add(est);
+			}
+		}
+		return CycCollections.unmodifiableList(cityList);
+	}
+
 	List<Establishment> getEstablishmentsInt() {
 		return establishments;
 	}
@@ -123,6 +133,21 @@ public class Company {
 		}
 	}
 
+	void callLaunch() {
+		try {
+			if (launch != null) {
+				ThreadLocal.setCompany(this);
+				launch.run();
+			}
+		} catch (RhinoException e) {
+			if (!(e.getCause() instanceof GameException)) {
+				game.getResult().addError(e);
+				log.error("Failed to call the company.launch handler. Player " + name + " bankrupt", e);
+				setBankruptFromError(e);
+			}
+		}
+	}
+
 	void callWeekly() {
 		try {
 			if (doWeekly != null) {
@@ -155,6 +180,42 @@ public class Company {
 		ThreadLocal.resetCompany();
 	}
 
+	void callMonthly() {
+		try {
+			if (doMonthly != null) {
+				ThreadLocal.setCompany(this);
+				doMonthly.run();
+			}
+		} catch (RhinoException e) {
+			if (!(e.getCause() instanceof GameException)) {
+				game.getResult().addError(e);
+				log.error("Failed to call the company.doMonthly handler. Player " + name + " bankrupt", e);
+				setBankruptFromError(e);
+			}
+		}
+		ThreadLocal.resetCompany();
+	}
+
+	public void callHiringProcessCompany(ApplicationProfiles ap) {
+		humanResources.callHiringProcessCompany(this, ap);
+	}
+
+	void callRealEstateAgent(RealEstateProfiles ap) {
+		if (realEstateAgent != null) {
+			try {
+				ThreadLocal.setCompany(this);
+				realEstateAgent.run(ap);
+			} catch (RhinoException e) {
+				if (!(e.getCause() instanceof GameException)) {
+					game.getResult().addError(e);
+					log.error("Failed to call the company.realEstateAgent handler. Player " + name + " bankrupt", e);
+					setBankruptFromError(e);
+				}
+			}
+		}
+		ThreadLocal.resetCompany();
+	}
+
 	void callFoodDelivery(FoodDelivery fd) {
 		log.debug("Food delivery for {} = {}", name, fd);
 		try {
@@ -181,4 +242,14 @@ public class Company {
 		}
 		return totalAssets;
 	}
+
+	void payCredit() {
+		try {
+			log.debug("Company {} paid the initial bank credit ${}", name, game.getConstants().getCreditPayback());
+			decCash(game.getConstants().getCreditPayback());
+		} catch (OutOfMoneyException e) {
+			log.debug("Company [] is bankrupt", e.getCompany());
+		}
+	}
+
 }

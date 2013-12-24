@@ -10,10 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import de.oglimmer.cyc.collections.DataPair;
 import de.oglimmer.cyc.collections.ForEach;
@@ -55,7 +52,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 	}
 
 	public static void readCities(Game game, List<String> cities, int noPlayer) {
-		
+
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
 				RealEstateProfiles.class.getResourceAsStream("/uk_cities.csv")))) {
 			for (String line = br.readLine(); line != null; line = br.readLine()) {
@@ -82,61 +79,6 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 
 	public List<DataPair> getCitiesToRestaurants() {
 		return Collections.unmodifiableList(citiesToRestaurants);
-	}
-
-	RealEstateOffer getOfferFor(RealEstateProfile p) {
-		boolean buy = true;
-		List<Entry<Company, Map<String, Integer>>> goodOfferings = getBuyOffers(p);
-		if (goodOfferings.isEmpty()) {
-			buy = false;
-			getLeaseOffers(p, goodOfferings);
-		}
-
-		if (goodOfferings.isEmpty()) {
-			return null;
-		}
-
-		while (goodOfferings.size() > 1) {
-			goodOfferings.remove((int) (Math.random() * goodOfferings.size()));
-		}
-
-		Entry<Company, Map<String, Integer>> en = goodOfferings.iterator().next();
-
-		return new RealEstateOffer(en.getValue().get("bribe"), buy, en.getKey());
-	}
-
-	private void getLeaseOffers(RealEstateProfile p, List<Entry<Company, Map<String, Integer>>> goodOfferings) {
-		int maxOff = -1;
-		for (Entry<Company, Map<String, Integer>> en : p.getOffers().entrySet()) {
-			if (en.getValue().get("buy") == 0) {
-				if (maxOff < en.getValue().get("bribe")) {
-					goodOfferings.clear();
-					goodOfferings.add(en);
-					maxOff = en.getValue().get("bribe");
-				} else if (maxOff == en.getValue().get("bribe")) {
-					goodOfferings.add(en);
-					maxOff = en.getValue().get("bribe");
-				}
-			}
-		}
-	}
-
-	private List<Entry<Company, Map<String, Integer>>> getBuyOffers(RealEstateProfile p) {
-		List<Entry<Company, Map<String, Integer>>> goodOfferings = new ArrayList<>();
-		int maxOff = -1;
-		for (Entry<Company, Map<String, Integer>> en : p.getOffers().entrySet()) {
-			if (en.getValue().get("buy") == 1) {
-				if (maxOff < en.getValue().get("bribe")) {
-					goodOfferings.clear();
-					goodOfferings.add(en);
-					maxOff = en.getValue().get("bribe");
-				} else if (maxOff == en.getValue().get("bribe")) {
-					goodOfferings.add(en);
-					maxOff = en.getValue().get("bribe");
-				}
-			}
-		}
-		return goodOfferings;
 	}
 
 	@Override
@@ -215,10 +157,4 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		}
 	}
 
-	@Value
-	public static class RealEstateOffer {
-		private int bribe;
-		private boolean buy;
-		private Company company;
-	}
 }

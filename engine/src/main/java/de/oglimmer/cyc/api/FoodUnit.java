@@ -68,17 +68,14 @@ public class FoodUnit {
 		return "FoodUnit [units=" + units + ", food=" + food + ", pullDate=" + pullDate + "]";
 	}
 
-	static void satisfyIngredient(Set<FoodUnit> foodStores, Food ingredient) throws MissingIngredient {
-		boolean done = false;
+	static boolean satisfyIngredient(Set<FoodUnit> foodStores, Food ingredient) {
 		for (FoodUnit fuS : foodStores) {
 			if (fuS.getFood() == ingredient && fuS.getUnits() > 0) {
 				fuS.decUnits();
-				done = true;
+				return true;
 			}
 		}
-		if (!done) {
-			throw new MissingIngredient(ingredient);
-		}
+		return false;
 	}
 
 	static class FoodUnitComparator implements Comparator<FoodUnit> {

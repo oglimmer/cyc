@@ -59,7 +59,7 @@ public class ApplicationProfile {
 
 		CompanyOffer bestOffer = null;
 		if (maxOffers.size() == 1) {
-			bestOffer = new CompanyOffer(maxOffers.iterator().next());
+			bestOffer = new CompanyOffer(maxOffers.get(0));
 		} else if (maxOffers.size() > 1) {
 			bestOffer = new CompanyOffer(maxOffers.get((int) (Math.random() * maxOffers.size())));
 		}

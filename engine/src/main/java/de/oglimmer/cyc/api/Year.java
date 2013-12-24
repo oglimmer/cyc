@@ -2,8 +2,6 @@ package de.oglimmer.cyc.api;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.mozilla.javascript.RhinoException;
-
 @Slf4j
 public class Year {
 
@@ -32,34 +30,15 @@ public class Year {
 	private void callLaunch() {
 		for (Company company : game.getCompanies()) {
 			if (!company.isBankrupt()) {
-				try {
-					if (company.launch != null) {
-						ThreadLocal.setCompany(company);
-						company.launch.run();
-					}
-				} catch (RhinoException e) {
-					if (!(e.getCause() instanceof GameException)) {
-						game.getResult().addError(e);
-						log.error("Failed to call the company.launch handler. Player " + company.getName()
-								+ " bankrupt", e);
-						company.setBankruptFromError(e);
-					}
-				}
+				company.callLaunch();
 			}
 		}
-		ThreadLocal.resetCompany();
 	}
 
 	private void payCredits() {
 		for (Company company : game.getCompanies()) {
 			if (!company.isBankrupt()) {
-				try {
-					log.debug("Company {} paid the initial bank credit ${}", company.getName(), game.getConstants()
-							.getCreditPayback());
-					company.decCash(game.getConstants().getCreditPayback());
-				} catch (OutOfMoneyException e) {
-					log.debug("Company [] is bankrupt", e.getCompany());
-				}
+				company.payCredit();
 			}
 		}
 	}

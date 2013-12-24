@@ -6,10 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
+
+import org.mozilla.javascript.RhinoException;
+
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
 import de.oglimmer.cyc.util.CountMap;
 
+@Slf4j
 public class HumanResources {
 
 	private List<Employee> employees = new ArrayList<>();
@@ -56,6 +61,23 @@ public class HumanResources {
 				it.remove();
 			}
 		}
+	}
+
+	void callHiringProcessCompany(Company company, ApplicationProfiles ap) {
+		if (hiringProcess != null) {
+			try {
+				ThreadLocal.setCompany(company);
+				hiringProcess.run(ap);
+			} catch (RhinoException e) {
+				if (!(e.getCause() instanceof GameException)) {
+					company.getGame().getResult().addError(e);
+					log.error("Failed to call the company.hiringProcess handler. Player " + company.getName()
+							+ " bankrupt", e);
+					company.setBankruptFromError(e);
+				}
+			}
+		}
+		ThreadLocal.resetCompany();
 	}
 
 	@Override
