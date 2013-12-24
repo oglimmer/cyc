@@ -84,6 +84,16 @@ Company.prototype.menu;
 Company.prototype.cash = 50000;
 
 /**
+* A <a href="List.html">list</a> of all of your restaurants in a particular city.
+*
+* @method getEstablishments
+* @param {String} city the city to query
+* @return {List} a list of establishments
+*/
+Company.prototype.getEstablishments = function(city) {
+};
+
+/**
 * A callback method you might want to implement. It gets called at the start of the game.
 * 
 * @property launch
