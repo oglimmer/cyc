@@ -1,13 +1,12 @@
 package de.oglimmer.cyc.api;
 
 import java.util.Iterator;
-import java.util.Map.Entry;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.mozilla.javascript.RhinoException;
 
-import de.oglimmer.cyc.api.ApplicationProfile.Offer;
+import de.oglimmer.cyc.api.ApplicationProfile.CompanyOffer;
 
 @Slf4j
 public class Month {
@@ -123,24 +122,27 @@ public class Month {
 	private boolean processApplicationOffers(ApplicationProfiles ap, boolean pickedOne) {
 		for (Iterator<ApplicationProfile> it = ap.iteratorInt(); it.hasNext();) {
 			ApplicationProfile p = it.next();
-			Entry<Company, Offer> en = ApplicationProfiles.getMaxOfferFor(p);
-			if (en != null) {
+			CompanyOffer co = p.getMaxOfferFor();
+			if (co != null) {
 				pickedOne = true;
 				it.remove();
-				Establishment est = (Establishment) en.getValue().getEstablishment();
-				Integer offer = (Integer) en.getValue().getSalary();
-				Company company = en.getKey();
-				if (offer >= p.getDesiredSalary()) {
-					hire(p, offer, est, company);
-				} else {
-					double rnd = Math.random() * p.getDesiredSalary();
-					if (rnd < offer) {
-						hire(p, offer, est, company);
-					}
-				}
+				processApplicationOffer(p, co);
 			}
 		}
 		return pickedOne;
+	}
+
+	private void processApplicationOffer(ApplicationProfile p, CompanyOffer co) {
+		Establishment est = co.getOffer().getEstablishment();
+		int offer = co.getOffer().getSalary();
+		if (offer >= p.getDesiredSalary()) {
+			hire(p, offer, est, co.getCompany());
+		} else {
+			double rnd = Math.random() * p.getDesiredSalary();
+			if (rnd < offer) {
+				hire(p, offer, est, co.getCompany());
+			}
+		}
 	}
 
 	private void hire(ApplicationProfile p, int salary, Establishment est, Company company) {

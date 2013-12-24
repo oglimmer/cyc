@@ -76,23 +76,7 @@ public class Game {
 
 		allYears();
 
-		printResults();
-
-		gameRun.setEndTime(new Date());
-		for (Company company : companies) {
-			gameRun.getParticipants().add(company.getName());
-
-			int totalAssets = company.getCash();
-			for (Establishment est : company.getEstablishments()) {
-				if (!est.isRented()) {
-					totalAssets += est.getSalePrice();
-				}
-			}
-			result.get(company.getName()).setTotalAssets(totalAssets);
-		}
-
-		gameRun.setResult(result);
-		gameRun.setEndTime(new Date());
+		calcResults();
 
 		if (writeGameResult) {
 			GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
@@ -104,7 +88,7 @@ public class Game {
 		return gameRun;
 	}
 
-	private void printResults() {
+	private void calcResults() {
 		for (Company c : companies) {
 			if (c.isBankrupt()) {
 				log.debug("{} became bankrupt.", c.getName());
@@ -112,6 +96,15 @@ public class Game {
 				log.debug("{} got ${}", c.getName(), c.getCash());
 			}
 		}
+
+		for (Company company : companies) {
+			gameRun.getParticipants().add(company.getName());
+
+			result.get(company.getName()).setTotalAssets(company.getTotalAssets());
+		}
+
+		gameRun.setResult(result);
+		gameRun.setEndTime(new Date());
 	}
 
 	private void allYears() {
@@ -141,7 +134,8 @@ public class Game {
 
 				Object jsCompany = new SandboxNativeJavaObject(scope, company, Company.class);
 				prototype.put("company", scope, jsCompany);
-				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, company.getName()), DebugAdapter.class);
+				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, company.getName()),
+						DebugAdapter.class);
 				prototype.put("out", scope, jsSystemout);
 				prototype.put("console", scope, jsSystemout);
 

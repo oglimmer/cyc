@@ -4,7 +4,9 @@ import java.util.Comparator;
 import java.util.Set;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class FoodUnit {
 
 	@Getter
@@ -14,7 +16,7 @@ public class FoodUnit {
 	@Getter
 	private int pullDate;
 
-	public FoodUnit(Food food, int units) {
+	FoodUnit(Food food, int units) {
 		this.food = food;
 		this.units = units;
 		this.pullDate = 10;
@@ -30,8 +32,17 @@ public class FoodUnit {
 		units--;
 	}
 
-	void decPullDate() {
+	boolean decPullDate(Establishment est) {
 		pullDate--;
+
+		if (pullDate == 0 && units != 0) {
+			log.debug("Removed a rotten food-unit of {} for {} with {} in {}", food, est.getParent().getName(), units,
+					est.getAddress());
+			est.getParent().getGame().getResult().get(est.getParent().getName()).getTotalRottenFood()
+					.add(food.toString(), units);
+		}
+
+		return pullDate == 0 || units == 0;
 	}
 
 	public FoodUnit split(int units) {

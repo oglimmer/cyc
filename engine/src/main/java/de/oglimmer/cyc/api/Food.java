@@ -33,8 +33,8 @@ public enum Food {
 
 	public static int count(List<Food> list, Food toSearch) {
 		int count = 0;
-		for (Food ia : list) {
-			if (ia == toSearch) {
+		for (Food food : list) {
+			if (food == toSearch) {
 				count++;
 			}
 		}

@@ -2,6 +2,7 @@ package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -74,8 +75,9 @@ public class Establishment {
 	}
 
 	public void sellInteriorAccessories() {
-		for (InteriorAccessory ia : interiorAccessories) {
-			int cost = (int) (ia.getAssetCost() * parent.getGame().getConstants().getSellFactorInteriorAccessories());
+		for (InteriorAccessory intAcc : interiorAccessories) {
+			int cost = (int) (intAcc.getAssetCost() * parent.getGame().getConstants()
+					.getSellFactorInteriorAccessories());
 			parent.incCash(cost);
 			parent.getGame().getResult().get(parent.getName()).addTotalInterior(-cost);
 		}
@@ -88,50 +90,31 @@ public class Establishment {
 		parent.getGame().getResult().get(parent.getName()).addTotalRealEstate(getSalePrice());
 	}
 
-	public void buyInteriorAccessories(String... ias) {
-		Collection<InteriorAccessory> iaToAdd = new ArrayList<>();
-		for (String ia : ias) {
-			iaToAdd.add(InteriorAccessory.valueOf(ia));
-		}
+	public void buyInteriorAccessories(String... intAccies) {
+		Collection<InteriorAccessory> iaToAdd = InteriorAccessory.valuesOf(null, intAccies);
+		buyInteriorAccessories(iaToAdd);
+	}
 
+	public void buyInteriorAccessoriesNotExist(String... intAccies) {
+		Collection<InteriorAccessory> iaToAdd = InteriorAccessory.valuesOf(interiorAccessories, intAccies);
+		buyInteriorAccessories(iaToAdd);
+	}
+
+	private int calcTotalCost(Collection<InteriorAccessory> iaToAdd) {
 		int total = 0;
-		for (InteriorAccessory ia : iaToAdd) {
-			total += ia.getAssetCost();
+		for (InteriorAccessory intAcc : iaToAdd) {
+			total += intAcc.getAssetCost();
 		}
+		return total;
+	}
 
+	private void buyInteriorAccessories(Collection<InteriorAccessory> iaToAdd) {
+		int total = calcTotalCost(iaToAdd);
 		if (parent.getCash() >= total) {
 			try {
 				parent.decCash(total);
 				parent.getGame().getResult().get(parent.getName()).addTotalInterior(total);
 				for (InteriorAccessory ia : iaToAdd) {
-					interiorAccessories.add(ia);
-					log.debug(parent.getName() + " bought " + ia + " for " + getAddress());
-				}
-			} catch (OutOfMoneyException e) {
-				log.debug("Company " + e.getCompany() + " is bankrupt");
-			}
-		}
-	}
-
-	public void buyInteriorAccessoriesNotExist(String... ias) {
-		Collection<InteriorAccessory> iaToAll = new ArrayList<>();
-		for (String ia : ias) {
-			InteriorAccessory _ia = InteriorAccessory.valueOf(ia);
-			if (!interiorAccessories.contains(_ia)) {
-				iaToAll.add(_ia);
-			}
-		}
-
-		int total = 0;
-		for (InteriorAccessory ia : iaToAll) {
-			total += ia.getAssetCost();
-		}
-
-		if (parent.getCash() >= total) {
-			try {
-				parent.decCash(total);
-				parent.getGame().getResult().get(parent.getName()).addTotalInterior(total);
-				for (InteriorAccessory ia : iaToAll) {
 					interiorAccessories.add(ia);
 					log.debug(parent.getName() + " bought " + ia + " for " + getAddress());
 				}
@@ -167,11 +150,11 @@ public class Establishment {
 		return CycCollections.unmodifiableList(subList);
 	}
 
-	public JavaScriptList<Employee> getEmployees(String jp) {
+	public JavaScriptList<Employee> getEmployees(String jobPosition) {
 		List<Employee> subList = new ArrayList<>();
-		for (Employee e : parent.getHumanResources().getEmployees(jp)) {
-			if (e.getEstablishment() == this) {
-				subList.add(e);
+		for (Employee employee : parent.getHumanResources().getEmployees(jobPosition)) {
+			if (employee.getEstablishment() == this) {
+				subList.add(employee);
 			}
 		}
 		return CycCollections.unmodifiableList(subList);
@@ -186,6 +169,15 @@ public class Establishment {
 	private static String nextAddress(String city) {
 		cityNames.add(city, 1);
 		return city + "-" + cityNames.get(city);
+	}
+
+	void cleanFoodStorage() {
+		for (Iterator<FoodUnit> it = storedFoodUnits.iterator(); it.hasNext();) {
+			FoodUnit fu = it.next();
+			if (!fu.decPullDate(this)) {
+				it.remove();
+			}
+		}
 	}
 
 }

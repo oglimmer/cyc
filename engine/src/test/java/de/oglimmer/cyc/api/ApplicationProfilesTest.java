@@ -1,11 +1,7 @@
 package de.oglimmer.cyc.api;
 
-import java.util.Map.Entry;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import de.oglimmer.cyc.api.ApplicationProfile.Offer;
 
 public class ApplicationProfilesTest {
 
@@ -18,10 +14,10 @@ public class ApplicationProfilesTest {
 		ThreadLocal.setCompany(comp);
 		int sal = p.getDesiredSalary() + 10;
 		p.offer(est, sal);
-		Entry<Company, Offer> en = ApplicationProfiles.getMaxOfferFor(p);
-		Assert.assertSame(comp, en.getKey());
-		Assert.assertSame(est, en.getValue().getEstablishment());
-		Assert.assertEquals(sal, en.getValue().getSalary());
+		ApplicationProfile.CompanyOffer co = p.getMaxOfferFor();
+		Assert.assertSame(comp, co.getCompany());
+		Assert.assertSame(est, co.getOffer().getEstablishment());
+		Assert.assertEquals(sal, co.getOffer().getSalary());
 	}
 
 	@Test
@@ -38,10 +34,10 @@ public class ApplicationProfilesTest {
 		ThreadLocal.setCompany(comp2);
 		int sal2 = p.getDesiredSalary() + 20;
 		p.offer(est2, sal2);
-		Entry<Company, Offer> en = ApplicationProfiles.getMaxOfferFor(p);
-		Assert.assertSame(comp2, en.getKey());
-		Assert.assertSame(est2, en.getValue().getEstablishment());
-		Assert.assertEquals(sal2, en.getValue().getSalary());
+		ApplicationProfile.CompanyOffer co = p.getMaxOfferFor();
+		Assert.assertSame(comp2, co.getCompany());
+		Assert.assertSame(est2, co.getOffer().getEstablishment());
+		Assert.assertEquals(sal2, co.getOffer().getSalary());
 	}
 
 }

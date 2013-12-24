@@ -6,6 +6,9 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import org.mozilla.javascript.RhinoException;
+
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
 
@@ -108,7 +111,7 @@ public class Company {
 
 	void payRents() {
 		try {
-			for (Establishment e : getEstablishmentsInt()) {
+			for (Establishment e : establishments) {
 				if (e.isRented()) {
 					game.getResult().get(getName()).addTotalOnRent(e.getLeaseCost());
 					decCash(e.getLeaseCost());
@@ -120,4 +123,62 @@ public class Company {
 		}
 	}
 
+	void callWeekly() {
+		try {
+			if (doWeekly != null) {
+				ThreadLocal.setCompany(this);
+				doWeekly.run();
+			}
+		} catch (RhinoException e) {
+			if (!(e.getCause() instanceof GameException)) {
+				game.getResult().addError(e);
+				log.error("Failed to call the company.launch handler. Player " + name + " bankrupt", e);
+				setBankruptFromError(e);
+			}
+		}
+		ThreadLocal.resetCompany();
+	}
+
+	void callDaily() {
+		try {
+			if (doDaily != null) {
+				ThreadLocal.setCompany(this);
+				doDaily.run();
+			}
+		} catch (RhinoException e) {
+			if (!(e.getCause() instanceof GameException)) {
+				game.getResult().addError(e);
+				log.error("Failed to call the company.launch handler. Player " + name + " bankrupt", e);
+				setBankruptFromError(e);
+			}
+		}
+		ThreadLocal.resetCompany();
+	}
+
+	void callFoodDelivery(FoodDelivery fd) {
+		log.debug("Food delivery for {} = {}", name, fd);
+		try {
+			if (foodDelivery != null) {
+				ThreadLocal.setCompany(this);
+				foodDelivery.run(fd);
+			}
+		} catch (RhinoException e) {
+			if (!(e.getCause() instanceof GameException)) {
+				game.getResult().addError(e);
+				log.error("Failed to call the company.launch handler. Player " + name + " bankrupt", e);
+				setBankruptFromError(e);
+			}
+		}
+		ThreadLocal.resetCompany();
+	}
+
+	long getTotalAssets() {
+		int totalAssets = cash;
+		for (Establishment est : establishments) {
+			if (!est.isRented()) {
+				totalAssets += est.getSalePrice();
+			}
+		}
+		return totalAssets;
+	}
 }

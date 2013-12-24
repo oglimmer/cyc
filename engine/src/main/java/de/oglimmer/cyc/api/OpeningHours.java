@@ -78,7 +78,7 @@ public class OpeningHours {
 		int totalScore = 0;
 		for (Company c : game.getCompanies()) {
 			if (!c.isBankrupt()) {
-				for (Establishment est : c.getEstablishmentsInt()) {
+				for (Establishment est : c.getEstablishments()) {
 					if (est.getAddress().startsWith(city)) {
 						int score = est.getScore();
 						log.debug("Est score: {}:{} ({})", est.getAddress(), score, c.getName());

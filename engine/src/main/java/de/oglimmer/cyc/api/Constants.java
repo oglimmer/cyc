@@ -11,7 +11,7 @@ import de.oglimmer.cyc.api.Grocer.BulkOrderDiscount;
 import de.oglimmer.cyc.util.EvalSignumFunction;
 
 /**
- * CLASS IS NOT THREAD SAFE!!! (as Evaluator isn't it)
+ * Evaluator IS NOT thread-safe
  * 
  * @author oli
  */
@@ -26,7 +26,8 @@ public class Constants {
 
 	@SneakyThrows(value = IOException.class)
 	public Constants(Mode mode) {
-		prop.load(Constants.class.getResourceAsStream(mode == Mode.FULL ? "/cyc-engine-full.properties" : "/cyc-engine-single.properties"));
+		prop.load(Constants.class.getResourceAsStream(mode == Mode.FULL ? "/cyc-engine-full.properties"
+				: "/cyc-engine-single.properties"));
 		e = new Evaluator(EvaluationConstants.SINGLE_QUOTE, false, true, false, true);
 		e.putFunction(new EvalSignumFunction());
 	}
@@ -44,7 +45,7 @@ public class Constants {
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getNumberApplicationProfiles(String jobPosition, int noCompanies) {
+	public synchronized int getNumberApplicationProfiles(String jobPosition, int noCompanies) {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("numberApplicationProfiles." + jobPosition.toLowerCase()));
 		eval.putVariable("noCompanies", Integer.toString(noCompanies));
@@ -52,14 +53,14 @@ public class Constants {
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getQualification() {
+	public synchronized int getQualification() {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("qualification"));
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getSalary(int qualification) {
+	public synchronized int getSalary(int qualification) {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("salary"));
 		eval.putVariable("qualification", Integer.toString(qualification));
@@ -92,7 +93,7 @@ public class Constants {
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public double getFoodPriceChange(double currentPrice) {
+	public synchronized double getFoodPriceChange(double currentPrice) {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("foodPriceChange"));
 		eval.putVariable("currentPrice", Double.toString(currentPrice));
@@ -100,35 +101,35 @@ public class Constants {
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getBaseGuests() {
+	public synchronized int getBaseGuests() {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("baseGuests"));
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getRndGuests() {
+	public synchronized int getRndGuests() {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("rndGuests"));
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getLocationQuality() {
+	public synchronized int getLocationQuality() {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("locationQuality"));
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getLocationSize() {
+	public synchronized int getLocationSize() {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("locationSize"));
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getSalePrice(int locationQuality, int locationSize) {
+	public synchronized int getSalePrice(int locationQuality, int locationSize) {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("salePrice"));
 		eval.putVariable("locationQuality", Integer.toString(locationQuality));
@@ -137,7 +138,7 @@ public class Constants {
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getLeaseCosts(int locationQuality, int locationSize) {
+	public synchronized int getLeaseCosts(int locationQuality, int locationSize) {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("leaseCosts"));
 		eval.putVariable("locationQuality", Integer.toString(locationQuality));
@@ -146,7 +147,7 @@ public class Constants {
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getNumberCities(int noPlayer) {
+	public synchronized int getNumberCities(int noPlayer) {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("numberCities"));
 		eval.putVariable("noPlayer", Integer.toString(noPlayer));
@@ -166,7 +167,7 @@ public class Constants {
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public int getNumberRealEstateProfiles(int noCompanies) {
+	public synchronized int getNumberRealEstateProfiles(int noCompanies) {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("numberRealEstateProfiles"));
 		eval.putVariable("noCompanies", Integer.toString(noCompanies));

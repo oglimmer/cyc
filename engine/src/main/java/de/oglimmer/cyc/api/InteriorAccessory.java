@@ -1,5 +1,7 @@
 package de.oglimmer.cyc.api;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import lombok.Getter;
@@ -39,5 +41,16 @@ public enum InteriorAccessory {
 			}
 		}
 		return count;
+	}
+
+	public static Collection<InteriorAccessory> valuesOf(Collection<InteriorAccessory> excludeCol, String... intAccies) {
+		Collection<InteriorAccessory> convertedCol = new ArrayList<>(intAccies.length);
+		for (String intAccStr : intAccies) {
+			InteriorAccessory intAcc = InteriorAccessory.valueOf(intAccStr);
+			if (excludeCol == null || !excludeCol.contains(intAcc)) {
+				convertedCol.add(intAcc);
+			}
+		}
+		return convertedCol;
 	}
 }

@@ -6,10 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import de.oglimmer.cyc.api.ApplicationProfile.Offer;
 import de.oglimmer.cyc.collections.ForEach;
 import de.oglimmer.cyc.collections.SortableContainer;
 import de.oglimmer.cyc.collections.UnmodifiableIterator;
@@ -39,28 +36,6 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Sortab
 					salary);
 			profiles.add(p);
 		}
-	}
-
-	static Entry<Company, Offer> getMaxOfferFor(ApplicationProfile p) {
-		Map<Company, Offer> offeredSal = p.getOfferedSalary();
-		int maxOff = -1;
-		List<Entry<Company, Offer>> goodOffers = new ArrayList<>();
-		for (Entry<Company, Offer> en : offeredSal.entrySet()) {
-			if (maxOff < (Integer) en.getValue().getSalary()) {
-				goodOffers.clear();
-				goodOffers.add(en);
-				maxOff = (Integer) en.getValue().getSalary();
-			} else if (maxOff == (Integer) en.getValue().getSalary()) {
-				goodOffers.add(en);
-				maxOff = (Integer) en.getValue().getSalary();
-			}
-		}
-		if (goodOffers.size() == 1) {
-			return goodOffers.iterator().next();
-		} else if (goodOffers.size() > 1) {
-			return goodOffers.get((int) (Math.random() * goodOffers.size()));
-		}
-		return null;
 	}
 
 	public ApplicationProfile get(int index) {
