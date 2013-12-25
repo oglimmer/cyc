@@ -13,8 +13,14 @@ public class Menu implements Container<MenuEntry>, Iterable<MenuEntry> {
 
 	private List<MenuEntry> entries = new ArrayList<>();
 
-	public void add(String name, String[] ingredients, int price) {
-		entries.add(new MenuEntry(name, ingredients, price));
+	private Game game;
+
+	Menu(Game game) {
+		this.game = game;
+	}
+
+	public void add(String name, String[] ingredients, double price) {
+		entries.add(new MenuEntry(game, name, ingredients, price));
 	}
 
 	public void remove(String name) {

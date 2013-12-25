@@ -117,13 +117,13 @@ public class PlayerResultTest {
 	@Test
 	public void getServedFoodRevenueTotalTest() {
 		val pr = createPlayerResultForFoodUnitTotal();
-		Assert.assertEquals(149, pr.getServedFoodRevenueTotal());
+		Assert.assertEquals(149, pr.getServedFoodRevenueTotal(), 0d);
 	}
 
 	@Test
 	public void getServedFoodEstablishmentRevenueTotalTest() {
 		val pr = createPlayerResultForFoodUnitTotal();
-		Assert.assertEquals(149, pr.getServedFoodEstablishmentRevenueTotal());
+		Assert.assertEquals(149, pr.getServedFoodEstablishmentRevenueTotal(), 0d);
 	}
 
 	@Test
@@ -137,8 +137,8 @@ public class PlayerResultTest {
 		pr.addServedFoodServed("B", "a", 9);
 		Assert.assertEquals(5, (long) pr.getServedFoodPerEstablishmentUnits().get("A"));
 		Assert.assertEquals(4, (long) pr.getServedFoodPerTypeUnits().get("a"));
-		Assert.assertEquals(140, (long) pr.getServedFoodPerEstablishmentRevenue().get("A"));
-		Assert.assertEquals(39, (long) pr.getServedFoodPerTypeRevenue().get("a"));
+		Assert.assertEquals(140, (double) pr.getServedFoodPerEstablishmentRevenue().get("A"), 0d);
+		Assert.assertEquals(39, (double) pr.getServedFoodPerTypeRevenue().get("a"), 0d);
 	}
 
 	@Test

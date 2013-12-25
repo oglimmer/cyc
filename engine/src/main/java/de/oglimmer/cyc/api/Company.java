@@ -29,7 +29,7 @@ public class Company {
 	private String name;
 
 	@Getter
-	private int cash;
+	private double cash;
 
 	@Getter
 	private HumanResources humanResources = new HumanResources();
@@ -38,18 +38,19 @@ public class Company {
 	private Grocer grocer;
 
 	@Getter
-	private Menu menu = new Menu();
+	private Menu menu;
 
 	private List<Establishment> establishments = new ArrayList<>();
 
 	public Company(Game game, String name, Grocer grocer) {
 		this.game = game;
 		this.name = name;
-		this.cash = game.getConstants().getStartCredit();
 		this.grocer = grocer;
+		this.menu = new Menu(game);
+		this.cash = game.getConstants().getStartCredit();
 	}
 
-	void incCash(int change) {
+	void incCash(double change) {
 		assert change >= 0;
 		assert cash > -1;
 		if (cash <= -1) {
@@ -233,8 +234,8 @@ public class Company {
 		ThreadLocal.resetCompany();
 	}
 
-	long getTotalAssets() {
-		int totalAssets = cash;
+	double getTotalAssets() {
+		double totalAssets = cash;
 		for (Establishment est : establishments) {
 			if (!est.isRented()) {
 				totalAssets += est.getSalePrice();

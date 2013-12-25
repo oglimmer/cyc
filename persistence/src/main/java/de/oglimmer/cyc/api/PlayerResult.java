@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import de.oglimmer.cyc.util.AverageMap;
+import de.oglimmer.cyc.util.CountDoubleMap;
 import de.oglimmer.cyc.util.CountMap;
 
 /**
@@ -40,8 +41,8 @@ public class PlayerResult {
 
 	private CountMap<String> servedFoodPerTypeUnits = new CountMap<>();
 	private CountMap<String> servedFoodPerEstablishmentUnits = new CountMap<>();
-	private CountMap<String> servedFoodPerTypeRevenue = new CountMap<>();
-	private CountMap<String> servedFoodPerEstablishmentRevenue = new CountMap<>();
+	private CountDoubleMap<String> servedFoodPerTypeRevenue = new CountDoubleMap<>();
+	private CountDoubleMap<String> servedFoodPerEstablishmentRevenue = new CountDoubleMap<>();
 
 	private CountMap<String> guestsYouPerCity = new CountMap<>();
 	private CountMap<String> guestsLeftPerCity = new CountMap<>();
@@ -122,24 +123,24 @@ public class PlayerResult {
 	}
 
 	@JsonIgnore
-	public long getServedFoodRevenueTotal() {
-		long total = 0;
-		for (Long l : servedFoodPerTypeRevenue.values()) {
+	public double getServedFoodRevenueTotal() {
+		double total = 0;
+		for (Double l : servedFoodPerTypeRevenue.values()) {
 			total += l;
 		}
 		return total;
 	}
 
 	@JsonIgnore
-	public long getServedFoodEstablishmentRevenueTotal() {
-		long total = 0;
-		for (Long l : servedFoodPerEstablishmentRevenue.values()) {
+	public double getServedFoodEstablishmentRevenueTotal() {
+		double total = 0;
+		for (Double l : servedFoodPerEstablishmentRevenue.values()) {
 			total += l;
 		}
 		return total;
 	}
 
-	public void addServedFoodServed(String est, String name, int price) {
+	public void addServedFoodServed(String est, String name, double price) {
 		servedFoodPerEstablishmentUnits.add(est, 1);
 		servedFoodPerTypeUnits.add(name, 1);
 		servedFoodPerEstablishmentRevenue.add(est, price);

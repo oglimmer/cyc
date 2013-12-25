@@ -173,4 +173,8 @@ public class Constants {
 		eval.putVariable("noCompanies", Integer.toString(noCompanies));
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
+
+	public double getMenuPriceFactor() {
+		return Double.parseDouble(prop.getProperty("menuPriceFactor"));
+	}
 }

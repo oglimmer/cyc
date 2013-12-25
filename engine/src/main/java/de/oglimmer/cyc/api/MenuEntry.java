@@ -20,13 +20,16 @@ public class MenuEntry {
 
 	@Getter
 	@Setter
-	private int price;
+	private double price;
 
 	private List<Food> ingredients = new ArrayList<>();
 
 	private Integer deliCache;
 
-	public MenuEntry(String name, String[] ingredients, int price) {
+	private Game game;
+
+	MenuEntry(Game game, String name, String[] ingredients, double price) {
+		this.game = game;
 		this.name = HtmlEscapers.htmlEscaper().escape(name);
 		this.price = price;
 		for (String i : ingredients) {
@@ -56,17 +59,18 @@ public class MenuEntry {
 	/**
 	 * a value of 1 is a perfect price<br/>
 	 * a value of 0.5 means it is too expensive by factor 2
+	 * a value of 2 means it is too cheap by factor 2
 	 */
 	double getScore() {
 		double netCost = 0;
 		for (Food f : getIngredients()) {
 			netCost += f.getBasePrice();
 		}
-		return netCost / (getPrice() / 3);
+		return netCost / (price / game.getConstants().getMenuPriceFactor());
 	}
 
 	/**
-	 * base deliciouness is 5. max 10, min 0.
+	 * base deliciousness is 5. max 10, min 0.
 	 */
 	int getDeliciousness() {
 		if (deliCache == null) {
