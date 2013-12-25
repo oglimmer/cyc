@@ -22,7 +22,7 @@ public class PlayerResult {
 	private static final int MAX_DEBUG_OUTPUT = 4048;
 
 	private String name;
-	private long totalAssets;
+	private double totalAssets;
 	private long totalOnRent;
 	private long totalRealEstate;
 	private long establishmentsByDays;

@@ -60,7 +60,7 @@ public class GameResult {
 	@JsonIgnore
 	public String getWinner() {
 		NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-		long maxMoney = -1;
+		double maxMoney = -1;
 		String desc = "all bankrupt";
 		for (PlayerResult pr : playerResults.values()) {
 			if (pr.getTotalAssets() > maxMoney) {

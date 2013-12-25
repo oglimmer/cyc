@@ -127,7 +127,7 @@ public class GameRunStarter {
 		List<GameRun> runHistory = dao.findAllGameRun(ROUNDS_TO_BE_EXCLUDED);
 		for (GameRun gr : runHistory) {
 			for (String parti : gr.getParticipants()) {
-				Long total = gr.getResult().getPlayerResults().get(parti).getTotalAssets();
+				Double total = gr.getResult().getPlayerResults().get(parti).getTotalAssets();
 				if (total < 0) {
 					if (playersToRemove.containsKey(parti)) {
 						playersToRemove.put(parti, playersToRemove.get(parti) + 1);
