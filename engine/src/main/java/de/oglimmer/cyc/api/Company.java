@@ -196,7 +196,7 @@ public class Company {
 		ThreadLocal.resetCompany();
 	}
 
-	public void callHiringProcessCompany(ApplicationProfiles ap) {
+	void callHiringProcessCompany(ApplicationProfiles ap) {
 		humanResources.callHiringProcessCompany(this, ap);
 	}
 
