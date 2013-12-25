@@ -24,7 +24,7 @@
 					<tr> 
 	  					<td>${element}</td>
 	  					<td>
-	  						<c:set var="tmpAsset">${actionBean.result.playerResults[element].totalAssets}</c:set>
+	  						<c:set value="${actionBean.result.playerResults[element].totalAssets}" var="tmpAsset"/>
 							<c:if test = "${tmpAsset != -1}">
 								<fmt:formatNumber value="${tmpAsset}" type="currency" pattern="¤#,##0.00;-¤#,##0.00"/>
 							</c:if>
