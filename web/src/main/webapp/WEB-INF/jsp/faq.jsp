@@ -60,9 +60,8 @@
 
 		<div class="centerElement">
 			<div style="font-weight:bolder">Q: How many cities exist?</div>
-			A: There is only one city if less than 8 players participate, as the formula is "3rd root of number of players". See 
-			<a href="https://github.com/oglimmer/cyc/blob/master/engine/src/main/resources/cyc-engine-full.properties">here</a>
-			to see how all parameters are calculated.
+			A: The formula to calculate the number of cities at the start of the game is "3rd root of number of players". Whenever a player leases or buys a restaurant the same formula is used
+			(3rd root of number of restaurants) to see if a new city will join the game. 
 		</div>		
 
 		<div class="centerElement">
