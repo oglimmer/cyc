@@ -46,6 +46,7 @@ public class FoodUnit {
 
 		pullDate--;
 		if (pullDate == 0) {
+			units = 0;
 			log.debug("Removed a rotten food-unit of {} for {} with {} in {}", food, est.getParent().getName(), units,
 					est.getAddress());
 			est.getParent().getGame().getResult().get(est.getParent().getName()).getTotalRottenFood()
