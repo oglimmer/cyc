@@ -39,8 +39,6 @@ public class Game {
 	private Collection<Company> companies = new ArrayList<>();
 
 	@Getter(AccessLevel.PACKAGE)
-	private GameResult result = new GameResult();
-	@Getter(AccessLevel.PACKAGE)
 	private GameRun gameRun = new GameRun();
 
 	@Getter(AccessLevel.PACKAGE)
@@ -100,10 +98,9 @@ public class Game {
 		for (Company company : companies) {
 			gameRun.getParticipants().add(company.getName());
 
-			result.get(company.getName()).setTotalAssets(company.getTotalAssets());
+			gameRun.getResult().get(company.getName()).setTotalAssets(company.getTotalAssets());
 		}
 
-		gameRun.setResult(result);
 		gameRun.setEndTime(new Date());
 	}
 
@@ -113,7 +110,7 @@ public class Game {
 		for (int yearCount = 1; yearCount <= totalYear; yearCount++) {
 			year.processYear(yearCount);
 		}
-		result.setTotalDays(currentDay);
+		gameRun.getResult().setTotalDays(currentDay);
 		year.close();
 	}
 
@@ -134,8 +131,8 @@ public class Game {
 
 				Object jsCompany = new SandboxNativeJavaObject(scope, company, Company.class);
 				prototype.put("company", scope, jsCompany);
-				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(result, company.getName()),
-						DebugAdapter.class);
+				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(gameRun.getResult(),
+						company.getName()), DebugAdapter.class);
 				prototype.put("out", scope, jsSystemout);
 				prototype.put("console", scope, jsSystemout);
 
@@ -145,7 +142,7 @@ public class Game {
 					if (e.getCause() instanceof GameException) {
 						log.info("Failed to initialize the JavaScript, but found a GameException", e);
 					} else {
-						result.addError(e);
+						gameRun.getResult().addError(e);
 						log.error("Failed to initialize the JavaScript. Player " + company.getName() + " bankrupt", e);
 						company.setBankruptFromError(e);
 					}
@@ -157,6 +154,10 @@ public class Game {
 		} finally {
 			Context.exit();
 		}
+	}
+
+	GameResult getResult() {
+		return gameRun.getResult();
 	}
 
 }

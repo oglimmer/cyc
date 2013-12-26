@@ -59,7 +59,6 @@ public class EstablishmentTest {
 	@Test
 	public void testCleanFoodStorage() {
 		Game game = new Game(Mode.FULL);
-		game.getGameRun().setResult(game.getResult());
 		Company company = new Company(game, "companyA", game.getGrocer());
 		Establishment est = new Establishment(company, "cityA", 5, 50, 1000, 2000);
 		company.getEstablishmentsInt().add(est);
