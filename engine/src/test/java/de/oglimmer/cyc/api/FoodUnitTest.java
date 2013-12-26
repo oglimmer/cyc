@@ -13,6 +13,7 @@ public class FoodUnitTest {
 	@Test
 	public void testIncDay() {
 		Game game = new Game(Mode.FULL);
+		game.getGameRun().setResult(game.getResult());
 		Company company = new Company(game, "companyA", game.getGrocer());
 		Establishment est = new Establishment(company, "cityA", 5, 50, 1000, 2000);
 
@@ -22,10 +23,15 @@ public class FoodUnitTest {
 			Assert.assertFalse(fu.incDay(est));
 			Assert.assertEquals(9 - i, fu.getPullDate());
 			Assert.assertEquals(10, fu.getUnits());
+			Assert.assertNull(game.getGameRun().getResult().get("companyA").getTotalRottenFood()
+					.get(Food.BEEF_MEAT.toString()));
 		}
 		Assert.assertTrue(fu.incDay(est));
 		Assert.assertEquals(0, fu.getUnits());
 		Assert.assertEquals(0, fu.getPullDate());
+		Assert.assertEquals(10,
+				game.getGameRun().getResult().get("companyA").getTotalRottenFood().get(Food.BEEF_MEAT.toString())
+						.longValue());
 	}
 
 	@Test
