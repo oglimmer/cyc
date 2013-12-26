@@ -24,6 +24,7 @@ import de.oglimmer.cyc.dao.GameRunDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
 import de.oglimmer.cyc.model.GameRun;
+import de.oglimmer.cyc.model.User;
 
 @Slf4j
 public class Game {
@@ -64,13 +65,13 @@ public class Game {
 		this.totalDay = constants.getRuntimeDay();
 	}
 
-	public GameRun executeGame(List<String[]> userList, boolean writeGameResult) {
+	public GameRun executeGame(List<User> userList, boolean writeGameResult) {
 
 		gameRun.setStartTime(new Date());
 
-		RealEstateProfiles.readCities(this, cities, userList.size());
-
 		readScripts(userList);
+
+		createCities();
 
 		allYears();
 
@@ -84,6 +85,23 @@ public class Game {
 		log.debug("Run completed in {} millies.", gameRun.getEndTime().getTime() - gameRun.getStartTime().getTime());
 
 		return gameRun;
+	}
+
+	void createCities() {
+		for (int i = cities.size(); i < constants.getNumberCities(Math.max(companies.size(),
+				getNumberTotalEstablishments())); i++) {
+			String city = constants.getCity(cities);
+			cities.add(city);
+			log.debug("Created city={}", city);
+		}
+	}
+
+	private int getNumberTotalEstablishments() {
+		int totalEst = 0;
+		for (Company company : companies) {
+			totalEst += company.getEstablishmentsInt().size();
+		}
+		return totalEst;
 	}
 
 	private void calcResults() {
@@ -114,14 +132,14 @@ public class Game {
 		year.close();
 	}
 
-	private void readScripts(List<String[]> userList) {
+	private void readScripts(List<User> userList) {
 
 		ContextFactory contextFactory = ContextFactory.getGlobal();
 		Context context = contextFactory.enterContext();
 		try {
 
-			for (String[] user : userList) {
-				Company company = new Company(this, user[0], grocer);
+			for (User user : userList) {
+				Company company = new Company(this, user.getUsername(), grocer);
 				ThreadLocal.setCompany(company);
 
 				ScriptableObject prototype = context.initStandardObjects();
@@ -137,7 +155,7 @@ public class Game {
 				prototype.put("console", scope, jsSystemout);
 
 				try {
-					context.evaluateString(scope, user[1], company.getName(), 1, null);
+					context.evaluateString(scope, user.getMainJavaScript(), company.getName(), 1, null);
 				} catch (RhinoException e) {
 					if (e.getCause() instanceof GameException) {
 						log.info("Failed to initialize the JavaScript, but found a GameException", e);

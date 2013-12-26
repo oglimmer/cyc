@@ -1,8 +1,5 @@
 package de.oglimmer.cyc.api;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,14 +8,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
 import de.oglimmer.cyc.collections.DataPair;
 import de.oglimmer.cyc.collections.ForEach;
 import de.oglimmer.cyc.collections.SortableContainer;
 import de.oglimmer.cyc.collections.UnmodifiableIterator;
 import de.oglimmer.cyc.util.CountMap;
 
-@Slf4j
 public class RealEstateProfiles implements Iterable<RealEstateProfile>, SortableContainer<RealEstateProfile> {
 
 	private List<RealEstateProfile> profiles = new ArrayList<>();
@@ -48,23 +43,6 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 			int leaseCosts = game.getConstants().getLeaseCosts(locationQuality, locationSize);
 			profiles.add(new RealEstateProfile(cities.get((int) (Math.random() * cities.size())), salePrice,
 					leaseCosts, locationQuality, locationSize));
-		}
-	}
-
-	public static void readCities(Game game, List<String> cities, int noPlayer) {
-
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(
-				RealEstateProfiles.class.getResourceAsStream("/uk_cities.csv")))) {
-			for (String line = br.readLine(); line != null; line = br.readLine()) {
-				cities.add(line);
-			}
-		} catch (IOException e) {
-			log.error("Failed to read cities", e);
-		}
-		Collections.shuffle(cities);
-		int numberOfCities = game.getConstants().getNumberCities(noPlayer);
-		while (cities.size() != numberOfCities) {
-			cities.remove(0);
 		}
 	}
 

@@ -1,6 +1,7 @@
 package de.oglimmer.cyc.api;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Properties;
 
 import lombok.SneakyThrows;
@@ -75,6 +76,15 @@ public class Constants {
 	public String getEmployeesLastname() {
 		String[] tmp = prop.getProperty("employeesLastname").split(",");
 		return tmp[(int) (tmp.length * Math.random())];
+	}
+	
+	public String getCity(Collection<String> exclude) {
+		String[] tmp = prop.getProperty("cities").split(",");
+		String cityName = null;
+		while (cityName == null || exclude.contains(cityName)) {
+			cityName = tmp[(int) (tmp.length * Math.random())];
+		}
+		return cityName;
 	}
 
 	public float getSellFactorInteriorAccessories() {

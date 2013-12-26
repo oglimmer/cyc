@@ -158,6 +158,7 @@ public class Month {
 			} else {
 				log.debug("{} rented {} for ${}", reo.getCompany().getName(), p, p.getLeaseCost());
 			}
+			game.createCities();
 		} catch (OutOfMoneyException e) {
 			log.debug("Company {} is bankrupt", e.getCompany());
 		}

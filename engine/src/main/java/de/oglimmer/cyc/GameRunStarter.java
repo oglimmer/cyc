@@ -34,7 +34,7 @@ public class GameRunStarter {
 	public void startFullGame() {
 		GroovyInitializer.globalInit();
 		log.debug("Running full game");
-		List<String[]> userList = allPlayers();
+		List<User> userList = allPlayers();
 
 		if (!userList.isEmpty()) {
 			Game game = new Game(Constants.Mode.FULL);
@@ -48,7 +48,7 @@ public class GameRunStarter {
 	public void startCheckRun(String uid) {
 		assert uid != null && !uid.isEmpty();
 		GroovyInitializer.globalInit();
-		List<String[]> userList = singlePlayer(uid);
+		List<User> userList = singlePlayer(uid);
 
 		if (!userList.isEmpty()) {
 			Game game = new Game(Constants.Mode.SINGLE);
@@ -91,14 +91,14 @@ public class GameRunStarter {
 		return "V" + version + " [Commit#" + commit + "] build " + creationDate;
 	}
 
-	private List<String[]> allPlayers() {
-		List<String[]> userList = new ArrayList<>();
+	private List<User> allPlayers() {
+		List<User> userList = new ArrayList<>();
 		writeGameResult = true;
 
 		List<User> ul = userDao.findAllUser();
 		for (User u : ul) {
 			if (u.isActive()) {
-				userList.add(new String[] { u.getUsername(), u.getMainJavaScript() });
+				userList.add(u);
 				log.debug("Adding player to game:" + u.getUsername());
 			}
 		}
@@ -140,12 +140,12 @@ public class GameRunStarter {
 		return playersToRemove;
 	}
 
-	private List<String[]> singlePlayer(String uid) {
-		List<String[]> userList = new ArrayList<>();
+	private List<User> singlePlayer(String uid) {
+		List<User> userList = new ArrayList<>();
 		writeGameResult = false;
 		log.debug("Running game for user:" + uid);
 		User u = userDao.get(uid);
-		userList.add(new String[] { u.getUsername(), u.getMainJavaScript() });
+		userList.add(u);
 		log.debug("Adding player to game:" + u.getUsername());
 		return userList;
 	}

@@ -20,7 +20,6 @@ public class HumanResourcesTest {
 		hr.getEmployeesInt().add(new Employee("c", est, 9, JobPosition.CHEF, 1000));
 		hr.getEmployeesInt().add(new Employee("d", est, 11, JobPosition.WAITER, 1000));
 		Map<JobPosition, Long> sum = hr.getSummary(est);
-		System.out.println(sum);
 		Assert.assertEquals(21, (long) sum.get(JobPosition.CHEF));
 		Assert.assertEquals(11, (long) sum.get(JobPosition.WAITER));
 	}
