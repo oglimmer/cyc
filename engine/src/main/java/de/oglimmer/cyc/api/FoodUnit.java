@@ -56,7 +56,7 @@ public class FoodUnit {
 	}
 
 	public FoodUnit split(int units) {
-		if (units <= this.units) {
+		if (units > 0 && units < this.units) {
 			FoodUnit newFU = new FoodUnit(food, units, pullDate);
 			this.units -= units;
 			return newFU;

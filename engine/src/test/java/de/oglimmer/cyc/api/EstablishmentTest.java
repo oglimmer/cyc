@@ -1,5 +1,7 @@
 package de.oglimmer.cyc.api;
 
+import java.util.Iterator;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -74,6 +76,72 @@ public class EstablishmentTest {
 		est.cleanFoodStorage();
 		Assert.assertEquals(0, fuEst.getPullDate());
 		Assert.assertEquals(0, est.getStoredFoodUnits().size());
+	}
+
+	@Test
+	public void testNewFoodUnit() {
+		Game game = new Game(Mode.FULL);
+		Company company = new Company(game, "companyA", game.getGrocer());
+		Establishment est = new Establishment(company, "cityA", 5, 50, 1000, 2000);
+		company.getEstablishmentsInt().add(est);
+		ThreadLocal.setCompany(company);
+
+		// add 10 units on day-1
+
+		FoodUnit fuIn1 = new FoodUnit(Food.BEEF_MEAT, 10);
+		fuIn1.distributeEqually();
+
+		est.cleanFoodStorage();
+
+		// add 10 units on day-2
+
+		FoodUnit fu2 = new FoodUnit(Food.BEEF_MEAT, 10);
+		fu2.distributeEqually();
+
+		est.cleanFoodStorage();
+
+		// add 10 units on day-3
+
+		FoodUnit fu3 = new FoodUnit(Food.BEEF_MEAT, 10);
+		fu3.distributeEqually();
+
+		// we now have pull dates = 8,9,10 in the Set
+
+		int day = 8;
+		for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
+			Assert.assertEquals(day, fu.getPullDate());
+			day++;
+		}
+
+		// take the first FU (pulldate=8) and move it (will be added to the back of the list)
+
+		est.getStoredFoodUnitsInt().iterator().next().distributeEqually();
+		est.cleanFoodStorage();
+
+		// we now have pull dates = 7,8,9 in the Set
+
+		day = 7;
+		for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
+			Assert.assertEquals(day, fu.getPullDate());
+			day++;
+		}
+
+		// take the second FU (pulldate=8) and move it (will be added to the back of the list)
+
+		Iterator<FoodUnit> it = est.getStoredFoodUnitsInt().iterator();
+		it.next();
+		it.next().distributeEqually();
+
+		est.cleanFoodStorage();
+
+		// we now have pull dates = 6,7,8 in the Set
+
+		day = 6;
+		for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
+			Assert.assertEquals(day, fu.getPullDate());
+			day++;
+		}
+
 	}
 
 }

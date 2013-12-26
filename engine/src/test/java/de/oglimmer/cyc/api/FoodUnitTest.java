@@ -39,4 +39,38 @@ public class FoodUnitTest {
 		Assert.assertEquals(0, fu.getUnits());
 		Assert.assertFalse(FoodUnit.satisfyIngredient(set, Food.BEEF_MEAT));
 	}
+
+	@Test
+	public void testSplit() {
+		FoodUnit fu = new FoodUnit(Food.BEEF_MEAT, 20);
+		FoodUnit fuNew = fu.split(5);
+		Assert.assertEquals(fu.getFood(), fuNew.getFood());
+		Assert.assertEquals(fu.getPullDate(), fuNew.getPullDate());
+		Assert.assertEquals(15, fu.getUnits());
+		Assert.assertEquals(5, fuNew.getUnits());
+	}
+
+	@Test
+	public void testSplitTooMuch() {
+		FoodUnit fu = new FoodUnit(Food.BEEF_MEAT, 20);
+		FoodUnit fuNew = fu.split(21);
+		Assert.assertEquals(20, fu.getUnits());
+		Assert.assertNull(fuNew);
+	}
+
+	@Test
+	public void testSplitMax() {
+		FoodUnit fu = new FoodUnit(Food.BEEF_MEAT, 20);
+		FoodUnit fuNew = fu.split(20);
+		Assert.assertEquals(20, fu.getUnits());
+		Assert.assertNull(fuNew);
+	}
+
+	@Test
+	public void testSplitZero() {
+		FoodUnit fu = new FoodUnit(Food.BEEF_MEAT, 20);
+		FoodUnit fuNew = fu.split(0);
+		Assert.assertEquals(20, fu.getUnits());
+		Assert.assertNull(fuNew);
+	}
 }
