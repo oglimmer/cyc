@@ -16,7 +16,7 @@
 			<div>Next run: <span id="nextRun">${actionBean.nextRun}</span></div>
 			<div>Last run's winner: <s:link beanclass="de.oglimmer.cyc.web.actions.GameRunDetailsActionBean" ><span id="lastWinner">${actionBean.lastWinner}</span></s:link></div>			
 			<div>
-				Total runs: <s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean" ><span id="totalRuns">${actionBean.totalRuns}</span></s:link>
+				3 days winner: <s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean" ><span id="threeDayWinner">${actionBean.threeDayWinner}</span></s:link>
 			</div>
 		</div>
 		
@@ -89,7 +89,7 @@
 		    function checkForUpdateGlobalRun() {
 		    	$.get(document.mainForm.action+"?checkForUpdateGlobalRun=", function(returnData) {
 					$("#lastWinner").html(returnData.lastWinner);
-					$("#totalRuns").html(returnData.totalRuns);
+					$("#threeDayWinner").html(returnData.threeDayWinner);
 					$("#nextRun").html(returnData.nextRun);
 		    	},"json");
 		    	setTimeout(checkForUpdateGlobalRun, 1000*60);	

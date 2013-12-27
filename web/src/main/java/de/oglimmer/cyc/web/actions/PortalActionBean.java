@@ -1,8 +1,10 @@
 package de.oglimmer.cyc.web.actions;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,13 +19,15 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.oglimmer.cyc.dao.GameRunDao;
+import de.oglimmer.cyc.dao.GameWinnersDao;
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
-import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
+import de.oglimmer.cyc.dao.couchdb.GameWinnersCouchDb;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
-import de.oglimmer.cyc.model.GameRun;
+import de.oglimmer.cyc.model.GameWinners;
 import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.util.AverageMap;
+import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.web.GameExecutor;
 import de.oglimmer.cyc.web.exception.CycPermissionException;
 
@@ -33,7 +37,7 @@ public class PortalActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/portal.jsp";
 
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
-	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
+	private GameWinnersDao dao = new GameWinnersCouchDb(CouchDbUtil.getDatabase());
 
 	@Getter
 	@Setter
@@ -48,12 +52,14 @@ public class PortalActionBean extends BaseAction {
 	@Getter
 	@Setter
 	private String nextRun;
-	@Getter
-	@Setter
-	private int totalRuns;
+
 	@Getter
 	@Setter
 	private String lastWinner;
+
+	@Getter
+	@Setter
+	private String threeDayWinner;
 
 	@Getter
 	@Setter
@@ -64,17 +70,38 @@ public class PortalActionBean extends BaseAction {
 
 	@Before
 	public void getNextRunFromGameEngine() {
-		Date date = GameExecutor.INSTANCE.getNextRun();
-		DateFormat df = DateFormat.getDateTimeInstance();
-		setNextRun(df.format(date));
+		Date nextRunDate = GameExecutor.INSTANCE.getNextRun();
+		DateFormat dateTimeDf = DateFormat.getDateTimeInstance();
+		setNextRun(dateTimeDf.format(nextRunDate));
 
-		List<GameRun> listGameRuns = dao.findAllGameRun(1);
-		setTotalRuns(dao.sizeAllGameRun());
-		if (listGameRuns.isEmpty()) {
-			setLastWinner("-");
+		NumberFormat currencyDf = NumberFormat.getCurrencyInstance(Locale.US);
+		List<GameWinners> listGameWinners = dao.findAllGameWinners(288);
+		if (listGameWinners.isEmpty()) {
+			lastWinner = "-";
+			threeDayWinner = "-";
 		} else {
-			GameRun lastGameRun = listGameRuns.get(0);
-			setLastWinner(lastGameRun.getResult().getWinner());
+			GameWinners lastGameWinner = listGameWinners.get(0);
+			setLastWinner(lastGameWinner.getWinnerName() + " (" + currencyDf.format(lastGameWinner.getWinnerTotal())
+					+ ")");
+
+			AverageMap<String> threeDaysWinnerAvgTotal = new AverageMap<>();
+			CountMap<String> threeDaysWinnerWinCount = new CountMap<>();
+			for (GameWinners gw : listGameWinners) {
+				threeDaysWinnerWinCount.add(gw.getWinnerName(), 1);
+				threeDaysWinnerAvgTotal.add(gw.getWinnerName(), (long) gw.getWinnerTotal());
+			}
+
+			threeDayWinner = "";
+			int maxWins = -1;
+			for (String s : threeDaysWinnerWinCount.keySet()) {
+				long wins = threeDaysWinnerWinCount.get(s);
+				if (wins > maxWins) {
+					threeDayWinner = s + " (" + currencyDf.format(threeDaysWinnerAvgTotal.get(s).average()) + ")";
+				} else if (wins == maxWins) {
+					threeDayWinner += ", " + s + " (" + currencyDf.format(threeDaysWinnerAvgTotal.get(s).average())
+							+ ")";
+				}
+			}
 		}
 	}
 
@@ -137,9 +164,9 @@ public class PortalActionBean extends BaseAction {
 		try {
 			getNextRunFromGameEngine();
 			JSONObject json = new JSONObject();
-			json.put("lastWinner", getLastWinner());
-			json.put("totalRuns", getTotalRuns());
 			json.put("nextRun", getNextRun());
+			json.put("lastWinner", getLastWinner());
+			json.put("threeDayWinner", getThreeDayWinner());
 			output = json.toString();
 		} catch (JSONException e) {
 			log.error("Failed to create JSON response", e);

@@ -21,9 +21,13 @@ import com.cloudbees.util.rhino.sandbox.SandboxNativeJavaObject;
 
 import de.oglimmer.cyc.api.Constants.Mode;
 import de.oglimmer.cyc.dao.GameRunDao;
+import de.oglimmer.cyc.dao.GameWinnersDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
+import de.oglimmer.cyc.dao.couchdb.GameWinnersCouchDb;
 import de.oglimmer.cyc.model.GameRun;
+import de.oglimmer.cyc.model.GameWinners;
+import de.oglimmer.cyc.model.GameWinners.GameWinnerEntry;
 import de.oglimmer.cyc.model.User;
 
 @Slf4j
@@ -78,13 +82,26 @@ public class Game {
 		calcResults();
 
 		if (writeGameResult) {
-			GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
-			dao.add(gameRun);
+			writeGameResults();
 		}
 
 		log.debug("Run completed in {} millies.", gameRun.getEndTime().getTime() - gameRun.getStartTime().getTime());
 
 		return gameRun;
+	}
+
+	private void writeGameResults() {
+		GameRunDao gameRunDao = new GameRunCouchDb(CouchDbUtil.getDatabase());
+		gameRunDao.add(gameRun);
+
+		GameWinnersDao gameWinnersDao = new GameWinnersCouchDb(CouchDbUtil.getDatabase());
+		GameWinners gw = new GameWinners();
+		gw.setRefGameRunId(gameRun.getId());
+		gw.setStartTime(gameRun.getStartTime());
+		for (String company : gameRun.getParticipants()) {
+			gw.getParticipants().add(new GameWinnerEntry(company, gameRun.getResult().get(company).getTotalAssets()));
+		}
+		gameWinnersDao.add(gw);
 	}
 
 	void createCities() {
