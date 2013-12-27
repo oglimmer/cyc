@@ -1,13 +1,16 @@
 package de.oglimmer.cyc.web.actions;
 
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.ActionBeanContext;
+import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -23,10 +26,15 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import com.google.common.html.HtmlEscapers;
 
+import de.oglimmer.cyc.dao.GameWinnersDao;
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
+import de.oglimmer.cyc.dao.couchdb.GameWinnersCouchDb;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
+import de.oglimmer.cyc.model.GameWinners;
 import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.util.AverageMap;
+import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 
 @DoesNotRequireLogin
@@ -34,6 +42,7 @@ public class LandingActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/landing.jsp";
 
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private GameWinnersDao dao = new GameWinnersCouchDb(CouchDbUtil.getDatabase());
 
 	@Validate(required = true)
 	@Getter
@@ -44,6 +53,40 @@ public class LandingActionBean extends BaseAction {
 	@Getter
 	@Setter
 	private String password;
+
+	@Getter
+	@Setter
+	private String threeDayWinner;
+
+	@Before
+	public void getNextRunFromGameEngine() {
+
+		NumberFormat currencyDf = NumberFormat.getCurrencyInstance(Locale.US);
+		List<GameWinners> listGameWinners = dao.findAllGameWinners(288);
+		if (listGameWinners.isEmpty()) {
+			threeDayWinner = "-";
+		} else {
+
+			AverageMap<String> threeDaysWinnerAvgTotal = new AverageMap<>();
+			CountMap<String> threeDaysWinnerWinCount = new CountMap<>();
+			for (GameWinners gw : listGameWinners) {
+				threeDaysWinnerWinCount.add(gw.getWinnerName(), 1);
+				threeDaysWinnerAvgTotal.add(gw.getWinnerName(), (long) gw.getWinnerTotal());
+			}
+
+			threeDayWinner = "";
+			int maxWins = -1;
+			for (String s : threeDaysWinnerWinCount.keySet()) {
+				long wins = threeDaysWinnerWinCount.get(s);
+				if (wins > maxWins) {
+					threeDayWinner = s + " (" + currencyDf.format(threeDaysWinnerAvgTotal.get(s).average()) + ")";
+				} else if (wins == maxWins) {
+					threeDayWinner += ", " + s + " (" + currencyDf.format(threeDaysWinnerAvgTotal.get(s).average())
+							+ ")";
+				}
+			}
+		}
+	}
 
 	@ValidationMethod
 	public void validateUser(ValidationErrors errors) {

@@ -12,6 +12,9 @@
 			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.actions.TutorialActionBean" >Tutorial</s:link>, <s:link beanclass="de.oglimmer.cyc.web.actions.FaqActionBean" >FAQ</s:link> or the <a href="../apidocs/index.html" target="_blank">API</a>.<br/>
 			Here are results of the <s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean" >latest competitions</s:link>.
 		</div>
+		<div class="centerElement">
+				3 days winner: ${actionBean.threeDayWinner}
+		</div>
 		
 		<div>
 			<s:errors />
@@ -35,6 +38,7 @@
 					</div>					 
 				</div>
 				<hr style="clear:both;visibility:hidden;" />
+				<s:hidden name="threeDayWinner"/>
 			</s:form>
 		</div>	
 		
