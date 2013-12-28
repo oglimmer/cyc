@@ -304,7 +304,7 @@
 			<div id="labels" style="font-family:Arial;font-size:12px;">Legend: </div>
 			<script>
 				var jsonData = [<c:forEach items="${actionBean.result.playerResults}" var="play">[<c:forEach items="${play.value.statistics.cash }" var="entry">${entry.valueMin},</c:forEach>],</c:forEach>];
-				var labelData = [<c:forEach items="${actionBean.result.playerResults}" var="play">'${play.key }',</c:forEach>];
+				var labelData = [<c:forEach items="${actionBean.result.playerResults}" var="play">'${fn:replace(play.key, "'", "\\'")}',</c:forEach>];
 				var labelColors = ['red', 'blue', 'white', 'yellow', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'black', 'orange', 'purple', 'silver', 'aqua', 'teal'];
 			</script>
 			
