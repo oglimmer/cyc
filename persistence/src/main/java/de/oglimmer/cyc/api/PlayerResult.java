@@ -57,6 +57,8 @@ public class PlayerResult {
 	private AverageMap<String> menuEntryScore = new AverageMap<>();
 	private AverageMap<String> establishmentScore = new AverageMap<>();
 
+	private Statistics statistics = new Statistics();
+
 	public PlayerResult(String name) {
 		this.name = name;
 	}

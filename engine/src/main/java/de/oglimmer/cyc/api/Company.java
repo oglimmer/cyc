@@ -48,6 +48,7 @@ public class Company {
 		this.grocer = grocer;
 		this.menu = new Menu(game);
 		this.cash = game.getConstants().getStartCredit();
+		game.getResult().get(name).getStatistics().addCash(game.getCurrentDay(), cash);
 	}
 
 	void incCash(double change) {
@@ -57,6 +58,7 @@ public class Company {
 			log.error("{} got money even if bankrupt", name);
 		} else {
 			cash += change;
+			game.getResult().get(name).getStatistics().addCash(game.getCurrentDay(), cash);
 		}
 	}
 
@@ -65,9 +67,11 @@ public class Company {
 		assert cash > -1;
 		if (cash - change < 0) {
 			setBankrupt();
+			game.getResult().get(name).getStatistics().addCash(game.getCurrentDay(), cash);
 			throw new OutOfMoneyException(this);
 		}
 		cash -= change;
+		game.getResult().get(name).getStatistics().addCash(game.getCurrentDay(), cash);
 	}
 
 	public JavaScriptList<Establishment> getEstablishments() {

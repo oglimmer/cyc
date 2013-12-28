@@ -18,6 +18,7 @@ import lombok.Setter;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import de.oglimmer.cyc.api.Statistics.StatValue;
 import de.oglimmer.cyc.util.Average;
 import de.oglimmer.cyc.util.CountMap;
 
@@ -69,6 +70,22 @@ public class GameResult {
 			}
 		}
 		return desc;
+	}
+
+	@JsonIgnore
+	public int getUpperCashBoundary() {
+		double maxMoney = -1;
+		for (PlayerResult pr : playerResults.values()) {
+			for (StatValue sv : pr.getStatistics().getCash()) {
+				if (sv.getValueMin() > maxMoney) {
+					maxMoney = sv.getValueMin();
+				}
+			}
+		}
+		if (maxMoney <= 100_000) {
+			return 100_000;
+		}
+		return ((int) (maxMoney / 100_000) + 1) * 100_000;
 	}
 
 	public synchronized void addError(Throwable t) {

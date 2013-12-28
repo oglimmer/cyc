@@ -292,6 +292,46 @@
 				</c:forEach>	
 				
 		</div>	
+		
+		<div class="centerElement">
+		
+			Cash flow over time:<br/>
+			<span style="font-size:10px;">(as lowest figure per day)</span>
+			
+			<script src="RGraph.common.core.js" ></script>
+	    	<script src="RGraph.line.js" ></script>
+	    	<canvas id="cvs" width="700" height="600">[No canvas support]</canvas>
+			<div id="labels" style="font-family:Arial;font-size:12px;">Legend: </div>
+			<script>
+				var jsonData = [<c:forEach items="${actionBean.result.playerResults}" var="play">[<c:forEach items="${play.value.statistics.cash }" var="entry">${entry.valueMin},</c:forEach>],</c:forEach>];
+				var labelData = [<c:forEach items="${actionBean.result.playerResults}" var="play">'${play.key }',</c:forEach>];
+				var labelColors = ['red', 'blue', 'white', 'yellow', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'black', 'orange', 'purple', 'silver', 'aqua', 'teal'];
+			</script>
+			
+	    	<script>
+	    		var maxMoney = ${actionBean.result.upperCashBoundary};
+		    	var line = new RGraph.Line('cvs', jsonData)
+		    	.Set('ymax', maxMoney)
+		    	.Set('ylabels.count', maxMoney/50000)
+		        .Set('numxticks', 0)
+		        .Set('numyticks', 0)
+		        .Set('hmargin', 10)
+		        .Set('background.grid.autofit.numvlines', 11)
+		        .Set('background.grid.autofit.numhlines', maxMoney/50000)
+		        .Set('background.grid.dotted', true)
+		        .Set('colors', labelColors)
+		        .Set('linewidth', 1)
+		        .Set('gutter.left', 70)
+		        .Set('gutter.right', 15)
+		        .Set('labels',['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'])
+		        .Draw();
+		    	
+		    	for(var i = 0 ; i < labelData.length ; i++) {
+		    		$("#labels").append("<span style='color:"+labelColors[i]+"'>"+labelData[i]+"</span>&nbsp;-&nbsp;");
+		    	}
+		    	
+	    	</script>	    	
+	    </div>
 
 		<c:if test="${not empty actionBean.username }">
 
