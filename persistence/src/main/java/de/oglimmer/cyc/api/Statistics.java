@@ -26,6 +26,18 @@ public class Statistics {
 		}
 	}
 
+	@JsonIgnore
+	public List<Long> getCashHtml() {
+		List<Long> fixedList = new ArrayList<>(360);
+		for (StatValue sv : cash) {
+			fixedList.add((long) sv.getValueMin());
+		}
+		for (int i = fixedList.size(); i < 360; i++) {
+			fixedList.add(Long.valueOf(-1L));
+		}
+		return fixedList;
+	}
+
 	@Data
 	@NoArgsConstructor
 	public static class StatValue {
