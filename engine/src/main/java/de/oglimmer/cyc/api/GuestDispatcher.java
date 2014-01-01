@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -12,6 +13,7 @@ public class GuestDispatcher {
 
 	private Game game;
 
+	@Getter
 	private City city;
 
 	private Map<Integer, Establishment> estList = new LinkedHashMap<>();
@@ -29,6 +31,10 @@ public class GuestDispatcher {
 		this.city = city;
 		this.excluded = excluded;
 		buildData();
+	}
+
+	public boolean hasRestaurants() {
+		return !estList.isEmpty();
 	}
 
 	public Establishment getRandom() {

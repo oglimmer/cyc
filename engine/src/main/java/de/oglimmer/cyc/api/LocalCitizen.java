@@ -19,7 +19,7 @@ public class LocalCitizen implements Guest {
 	@Override
 	public void addAlreadyVisited(Company company) {
 		alreadyVisited.add(company);
-		if (alreadyVisited.size() == game.getCompanies().size() - 1) {
+		if (alreadyVisited.size() >= game.getCompanies().size() - 1) {
 			alreadyVisited.clear();
 		}
 	}

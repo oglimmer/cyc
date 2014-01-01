@@ -83,10 +83,14 @@ public class OpeningHours {
 
 		private void serveGuest(Guest guest) {
 			GuestDispatcher guestDisp = guestDispMngr.getDispatcher(guest);
-			Establishment est = guestDisp.getRandom();
-			log.debug("A guest decided for {} by {}", est.getAddress(), est.getParent().getName());
-			guest.addAlreadyVisited(est.getParent());
-			serveGuest(est);
+			if (guestDisp.hasRestaurants()) {
+				Establishment est = guestDisp.getRandom();
+				log.debug("A guest decided for {} by {}", est.getAddress(), est.getParent().getName());
+				guest.addAlreadyVisited(est.getParent());
+				serveGuest(est);
+			} else {
+				log.debug("No restaurant found for {}", guestDisp.getCity());
+			}
 		}
 
 		private void serveGuest(Establishment est) {
