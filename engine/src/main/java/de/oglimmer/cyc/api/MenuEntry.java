@@ -24,9 +24,9 @@ public class MenuEntry {
 
 	private List<Food> ingredients = new ArrayList<>();
 
-	private Integer deliCache;
-
 	private Game game;
+
+	private _Cache cache;
 
 	MenuEntry(Game game, String name, String[] ingredients, double price) {
 		this.game = game;
@@ -35,6 +35,7 @@ public class MenuEntry {
 		for (String i : ingredients) {
 			this.ingredients.add(Food.valueOf(i));
 		}
+		cache = new _Cache(game);
 	}
 
 	public JavaScriptList<Food> getIngredients() {
@@ -43,7 +44,6 @@ public class MenuEntry {
 
 	public void addIngredient(String i) {
 		this.ingredients.add(Food.valueOf(i));
-		deliCache = MenuEntryRule.INSTACE.getDeliciousness(ingredients, price);
 	}
 
 	public void removeIngredient(String i) {
@@ -53,13 +53,11 @@ public class MenuEntry {
 				it.remove();
 			}
 		}
-		deliCache = MenuEntryRule.INSTACE.getDeliciousness(ingredients, price);
 	}
 
 	/**
 	 * a value of 1 is a perfect price<br/>
-	 * a value of 0.5 means it is too expensive by factor 2
-	 * a value of 2 means it is too cheap by factor 2
+	 * a value of 0.5 means it is too expensive by factor 2 a value of 2 means it is too cheap by factor 2
 	 */
 	double getScore() {
 		double netCost = 0;
@@ -73,10 +71,7 @@ public class MenuEntry {
 	 * base deliciousness is 5. max 10, min 0.
 	 */
 	int getDeliciousness() {
-		if (deliCache == null) {
-			deliCache = MenuEntryRule.INSTACE.getDeliciousness(ingredients, price);
-		}
-		return deliCache;
+		return cache.getValue();
 	}
 
 	@Override
@@ -85,4 +80,16 @@ public class MenuEntry {
 				+ price + "]";
 	}
 
+	class _Cache extends Cache<Integer> {
+
+		public _Cache(Game game) {
+			super(Type.DAILY, game, "MenuEntry");
+		}
+
+		@Override
+		protected Integer fetchValue() {
+			return MenuEntryRule.INSTACE.getDeliciousness(ingredients, price);
+		}
+
+	}
 }

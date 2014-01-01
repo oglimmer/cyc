@@ -20,10 +20,10 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 
 	private List<DataPair> citiesToRestaurants = new ArrayList<>();
 
-	public RealEstateProfiles(Game game, List<String> cities, Collection<Company> companies) {
+	public RealEstateProfiles(Game game, List<City> cities, Collection<Company> companies) {
 		CountMap<String> tmpCountMap = new CountMap<>();
-		for (String city : cities) {
-			tmpCountMap.add(city, 0);
+		for (City city : cities) {
+			tmpCountMap.add(city.getName(), 0);
 		}
 		for (Company c : companies) {
 			if (!c.isBankrupt()) {
@@ -41,7 +41,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 			int locationSize = game.getConstants().getLocationSize();
 			int salePrice = game.getConstants().getSalePrice(locationQuality, locationSize);
 			int leaseCosts = game.getConstants().getLeaseCosts(locationQuality, locationSize);
-			profiles.add(new RealEstateProfile(cities.get((int) (Math.random() * cities.size())), salePrice,
+			profiles.add(new RealEstateProfile(cities.get((int) (Math.random() * cities.size())).getName(), salePrice,
 					leaseCosts, locationQuality, locationSize));
 		}
 	}

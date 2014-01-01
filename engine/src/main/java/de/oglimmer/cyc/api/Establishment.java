@@ -35,6 +35,8 @@ public class Establishment {
 	@Getter
 	private int locationSize; // 25..250
 
+	private _Cache cache;
+
 	private List<InteriorAccessory> interiorAccessories = new ArrayList<>();
 	private Set<FoodUnit> storedFoodUnits = new TreeSet<>(new FoodUnit.FoodUnitComparator());
 
@@ -47,10 +49,11 @@ public class Establishment {
 		this.salePrice = salePrice;
 		this.leaseCost = leaseCost;
 		this.rented = true;
+		cache = new _Cache(parent.getGame());
 	}
 
 	int getScore() {
-		return EstablishmentRule.INSTACE.getScore(this, log);
+		return cache.getValue();
 	}
 
 	public void sell() {
@@ -178,6 +181,19 @@ public class Establishment {
 				it.remove();
 			}
 		}
+	}
+
+	class _Cache extends Cache<Integer> {
+
+		public _Cache(Game game) {
+			super(Type.DAILY, game, "Establishment");
+		}
+
+		@Override
+		protected Integer fetchValue() {
+			return EstablishmentRule.INSTACE.getScore(Establishment.this, log);
+		}
+
 	}
 
 }

@@ -77,14 +77,23 @@ public class Constants {
 		String[] tmp = prop.getProperty("employeesLastname").split(",");
 		return tmp[(int) (tmp.length * Math.random())];
 	}
-	
-	public String getCity(Collection<String> exclude) {
+
+	public String getCity(Collection<City> exclude) {
 		String[] tmp = prop.getProperty("cities").split(",");
 		String cityName = null;
-		while (cityName == null || exclude.contains(cityName)) {
+		while (cityName == null || contains(exclude, cityName)) {
 			cityName = tmp[(int) (tmp.length * Math.random())];
 		}
 		return cityName;
+	}
+
+	private boolean contains(Collection<City> colToSearch, String cityName) {
+		for (City c : colToSearch) {
+			if (c.getName().equals(cityName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public float getSellFactorInteriorAccessories() {
@@ -111,16 +120,18 @@ public class Constants {
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public synchronized int getBaseGuests() {
+	public synchronized int getBaseGuests(int noCompanies) {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("baseGuests"));
+		eval.putVariable("noCompanies", Integer.toString(noCompanies));
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
 
 	@SneakyThrows(value = EvaluationException.class)
-	public synchronized int getRndGuests() {
+	public synchronized int getRndGuests(int noCompanies) {
 		Evaluator eval = getEval();
 		eval.parse(prop.getProperty("rndGuests"));
+		eval.putVariable("noCompanies", Integer.toString(noCompanies));
 		return (int) (Double.parseDouble(eval.evaluate()));
 	}
 

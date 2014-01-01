@@ -3,6 +3,7 @@ package de.oglimmer.cyc.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import lombok.AccessLevel;
@@ -47,7 +48,7 @@ public class Game {
 	private GameRun gameRun = new GameRun();
 
 	@Getter(AccessLevel.PACKAGE)
-	private List<String> cities = new ArrayList<>();
+	private List<City> cities = new ArrayList<>();
 
 	@Getter(AccessLevel.PACKAGE)
 	private final int totalYear;
@@ -61,6 +62,9 @@ public class Game {
 
 	@Getter(AccessLevel.PACKAGE)
 	private Constants constants;
+
+	@Getter(AccessLevel.PACKAGE)
+	private Collection<Cache<?>> caches = new HashSet<>();
 
 	public Game(Mode mode) {
 		constants = new Constants(mode);
@@ -108,7 +112,7 @@ public class Game {
 		for (int i = cities.size(); i < constants.getNumberCities(Math.max(companies.size(),
 				getNumberTotalEstablishments())); i++) {
 			String city = constants.getCity(cities);
-			cities.add(city);
+			cities.add(new City(city, this));
 			log.debug("Created city={}", city);
 		}
 	}

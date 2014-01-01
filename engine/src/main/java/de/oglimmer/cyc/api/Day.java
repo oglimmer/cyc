@@ -16,6 +16,7 @@ public class Day {
 	}
 
 	void processDay(int day) {
+		clearCache();
 
 		incDailyCounter(day);
 
@@ -33,6 +34,14 @@ public class Day {
 
 		cleanFoodStorages();
 
+	}
+
+	private void clearCache() {
+		for (Cache<?> c : game.getCaches()) {
+			if (c.getType() == Cache.Type.DAILY) {
+				c.reset();
+			}
+		}
 	}
 
 	private void incDailyCounter(int day) {
