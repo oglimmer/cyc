@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -103,7 +102,7 @@ public enum GameExecutor {
 		}
 	}
 
-	private synchronized Socket getClientSocket() throws UnknownHostException, IOException {
+	private synchronized Socket getClientSocket() throws IOException {
 		Socket clientSocket;
 		try {
 			/* port defined in de.oglimmer.cyc.GameServer.SERVER_PORT */

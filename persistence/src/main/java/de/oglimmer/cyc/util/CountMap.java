@@ -16,4 +16,15 @@ public class CountMap<K> extends HashMap<K, Long> {
 		}
 	}
 
+	public synchronized void sub(K key, long value) {
+		Long currentVal = get(key);
+		if (currentVal == null) {
+			assert false;
+		} else {
+			currentVal -= value;
+			assert currentVal >= 0;
+			put(key, currentVal);
+		}
+	}
+
 }

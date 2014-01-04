@@ -5,7 +5,7 @@ import java.util.Set;
 
 import lombok.Getter;
 
-public class LocalCitizen implements Guest {
+public class LocalCitizen extends Guest {
 
 	@Getter
 	private Set<Company> alreadyVisited = new HashSet<>();

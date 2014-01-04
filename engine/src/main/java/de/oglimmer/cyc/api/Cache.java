@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-abstract public class Cache<T> {
+public abstract class Cache<T> {
 
 	public enum Type {
 		DAILY
@@ -23,7 +23,7 @@ abstract public class Cache<T> {
 		game.getCaches().add(this);
 	}
 
-	abstract protected T fetchValue();
+	protected abstract T fetchValue();
 
 	public T getValue() {
 		if (cachedValue == null) {

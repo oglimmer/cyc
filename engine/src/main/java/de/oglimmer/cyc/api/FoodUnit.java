@@ -1,7 +1,6 @@
 package de.oglimmer.cyc.api;
 
 import java.util.Comparator;
-import java.util.Set;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +27,8 @@ public class FoodUnit {
 		this.pullDate = pullDate;
 	}
 
-	private void decUnits() {
-		units--;
+	void decUnits(long value) {
+		units -= value;
 	}
 
 	/**
@@ -78,16 +77,6 @@ public class FoodUnit {
 		return "FoodUnit [units=" + units + ", food=" + food + ", pullDate=" + pullDate + "]";
 	}
 
-	static boolean satisfyIngredient(Set<FoodUnit> foodStores, Food ingredient) {
-		for (FoodUnit fuS : foodStores) {
-			if (fuS.getFood() == ingredient && fuS.getUnits() > 0) {
-				fuS.decUnits();
-				return true;
-			}
-		}
-		return false;
-	}
-
 	static class FoodUnitComparator implements Comparator<FoodUnit> {
 		@Override
 		public int compare(FoodUnit o1, FoodUnit o2) {
@@ -97,4 +86,5 @@ public class FoodUnit {
 			return Integer.compare(o1.getPullDate(), o2.getPullDate());
 		}
 	}
+
 }

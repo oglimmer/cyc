@@ -1,12 +1,10 @@
 package de.oglimmer.cyc.api;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import de.oglimmer.cyc.api.Constants.Mode;
+import de.oglimmer.cyc.util.CountMap;
 
 public class FoodUnitTest {
 
@@ -35,14 +33,30 @@ public class FoodUnitTest {
 
 	@Test
 	public void testSatisfyIngredient() {
-		FoodUnit fu = new FoodUnit(Food.BEEF_MEAT, 2);
-		Set<FoodUnit> set = new HashSet<>();
-		set.add(fu);
-		Assert.assertTrue(FoodUnit.satisfyIngredient(set, Food.BEEF_MEAT));
-		Assert.assertEquals(1, fu.getUnits());
-		Assert.assertTrue(FoodUnit.satisfyIngredient(set, Food.BEEF_MEAT));
-		Assert.assertEquals(0, fu.getUnits());
-		Assert.assertFalse(FoodUnit.satisfyIngredient(set, Food.BEEF_MEAT));
+		FoodUnitAdmin fua = new FoodUnitAdmin();
+
+		CountMap<Food> map = new CountMap<>();
+		map.add(Food.BEEF_MEAT, 2);
+
+		fua.satisfyIngredient(map, Food.BEEF_MEAT);
+		Assert.assertEquals(1, (long) map.get(Food.BEEF_MEAT));
+		fua.satisfyIngredient(map, Food.BEEF_MEAT);
+		Assert.assertEquals(0, (long) map.get(Food.BEEF_MEAT));
+	}
+
+	@Test
+	public void testCheckIngredient() {
+		FoodUnitAdmin fua = new FoodUnitAdmin();
+
+		CountMap<Food> map = new CountMap<>();
+
+		Assert.assertFalse(fua.checkIngredient(map, Food.BEEF_MEAT));
+
+		map.put(Food.BEEF_MEAT, 1L);
+		Assert.assertTrue(fua.checkIngredient(map, Food.BEEF_MEAT));
+
+		map.put(Food.BEEF_MEAT, 0L);
+		Assert.assertFalse(fua.checkIngredient(map, Food.BEEF_MEAT));
 	}
 
 	@Test

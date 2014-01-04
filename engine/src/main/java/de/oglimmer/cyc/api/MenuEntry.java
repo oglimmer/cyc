@@ -2,6 +2,7 @@ package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,6 +43,10 @@ public class MenuEntry {
 		return CycCollections.unmodifiableList(ingredients);
 	}
 
+	Collection<Food> getIngredientsInt() {
+		return ingredients;
+	}
+
 	public void addIngredient(String i) {
 		this.ingredients.add(Food.valueOf(i));
 	}
@@ -61,7 +66,7 @@ public class MenuEntry {
 	 */
 	double getScore() {
 		double netCost = 0;
-		for (Food f : getIngredients()) {
+		for (Food f : ingredients) {
 			netCost += f.getBasePrice();
 		}
 		return netCost / (price / game.getConstants().getMenuPriceFactor());
