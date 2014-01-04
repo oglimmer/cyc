@@ -1,4 +1,4 @@
-public class Tester implements de.oglimmer.cyc.api.IGuestRule {
+public class GuestRuleImpl implements de.oglimmer.cyc.api.IGuestRule {
     
 	public org.slf4j.Logger log;
 	
@@ -20,7 +20,7 @@ public class Tester implements de.oglimmer.cyc.api.IGuestRule {
 			def ind =(int)(c.getMenu().size() * Math.random());
 			def foodSel = c.getMenu().get(ind);
 
-			def base = basePerc * foodSel.getScore();
+			def base = basePerc * foodSel.getValueForMoneyScore();
 			def deli = foodSel.getDeliciousness();
 			base += deli;
 
