@@ -27,8 +27,11 @@ public class CityProcessor implements Runnable {
 
 	@Override
 	public void run() {
-		processGuests();
-		cdl.countDown();
+		try {
+			processGuests();
+		} finally {
+			cdl.countDown();
+		}
 	}
 
 	private void processGuests() {
