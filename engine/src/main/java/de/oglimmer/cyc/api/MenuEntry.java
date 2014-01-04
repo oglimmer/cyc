@@ -62,14 +62,15 @@ public class MenuEntry {
 
 	/**
 	 * a value of 1 is a perfect price<br/>
-	 * a value of 0.5 means it is too expensive by factor 2 a value of 2 means it is too cheap by factor 2
+	 * a value of 0.5 means it is too expensive<br/>
+	 * a value of 2 means it is too cheap
 	 */
-	double getScore() {
+	double getValueForMoneyScore() {
 		double netCost = 0;
 		for (Food f : ingredients) {
 			netCost += f.getBasePrice();
 		}
-		return netCost / (price / game.getConstants().getMenuPriceFactor());
+		return (netCost * game.getConstants().getMenuPriceFactor()) / (price * price);
 	}
 
 	/**
