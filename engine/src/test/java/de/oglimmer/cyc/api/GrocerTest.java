@@ -18,14 +18,14 @@ public class GrocerTest {
 	public void testPrice100() {
 		Game game = new Game(Mode.FULL);
 		Grocer g = game.getGrocer();
-		Assert.assertEquals(100 * Food.BEEF_MEAT.getBasePrice() * 0.9, g.getPrice(Food.BEEF_MEAT.toString(), 100), 0d);
+		Assert.assertEquals(100 * Food.BEEF_MEAT.getBasePrice() * 0.95, g.getPrice(Food.BEEF_MEAT.toString(), 100), 0d);
 	}
 
 	@Test
 	public void testPrice5000() {
 		Game game = new Game(Mode.FULL);
 		Grocer g = game.getGrocer();
-		Assert.assertEquals(5000 * Food.BEEF_MEAT.getBasePrice() * 0.4, g.getPrice(Food.BEEF_MEAT.toString(), 5000), 0d);
+		Assert.assertEquals(5000 * Food.BEEF_MEAT.getBasePrice() * 0.7, g.getPrice(Food.BEEF_MEAT.toString(), 5000), 0d);
 	}
 
 }
