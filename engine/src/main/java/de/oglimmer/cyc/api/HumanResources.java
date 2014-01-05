@@ -67,7 +67,10 @@ public class HumanResources {
 		if (hiringProcess != null) {
 			try {
 				ThreadLocal.setCompany(company);
+				long time = System.nanoTime();
 				hiringProcess.run(ap);
+				company.getGame().getResult().get(company.getName())
+						.addRunTime("hiringProcess", System.nanoTime() - time);
 			} catch (RhinoException e) {
 				if (!(e.getCause() instanceof GameException)) {
 					company.getGame().getResult().addError(e);

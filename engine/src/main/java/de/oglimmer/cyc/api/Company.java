@@ -142,7 +142,9 @@ public class Company {
 		try {
 			if (launch != null) {
 				ThreadLocal.setCompany(this);
+				long time = System.nanoTime();
 				launch.run();
+				game.getResult().get(getName()).addRunTime("launch", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
@@ -157,7 +159,9 @@ public class Company {
 		try {
 			if (doWeekly != null) {
 				ThreadLocal.setCompany(this);
+				long time = System.nanoTime();
 				doWeekly.run();
+				game.getResult().get(getName()).addRunTime("weekly", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
@@ -173,7 +177,9 @@ public class Company {
 		try {
 			if (doDaily != null) {
 				ThreadLocal.setCompany(this);
+				long time = System.nanoTime();
 				doDaily.run();
+				game.getResult().get(getName()).addRunTime("daily", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
@@ -189,7 +195,9 @@ public class Company {
 		try {
 			if (doMonthly != null) {
 				ThreadLocal.setCompany(this);
+				long time = System.nanoTime();
 				doMonthly.run();
+				game.getResult().get(getName()).addRunTime("monthly", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
@@ -209,7 +217,9 @@ public class Company {
 		if (realEstateAgent != null) {
 			try {
 				ThreadLocal.setCompany(this);
+				long time = System.nanoTime();
 				realEstateAgent.run(ap);
+				game.getResult().get(getName()).addRunTime("realEstateAgent", System.nanoTime() - time);
 			} catch (RhinoException e) {
 				if (!(e.getCause() instanceof GameException)) {
 					game.getResult().addError(e);
@@ -226,7 +236,9 @@ public class Company {
 		try {
 			if (foodDelivery != null) {
 				ThreadLocal.setCompany(this);
+				long time = System.nanoTime();
 				foodDelivery.run(fd);
+				game.getResult().get(getName()).addRunTime("foodDelivery", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {

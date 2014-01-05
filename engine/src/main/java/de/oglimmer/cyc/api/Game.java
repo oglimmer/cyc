@@ -176,7 +176,10 @@ public class Game {
 				prototype.put("console", scope, jsSystemout);
 
 				try {
+					long time = System.nanoTime();
 					context.evaluateString(scope, user.getMainJavaScript(), company.getName(), 1, null);
+					getResult().get(company.getName()).addRunTime("init", System.nanoTime() - time);
+					getResult().get(company.getName()).setCode(user.getMainJavaScript());
 				} catch (RhinoException e) {
 					if (e.getCause() instanceof GameException) {
 						log.info("Failed to initialize the JavaScript, but found a GameException", e);

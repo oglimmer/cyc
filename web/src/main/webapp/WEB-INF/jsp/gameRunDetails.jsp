@@ -286,6 +286,26 @@
 							</tr>
 							<c:set var="counter" value="${counter + 1}"/>
 						</c:forEach>
+						<c:forEach items="${entry.value.runtimes}" var="entryUnits">
+							<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
+								<td>
+									Method ${entryUnits.key} took									
+								</td>
+								<td align="right">
+									<c:if test="${entryUnits.key != 'init' }">ø</c:if>
+									<fmt:formatNumber value="${entryUnits.value.average()}" type="number"/> µs
+								</td>
+							</tr>
+							<c:set var="counter" value="${counter + 1}"/>
+						</c:forEach>
+						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
+							<td>Code length (without white spaces)</td>
+							<td align="right">
+								<fmt:formatNumber value="${entry.value.codeLength}" type="number"/>
+							</td>
+						</tr>
+						<c:set var="counter" value="${counter + 1}"/>
+						
 						
 					</table>
 					<hr/>		

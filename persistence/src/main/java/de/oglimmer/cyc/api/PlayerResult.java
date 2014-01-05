@@ -32,6 +32,8 @@ public class PlayerResult {
 
 	private int bankruptOnDay;
 
+	private int codeLength;
+
 	private CountMap<String> totalOnSalaries = new CountMap<>();
 	private CountMap<String> staffByDays = new CountMap<>();
 
@@ -49,6 +51,7 @@ public class PlayerResult {
 	private CountMap<String> guestsOutOfIngPerCity = new CountMap<>();
 
 	private CountMap<String> missingIngredients = new CountMap<>();
+	private AverageMap<String> runtimes = new AverageMap<>();
 
 	private StringBuilder debug = new StringBuilder();
 	@JsonIgnore
@@ -183,6 +186,19 @@ public class PlayerResult {
 
 	public void addEstablishmentScore(String address, int score) {
 		establishmentScore.add(address, score);
+	}
+
+	public void addRunTime(String category, long runTime) {
+		runtimes.add(category, runTime / 1000);
+	}
+
+	@JsonIgnore
+	public void setCode(String mainJavaScript) {
+		mainJavaScript = mainJavaScript.replace(" ", "");
+		mainJavaScript = mainJavaScript.replace("\n", "");
+		mainJavaScript = mainJavaScript.replace("\r", "");
+		mainJavaScript = mainJavaScript.replace("\t", "");
+		codeLength = mainJavaScript.length();
 	}
 
 }
