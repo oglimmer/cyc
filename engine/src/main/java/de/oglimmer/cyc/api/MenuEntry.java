@@ -101,7 +101,7 @@ public class MenuEntry {
 
 		@Override
 		protected Integer fetchValue() {
-			return MenuEntryRule.INSTACE.getDeliciousness(ingredients, price);
+			return MenuEntryRule.INSTACE.getDeliciousness(ingredients);
 		}
 
 	}
