@@ -20,8 +20,8 @@
 	</appender>
 
 
-	<logger name="de.oglimmer.cyc.api.Guest"				level="error"></logger>	
-	<logger name="de.oglimmer.cyc.api.CityProcessor"		level="error"></logger>	
+	<logger name="de.oglimmer.cyc.api.Guest"			level="error"></logger>	
+	<logger name="de.oglimmer.cyc.api.CityProcessor"	level="error"></logger>	
 	<logger name="de.oglimmer.cyc.api.City"				level="error"></logger>	
 	<logger name="de.oglimmer.cyc.api.Cache"			level="error"></logger>	
 	<logger name="de.oglimmer.cyc.api.FoodUnit"			level="error"></logger>	
@@ -33,6 +33,7 @@
 	<logger name="de.oglimmer.cyc.api.Year" 			level="error"></logger>
 	<logger name="de.oglimmer.cyc.api.Establishment"	level="error"></logger>
 	<logger name="de.oglimmer.cyc.api.Grocer" 			level="error"></logger>
+	<logger name="de.oglimmer.cyc.api.MenuEntry" 		level="error"></logger>
 
 	<logger name="de.oglimmer.cyc.api.EstablishmentRules.groovy"	level="error"></logger>
 	<logger name="de.oglimmer.cyc.api.GuestRules.groovy"			level="error"></logger>

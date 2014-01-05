@@ -8,12 +8,14 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import com.google.common.html.HtmlEscapers;
 
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
 
+@Slf4j
 public class MenuEntry {
 
 	@Getter
@@ -62,22 +64,27 @@ public class MenuEntry {
 
 	/**
 	 * a value of 1 is a perfect price<br/>
-	 * a value of 0.5 means it is too expensive<br/>
-	 * a value of 2 means it is too cheap
+	 * a value of < 1 means it is too expensive<br/>
+	 * a value of > 1 means it is too cheap<br/>
+	 * 0 ... 6.23
 	 */
 	double getValueForMoneyScore() {
 		double netCost = 0;
 		for (Food f : ingredients) {
 			netCost += f.getBasePrice();
 		}
-		return (netCost * game.getConstants().getMenuPriceFactor()) / (price * price);
+		double valForMon = Math.pow(2, game.getConstants().getMenuPriceFactor() * price / netCost + 2.64094) - 0.00419190479;
+		log.debug("{} valForMoney={} ({}/{})", name, valForMon, netCost, price);
+		return valForMon;
 	}
 
 	/**
 	 * base deliciousness is 5. max 10, min 0.
 	 */
 	int getDeliciousness() {
-		return cache.getValue();
+		int del = cache.getValue();
+		log.debug("{} deli={}", name, del);
+		return del;
 	}
 
 	@Override
