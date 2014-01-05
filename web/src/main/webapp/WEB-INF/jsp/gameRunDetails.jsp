@@ -292,7 +292,7 @@
 									Method ${entryUnits.key} took									
 								</td>
 								<td align="right">
-									<c:if test="${entryUnits.key != 'init' }">ø</c:if>
+									<c:if test="${entryUnits.key != 'init' and entryUnits.key != 'launch' }">ø</c:if>
 									<fmt:formatNumber value="${entryUnits.value.average()}" type="number"/> µs
 								</td>
 							</tr>
