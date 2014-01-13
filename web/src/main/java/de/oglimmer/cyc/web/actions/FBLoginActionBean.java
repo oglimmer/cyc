@@ -124,7 +124,7 @@ public class FBLoginActionBean extends BaseAction {
 
 	private void validateIssuedAt(ParameterData paramData) throws JSONException {
 		Date now = new Date();
-		Date issuedAt = new Date(paramData.getPayloadAsJson().getInt("issued_at") * 1000);
+		Date issuedAt = new Date(paramData.getPayloadAsJson().getInt("issued_at") * 1000L);
 
 		long maxDuration = TimeUnit.MILLISECONDS.convert(15, TimeUnit.MINUTES);
 
