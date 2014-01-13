@@ -26,10 +26,21 @@ public class User {
 	private Date createdDate;
 	private Date lastCodeChangeDate;
 
+	private String firstName;
+	private String lastName;
+	private String facebookId;
+
 	public User(String username, String password, String email) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
+	}
+
+	public User(String username, String firstName, String lastName, String facebookId, String email) {
+		this(username, null, email);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.facebookId = facebookId;
 	}
 
 	@JsonProperty("_id")

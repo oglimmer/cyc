@@ -18,6 +18,7 @@ public class UserCouchDb extends CouchDbRepositorySupport<User> implements UserD
 	}
 
 	@GenerateView
+	@Override
 	public List<User> findByUsername(String username) {
 		return queryView("by_username", username);
 	}
@@ -36,5 +37,10 @@ public class UserCouchDb extends CouchDbRepositorySupport<User> implements UserD
 	public int findByOpenSource(String username) {
 		ViewQuery vq = createQuery("by_openSource").includeDocs(false).key(username);
 		return db.queryView(vq).getSize();
+	}
+
+	@Override
+	public List<User> findByFBUserId(String userId) {
+		return queryView("by_fbUserId", userId);
 	}
 }

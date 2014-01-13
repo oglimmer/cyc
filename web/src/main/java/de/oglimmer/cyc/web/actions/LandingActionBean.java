@@ -35,6 +35,7 @@ import de.oglimmer.cyc.model.GameWinners;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.util.AverageMap;
 import de.oglimmer.cyc.util.CountMap;
+import de.oglimmer.cyc.web.CyrProperties;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 
 @DoesNotRequireLogin
@@ -58,8 +59,13 @@ public class LandingActionBean extends BaseAction {
 	@Setter
 	private String threeDayWinner;
 
+	@Getter
+	@Setter
+	private String fbAppId;
+
 	@Before
 	public void getNextRunFromGameEngine() {
+		fbAppId = CyrProperties.INSTANCE.getFbAppId();
 
 		NumberFormat currencyDf = NumberFormat.getCurrencyInstance(Locale.US);
 		List<GameWinners> listGameWinners = dao.findAllGameWinners(288);
