@@ -40,6 +40,7 @@
 				<hr style="clear:both;visibility:hidden;" />
 				<s:hidden name="threeDayWinner"/>
 				<s:hidden name="fbAppId"/>
+				<s:hidden name="fbLogin"/>
 			</s:form>			
 			<div id="fb-login-li"></div>
 		</div>	
@@ -61,7 +62,7 @@
 						});
 		
 						FB.getLoginStatus(function(response) {
-							if (response.status == 'connected') {
+							if (response.status == 'connected' && ${actionBean.fbLogin}) {
 								window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
 							} else {						
 								FB.Event.subscribe('auth.login', function(response) {

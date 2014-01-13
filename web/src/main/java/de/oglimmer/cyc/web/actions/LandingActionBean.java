@@ -63,9 +63,16 @@ public class LandingActionBean extends BaseAction {
 	@Setter
 	private String fbAppId;
 
+	@Getter
+	@Setter
+	private boolean fbLogin;
+
 	@Before
 	public void getNextRunFromGameEngine() {
 		fbAppId = CyrProperties.INSTANCE.getFbAppId();
+		HttpSession httpSession = getContext().getRequest().getSession(false);
+		fbLogin = httpSession != null && httpSession.getAttribute("noFbLogin") != null ? !(Boolean) httpSession
+				.getAttribute("noFbLogin") : true;
 
 		NumberFormat currencyDf = NumberFormat.getCurrencyInstance(Locale.US);
 		List<GameWinners> listGameWinners = dao.findAllGameWinners(288);

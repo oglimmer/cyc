@@ -122,6 +122,7 @@ public class PortalActionBean extends BaseAction {
 
 	public Resolution exit() {
 		getContext().getRequest().getSession().removeAttribute("userid");
+		getContext().getRequest().getSession().setAttribute("noFbLogin", true);
 		return new RedirectResolution(LandingActionBean.class);
 	}
 
