@@ -109,8 +109,7 @@
 					    }
 		
 						FB.getLoginStatus(function(response) {
-							console.log("cookie:"+getCookie("noFbLogin"));
-							if (response.status == 'connected' && getCookie("noFbLogin")!=null) {
+							if (response.status == 'connected' && getCookie("noFbLogin") != "true") {
 								window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
 							} else {	
 								deleteCookie("noFbLogin");
