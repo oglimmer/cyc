@@ -40,7 +40,7 @@
 				<hr style="clear:both;visibility:hidden;" />
 				<s:hidden name="threeDayWinner"/>
 				<s:hidden name="fbAppId"/>
-			</s:form>
+			</s:form>			
 			<div id="fb-login-li"></div>
 		</div>	
 		
@@ -70,7 +70,7 @@
 									}
 								});
 		
-								document.getElementById('fb-login-li').innerHTML = '<fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
+								document.getElementById('fb-login-li').innerHTML = '<div>- or -</div><fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
 								FB.XFBML.parse(document.getElementById('fb-login-li'));
 							}
 						});
