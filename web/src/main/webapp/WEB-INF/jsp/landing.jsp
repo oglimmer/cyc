@@ -45,7 +45,9 @@
 		</div>	
 		
 		<div>
-			If you are new here and feel comfortable to implement your own restaurant using JavaScript then <s:link beanclass="de.oglimmer.cyc.web.actions.RegisterActionBean">click here to register</s:link>.
+			If you are new here and feel comfortable to implement your own restaurant using JavaScript then 
+			<s:link beanclass="de.oglimmer.cyc.web.actions.RegisterActionBean">click here to register</s:link>
+			<c:if test="${actionBean.fbAppId != '' }"> or click the Facebook button to register via Facebook.</c:if>
 		</div>
 
 		<c:if test="${actionBean.fbAppId != '' }">
