@@ -60,47 +60,67 @@
 					        xfbml   : true
 						});
 					    
-					    function createCookie(name, value, days) {
-					        var expires;
+					    function setCookie( name, value, expires, path, domain, secure ) {
+						    var today = new Date();
+						    today.setTime( today.getTime() );
+					   
+						    if ( expires ) {
+						    	expires = expires * 1000 * 60 * 60 * 24;
+						    }
+						    var expires_date = new Date( today.getTime() + (expires) );
 
-					        if (days) {
-					            var date = new Date();
-					            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-					            expires = "; expires=" + date.toGMTString();
-					        } else {
-					            expires = "";
-					        }
-					        document.cookie = escape(name) + "=" + escape(value) + expires + "; path=/";
+						    document.cookie = name + "=" +escape( value ) +
+							    ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) +
+							    ( ( path ) ? ";path=" + path : "" ) +
+							    ( ( domain ) ? ";domain=" + domain : "" ) +
+							    ( ( secure ) ? ";secure" : "" );
 					    }
 					    
-					    function readCookie(name) {
-						    var nameEQ = escape(name) + "=";
-						    var ca = document.cookie.split(';');
-						    for (var i = 0; i < ca.length; i++) {
-						        var c = ca[i];
-						        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-						        if (c.indexOf(nameEQ) === 0) return unescape(c.substring(nameEQ.length, c.length));
-						    }
-						    return null;
-						}
-
-						function eraseCookie(name) {
-						    createCookie(name, "", -1);
-						}
+					    function getCookie( check_name ) {
+					    	var a_all_cookies = document.cookie.split( ';' );
+					    	var a_temp_cookie = '';
+					    	var cookie_name = '';
+					    	var cookie_value = '';
+					    	var b_cookie_found = false; // set boolean t/f default f
+					    	for ( i = 0; i < a_all_cookies.length; i++ ) {
+					    		a_temp_cookie = a_all_cookies[i].split( '=' );
+					    		cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g, '');
+					    		if ( cookie_name == check_name ) {
+					    			b_cookie_found = true;
+					    			if ( a_temp_cookie.length > 1 ) {
+					    				cookie_value = unescape( a_temp_cookie[1].replace(/^\s+|\s+$/g, '') );
+					    			}
+					    			return cookie_value;
+					    			break;
+					    		}
+					    		a_temp_cookie = null;
+					    		cookie_name = '';
+					    	}
+					    	if ( !b_cookie_found ){
+					    		return null;
+					    	}
+					    }
+					    
+					    function deleteCookie( name, path, domain ) {
+					    	if ( getCookie( name ) ) document.cookie = name + "=" +
+					    		( ( path ) ? ";path=" + path : "") +
+					    		( ( domain ) ? ";domain=" + domain : "" ) +
+					    		";expires=Thu, 01-Jan-1970 00:00:01 GMT";
+					    }
 		
 						FB.getLoginStatus(function(response) {
-							console.log("cookie:"+readCookie("noFbLogin"));
-							if (response.status == 'connected' && readCookie("noFbLogin")!=null) {
+							console.log("cookie:"+getCookie("noFbLogin"));
+							if (response.status == 'connected' && getCookie("noFbLogin")!=null) {
 								window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
 							} else {	
-								eraseCookie("noFbLogin");
+								deleteCookie("noFbLogin");
 								FB.Event.subscribe('auth.login', function(response) {
 									if (response.status == 'connected') {
 										window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
 									}
 								});
 		
-								document.getElementById('fb-login-li').innerHTML = '<div>- or -</div><br/><fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
+								document.getElementById('fb-login-li').innerHTML = '<div style="margin-bottom:16px">- or -</div><fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
 								FB.XFBML.parse(document.getElementById('fb-login-li'));
 							}
 						});
