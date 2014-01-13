@@ -57,14 +57,16 @@ public class FBLoginActionBean extends BaseAction {
 
 			validateResponse(paramData);
 
+			String gameUserId;
 			String userId = paramData.getPayloadAsJson().getString("user_id");
 			List<User> userList = userDao.findByFBUserId(userId);
 			if (userList.size() == 1) {
 				User user = userList.get(0);
-				loginUser(user);
+				gameUserId = loginUser(user);
 			} else {
-				createNewFBUser(jsonUrlParameter, paramData);
+				gameUserId = createNewFBUser(jsonUrlParameter, paramData);
 			}
+			getContext().getRequest().getSession(true).setAttribute("userid", gameUserId);
 		} catch (JSONException | IOException | InvalidKeyException | NoSuchAlgorithmException e) {
 			log.error("show failed", e);
 		}
@@ -72,13 +74,13 @@ public class FBLoginActionBean extends BaseAction {
 		return new RedirectResolution(PortalActionBean.class);
 	}
 
-	private void loginUser(User user) {
-		getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
+	private String loginUser(User user) {
 		user.setLastLoginDate(new Date());
 		userDao.update(user);
+		return user.getId();
 	}
 
-	private void createNewFBUser(JSONObject jsonUrlParameter, ParameterData paramData) throws JSONException,
+	private String createNewFBUser(JSONObject jsonUrlParameter, ParameterData paramData) throws JSONException,
 			MalformedURLException, IOException, ProtocolException {
 		JSONObject user = getUserFromFB(jsonUrlParameter.getString("accessToken"));
 		log.debug("user={}", user.toString(2));
@@ -91,10 +93,21 @@ public class FBLoginActionBean extends BaseAction {
 		String lastName = user.getString("last_name");
 		String facebookId = user.getString("id");
 
-		User newUser = new User(name, firstName, lastName, facebookId, email);
-		newUser.setMainJavaScript(RegisterActionBean.DEFAULT_CODE);
-		newUser.setCreatedDate(new Date());
-		userDao.add(newUser);
+		List<User> users = userDao.findByEmail(email.toLowerCase());
+		if (users.size() == 1) {
+			User userFromDb = users.get(0);
+			userFromDb.setFacebookId(facebookId);
+			userFromDb.setFirstName(firstName);
+			userFromDb.setLastName(lastName);
+			userDao.update(userFromDb);
+			return userFromDb.getId();
+		} else {
+			User newUser = new User(name, firstName, lastName, facebookId, email);
+			newUser.setMainJavaScript(RegisterActionBean.DEFAULT_CODE);
+			newUser.setCreatedDate(new Date());
+			userDao.add(newUser);
+			return newUser.getId();
+		}
 	}
 
 	private void validateUser(JSONObject jsonUrlParameter, ParameterData paramData, JSONObject user)
