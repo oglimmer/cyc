@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.Cookie;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
@@ -122,7 +124,7 @@ public class PortalActionBean extends BaseAction {
 
 	public Resolution exit() {
 		getContext().getRequest().getSession().removeAttribute("userid");
-		getContext().getRequest().getSession().setAttribute("noFbLogin", true);
+		getContext().getResponse().addCookie(new Cookie("noFbLogin", "true"));
 		return new RedirectResolution(LandingActionBean.class);
 	}
 

@@ -40,7 +40,6 @@
 				<hr style="clear:both;visibility:hidden;" />
 				<s:hidden name="threeDayWinner"/>
 				<s:hidden name="fbAppId"/>
-				<s:hidden name="fbLogin"/>
 			</s:form>			
 			<div id="fb-login-li"></div>
 		</div>	
@@ -60,18 +59,48 @@
 					        cookie  : true,
 					        xfbml   : true
 						});
+					    
+					    function createCookie(name, value, days) {
+					        var expires;
+
+					        if (days) {
+					            var date = new Date();
+					            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+					            expires = "; expires=" + date.toGMTString();
+					        } else {
+					            expires = "";
+					        }
+					        document.cookie = escape(name) + "=" + escape(value) + expires + "; path=/";
+					    }
+					    
+					    function readCookie(name) {
+						    var nameEQ = escape(name) + "=";
+						    var ca = document.cookie.split(';');
+						    for (var i = 0; i < ca.length; i++) {
+						        var c = ca[i];
+						        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+						        if (c.indexOf(nameEQ) === 0) return unescape(c.substring(nameEQ.length, c.length));
+						    }
+						    return null;
+						}
+
+						function eraseCookie(name) {
+						    createCookie(name, "", -1);
+						}
 		
 						FB.getLoginStatus(function(response) {
-							if (response.status == 'connected' && ${actionBean.fbLogin}) {
+							console.log("cookie:"+readCookie("noFbLogin"));
+							if (response.status == 'connected' && readCookie("noFbLogin")!=null) {
 								window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
-							} else {						
+							} else {	
+								eraseCookie("noFbLogin");
 								FB.Event.subscribe('auth.login', function(response) {
 									if (response.status == 'connected') {
 										window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
 									}
 								});
 		
-								document.getElementById('fb-login-li').innerHTML = '<div>- or -</div><fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
+								document.getElementById('fb-login-li').innerHTML = '<div>- or -</div><br/><fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
 								FB.XFBML.parse(document.getElementById('fb-login-li'));
 							}
 						});
@@ -84,7 +113,7 @@
 				     facebookJS.id = 'facebook-jssdk';
 				     facebookJS.src = '//connect.facebook.net/en_US/all.js';
 				     firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
-				   }());
+				   }());				 				  
 				</script>
 			</div>	
 		</c:if>
