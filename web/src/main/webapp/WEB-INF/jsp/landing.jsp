@@ -62,13 +62,11 @@
 					    
 					    function setCookie( name, value, expires, path, domain, secure ) {
 						    var today = new Date();
-						    today.setTime( today.getTime() );
-					   
+						    today.setTime( today.getTime() );					  
 						    if ( expires ) {
 						    	expires = expires * 1000 * 60 * 60 * 24;
 						    }
 						    var expires_date = new Date( today.getTime() + (expires) );
-
 						    document.cookie = name + "=" +escape( value ) +
 							    ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) +
 							    ( ( path ) ? ";path=" + path : "" ) +
@@ -81,7 +79,7 @@
 					    	var a_temp_cookie = '';
 					    	var cookie_name = '';
 					    	var cookie_value = '';
-					    	var b_cookie_found = false; // set boolean t/f default f
+					    	var b_cookie_found = false;
 					    	for ( i = 0; i < a_all_cookies.length; i++ ) {
 					    		a_temp_cookie = a_all_cookies[i].split( '=' );
 					    		cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g, '');
@@ -107,18 +105,27 @@
 					    		( ( domain ) ? ";domain=" + domain : "" ) +
 					    		";expires=Thu, 01-Jan-1970 00:00:01 GMT";
 					    }
+					    
+					    function redirectAfterLogin(response) {
+					    	window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
+					    }
 		
 						FB.getLoginStatus(function(response) {
 							if (response.status == 'connected' && getCookie("noFbLogin") != "true") {
-								window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
+								redirectAfterLogin(response);
 							} else {	
 								deleteCookie("noFbLogin");
 								FB.Event.subscribe('auth.login', function(response) {
 									if (response.status == 'connected') {
-										window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
+										redirectAfterLogin(response);
 									}
 								});
-		
+								FB.Event.subscribe('auth.authResponseChange', function(response) {
+									if (response.status == 'connected') {
+										redirectAfterLogin(response);
+									}									
+								});
+
 								document.getElementById('fb-login-li').innerHTML = '<div style="margin-bottom:16px">- or -</div><fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
 								FB.XFBML.parse(document.getElementById('fb-login-li'));
 							}
