@@ -18,7 +18,7 @@
 
 		<div class="centerElement">
 			<c:if test="${actionBean.fbAppId != '' }">
-				<div id="cyrLoginHead" style="background-color:blue;padding:5px 0px 3px 10px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;">Click for CYR-Login</div>
+				<div id="cyrLoginHead" style="background-color:#347785;padding:5px 0px 3px 10px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;border-radius:10px 10px 0px 0px;">Click for CYR-Login</div>
 			</c:if>
 			<div id="cyrLoginPane" style="<c:if test="${!actionBean.showCycLogin}">display:none</c:if>">
 				<div>
@@ -44,7 +44,7 @@
 				</s:form>			
 			</div>
 			<c:if test="${actionBean.fbAppId != '' }">
-				<div id="fBLoginHead" style="background-color:blue;padding:5px 0px 3px 10px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;">Click for Facebook Login</div>
+				<div id="fBLoginHead" style="background-color:#347785;padding:5px 0px 3px 10px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;border-radius:10px 10px 0px 0px;">Click for Facebook Login</div>
 				<div id="fb-login-li" style="display:none"></div>
 			</c:if>
 		</div>	
