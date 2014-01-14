@@ -18,7 +18,7 @@
 
 		<div>
 			<c:if test="${actionBean.fbAppId != '' }">
-				<div id="cyrLoginHead" style="background-color:#347785;padding:5px 0px 3px 15px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;border-radius:10px 10px 0px 0px;">Click for CYR-Login</div>
+				<div id="cyrLoginHead">Click for CYR-Login</div>
 			</c:if>
 			<div id="cyrLoginPane" style="<c:if test="${!actionBean.showCycLogin}">display:none</c:if>">
 				<div>
@@ -48,7 +48,7 @@
 
 			</div>
 			<c:if test="${actionBean.fbAppId != '' }">
-				<div id="fBLoginHead" style="background-color:#347785;padding:5px 0px 3px 10px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;border-radius:10px 10px 0px 0px;">Click for Facebook Login</div>
+				<div id="fBLoginHead">Click for Facebook Login</div>
 				<div id="fBLoginPane" style="display:none">
 					<div id="fb-login-li"></div>
 					<div style="padding:10px;">
@@ -60,102 +60,53 @@
 		</div>	
 		
 		<c:if test="${actionBean.fbAppId != '' }">
+			<div id="fb-root"></div>
 			<div>			
-				<div id="fb-root"></div>
-				<script>
-					window.fbAsyncInit = function() {
-					    FB.init({
-					        appId   : '${actionBean.fbAppId}',
-					        status  : true,
-					        cookie  : true,
-					        xfbml   : true
-						});
-					    
-					    function setCookie( name, value, expires, path, domain, secure ) {
-						    var today = new Date();
-						    today.setTime( today.getTime() );					  
-						    if ( expires ) {
-						    	expires = expires * 1000 * 60 * 60 * 24;
-						    }
-						    var expires_date = new Date( today.getTime() + (expires) );
-						    document.cookie = name + "=" +escape( value ) +
-							    ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) +
-							    ( ( path ) ? ";path=" + path : "" ) +
-							    ( ( domain ) ? ";domain=" + domain : "" ) +
-							    ( ( secure ) ? ";secure" : "" );
-					    }
-					    
-					    function getCookie( check_name ) {
-					    	var a_all_cookies = document.cookie.split( ';' );
-					    	var a_temp_cookie = '';
-					    	var cookie_name = '';
-					    	var cookie_value = '';
-					    	var b_cookie_found = false;
-					    	for ( i = 0; i < a_all_cookies.length; i++ ) {
-					    		a_temp_cookie = a_all_cookies[i].split( '=' );
-					    		cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g, '');
-					    		if ( cookie_name == check_name ) {
-					    			b_cookie_found = true;
-					    			if ( a_temp_cookie.length > 1 ) {
-					    				cookie_value = unescape( a_temp_cookie[1].replace(/^\s+|\s+$/g, '') );
-					    			}
-					    			return cookie_value;
-					    			break;
-					    		}
-					    		a_temp_cookie = null;
-					    		cookie_name = '';
-					    	}
-					    	if ( !b_cookie_found ){
-					    		return null;
-					    	}
-					    }
-					    
-					    function deleteCookie( name, path, domain ) {
-					    	if ( getCookie( name ) ) document.cookie = name + "=" +
-					    		( ( path ) ? ";path=" + path : "") +
-					    		( ( domain ) ? ";domain=" + domain : "" ) +
-					    		";expires=Thu, 01-Jan-1970 00:00:01 GMT";
-					    }
-					    
-					    function redirectAfterLogin(response) {
-					    	window.location = "FBLogin.action?data="+encodeURIComponent(JSON.stringify(response.authResponse));
-					    }
-		
-						FB.getLoginStatus(function(response) {
-							if (response.status == 'connected' && getCookie("noFbLogin") != "true") {
-								redirectAfterLogin(response);
-							} else {	
-								deleteCookie("noFbLogin");
-								FB.Event.subscribe('auth.login', function(response) {
-									if (response.status == 'connected') {
-										redirectAfterLogin(response);
-									}
-								});
-								FB.Event.subscribe('auth.authResponseChange', function(response) {
-									if (response.status == 'connected') {
-										redirectAfterLogin(response);
-									}									
-								});
-
-								document.getElementById('fb-login-li').innerHTML = '<fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
-								FB.XFBML.parse(document.getElementById('fb-login-li'));
-							}
-						});
-					};
-				 
+				<script>						 
 				  	$( document ).ready(function() {
 				  		if($("#fBLoginPane")) {
 							$("#cyrLoginHead").click(function() {
 								$("#cyrLoginPane").slideToggle();							
 								$("#fBLoginPane").slideUp();
 							});
-							$("#fBLoginHead").click(function() {
-							     if (!document.getElementById('facebook-jssdk')) {
-								     var firstScriptElement = document.getElementsByTagName('script')[0];
-								     var facebookJS = document.createElement('script'); 
-								     facebookJS.id = 'facebook-jssdk';
-								     facebookJS.src = '//connect.facebook.net/en_US/all.js';
-								     firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
+							$("#fBLoginHead").click(function() {								
+							     if (!document.getElementById('facebook-jssdk')) {								     																							
+							    	 $.ajaxSetup({
+						    		    cache: true
+						    		});
+						    		$.getScript('//connect.facebook.net/en_US/all.js', function () {
+
+						    		    function redirectAfterLogin(response) {
+						    		        window.location = "FBLogin.action?data=" + encodeURIComponent(JSON.stringify(response.authResponse));
+						    		    }
+
+						    		    FB.init({
+						    		        appId: '${actionBean.fbAppId}',
+						    		        status: true,
+						    		        cookie: true,
+						    		        xfbml: true
+						    		    });
+						    		    FB.getLoginStatus(function (response) {
+						    		        if (response.status == 'connected' && getCookie("noFbLogin") != "true") {
+						    		            redirectAfterLogin(response);
+						    		        } else {
+						    		            deleteCookie("noFbLogin");
+						    		            FB.Event.subscribe('auth.login', function (response) {
+						    		                if (response.status == 'connected') {
+						    		                    redirectAfterLogin(response);
+						    		                }
+						    		            });
+						    		            FB.Event.subscribe('auth.authResponseChange', function (response) {
+						    		                if (response.status == 'connected') {
+						    		                    redirectAfterLogin(response);
+						    		                }
+						    		            });
+
+						    		            document.getElementById('fb-login-li').innerHTML = '<fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
+						    		            FB.XFBML.parse(document.getElementById('fb-login-li'));
+						    		        }
+						    		    });
+						    		});							    	 						    	 
 							     }
 								
 							    $("#cyrLoginPane").slideUp();
