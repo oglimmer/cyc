@@ -70,7 +70,7 @@
 								$("#fBLoginPane").slideUp();
 							});
 							$("#fBLoginHead").click(function() {								
-							     if (!document.getElementById('facebook-jssdk')) {								     																							
+							     if (typeof(FB)==='undefined') {								     																							
 							    	 $.ajaxSetup({
 						    		    cache: true
 						    		});
