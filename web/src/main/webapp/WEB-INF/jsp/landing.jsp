@@ -16,16 +16,15 @@
 				3 days winner: ${actionBean.threeDayWinner}
 		</div>
 
-		<div class="centerElement">
+		<div>
 			<c:if test="${actionBean.fbAppId != '' }">
-				<div id="cyrLoginHead" style="background-color:#347785;padding:5px 0px 3px 10px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;border-radius:10px 10px 0px 0px;">Click for CYR-Login</div>
+				<div id="cyrLoginHead" style="background-color:#347785;padding:5px 0px 3px 15px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;border-radius:10px 10px 0px 0px;">Click for CYR-Login</div>
 			</c:if>
 			<div id="cyrLoginPane" style="<c:if test="${!actionBean.showCycLogin}">display:none</c:if>">
 				<div>
 					<s:errors />
 				</div>			
-				<s:form beanclass="de.oglimmer.cyc.web.actions.LandingActionBean"	
-					focus="">
+				<s:form beanclass="de.oglimmer.cyc.web.actions.LandingActionBean" focus="">
 					<div>
 						<label for="username" style="display: inline-block;width:100px;text-align: right;">Username</label> <s:text name="username" style="width:130px;" />
 					</div>
@@ -42,19 +41,24 @@
 					</div>
 					<hr style="clear:both;visibility:hidden;" />
 				</s:form>			
+				<div style="padding:10px;">
+					If you are new here and feel comfortable to implement your own restaurant using JavaScript then 
+					<s:link beanclass="de.oglimmer.cyc.web.actions.RegisterActionBean">click here to register for a CYR-login</s:link>					
+				</div>
+
 			</div>
 			<c:if test="${actionBean.fbAppId != '' }">
 				<div id="fBLoginHead" style="background-color:#347785;padding:5px 0px 3px 10px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;border-radius:10px 10px 0px 0px;">Click for Facebook Login</div>
-				<div id="fb-login-li" style="display:none"></div>
+				<div id="fBLoginPane" style="display:none">
+					<div id="fb-login-li"></div>
+					<div style="padding:10px;">
+						If you are new here and feel comfortable to implement your own restaurant using JavaScript then
+						click the Facebook button to register via Facebook.
+					</div>
+				</div>
 			</c:if>
 		</div>	
 		
-		<div>
-			If you are new here and feel comfortable to implement your own restaurant using JavaScript then 
-			<s:link beanclass="de.oglimmer.cyc.web.actions.RegisterActionBean">click here to register</s:link>
-			<c:if test="${actionBean.fbAppId != '' }"> or click the Facebook button to register via Facebook.</c:if>
-		</div>
-
 		<c:if test="${actionBean.fbAppId != '' }">
 			<div>			
 				<div id="fb-root"></div>
@@ -140,10 +144,10 @@
 					};
 				 
 				  	$( document ).ready(function() {
-				  		if($("#fb-login-li")) {
+				  		if($("#fBLoginPane")) {
 							$("#cyrLoginHead").click(function() {
 								$("#cyrLoginPane").slideToggle();							
-								$("#fb-login-li").slideUp();
+								$("#fBLoginPane").slideUp();
 							});
 							$("#fBLoginHead").click(function() {
 							     if (!document.getElementById('facebook-jssdk')) {
@@ -155,7 +159,7 @@
 							     }
 								
 							    $("#cyrLoginPane").slideUp();
-								$("#fb-login-li").slideToggle();
+								$("#fBLoginPane").slideToggle();
 							});
 				  		}
 					});
