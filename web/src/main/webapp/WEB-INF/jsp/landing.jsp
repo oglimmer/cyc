@@ -133,7 +133,7 @@
 									}									
 								});
 
-								document.getElementById('fb-login-li').innerHTML = '<div style="margin-bottom:16px">- or -</div><fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
+								document.getElementById('fb-login-li').innerHTML = '<fb:login-button perms="email" size="large">Log in with Facebook</fb:login-button>';
 								FB.XFBML.parse(document.getElementById('fb-login-li'));
 							}
 						});
