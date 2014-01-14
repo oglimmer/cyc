@@ -16,32 +16,37 @@
 				3 days winner: ${actionBean.threeDayWinner}
 		</div>
 
-		<div>
-			<s:errors />
-		</div>	
-		
 		<div class="centerElement">
-			<s:form beanclass="de.oglimmer.cyc.web.actions.LandingActionBean"	
-				focus="">
+			<c:if test="${actionBean.fbAppId != '' }">
+				<div id="cyrLoginHead" style="background-color:blue;padding:5px 0px 3px 10px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;">Click for CYR-Login</div>
+			</c:if>
+			<div id="cyrLoginPane" style="<c:if test="${!actionBean.showCycLogin}">display:none</c:if>">
 				<div>
-					<label for="username" style="display: inline-block;width:100px;text-align: right;">Username</label> <s:text name="username" style="width:130px;" />
-				</div>
-				<div style="width:255px;float:left;">
-					<label for="password" style="display: inline-block;width:100px;text-align: right;">Password</label> <s:password name="password" style="width:130px;" />
-				</div>
-				<div style="float:left;width:445px;">
-					<div style="float:left">
-						<s:submit name="login" value="Login" />
-					</div>	
-					<div style="float:right">
-						<s:submit name="forgot" value="I forgot my password" /> 
-					</div>					 
-				</div>
-				<hr style="clear:both;visibility:hidden;" />
-				<s:hidden name="threeDayWinner"/>
-				<s:hidden name="fbAppId"/>
-			</s:form>			
-			<div id="fb-login-li"></div>
+					<s:errors />
+				</div>			
+				<s:form beanclass="de.oglimmer.cyc.web.actions.LandingActionBean"	
+					focus="">
+					<div>
+						<label for="username" style="display: inline-block;width:100px;text-align: right;">Username</label> <s:text name="username" style="width:130px;" />
+					</div>
+					<div style="width:255px;float:left;">
+						<label for="password" style="display: inline-block;width:100px;text-align: right;">Password</label> <s:password name="password" style="width:130px;" />
+					</div>
+					<div style="float:left;width:445px;">
+						<div style="float:left">
+							<s:submit name="login" value="Login" />
+						</div>	
+						<div style="float:right">
+							<s:submit name="forgot" value="I forgot my password" /> 
+						</div>					 
+					</div>
+					<hr style="clear:both;visibility:hidden;" />
+				</s:form>			
+			</div>
+			<c:if test="${actionBean.fbAppId != '' }">
+				<div id="fBLoginHead" style="background-color:blue;padding:5px 0px 3px 10px;font-size: 0.9em;margin-bottom: 10px;color:white;border-bottom: 1px solid black;border-top:1px solid black;cursor: pointer;">Click for Facebook Login</div>
+				<div id="fb-login-li" style="display:none"></div>
+			</c:if>
 		</div>	
 		
 		<div>
@@ -134,14 +139,27 @@
 						});
 					};
 				 
-				  (function(){
-				     if (document.getElementById('facebook-jssdk')) {return;}
-				     var firstScriptElement = document.getElementsByTagName('script')[0];
-				     var facebookJS = document.createElement('script'); 
-				     facebookJS.id = 'facebook-jssdk';
-				     facebookJS.src = '//connect.facebook.net/en_US/all.js';
-				     firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
-				   }());				 				  
+				  	$( document ).ready(function() {
+				  		if($("#fb-login-li")) {
+							$("#cyrLoginHead").click(function() {
+								$("#cyrLoginPane").slideToggle();							
+								$("#fb-login-li").slideUp();
+							});
+							$("#fBLoginHead").click(function() {
+							     if (!document.getElementById('facebook-jssdk')) {
+								     var firstScriptElement = document.getElementsByTagName('script')[0];
+								     var facebookJS = document.createElement('script'); 
+								     facebookJS.id = 'facebook-jssdk';
+								     facebookJS.src = '//connect.facebook.net/en_US/all.js';
+								     firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
+							     }
+								
+							    $("#cyrLoginPane").slideUp();
+								$("#fb-login-li").slideToggle();
+							});
+				  		}
+					});
+				  
 				</script>
 			</div>	
 		</c:if>

@@ -15,6 +15,7 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.controller.LifecycleStage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,7 +71,7 @@ public class PortalActionBean extends BaseAction {
 	@Setter
 	private boolean openSource;
 
-	@Before
+	@Before(stages = { LifecycleStage.EventHandling })
 	public void getNextRunFromGameEngine() {
 		Date nextRunDate = GameExecutor.INSTANCE.getNextRun();
 		DateFormat dateTimeDf = DateFormat.getDateTimeInstance();

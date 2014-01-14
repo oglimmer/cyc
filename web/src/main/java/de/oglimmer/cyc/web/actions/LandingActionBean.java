@@ -16,6 +16,7 @@ import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
@@ -56,16 +57,20 @@ public class LandingActionBean extends BaseAction {
 	private String password;
 
 	@Getter
-	@Setter
 	private String threeDayWinner;
 
 	@Getter
-	@Setter
 	private String fbAppId;
 
-	@Before
-	public void getNextRunFromGameEngine() {
+	@Getter
+	private boolean showCycLogin;
+
+	@Before(stages = { LifecycleStage.HandlerResolution })
+	public void beforeHandlerResolution() {
 		fbAppId = CyrProperties.INSTANCE.getFbAppId();
+		if (fbAppId.isEmpty()) {
+			showCycLogin = true;
+		}
 
 		NumberFormat currencyDf = NumberFormat.getCurrencyInstance(Locale.US);
 		List<GameWinners> listGameWinners = dao.findAllGameWinners(288);
@@ -115,6 +120,7 @@ public class LandingActionBean extends BaseAction {
 		} catch (DocumentNotFoundException e) {
 			errors.add("password", new SimpleError("The password is incorrect."));
 		}
+		showCycLogin = true;
 	}
 
 	static void checkPassword(ValidationErrors errors, ActionBeanContext context, User user, String password) {
