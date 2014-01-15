@@ -1,5 +1,6 @@
 package de.oglimmer.cyc.api;
 
+import java.util.Collections;
 import java.util.List;
 
 import de.oglimmer.cyc.util.CountMap;
@@ -18,6 +19,15 @@ public enum Food {
 		return basePrice;
 	}
 
+	/**
+	 * Returns true if the value for this Food in the availStore map is larger than in the usedStore map
+	 * 
+	 * @param availStore
+	 *            holds the available food
+	 * @param usedStore
+	 *            holds the already used food
+	 * @return true if availStore.get(this) > usedStore.get(this)
+	 */
 	boolean check(CountMap<Food> availStore, CountMap<Food> usedStore) {
 		Long avail = availStore.get(this);
 		Long used = usedStore.get(this);
@@ -27,31 +37,7 @@ public enum Food {
 		return avail != null && avail > used;
 	}
 
-	public static boolean check(List<Food> list, Food... toSearch) {
-		for (Food food : toSearch) {
-			if (!check(list, food)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private static boolean check(List<Food> list, Food food) {
-		for (Food f : list) {
-			if (f == food) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static int count(List<Food> list, Food toSearch) {
-		int count = 0;
-		for (Food food : list) {
-			if (food == toSearch) {
-				count++;
-			}
-		}
-		return count;
+	public int count(List<Food> list) {
+		return Collections.frequency(list, this);
 	}
 }
