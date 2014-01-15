@@ -1,7 +1,9 @@
 package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import lombok.Getter;
@@ -18,29 +20,12 @@ public enum InteriorAccessory {
 		this.assetCost = assetCost;
 	}
 
-	public static boolean check(List<InteriorAccessory> list, InteriorAccessory... toSearch) {
-		for (InteriorAccessory toS : toSearch) {
-			boolean isThere = false;
-			for (InteriorAccessory ia : list) {
-				if (ia == toS) {
-					isThere = true;
-				}
-			}
-			if (!isThere) {
-				return false;
-			}
-		}
-		return true;
+	public static boolean check(List<InteriorAccessory> list, InteriorAccessory... toSearch) {		
+		return list.containsAll(Arrays.asList(toSearch));
 	}
 
 	public static int count(List<InteriorAccessory> list, InteriorAccessory toSearch) {
-		int count = 0;
-		for (InteriorAccessory ia : list) {
-			if (ia == toSearch) {
-				count++;
-			}
-		}
-		return count;
+		return Collections.frequency(list, toSearch);
 	}
 
 	public static Collection<InteriorAccessory> valuesOf(Collection<InteriorAccessory> excludeCol, String... intAccies) {
