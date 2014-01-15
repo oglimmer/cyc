@@ -50,24 +50,11 @@ public class FoodUnitAdmin {
 	}
 
 	boolean checkIngredient(Establishment est, Food food) {
-		return checkIngredient(getCountMapAvail(est), getCountMapUsed(est), food);
-	}
-
-	boolean checkIngredient(CountMap<Food> availMap, CountMap<Food> usedMap, Food food) {
-		Long avail = availMap.get(food);
-		Long used = usedMap.get(food);
-		if (used == null) {
-			used = Long.valueOf(0L);
-		}
-		return avail != null && avail > used;
+		return food.check(getCountMapAvail(est), getCountMapUsed(est));
 	}
 
 	void satisfyIngredient(Establishment est, Food food) {
-		satisfyIngredient(getCountMapUsed(est), food);
-	}
-
-	void satisfyIngredient(CountMap<Food> map, Food food) {
-		map.add(food, 1L);
+		getCountMapUsed(est).add(food, 1L);
 	}
 
 	private CountMap<Food> getCountMapAvail(Establishment est) {
