@@ -7,7 +7,8 @@ import de.oglimmer.cyc.util.CountMap;
 
 public class FoodUnitAdmin {
 
-	private final Map<Establishment, CountMap<Food>> estFoodTotals = new HashMap<>();
+	private final Map<Establishment, CountMap<Food>> estFoodAvail = new HashMap<>();
+	private final Map<Establishment, CountMap<Food>> estFoodUsed = new HashMap<>();
 
 	void buildFood(Game game) {
 		for (Company c : game.getCompanies()) {
@@ -17,7 +18,8 @@ public class FoodUnitAdmin {
 					for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
 						map.add(fu.getFood(), fu.getUnits());
 					}
-					estFoodTotals.put(est, map);
+					estFoodAvail.put(est, map);
+					estFoodUsed.put(est, new CountMap<Food>());
 				}
 			}
 		}
@@ -27,17 +29,19 @@ public class FoodUnitAdmin {
 		for (Company c : game.getCompanies()) {
 			if (!c.isBankrupt()) {
 				for (Establishment est : c.getEstablishmentsInt()) {
-					CountMap<Food> map = getCountMap(est);
+					CountMap<Food> mapUsed = getCountMapUsed(est);
 					for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
-						long toRemove = map.get(fu.getFood());
-						if (toRemove > fu.getUnits()) {
-							toRemove = fu.getUnits();
+						Long toRemove = mapUsed.get(fu.getFood());
+						if (toRemove != null) {
+							if (toRemove > fu.getUnits()) {
+								toRemove = (long) fu.getUnits();
+							}
+							fu.decUnits(toRemove);
+							mapUsed.sub(fu.getFood(), toRemove);
 						}
-						fu.decUnits(toRemove);
-						map.sub(fu.getFood(), toRemove);
 					}
-					for (Food food : map.keySet()) {
-						long unitsToRemove = map.get(food);
+					for (Food food : mapUsed.keySet()) {
+						long unitsToRemove = mapUsed.get(food);
 						assert unitsToRemove == 0;
 					}
 				}
@@ -46,23 +50,31 @@ public class FoodUnitAdmin {
 	}
 
 	boolean checkIngredient(Establishment est, Food food) {
-		return checkIngredient(getCountMap(est), food);
+		return checkIngredient(getCountMapAvail(est), getCountMapUsed(est), food);
 	}
 
-	boolean checkIngredient(CountMap<Food> map, Food food) {
-		Long avail = map.get(food);
-		return avail != null && avail > 0;
+	boolean checkIngredient(CountMap<Food> availMap, CountMap<Food> usedMap, Food food) {
+		Long avail = availMap.get(food);
+		Long used = usedMap.get(food);
+		if (used == null) {
+			used = Long.valueOf(0L);
+		}
+		return avail != null && avail > used;
 	}
 
 	void satisfyIngredient(Establishment est, Food food) {
-		satisfyIngredient(getCountMap(est), food);
+		satisfyIngredient(getCountMapUsed(est), food);
 	}
 
 	void satisfyIngredient(CountMap<Food> map, Food food) {
-		map.sub(food, 1L);
+		map.add(food, 1L);
 	}
 
-	private CountMap<Food> getCountMap(Establishment est) {
-		return estFoodTotals.get(est);
+	private CountMap<Food> getCountMapAvail(Establishment est) {
+		return estFoodAvail.get(est);
+	}
+
+	private CountMap<Food> getCountMapUsed(Establishment est) {
+		return estFoodUsed.get(est);
 	}
 }

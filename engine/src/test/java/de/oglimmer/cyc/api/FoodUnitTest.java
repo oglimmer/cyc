@@ -35,28 +35,36 @@ public class FoodUnitTest {
 	public void testSatisfyIngredient() {
 		FoodUnitAdmin fua = new FoodUnitAdmin();
 
-		CountMap<Food> map = new CountMap<>();
-		map.add(Food.BEEF_MEAT, 2);
+		CountMap<Food> mapUsed = new CountMap<>();
 
-		fua.satisfyIngredient(map, Food.BEEF_MEAT);
-		Assert.assertEquals(1, (long) map.get(Food.BEEF_MEAT));
-		fua.satisfyIngredient(map, Food.BEEF_MEAT);
-		Assert.assertEquals(0, (long) map.get(Food.BEEF_MEAT));
+		fua.satisfyIngredient(mapUsed, Food.BEEF_MEAT);
+		Assert.assertEquals(1, (long) mapUsed.get(Food.BEEF_MEAT));
+		fua.satisfyIngredient(mapUsed, Food.BEEF_MEAT);
+		Assert.assertEquals(2, (long) mapUsed.get(Food.BEEF_MEAT));
 	}
 
 	@Test
 	public void testCheckIngredient() {
 		FoodUnitAdmin fua = new FoodUnitAdmin();
 
-		CountMap<Food> map = new CountMap<>();
+		CountMap<Food> mapAvail = new CountMap<>();
+		CountMap<Food> mapUsed = new CountMap<>();
 
-		Assert.assertFalse(fua.checkIngredient(map, Food.BEEF_MEAT));
+		Assert.assertFalse(fua.checkIngredient(mapAvail, mapUsed, Food.BEEF_MEAT));
 
-		map.put(Food.BEEF_MEAT, 1L);
-		Assert.assertTrue(fua.checkIngredient(map, Food.BEEF_MEAT));
+		mapAvail.put(Food.BEEF_MEAT, 1L);
+		Assert.assertTrue(fua.checkIngredient(mapAvail, mapUsed, Food.BEEF_MEAT));
 
-		map.put(Food.BEEF_MEAT, 0L);
-		Assert.assertFalse(fua.checkIngredient(map, Food.BEEF_MEAT));
+		mapAvail.put(Food.BEEF_MEAT, 0L);
+		Assert.assertFalse(fua.checkIngredient(mapAvail, mapUsed, Food.BEEF_MEAT));
+
+		mapAvail.put(Food.BEEF_MEAT, 1L);
+		mapUsed.put(Food.BEEF_MEAT, 1L);
+		Assert.assertFalse(fua.checkIngredient(mapAvail, mapUsed, Food.BEEF_MEAT));
+
+		mapAvail.put(Food.BEEF_MEAT, 2L);
+		mapUsed.put(Food.BEEF_MEAT, 1L);
+		Assert.assertTrue(fua.checkIngredient(mapAvail, mapUsed, Food.BEEF_MEAT));
 	}
 
 	@Test
