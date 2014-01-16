@@ -56,7 +56,7 @@ body {
 	right: 0;
 }
 
-#cyrLoginHead, #fBLoginHead {
+#cyrLoginHead, #fBLoginHead, #googleLoginHead {
 	background-color:#347785;
 	padding:5px 0px 3px 15px;
 	font-size: 0.9em;

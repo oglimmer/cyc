@@ -58,13 +58,12 @@
 				</div>
 			</c:if>
 			<c:if test="${actionBean.googleClientId != '' }">
-				<div id="fBLoginHead">Click for Google Login</div>
-				<div id="fBLoginPane" style="display:none">
+				<div id="googleLoginHead">Click for Google Login</div>
+				<div id="googleLoginPane" style="display:none">
 					<button class="g-signin"
 				        data-scope="email"        
 				        data-clientId="${actionBean.googleClientId }"
 				        data-callback="onSignInCallback"
-				        data-theme="dark"
 				        data-cookiepolicy="single_host_origin">
 				    </button>
 					<div style="padding:10px;">
@@ -75,38 +74,35 @@
 			</c:if>
 		</div>	
 
-		<c:if test="${actionBean.googleClientId != '' }">
-			<script>
-			 if (typeof(gapi)==='undefined') {								     																							
-		    	 $.ajaxSetup({cache: true});
-		    	 $.getScript('https://plus.google.com/js/client:plusone.js');
-
-				function onSignInCallback(authResult) {
-				  console.log(authResult);
-				  if(authResult.status.signed_in == true) {
-					  window.location = "GoogleLogin.action?data=" + encodeURIComponent(authResult.access_token);
-				  }
-				}	    	
-			 }
-			</script>
-		</c:if>
-
-		
-		<c:if test="${actionBean.fbAppId != '' }">
+		<c:if test="${actionBean.fbAppId != '' or actionBean.googleClientId != ''}">
 			<div id="fb-root"></div>
 			<div>			
-				<script>						 
+				<script>
+					function onSignInCallback(authResult) {
+						if(authResult.status.signed_in == true && getCookie("noFbLogin") != "true" ) {
+							window.location = "GoogleLogin.action?data=" + encodeURIComponent(authResult.access_token);
+						}
+						deleteCookie("noFbLogin");
+					}	    	
 				  	$( document ).ready(function() {
-				  		if($("#fBLoginPane")) {
+				  		if($("#fBLoginPane")||$("#googleLoginPane")) {
 							$("#cyrLoginHead").click(function() {
 								$("#cyrLoginPane").slideToggle();							
 								$("#fBLoginPane").slideUp();
+								$("#googleLoginPane").slideUp();
+							});
+							$("#googleLoginHead").click(function() {
+								$("#googleLoginPane").slideToggle();							
+								if (typeof(gapi)==='undefined') {								     																							
+							    	$.ajaxSetup({cache: true});
+									$.getScript('https://plus.google.com/js/client:plusone.js');
+								}
+								$("#fBLoginPane").slideUp();
+								$("#cyrLoginPane").slideUp();								
 							});
 							$("#fBLoginHead").click(function() {								
 							     if (typeof(FB)==='undefined') {								     																							
-							    	 $.ajaxSetup({
-						    		    cache: true
-						    		});
+							    	$.ajaxSetup({cache: true});
 						    		$.getScript('//connect.facebook.net/en_US/all.js', function () {
 
 						    		    function redirectAfterLogin(response) {
@@ -142,8 +138,9 @@
 						    		});							    	 						    	 
 							     }
 								
-							    $("#cyrLoginPane").slideUp();
 								$("#fBLoginPane").slideToggle();
+							    $("#cyrLoginPane").slideUp();
+								$("#googleLoginPane").slideUp();
 							});
 				  		}
 					});
