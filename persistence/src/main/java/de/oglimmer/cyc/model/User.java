@@ -29,6 +29,7 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String facebookId;
+	private String googleId;
 
 	public User(String username, String password, String email) {
 		this.username = username;
@@ -41,6 +42,13 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.facebookId = facebookId;
+	}
+
+	public User(String name, String firstName, String lastName, String googleId, String email, boolean dummy) {
+		this(name, null, email);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.googleId = googleId;
 	}
 
 	@JsonProperty("_id")

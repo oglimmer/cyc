@@ -57,7 +57,40 @@
 					</div>
 				</div>
 			</c:if>
+			<c:if test="${actionBean.googleClientId != '' }">
+				<div id="fBLoginHead">Click for Google Login</div>
+				<div id="fBLoginPane" style="display:none">
+					<button class="g-signin"
+				        data-scope="email"        
+				        data-clientId="${actionBean.googleClientId }"
+				        data-callback="onSignInCallback"
+				        data-theme="dark"
+				        data-cookiepolicy="single_host_origin">
+				    </button>
+					<div style="padding:10px;">
+						If you are new here and feel comfortable to implement your own restaurant using JavaScript then
+						click the Google button to register via Google.
+					</div>
+				</div>
+			</c:if>
 		</div>	
+
+		<c:if test="${actionBean.googleClientId != '' }">
+			<script>
+			 if (typeof(gapi)==='undefined') {								     																							
+		    	 $.ajaxSetup({cache: true});
+		    	 $.getScript('https://plus.google.com/js/client:plusone.js');
+
+				function onSignInCallback(authResult) {
+				  console.log(authResult);
+				  if(authResult.status.signed_in == true) {
+					  window.location = "GoogleLogin.action?data=" + encodeURIComponent(authResult.access_token);
+				  }
+				}	    	
+			 }
+			</script>
+		</c:if>
+
 		
 		<c:if test="${actionBean.fbAppId != '' }">
 			<div id="fb-root"></div>

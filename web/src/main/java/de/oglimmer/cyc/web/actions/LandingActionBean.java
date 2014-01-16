@@ -63,12 +63,16 @@ public class LandingActionBean extends BaseAction {
 	private String fbAppId;
 
 	@Getter
+	private String googleClientId;
+
+	@Getter
 	private boolean showCycLogin;
 
 	@Before(stages = { LifecycleStage.HandlerResolution })
 	public void beforeHandlerResolution() {
 		fbAppId = CyrProperties.INSTANCE.getFbAppId();
-		if (fbAppId.isEmpty()) {
+		googleClientId = CyrProperties.INSTANCE.getGoogleClientId();
+		if (fbAppId.isEmpty() && googleClientId.isEmpty()) {
 			showCycLogin = true;
 		}
 

@@ -28,4 +28,8 @@ public enum CyrProperties {
 		return prop.getProperty("facebook.appId", "");
 	}
 
+	public String getGoogleClientId() {
+		return prop.getProperty("google.clientId", "");
+	}
+
 }

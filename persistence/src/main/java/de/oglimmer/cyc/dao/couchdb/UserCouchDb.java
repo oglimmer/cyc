@@ -43,4 +43,9 @@ public class UserCouchDb extends CouchDbRepositorySupport<User> implements UserD
 	public List<User> findByFBUserId(String userId) {
 		return queryView("by_fbUserId", userId);
 	}
+
+	@Override
+	public List<User> findByGoogleUserId(String userId) {
+		return queryView("by_googleUserId", userId);
+	}
 }
