@@ -63,7 +63,7 @@
 					<button class="g-signin"
 				        data-scope="email"        
 				        data-clientId="${actionBean.googleClientId }"
-				        data-callback="onSignInCallback"
+				        data-callback="onSignInCallbackGoogle"
 				        data-cookiepolicy="single_host_origin">
 				    </button>
 					<div style="padding:10px;">
@@ -78,7 +78,7 @@
 			<div id="fb-root"></div>
 			<div>			
 				<script>
-					function onSignInCallback(authResult) {
+					function onSignInCallbackGoogle(authResult) {
 						if(authResult.status.signed_in == true && getCookie("noFbLogin") != "true" ) {
 							window.location = "GoogleLogin.action?data=" + encodeURIComponent(authResult.access_token);
 						}
