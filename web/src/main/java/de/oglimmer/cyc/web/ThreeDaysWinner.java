@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Locale;
 
 import lombok.Value;
+
+import org.ektorp.CouchDbConnector;
+
 import de.oglimmer.cyc.dao.GameWinnersDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameWinnersCouchDb;
@@ -15,7 +18,14 @@ import de.oglimmer.cyc.util.CountMap;
 public enum ThreeDaysWinner {
 	INSTANCE;
 
-	private GameWinnersDao dao = new GameWinnersCouchDb(CouchDbUtil.getDatabase());
+	private GameWinnersDao dao;
+
+	private ThreeDaysWinner() {
+		CouchDbConnector database = CouchDbUtil.getDatabase();
+		if (database != null) {
+			dao = new GameWinnersCouchDb(database);
+		}
+	}
 
 	public Result calcThreeDayWinner() {
 		List<GameWinners> listGameWinners = dao.findAllGameWinners(288);

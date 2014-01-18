@@ -4,12 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.model.GameWinners;
 import de.oglimmer.cyc.web.ThreeDaysWinner.Result;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(CouchDbUtil.class)
 public class ThreeDaysWinnerTest {
+
+	@BeforeClass
+	public static void prepare() {
+		PowerMockito.mockStatic(CouchDbUtil.class);
+		Mockito.when(CouchDbUtil.getDatabase()).thenReturn(null);
+	}
 
 	@Test
 	public void testEmpty() {
