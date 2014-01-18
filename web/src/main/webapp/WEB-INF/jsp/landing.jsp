@@ -4,7 +4,7 @@
 <s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
   <s:layout-component name="center">
 	
-		<div style="position:absolute;right:20px;top:7px;"><img src="../images/200px-Beta-badge.svg.png"/></div>
+		<div style="position:absolute;right:20px;top:7px;"><img src="images/200px-Beta-badge.svg.png"/></div>
 
 		<div class="centerElement">
 			CodeYourRestaurant is an online multi player coding competition - you might want to call it a game as well. The goal is to implement your
