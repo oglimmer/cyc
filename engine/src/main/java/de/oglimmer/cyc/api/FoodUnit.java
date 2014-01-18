@@ -36,7 +36,7 @@ public class FoodUnit {
 	 * 
 	 * @param est
 	 *            Establishment where the FoodUnit is currently located. For logging-purposes only.
-	 * @return true if the FoodUnit is empty or rotten
+	 * @return true if the FoodUnit is empty or rotten and thus can be removed
 	 */
 	boolean incDay(Establishment est) {
 		if (units == 0) {

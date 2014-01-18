@@ -13,39 +13,49 @@ public class FoodUnitAdmin {
 	void buildFood(Game game) {
 		for (Company c : game.getCompanies()) {
 			if (!c.isBankrupt()) {
-				for (Establishment est : c.getEstablishmentsInt()) {
-					CountMap<Food> map = new CountMap<>();
-					for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
-						map.add(fu.getFood(), fu.getUnits());
-					}
-					estFoodAvail.put(est, map);
-					estFoodUsed.put(est, new CountMap<Food>());
-				}
+				buildFood(c);
 			}
+		}
+	}
+
+	private void buildFood(Company c) {
+		for (Establishment est : c.getEstablishmentsInt()) {
+			CountMap<Food> map = new CountMap<>();
+			for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
+				map.add(fu.getFood(), fu.getUnits());
+			}
+			estFoodAvail.put(est, map);
+			estFoodUsed.put(est, new CountMap<Food>());
 		}
 	}
 
 	void removeFood(Game game) {
 		for (Company c : game.getCompanies()) {
-			if (!c.isBankrupt()) {
-				for (Establishment est : c.getEstablishmentsInt()) {
-					CountMap<Food> mapUsed = getCountMapUsed(est);
-					for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
-						Long toRemove = mapUsed.get(fu.getFood());
-						if (toRemove != null) {
-							if (toRemove > fu.getUnits()) {
-								toRemove = (long) fu.getUnits();
-							}
-							fu.decUnits(toRemove);
-							mapUsed.sub(fu.getFood(), toRemove);
-						}
-					}
-					for (Food food : mapUsed.keySet()) {
-						long unitsToRemove = mapUsed.get(food);
-						assert unitsToRemove == 0;
-					}
-				}
+			for (Establishment est : c.getEstablishmentsInt()) {
+				removeFood(est);
 			}
+		}
+	}
+
+	private void removeFood(Establishment est) {
+		CountMap<Food> mapUsed = getCountMapUsed(est);
+		for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
+			Long toRemove = mapUsed.get(fu.getFood());
+			if (toRemove != null) {
+				if (toRemove > fu.getUnits()) {
+					toRemove = (long) fu.getUnits();
+				}
+				fu.decUnits(toRemove);
+				mapUsed.sub(fu.getFood(), toRemove);
+			}
+		}
+		assertAllFoodRemoved(mapUsed);
+	}
+
+	private void assertAllFoodRemoved(CountMap<Food> mapUsed) {
+		for (Food food : mapUsed.keySet()) {
+			long unitsToRemove = mapUsed.get(food);
+			assert unitsToRemove == 0;
 		}
 	}
 
