@@ -58,7 +58,7 @@ public class CityProcessor implements Runnable {
 				missingIngredients.add(food);
 			}
 		}
-		if (missingIngredients != null) {
+		if (missingIngredients == null) {
 			for (Food food : menu.getIngredientsInt()) {
 				foodUnitAdmin.satisfyIngredient(est, food);
 			}
