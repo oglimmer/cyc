@@ -1,10 +1,7 @@
 package de.oglimmer.cyc.web.actions;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.Cookie;
 
@@ -22,16 +19,12 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.oglimmer.cyc.dao.GameWinnersDao;
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
-import de.oglimmer.cyc.dao.couchdb.GameWinnersCouchDb;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
-import de.oglimmer.cyc.model.GameWinners;
 import de.oglimmer.cyc.model.User;
-import de.oglimmer.cyc.util.AverageMap;
-import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.web.GameExecutor;
+import de.oglimmer.cyc.web.ThreeDaysWinner;
 import de.oglimmer.cyc.web.exception.CycPermissionException;
 
 public class PortalActionBean extends BaseAction {
@@ -40,7 +33,6 @@ public class PortalActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/portal.jsp";
 
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
-	private GameWinnersDao dao = new GameWinnersCouchDb(CouchDbUtil.getDatabase());
 
 	@Getter
 	@Setter
@@ -77,35 +69,9 @@ public class PortalActionBean extends BaseAction {
 		DateFormat dateTimeDf = DateFormat.getDateTimeInstance();
 		setNextRun(dateTimeDf.format(nextRunDate));
 
-		NumberFormat currencyDf = NumberFormat.getCurrencyInstance(Locale.US);
-		List<GameWinners> listGameWinners = dao.findAllGameWinners(288);
-		if (listGameWinners.isEmpty()) {
-			lastWinner = "-";
-			threeDayWinner = "-";
-		} else {
-			GameWinners lastGameWinner = listGameWinners.get(0);
-			setLastWinner(lastGameWinner.getWinnerName() + " (" + currencyDf.format(lastGameWinner.getWinnerTotal())
-					+ ")");
-
-			AverageMap<String> threeDaysWinnerAvgTotal = new AverageMap<>();
-			CountMap<String> threeDaysWinnerWinCount = new CountMap<>();
-			for (GameWinners gw : listGameWinners) {
-				threeDaysWinnerWinCount.add(gw.getWinnerName(), 1);
-				threeDaysWinnerAvgTotal.add(gw.getWinnerName(), (long) gw.getWinnerTotal());
-			}
-
-			threeDayWinner = "";
-			int maxWins = -1;
-			for (String s : threeDaysWinnerWinCount.keySet()) {
-				long wins = threeDaysWinnerWinCount.get(s);
-				if (wins > maxWins) {
-					threeDayWinner = s + " (" + currencyDf.format(threeDaysWinnerAvgTotal.get(s).average()) + ")";
-				} else if (wins == maxWins) {
-					threeDayWinner += ", " + s + " (" + currencyDf.format(threeDaysWinnerAvgTotal.get(s).average())
-							+ ")";
-				}
-			}
-		}
+		ThreeDaysWinner.Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner();
+		threeDayWinner = result.getThreeDayWinner();
+		lastWinner = result.getLastWinner();
 	}
 
 	@Before(on = { "show" })
