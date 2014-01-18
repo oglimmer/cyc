@@ -4,7 +4,7 @@
   <s:layout-component name="center">
   
 		<div style="font-size:0.6em;text-align:right;">
-			API Version ${API_Version} <a href="../apidocs/index.html" target="_blank">API</a> &nbsp;
+			API Version ${API_Version} <a href="apidocs/index.html" target="_blank">API</a> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.action.PortalActionBean" event="exit" >Log off</s:link> &nbsp;
