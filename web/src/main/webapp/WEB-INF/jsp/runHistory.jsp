@@ -6,7 +6,7 @@
 
 		<div class="centerElement">
 			<span style="float:left">Run history</span> 
-			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" >Back to portal</s:link></span>
+			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.action.PortalActionBean" >Back to portal</s:link></span>
 			<hr style="clear:both;visibility:hidden;margin:0px;"/> 
 		</div>
 				
@@ -34,7 +34,7 @@
 	 						(<fmt:formatNumber value="${entry.winnerTotal}" type="currency"/>)
 	 					</c:if>
 	 				</td>
-	 				<td><s:link beanclass="de.oglimmer.cyc.web.actions.GameRunDetailsActionBean" >
+	 				<td><s:link beanclass="de.oglimmer.cyc.web.action.GameRunDetailsActionBean" >
 	 					Details
 	 					<s:param name="gameRunId">${entry.refGameRunId}</s:param>
 	 				</s:link></td>

@@ -1,4 +1,4 @@
-package de.oglimmer.cyc.web.actions;
+package de.oglimmer.cyc.web.action;
 
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;

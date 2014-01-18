@@ -12,7 +12,7 @@
 		</div>	
 		
 		<div>
-			<s:form beanclass="de.oglimmer.cyc.web.actions.ChangePasswordActionBean" focus="">
+			<s:form beanclass="de.oglimmer.cyc.web.action.ChangePasswordActionBean" focus="">
 				<table>
 					<tr>
 						<td>Current Password</td>

@@ -6,7 +6,7 @@
   
   		<div class="centerElement">
 			<span style="float:left">Code for ${actionBean.companyName }</span> 
-			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.actions.GameRunDetailsActionBean" >
+			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.action.GameRunDetailsActionBean" >
 				<s:param name="gameRunId">${param.gameRunId }</s:param>
 				Back to details
 			</s:link></span>

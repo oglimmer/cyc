@@ -13,7 +13,7 @@
 		</div>	
 		
 		<div>
-			<s:form beanclass="de.oglimmer.cyc.web.actions.RegisterActionBean" focus="">
+			<s:form beanclass="de.oglimmer.cyc.web.action.RegisterActionBean" focus="">
 				<table>
 					<tr>
 						<td>Username</td>

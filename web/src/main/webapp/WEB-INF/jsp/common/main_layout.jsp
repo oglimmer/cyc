@@ -6,11 +6,11 @@
 <head>
 <meta charset="utf-8" />
 <title>CodeYourRestaurant</title>
-<link rel="stylesheet" type="text/css" href="styles.css" />
+<link rel="stylesheet" type="text/css" href="css/styles.css" />
 <link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.min.css" />
-<script src="cookie.js"></script>
-<script src="jquery-2.0.3.js"></script>
-<script src="jquery-ui-1.10.3.custom.min.js"></script>
+<script src="js/cookie.js"></script>
+<script src="js/jquery-2.0.3.js"></script>
+<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
 </head>
 <body>
 	<div class="head">

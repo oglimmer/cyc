@@ -1,4 +1,4 @@
-package de.oglimmer.cyc.web.actions;
+package de.oglimmer.cyc.web.action;
 
 import java.text.DateFormat;
 import java.util.Date;

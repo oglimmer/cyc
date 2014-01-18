@@ -9,8 +9,8 @@
 		<div class="centerElement">
 			CodeYourRestaurant is an online multi player coding competition - you might want to call it a game as well. The goal is to implement your
 			restaurant managing logic in a better, more optimal, way than all the other players.<br/>
-			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.actions.TutorialActionBean" >Tutorial</s:link>, <s:link beanclass="de.oglimmer.cyc.web.actions.FaqActionBean" >FAQ</s:link> or the <a href="../apidocs/index.html" target="_blank">API</a>.<br/>
-			Here are results of the <s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean" >latest competitions</s:link>.
+			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link>, <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> or the <a href="../apidocs/index.html" target="_blank">API</a>.<br/>
+			Here are results of the <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >latest competitions</s:link>.
 		</div>
 		<div class="centerElement">
 				3 days winner: ${actionBean.threeDayWinner}
@@ -24,7 +24,7 @@
 				<div>
 					<s:errors />
 				</div>			
-				<s:form beanclass="de.oglimmer.cyc.web.actions.LandingActionBean" focus="">
+				<s:form beanclass="de.oglimmer.cyc.web.action.LandingActionBean" focus="">
 					<div>
 						<label for="username" style="display: inline-block;width:100px;text-align: right;">Username</label> <s:text name="username" style="width:130px;" />
 					</div>
@@ -43,7 +43,7 @@
 				</s:form>			
 				<div style="padding:10px;">
 					If you are new here and feel comfortable to implement your own restaurant using JavaScript then 
-					<s:link beanclass="de.oglimmer.cyc.web.actions.RegisterActionBean">click here to register for a CYR-login</s:link>					
+					<s:link beanclass="de.oglimmer.cyc.web.action.RegisterActionBean">click here to register for a CYR-login</s:link>					
 				</div>
 
 			</div>

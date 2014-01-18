@@ -6,7 +6,7 @@
   
 		<div class="centerElement">
 			<span style="float:left">Details</span> 
-			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean">Back</s:link></span>
+			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean">Back</s:link></span>
 			<hr style="clear:both;visibility:hidden;margin:0px;"/> 
 		</div>
 
@@ -33,7 +33,7 @@
 								<c:if test="${actionBean.result.errors.contains(element) }">(JS error)</c:if>
 							</c:if>
 							<c:if test="${actionBean.showCode[element] }">
-								<s:link beanclass="de.oglimmer.cyc.web.actions.ShowCodeActionBean">
+								<s:link beanclass="de.oglimmer.cyc.web.action.ShowCodeActionBean">
 									<s:param name="username">${element }</s:param>
 									<s:param name="gameRunId">${param.gameRunId }</s:param>
 									[Code]
@@ -318,8 +318,8 @@
 			Cash flow over time:<br/>
 			<span style="font-size:10px;">(as lowest figure per day)</span>
 			
-			<script src="RGraph.common.core.js" ></script>
-	    	<script src="RGraph.line.js" ></script>
+			<script src="js/RGraph.common.core.js" ></script>
+	    	<script src="js/RGraph.line.js" ></script>
 	    	<canvas id="cvs" width="700" height="600">[No canvas support]</canvas>
 			<div id="labels" style="font-family:Arial;font-size:12px;">Legend: </div>
 			<script>

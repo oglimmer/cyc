@@ -10,7 +10,7 @@ import net.sourceforge.stripes.controller.Interceptor;
 import net.sourceforge.stripes.controller.Intercepts;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
-import de.oglimmer.cyc.web.actions.LandingActionBean;
+import de.oglimmer.cyc.web.action.LandingActionBean;
 
 @Intercepts(LifecycleStage.HandlerResolution)
 public class SecurityInterceptor implements Interceptor {

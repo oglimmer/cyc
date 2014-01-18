@@ -6,7 +6,7 @@
 
 		<div class="centerElement">
 			<span style="float:left">FAQ</span> 
-			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" >Back to portal</s:link></span>
+			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.action.PortalActionBean" >Back to portal</s:link></span>
 			<hr style="clear:both;visibility:hidden;margin:0px;"/> 
 		</div>
 				

@@ -5,18 +5,18 @@
   
 		<div style="font-size:0.6em;text-align:right;">
 			API Version ${API_Version} <a href="../apidocs/index.html" target="_blank">API</a> &nbsp;
-			<s:link beanclass="de.oglimmer.cyc.web.actions.TutorialActionBean" >Tutorial</s:link> &nbsp;
-			<s:link beanclass="de.oglimmer.cyc.web.actions.FaqActionBean" >FAQ</s:link> &nbsp;
-			<s:link beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" event="exit" >Log off</s:link> &nbsp;
-			<s:link beanclass="de.oglimmer.cyc.web.actions.ChangePasswordActionBean" >Change password</s:link>			
+			<s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link> &nbsp;
+			<s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> &nbsp;
+			<s:link beanclass="de.oglimmer.cyc.web.action.PortalActionBean" event="exit" >Log off</s:link> &nbsp;
+			<s:link beanclass="de.oglimmer.cyc.web.action.ChangePasswordActionBean" >Change password</s:link>			
 		</div>
 
 		<div class="centerElement">
 			<h2>Global Runs</h2>
 			<div>Next run: <span id="nextRun">${actionBean.nextRun}</span></div>
-			<div>Last run's winner: <s:link beanclass="de.oglimmer.cyc.web.actions.GameRunDetailsActionBean" ><span id="lastWinner">${actionBean.lastWinner}</span></s:link></div>			
+			<div>Last run's winner: <s:link beanclass="de.oglimmer.cyc.web.action.GameRunDetailsActionBean" ><span id="lastWinner">${actionBean.lastWinner}</span></s:link></div>			
 			<div>
-				3 days winner: <s:link beanclass="de.oglimmer.cyc.web.actions.RunHistoryActionBean" ><span id="threeDayWinner">${actionBean.threeDayWinner}</span></s:link>
+				3 days winner: <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" ><span id="threeDayWinner">${actionBean.threeDayWinner}</span></s:link>
 			</div>
 		</div>
 		
@@ -26,7 +26,7 @@
 
 			<!-- ATTENTION: the retrieval of actionBean.company must be done via c:out to properly escape html-tags within the javascript code.  -->
 
-			<s:form name="mainForm" beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" focus="" onsubmit="return false;">
+			<s:form name="mainForm" beanclass="de.oglimmer.cyc.web.action.PortalActionBean" focus="" onsubmit="return false;">
 				<div style="width:97%;height:500px;position:relative;"><pre id="editor"><c:out value="${actionBean.company}"/></pre></div>
 				<s:textarea name="company" style="display:none"></s:textarea>
 				<s:submit name="saveRun" value="Save and check" onclick="onSubmitForm(this);" />

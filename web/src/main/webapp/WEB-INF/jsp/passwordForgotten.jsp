@@ -13,7 +13,7 @@
 		</div>	
 		
 		<div>
-			<s:form beanclass="de.oglimmer.cyc.web.actions.PasswordForgottenActionBean" focus="">
+			<s:form beanclass="de.oglimmer.cyc.web.action.PasswordForgottenActionBean" focus="">
 				<table>					
 					<tr>
 						<td>Email</td>

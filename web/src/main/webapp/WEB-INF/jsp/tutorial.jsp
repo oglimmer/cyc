@@ -6,7 +6,7 @@
 
 		<div class="centerElement">
 			<span style="float:left">First steps</span> 
-			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.actions.PortalActionBean" >Back to portal</s:link></span>
+			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.action.PortalActionBean" >Back to portal</s:link></span>
 			<hr style="clear:both;visibility:hidden;margin:0px;"/> 
 		</div>
 				
@@ -123,7 +123,7 @@
 				To replace your code with the default implementation from this tutorial, click <a href="javascript:void(0);" onclick="replaceCode();">here</a>.<br/>
 			</c:if> 
 			<br/>
-			For future optimizations of your restaurant, you probably want to browse the <a href="../apidocs/index.html" target="_blank">API documentation</a> or the <s:link beanclass="de.oglimmer.cyc.web.actions.FaqActionBean" >FAQ</s:link> &nbsp;<br/> 
+			For future optimizations of your restaurant, you probably want to browse the <a href="../apidocs/index.html" target="_blank">API documentation</a> or the <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> &nbsp;<br/> 
 		</div>	
 		
 		<div style="margin-bottom:40px;">				

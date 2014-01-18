@@ -1,4 +1,4 @@
-package de.oglimmer.cyc.web.actions;
+package de.oglimmer.cyc.web.action;
 
 import lombok.Getter;
 import lombok.Setter;
