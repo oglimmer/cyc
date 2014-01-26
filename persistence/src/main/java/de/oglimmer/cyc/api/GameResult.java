@@ -1,7 +1,5 @@
 package de.oglimmer.cyc.api;
 
-import java.io.CharArrayWriter;
-import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.Comparator;
@@ -88,14 +86,11 @@ public class GameResult {
 		return ((int) (maxMoney / 100_000) + 1) * 100_000;
 	}
 
-	public synchronized void addError(Throwable t) {
-		CharArrayWriter caw = new CharArrayWriter();
-		t.printStackTrace(new PrintWriter(caw));
-
+	public synchronized void addError(String formattedStackTrace) {
 		if (error.length() == 0) {
 			error.append("<hr/>");
 		}
-		error.append(caw.toString().replace("\n", "<br/>"));
+		error.append(formattedStackTrace);		
 	}
 
 	@JsonIgnore

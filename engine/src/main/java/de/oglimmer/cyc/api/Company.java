@@ -11,6 +11,7 @@ import org.mozilla.javascript.RhinoException;
 
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
+import de.oglimmer.cyc.util.ExceptionConverter;
 
 @Slf4j
 public class Company {
@@ -101,8 +102,9 @@ public class Company {
 		return "Company [name=" + name + "]";
 	}
 
-	void setBankruptFromError(Throwable t) {
+	void setBankruptFromError(String formattedStackTrace) {
 		game.getResult().getErrors().add(getName());
+		game.getResult().get(getName()).setDebug(new StringBuilder(formattedStackTrace));
 		setBankrupt();
 	}
 
@@ -148,9 +150,10 @@ public class Company {
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
-				game.getResult().addError(e);
+				String formattedStackTrace = ExceptionConverter.convertToString(e);
+				game.getResult().addError(formattedStackTrace);
 				log.error("Failed to call the company.launch handler. Player " + name + " bankrupt", e);
-				setBankruptFromError(e);
+				setBankruptFromError(formattedStackTrace);
 			}
 		}
 	}
@@ -165,9 +168,10 @@ public class Company {
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
-				game.getResult().addError(e);
+				String formattedStackTrace = ExceptionConverter.convertToString(e);
+				game.getResult().addError(formattedStackTrace);
 				log.error("Failed to call the company.launch handler. Player " + name + " bankrupt", e);
-				setBankruptFromError(e);
+				setBankruptFromError(formattedStackTrace);
 			}
 		}
 		ThreadLocal.resetCompany();
@@ -183,9 +187,10 @@ public class Company {
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
-				game.getResult().addError(e);
+				String formattedStackTrace = ExceptionConverter.convertToString(e);
+				game.getResult().addError(formattedStackTrace);
 				log.error("Failed to call the company.launch handler. Player " + name + " bankrupt", e);
-				setBankruptFromError(e);
+				setBankruptFromError(formattedStackTrace);
 			}
 		}
 		ThreadLocal.resetCompany();
@@ -201,9 +206,10 @@ public class Company {
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
-				game.getResult().addError(e);
+				String formattedStackTrace = ExceptionConverter.convertToString(e);
+				game.getResult().addError(formattedStackTrace);
 				log.error("Failed to call the company.doMonthly handler. Player " + name + " bankrupt", e);
-				setBankruptFromError(e);
+				setBankruptFromError(formattedStackTrace);
 			}
 		}
 		ThreadLocal.resetCompany();
@@ -222,9 +228,10 @@ public class Company {
 				game.getResult().get(getName()).addRunTime("realEstateAgent", System.nanoTime() - time);
 			} catch (RhinoException e) {
 				if (!(e.getCause() instanceof GameException)) {
-					game.getResult().addError(e);
+					String formattedStackTrace = ExceptionConverter.convertToString(e);
+					game.getResult().addError(formattedStackTrace);
 					log.error("Failed to call the company.realEstateAgent handler. Player " + name + " bankrupt", e);
-					setBankruptFromError(e);
+					setBankruptFromError(formattedStackTrace);
 				}
 			}
 		}
@@ -242,9 +249,10 @@ public class Company {
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
-				game.getResult().addError(e);
+				String formattedStackTrace = ExceptionConverter.convertToString(e);
+				game.getResult().addError(formattedStackTrace);
 				log.error("Failed to call the company.launch handler. Player " + name + " bankrupt", e);
-				setBankruptFromError(e);
+				setBankruptFromError(formattedStackTrace);
 			}
 		}
 		ThreadLocal.resetCompany();

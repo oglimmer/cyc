@@ -30,6 +30,7 @@ import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.GameWinners;
 import de.oglimmer.cyc.model.GameWinners.GameWinnerEntry;
 import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.util.ExceptionConverter;
 
 @Slf4j
 public class Game {
@@ -184,9 +185,10 @@ public class Game {
 					if (e.getCause() instanceof GameException) {
 						log.info("Failed to initialize the JavaScript, but found a GameException", e);
 					} else {
-						gameRun.getResult().addError(e);
+						String formattedStackTrace = ExceptionConverter.convertToString(e);
+						gameRun.getResult().addError(formattedStackTrace);
 						log.error("Failed to initialize the JavaScript. Player " + company.getName() + " bankrupt", e);
-						company.setBankruptFromError(e);
+						company.setBankruptFromError(formattedStackTrace);
 					}
 				}
 

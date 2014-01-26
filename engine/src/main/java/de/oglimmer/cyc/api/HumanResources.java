@@ -13,6 +13,7 @@ import org.mozilla.javascript.RhinoException;
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
 import de.oglimmer.cyc.util.CountMap;
+import de.oglimmer.cyc.util.ExceptionConverter;
 
 @Slf4j
 public class HumanResources {
@@ -73,10 +74,11 @@ public class HumanResources {
 						.addRunTime("hiringProcess", System.nanoTime() - time);
 			} catch (RhinoException e) {
 				if (!(e.getCause() instanceof GameException)) {
-					company.getGame().getResult().addError(e);
+					String formattedStackTrace = ExceptionConverter.convertToString(e);
+					company.getGame().getResult().addError(formattedStackTrace);
 					log.error("Failed to call the company.hiringProcess handler. Player " + company.getName()
 							+ " bankrupt", e);
-					company.setBankruptFromError(e);
+					company.setBankruptFromError(formattedStackTrace);
 				}
 			}
 		}
