@@ -53,9 +53,11 @@ public class FoodUnitAdmin {
 	}
 
 	private void assertAllFoodRemoved(CountMap<Food> mapUsed) {
-		for (Food food : mapUsed.keySet()) {
-			long unitsToRemove = mapUsed.get(food);
-			assert unitsToRemove == 0;
+		if (mapUsed != null) {
+			for (Food food : mapUsed.keySet()) {
+				long unitsToRemove = mapUsed.get(food);
+				assert unitsToRemove == 0;
+			}
 		}
 	}
 
