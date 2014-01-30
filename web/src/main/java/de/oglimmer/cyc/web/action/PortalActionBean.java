@@ -63,6 +63,9 @@ public class PortalActionBean extends BaseAction {
 	@Setter
 	private boolean openSource;
 
+	@Getter
+	private int editorHeight;
+
 	@Before(stages = { LifecycleStage.EventHandling })
 	public void getNextRunFromGameEngine() {
 		Date nextRunDate = GameExecutor.INSTANCE.getNextRun();
@@ -74,6 +77,13 @@ public class PortalActionBean extends BaseAction {
 		lastWinner = result.getLastWinner();
 	}
 
+	private int countLines(String javaCode) {
+		if (javaCode == null) {
+			return 0;
+		}
+		return javaCode.split("\r\n|\r|\n").length;
+	}
+
 	@Before(on = { "show" })
 	public void loadFromDb() {
 		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
@@ -82,6 +92,10 @@ public class PortalActionBean extends BaseAction {
 		lastRun = user.getLastPrivateRun();
 		fullRun = user.getPermission() > 0;
 		openSource = user.getOpenSource() > 0;
+
+		String userAgent = getContext().getRequest().getHeader("User-Agent").toLowerCase();
+		boolean isMobile = userAgent.matches("(?i).*(ipad|iphone|android).*");
+		editorHeight = isMobile ? (countLines(company) + 30) * 16 : 500;
 	}
 
 	@DefaultHandler
