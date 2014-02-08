@@ -1,6 +1,5 @@
 package de.oglimmer.cyc.api;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
@@ -44,26 +43,8 @@ public class CityProcessor implements Runnable {
 	void serveDish(Establishment est, MenuEntry menu) throws MissingIngredient {
 		Company c = est.getParent();
 		log.debug("Guest went to {} in {} and ordered {} for ${}", c.getName(), est.getAddress(), menu, menu.getPrice());
-		Set<Food> missingIngredients = cook(est, menu);
+		Set<Food> missingIngredients = Cooking.of(foodUnitAdmin, est, menu).cook();
 		checkout(c, est, menu, missingIngredients);
-	}
-
-	private Set<Food> cook(Establishment est, MenuEntry menu) {
-		Set<Food> missingIngredients = null;
-		for (Food food : menu.getIngredientsInt()) {
-			if (!foodUnitAdmin.checkIngredient(est, food)) {
-				if (missingIngredients == null) {
-					missingIngredients = new HashSet<>();
-				}
-				missingIngredients.add(food);
-			}
-		}
-		if (missingIngredients == null) {
-			for (Food food : menu.getIngredientsInt()) {
-				foodUnitAdmin.satisfyIngredient(est, food);
-			}
-		}
-		return missingIngredients;
 	}
 
 	private void checkout(Company company, Establishment est, MenuEntry menu, Set<Food> missingIngredients)
@@ -72,6 +53,7 @@ public class CityProcessor implements Runnable {
 			company.incCash(menu.getPrice());
 			game.getResult().get(company.getName())
 					.addServedFoodServed(est.getAddress(), menu.getName(), menu.getPrice());
+			game.getDailyStatisticsManager().getCollecting(company).addServedFood(est.getAddress(), menu.getName());
 		} else {
 			throw new MissingIngredient(missingIngredients);
 		}

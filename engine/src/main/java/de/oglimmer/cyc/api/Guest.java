@@ -28,6 +28,10 @@ public abstract class Guest {
 		Company company = est.getParent();
 		Game game = company.getGame();
 		game.getResult().get(company.getName()).getGuestsYouPerCity().add(cityProcessor.getCity().getName(), 1);
+		game.getDailyStatisticsManager().getCollecting(company).getGuestsTotalPerCityMap()
+				.add(cityProcessor.getCity().getName(), 1L);
+		game.getDailyStatisticsManager().getCollecting(company).getGuestsPerEstablishmentMap()
+				.add(est.getAddress(), 1L);
 		try {
 			if (company.getMenu().size() > 0) {
 				selectMenu(cityProcessor, est);
@@ -35,6 +39,10 @@ public abstract class Guest {
 		} catch (MissingIngredient e) {
 			game.getResult().get(company.getName()).addGuestsOutOfIngPerCity(cityProcessor.getCity().getName());
 			game.getResult().get(company.getName()).addMissingIngredients(e.getMissingIngredients());
+			game.getDailyStatisticsManager().getCollecting(company).getGuestsOutOfIngPerEstablishmentMap()
+					.add(est.getAddress(), 1L);
+			game.getDailyStatisticsManager().getCollecting(company)
+					.addMissingIngredientsPerFood(e.getMissingIngredients());
 			log.debug("Unable to prepare meal, missing {} in {}", e.getMissingIngredients(), est.getAddress());
 		}
 	}
@@ -44,6 +52,8 @@ public abstract class Guest {
 		if (foodSelCol.isEmpty()) {
 			est.getParent().getGame().getResult().get(est.getParent().getName()).getGuestsLeftPerCity()
 					.add(cityProcessor.getCity().getName(), 1);
+			est.getParent().getGame().getDailyStatisticsManager().getCollecting(est.getParent())
+					.getGuestsLeftPerEstablishmentMap().add(est.getAddress(), 1L);
 			log.debug("Guest went to {} in {} and ordered nothing", est.getParent().getName(), est.getAddress());
 		} else {
 			for (MenuEntry menu : foodSelCol) {

@@ -17,7 +17,7 @@ import de.oglimmer.cyc.util.ExceptionConverter;
 public class Company {
 
 	public Runnable launch;
-	public Runnable doDaily;
+	public CallbackFunction doDaily;
 	public Runnable doWeekly;
 	public Runnable doMonthly;
 	public CallbackFunction realEstateAgent;
@@ -182,7 +182,7 @@ public class Company {
 			if (doDaily != null) {
 				ThreadLocal.setCompany(this);
 				long time = System.nanoTime();
-				doDaily.run();
+				doDaily.run(game.getDailyStatisticsManager().getLastDays(this));
 				game.getResult().get(getName()).addRunTime("daily", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {

@@ -77,6 +77,7 @@ public class Day {
 	}
 
 	private void callDaily() {
+		game.getDailyStatisticsManager().reset();
 		for (Company company : game.getCompanies()) {
 			if (!company.isBankrupt()) {
 				company.callDaily();

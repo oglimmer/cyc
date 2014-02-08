@@ -1,7 +1,9 @@
 package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public class Statistics {
 
 	private List<StatValue> cash = new ArrayList<>();
+	private Map<Integer, List<StatValue>> custom = new HashMap<>();
+
+	public void setCustomStatistics(int day, int type, double value) {
+		if (type >= 0 && type <= 5) {
+			List<StatValue> list = custom.get(type);
+			if (list == null) {
+				list = new ArrayList<>();
+				custom.put(type, list);
+			}
+			list.add(new StatValue(day, value));
+		}
+	}
 
 	public void addCash(int day, double value) {
 		if (cash.isEmpty()) {
@@ -24,6 +38,22 @@ public class Statistics {
 				cash.add(new StatValue(day, value));
 			}
 		}
+	}
+
+	@JsonIgnore
+	public String getCustomHtml() {
+		StringBuilder buff = new StringBuilder();
+		for (Integer type : custom.keySet()) {
+			if (buff.length() != 0) {
+				buff.append(",");
+			}
+			List<Long> fixedList = new ArrayList<>(360);
+			for (StatValue sv : custom.get(type)) {
+				fixedList.add((long) sv.getValueMin());
+			}
+			buff.append(fixedList.toString());
+		}
+		return buff.toString();
 	}
 
 	@JsonIgnore
@@ -45,6 +75,12 @@ public class Statistics {
 		private int day;
 		private double valueMin;
 
+		public StatValue(int day, double value) {
+			super();
+			this.day = day;
+			this.valueMin = value;
+		}
+
 		@JsonIgnore
 		public int getDay() {
 			return day;
@@ -53,12 +89,6 @@ public class Statistics {
 		@JsonIgnore
 		public void setDay(int day) {
 			this.day = day;
-		}
-
-		public StatValue(int day, double value) {
-			super();
-			this.day = day;
-			this.valueMin = value;
 		}
 
 		private void updateEntry(double value) {

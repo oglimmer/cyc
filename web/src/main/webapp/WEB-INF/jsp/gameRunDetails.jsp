@@ -333,17 +333,17 @@
 		    	var line = new RGraph.Line('cvs', jsonData)
 		    	.Set('ymax', maxMoney)
 		    	.Set('ylabels.count', maxMoney/50000)
-		        .Set('numxticks', 11)
+		        .Set('numxticks', 12)
 		        .Set('numyticks', maxMoney/50000)
 		        .Set('hmargin', 0)
-		        .Set('background.grid.autofit.numvlines', 11)
+		        .Set('background.grid.autofit.numvlines', 12)
 		        .Set('background.grid.autofit.numhlines', maxMoney/50000)
 		        .Set('background.grid.dotted', true)
 		        .Set('colors', labelColors)
 		        .Set('linewidth', 1)
 		        .Set('gutter.left', 70)
 		        .Set('gutter.right', 15)
-		        .Set('labels',['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'])
+		        .Set('labels',['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan'])
 		        .Draw();
 		    	
 		    	for(var i = 0 ; i < labelData.length ; i++) {
@@ -354,6 +354,31 @@
 	    </div>
 
 		<c:if test="${not empty actionBean.username }">
+
+			<div id="customGraph" class="centerElement">
+		    </div>
+			<script>
+				var jsonDataCustom = [${actionBean.result.playerResults[actionBean.username].statistics.getCustomHtml()}];
+				
+				for(var i = 0 ; i < jsonDataCustom.length ; i++) {
+					
+					$("#customGraph").append("<div>Custom statistics graph for index "+i+":<br/><canvas id='cvsCustom"+i+"' width='700' height='600'>[No canvas support]</canvas></div><br/>");
+				
+			    	var line = new RGraph.Line('cvsCustom'+i, jsonDataCustom[i])
+				        .Set('numxticks', 12)
+				        .Set('hmargin', 0)
+				        .Set('background.grid.autofit.numvlines', 12)
+				        .Set('background.grid.dotted', true)
+				        .Set('linewidth', 1)
+				        .Set('gutter.left', 70)
+				        .Set('gutter.right', 15)
+				        .Set('colors', ['blue'])
+				        .Set('labels',['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan'])
+				        .Draw();
+			    	
+				}
+	    	</script>	    	
+
 
 			<div class="log" style="padding-bottom:40px;">
 				<div>Your log output:</div>

@@ -67,6 +67,9 @@ public class Game {
 	@Getter(AccessLevel.PACKAGE)
 	private Collection<Cache<?>> caches = new HashSet<>();
 
+	@Getter(AccessLevel.PACKAGE)
+	private DailyStatisticsManager dailyStatisticsManager = new DailyStatisticsManager();
+
 	public Game(Mode mode) {
 		constants = new Constants(mode);
 		this.totalYear = constants.getRuntimeYear();
@@ -171,7 +174,7 @@ public class Game {
 
 				Object jsCompany = new SandboxNativeJavaObject(scope, company, Company.class);
 				prototype.put("company", scope, jsCompany);
-				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(gameRun.getResult(),
+				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(this, gameRun.getResult(),
 						company.getName()), DebugAdapter.class);
 				prototype.put("out", scope, jsSystemout);
 				prototype.put("console", scope, jsSystemout);

@@ -45,4 +45,12 @@ public class CountMap<K> extends HashMap<K, Long> {
 		return listWinners;
 	}
 
+	public long sum() {
+		long sum = 0;
+		for (Long l : values()) {
+			sum += l;
+		}
+		return sum;
+	}
+
 }

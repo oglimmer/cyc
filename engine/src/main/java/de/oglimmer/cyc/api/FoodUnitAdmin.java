@@ -56,7 +56,7 @@ public class FoodUnitAdmin {
 		if (mapUsed != null) {
 			for (Food food : mapUsed.keySet()) {
 				long unitsToRemove = mapUsed.get(food);
-				assert unitsToRemove == 0;
+				assert unitsToRemove < 2 : "unitsToRemove=" + unitsToRemove;
 			}
 		}
 	}

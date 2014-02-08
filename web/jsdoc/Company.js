@@ -107,8 +107,9 @@ Company.prototype.launch = function() {
 *
 * @property doDaily
 * @type {Function}
+* @param {DailyStatistics} dailyStatistics Statistical information about the last business day
 */
-Company.prototype.doDaily = function() {
+Company.prototype.doDaily = function(dailyStatistics) {
 
 };
 

@@ -49,6 +49,9 @@ public class FoodUnit {
 					est.getAddress());
 			est.getParent().getGame().getResult().get(est.getParent().getName()).getTotalRottenFood()
 					.add(food.toString(), units);
+			est.getParent().getGame().getDailyStatisticsManager().getCollecting(est.getParent())
+					.getRottenUnitsPerFoodMap().add(food.toString(), units);
+
 			units = 0;
 		}
 		return pullDate == 0;
