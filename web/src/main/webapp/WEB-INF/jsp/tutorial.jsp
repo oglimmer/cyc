@@ -92,7 +92,7 @@
 			Chicken Kebab, so we buy chicken meat and bread.<br/>
 			Let's implement it in the day event:<br/>
 			<br/>
-			<div style="width:700px;height:65px;position:relative;"><pre id="code5">company.doDaily = function() {
+			<div style="width:700px;height:65px;position:relative;"><pre id="code5">company.doDaily = function(dailyStatistics) {
 	company.grocer.order("CHICKEN_MEAT", 100);
 	company.grocer.order("BREAD", 100);	
 };</pre></div>
