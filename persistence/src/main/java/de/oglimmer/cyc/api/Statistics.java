@@ -15,7 +15,9 @@ public class Statistics {
 
 	private List<StatValue> cash = new ArrayList<>();
 	private Map<Integer, List<StatValue>> custom = new HashMap<>();
+	private Map<Integer, String> customNames = new HashMap<>();
 
+	@JsonIgnore
 	public void setCustomStatistics(int day, int type, double value) {
 		if (type >= 0 && type <= 5) {
 			List<StatValue> list = custom.get(type);
@@ -25,6 +27,20 @@ public class Statistics {
 			}
 			list.add(new StatValue(day, value));
 		}
+	}
+
+	@JsonIgnore
+	public void setCustomStatisticsName(int type, String name) {
+		customNames.put(type, name);
+	}
+
+	@JsonIgnore
+	public String getCustomStatisticsName(int type) {
+		String name = customNames.get(type);
+		if (name == null) {
+			name = "index " + type;
+		}
+		return name;
 	}
 
 	public void addCash(int day, double value) {
@@ -98,4 +114,5 @@ public class Statistics {
 		}
 
 	}
+
 }

@@ -17,6 +17,10 @@ public class DebugAdapter {
 		println(str);
 	}
 
+	public void setDayStatisticDescription(int type, String description) {
+		gameResult.get(name).getStatistics().setCustomStatisticsName(type, description);
+	}
+
 	public void setDayStatistic(int type, Number value) {
 		if (value == null) {
 			value = 0D;

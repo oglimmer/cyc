@@ -13,6 +13,7 @@ public class CityProcessor implements Runnable {
 	private CountDownLatch cdl;
 	@Getter
 	private GuestDispatcherManager guestDispMngr;
+	@Getter
 	private Game game;
 	private FoodUnitAdmin foodUnitAdmin;
 

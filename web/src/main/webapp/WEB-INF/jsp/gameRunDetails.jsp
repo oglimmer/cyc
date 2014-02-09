@@ -359,10 +359,11 @@
 		    </div>
 			<script>
 				var jsonDataCustom = [${actionBean.result.playerResults[actionBean.username].statistics.getCustomHtml()}];
+				var jsonDataCustomNames = [<c:forEach var="i" begin="0" end="4">"${actionBean.result.playerResults[actionBean.username].statistics.getCustomStatisticsName(i)}",</c:forEach>];				
 				
 				for(var i = 0 ; i < jsonDataCustom.length ; i++) {
 					
-					$("#customGraph").append("<div>Custom statistics graph for index "+i+":<br/><canvas id='cvsCustom"+i+"' width='700' height='600'>[No canvas support]</canvas></div><br/>");
+					$("#customGraph").append("<div>Custom statistics graph for "+jsonDataCustomNames[i]+":<br/><canvas id='cvsCustom"+i+"' width='700' height='600'>[No canvas support]</canvas></div><br/>");
 				
 			    	var line = new RGraph.Line('cvsCustom'+i, jsonDataCustom[i])
 				        .Set('numxticks', 12)

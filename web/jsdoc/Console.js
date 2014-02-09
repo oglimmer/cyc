@@ -30,3 +30,15 @@ Console.prototype.log = function(logMessage) {
  */
 Console.prototype.setDayStatistic = function(type, value) {
 };
+
+/**
+ * Sets a description for a custom statistic
+ * 
+ * @method setDayStatisticDescription
+ * @param {Number}
+ *            type must be 0 .. 4 - as you can have 5 custom graphs max
+ * @param {String}
+ *            description for that type
+ */
+Console.prototype.setDayStatisticDescription = function(type, description) {
+};

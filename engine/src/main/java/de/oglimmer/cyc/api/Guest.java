@@ -13,6 +13,7 @@ public abstract class Guest {
 	public abstract void addAlreadyVisited(Company company);
 
 	public void serve(CityProcessor cityProcessor) {
+		incTotalGuestsDailyStats(cityProcessor);
 		GuestDispatcher guestDisp = cityProcessor.getGuestDispMngr().getDispatcher(this);
 		if (guestDisp.hasRestaurants()) {
 			Establishment est = guestDisp.getRandom();
@@ -24,12 +25,17 @@ public abstract class Guest {
 		}
 	}
 
+	private void incTotalGuestsDailyStats(CityProcessor cityProcessor) {
+		for (Company company : cityProcessor.getGame().getCompanies()) {
+			cityProcessor.getGame().getDailyStatisticsManager().getCollecting(company).getGuestsTotalPerCityMap()
+					.add(cityProcessor.getCity().getName(), 1L);
+		}
+	}
+
 	private void walkIntoRestaurant(CityProcessor cityProcessor, Establishment est) {
 		Company company = est.getParent();
 		Game game = company.getGame();
 		game.getResult().get(company.getName()).getGuestsYouPerCity().add(cityProcessor.getCity().getName(), 1);
-		game.getDailyStatisticsManager().getCollecting(company).getGuestsTotalPerCityMap()
-				.add(cityProcessor.getCity().getName(), 1L);
 		game.getDailyStatisticsManager().getCollecting(company).getGuestsPerEstablishmentMap()
 				.add(est.getAddress(), 1L);
 		try {
