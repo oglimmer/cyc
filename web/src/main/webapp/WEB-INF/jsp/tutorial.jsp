@@ -16,7 +16,7 @@
 			So it is time to see how to make some money.<br/>
 			<br/>
 			You need to write JavaScript code to run your restaurant. 
-			The only variable you get from the engine is called "company" and is an instance of the class <a href="../apidocs/classes/Company.html" target="apidoc">Company</a>.<br/>
+			The only variable you get from the engine is called "company" and is an instance of the class <a href="./apidocs/classes/Company.html" target="apidoc">Company</a>.<br/>
 			<br/>
 			<span style="font-style:italic">All you need to do</span> is implement 7 functions, which are getting called for:
 			<ul>
@@ -29,7 +29,7 @@
 				<li>foodDelivery - to dispatch your every day food delivery</li>
 			</ul>
 			
-			Let's have a look how this looks like. First we need to set up our <a href="../apidocs/classes/Menu.html" target="apidoc">menu</a>. Let's do that on the launch event.<br/>
+			Let's have a look how this looks like. First we need to set up our <a href="./apidocs/classes/Menu.html" target="apidoc">menu</a>. Let's do that on the launch event.<br/>
 			<br/>
 			
 			<div style="width:700px;height:50px;position:relative;"><pre id="code1">company.launch = function() {
@@ -49,16 +49,16 @@
 	}
 };</pre></div>
 			<br/>
-			Since we only want to rent one restaurant, we check for the  <a href="../apidocs/classes/Establishment.html" target="apidoc">establishments</a> property in our company class. 
-			Then we get the first element from <a href="../apidocs/classes/RealEstateProfiles.html" target="apidoc">real estate offers</a> 
+			Since we only want to rent one restaurant, we check for the  <a href="./apidocs/classes/Establishment.html" target="apidoc">establishments</a> property in our company class. 
+			Then we get the first element from <a href="./apidocs/classes/RealEstateProfiles.html" target="apidoc">real estate offers</a> 
 			and try to lease it. The parameter value 0 stands for "we don't want to bribe the real estate agent or the landlord", but
 			if you do so you increase your chances if there are competing offers.<br/>
 			Since other players may do the same it is not sure that we get this property. Anyhow if we don't get it, the engine
 			will perform a second round and we'll get what's left at this point in time. It repeats as often as people try to get
 			restaurants or all offerings are rented or bought.<br/>
 			<br/>
-			As we now have a restaurant we also need <a href="../apidocs/classes/Employee.html" target="apidoc">employees</a>. 
-			At least a chef and a waiter. So we implement the <a href="../apidocs/classes/HumanResources.html" target="apidoc">humanResources'</a>
+			As we now have a restaurant we also need <a href="./apidocs/classes/Employee.html" target="apidoc">employees</a>. 
+			At least a chef and a waiter. So we implement the <a href="./apidocs/classes/HumanResources.html" target="apidoc">humanResources'</a>
 			hiringProcess event:<br/>
 			<br/>
 			<div style="width:700px;height:165px;position:relative;"><pre id="code3">company.humanResources.hiringProcess = function(applicationProfiles) {    
@@ -73,7 +73,7 @@
 };</pre></div>
 			<br/>
 			We only want 1 chef and 1 waiter, so we check our human resources department for the employees list for chefs/waiters and if 
-			we haven't hired anybody for that role, we filter the <a href="../apidocs/classes/ApplicationProfiles.html" target="apidoc">profiles</a> for the certain role, sort by salary and make an offer
+			we haven't hired anybody for that role, we filter the <a href="./apidocs/classes/ApplicationProfiles.html" target="apidoc">profiles</a> for the certain role, sort by salary and make an offer
 			to the first person. We offer the salary they desire. You could also offer more or less than expected - that increases
 			or decreases your chances to get this person.<br/>
 			<br/>
@@ -102,7 +102,7 @@
 			Kebabs per day. Roughly 100 people per participating player want to have Kebab per day.
 			However we need to keep in mind that food decays over time, so whatever we buy it gets rotten after 10 days. <br/>
 			<br/>
-			As a final step we need to distribute our <a href="../apidocs/classes/FoodDelivery.html" target="apidoc">food delivery</a>. 
+			As a final step we need to distribute our <a href="./apidocs/classes/FoodDelivery.html" target="apidoc">food delivery</a>. 
 			As we only have one restaurant that is fairly simple:<br/>
 			<br/>
 			<div style="width:700px;height:80px;position:relative;"><pre id="code6">company.foodDelivery = function(foodDelivery) {
@@ -123,7 +123,7 @@
 				To replace your code with the default implementation from this tutorial, click <a href="javascript:void(0);" onclick="replaceCode();">here</a>.<br/>
 			</c:if> 
 			<br/>
-			For future optimizations of your restaurant, you probably want to browse the <a href="../apidocs/index.html" target="_blank">API documentation</a> or the <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> &nbsp;<br/> 
+			For future optimizations of your restaurant, you probably want to browse the <a href="./apidocs/index.html" target="_blank">API documentation</a> or the <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> &nbsp;<br/> 
 		</div>	
 		
 		<div style="margin-bottom:40px;">				
