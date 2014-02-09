@@ -25,12 +25,20 @@ DailyStatistics.prototype.rottenUnits;
 DailyStatistics.prototype.servedUnits;
 
 /**
-* Returns the number of guests.
+* Returns the number of guests in all of <b>your</b> restaurants.
 * 
 * @property guests
 * @type {Number}
 */
 DailyStatistics.prototype.guests;
+
+/**
+ * Returns the number of guests in all cities and all players.
+ * 
+ * @property guestsTotal
+ * @type {Number}
+ */
+DailyStatistics.prototype.guestsTotal;
 
 /**
 * Returns the number of guest who left without ordering.
@@ -88,7 +96,7 @@ DailyStatistics.prototype.getServedUnitsPerEstablishment = function(establishmen
 };
 
 /**
- * Returns the number of guests for a given city
+ * Returns the number of guests for <b>all players</b> in a given city
  *
  * @method getGuestsTotalPerCity
  * @param {String} city 

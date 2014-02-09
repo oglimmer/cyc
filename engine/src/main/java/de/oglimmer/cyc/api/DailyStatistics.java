@@ -56,6 +56,10 @@ public class DailyStatistics {
 		return guestsTotalPerCityMap.get(city);
 	}
 
+	public Long getGuestsTotal() {
+		return guestsTotalPerCityMap.sum();
+	}
+
 	public Long getGuestsPerEstablishment(String est) {
 		return guestsPerEstablishmentMap.get(est);
 	}
