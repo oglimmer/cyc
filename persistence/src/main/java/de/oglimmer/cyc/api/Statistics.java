@@ -31,6 +31,9 @@ public class Statistics {
 
 	@JsonIgnore
 	public void setCustomStatisticsName(int type, String name) {
+		if (name.length() > 256) {
+			name = name.substring(0, 256);
+		}
 		customNames.put(type, name);
 	}
 
