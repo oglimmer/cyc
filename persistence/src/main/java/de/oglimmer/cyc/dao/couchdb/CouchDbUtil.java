@@ -27,8 +27,8 @@ public class CouchDbUtil {
 		if (System.getProperty("http.proxyHost") != null) {
 			builder.proxy(System.getProperty("http.proxyHost"));
 		}
-		if (System.getProperty("Dhttp.proxyPort") != null) {
-			builder.proxyPort(Integer.parseInt(System.getProperty("Dhttp.proxyPort")));
+		if (System.getProperty("http.proxyPort") != null) {
+			builder.proxyPort(Integer.parseInt(System.getProperty("http.proxyPort")));
 		}
 		httpClient = builder.build();
 		dbInstance = new StdCouchDbInstance(httpClient);
