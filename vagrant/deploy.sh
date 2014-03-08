@@ -9,6 +9,9 @@ rm -rf $(pwd)/${0%/*}/db/*
 export CYC_WEBAPPS=$(pwd)/${0%/*}/web
 export CYC_ENGINE_CONTAINER=$(pwd)/${0%/*}/backend
 
+# mvn build needs more heap space
+export MAVEN_OPTS="-Xmx3072m"
+
 # build and copy/deploy files
 ../cyc_mgmt.sh -b -e -c -w
 
