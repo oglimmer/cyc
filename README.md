@@ -11,8 +11,8 @@ WHERE TO PLAY
 
 The game is installed at <a href="http://cyr.oglimmer.de">cyr.oglimmer.de</a>. There are also customized rules in play to make the game even more fun ;)
 
-HOW TO INSTALL & DEPLOY
------------------------
+(A) HOW TO INSTALL & DEPLOY ON A SINGLE HOST
+--------------------------------------------
 
 1.) install CouchDB on localhost:5984 and create a database called "cyc"
 
@@ -29,3 +29,12 @@ HOW TO INSTALL & DEPLOY
 7.) just start the web server. it will automatically start the engine process
 
 (*) The management script "cyc_mgmt.sh" uses Tomcat's (>= 7.x) parallel deployment feature. 
+
+(B) HOW TO INSTALL & DEPLOY VIA VAGRANT ON 3 VMs
+------------------------------------------------
+
+1.) install Vagrant and VirtualBox
+
+2.) run deploy.sh in ./vagrant
+
+3.) access the game via http://192.168.33.2
