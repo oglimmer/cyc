@@ -3,7 +3,7 @@
 USER="root" 
 DAEMON="/usr/bin/java"
 ROOT_DIR="/usr/local/cyc-engine/"
-SERVER_OPTS="-Xmx256M -XX:MaxPermSize=256M -Dcyc.properties=/etc/cyc.properties -Djava.security.policy=security.policy -Dcyc.home=. -jar " 
+SERVER_OPTS="-Xmx256M -XX:MaxPermSize=256M -Dcyc.properties=/etc/cyc.properties -Djava.security.policy=/etc/cyc-security.policy -Dcyc.home=. -jar " 
 SERVER="engine-container-jar-with-dependencies.jar"
 LOG_FILE="/var/log/cyc-engine.log"
 LOCK_FILE="/var/lock/cyc-server"
