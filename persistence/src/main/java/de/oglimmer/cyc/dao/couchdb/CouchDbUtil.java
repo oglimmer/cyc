@@ -6,6 +6,8 @@ import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
 
+import de.oglimmer.cyc.util.CyrProperties;
+
 public class CouchDbUtil {
 
 	private CouchDbUtil() {
@@ -18,8 +20,10 @@ public class CouchDbUtil {
 
 	static {
 		StdHttpClient.Builder builder = new StdHttpClient.Builder();
-		builder.host("localhost");
-		builder.port(5984);
+		builder.username(CyrProperties.INSTANCE.getCouchDbUser());
+		builder.password(CyrProperties.INSTANCE.getCouchDbPassword());
+		builder.host(CyrProperties.INSTANCE.getCouchDbHost());
+		builder.port(CyrProperties.INSTANCE.getCouchDbPort());
 		if (System.getProperty("http.proxyHost") != null) {
 			builder.proxy(System.getProperty("http.proxyHost"));
 		}

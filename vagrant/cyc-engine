@@ -1,0 +1,52 @@
+#!/bin/sh
+
+USER="root" 
+DAEMON="/usr/bin/java"
+ROOT_DIR="/usr/local/cyc-engine/"
+SERVER_OPTS="-Xmx256M -XX:MaxPermSize=256M -Dcyc.properties=/etc/cyc.properties -Djava.security.policy=security.policy -Dcyc.home=. -jar " 
+SERVER="engine-container-jar-with-dependencies.jar"
+LOG_FILE="/var/log/cyc-engine.log"
+LOCK_FILE="/var/lock/cyc-server"
+ 
+do_start()
+{
+        if [ ! -f "$LOCK_FILE" ] ; then
+                echo -n $"Starting $SERVER: "
+		cd $ROOT_DIR
+		echo sudo -b -u $USER $DAEMON $SERVER
+                sudo -b -u $USER $DAEMON $SERVER_OPTS $SERVER >> $LOG_FILE
+                RETVAL=$?
+                echo
+                [ $RETVAL -eq 0 ] && touch $LOCK_FILE
+        else
+                echo "$SERVER is locked."
+                RETVAL=1
+        fi
+}
+do_stop()
+{
+        echo -n $"Stopping $SERVER: "
+        pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`
+        kill -9 $pid > /dev/null 2>&1
+        RETVAL=$?        
+        [ $RETVAL -eq 0 ] && rm -f $LOCK_FILE
+        echo
+}
+ 
+case "$1" in
+        start)
+                do_start
+                ;;
+        stop)
+                do_stop
+                ;;
+        restart)
+                do_stop
+                do_start
+                ;;
+        *)
+                echo "Usage: $0 {start|stop|restart}"
+                RETVAL=1
+esac
+ 
+exit $RETVAL

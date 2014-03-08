@@ -32,4 +32,13 @@ public enum CyrProperties {
 		return prop.getProperty("google.clientId", "");
 	}
 
+	public String getEngineHost() {
+		return prop.getProperty("engine.host", "localhost");
+	}
+
+	public int getEnginePort() {
+		/* port defined in de.oglimmer.cyc.GameServer.SERVER_PORT */
+		return Integer.parseInt(prop.getProperty("engine.port", "9998"));
+	}
+
 }

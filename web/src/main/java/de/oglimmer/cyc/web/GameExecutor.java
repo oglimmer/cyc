@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -103,15 +104,25 @@ public enum GameExecutor {
 	}
 
 	private synchronized Socket getClientSocket() throws IOException {
-		Socket clientSocket;
 		try {
-			/* port defined in de.oglimmer.cyc.GameServer.SERVER_PORT */
-			clientSocket = new Socket("localhost", 9998);
+			return new Socket(CyrProperties.INSTANCE.getEngineHost(), CyrProperties.INSTANCE.getEnginePort());
 		} catch (ConnectException e) {
-			startServer();
-			clientSocket = new Socket("localhost", 9998);
+			return startNewServerAndCreateSocket(e);
 		}
-		return clientSocket;
+	}
+
+	private Socket startNewServerAndCreateSocket(ConnectException e) throws IOException, UnknownHostException {
+		if (isLocalEngine()) {
+			startServer();
+			return new Socket(CyrProperties.INSTANCE.getEngineHost(), CyrProperties.INSTANCE.getEnginePort());
+		} else {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private boolean isLocalEngine() {
+		String engineHost = CyrProperties.INSTANCE.getEngineHost();
+		return "localhost".equalsIgnoreCase(engineHost) || "127.0.0.1".equals(engineHost);
 	}
 
 	public void startServer() throws IOException {
