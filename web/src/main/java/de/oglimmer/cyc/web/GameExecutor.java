@@ -105,7 +105,7 @@ public enum GameExecutor {
 
 	private synchronized Socket getClientSocket() throws IOException {
 		try {
-			return new Socket(CyrProperties.INSTANCE.getEngineHost(), CyrProperties.INSTANCE.getEnginePort());
+			return new Socket(WebContainerProperties.INSTANCE.getEngineHost(), WebContainerProperties.INSTANCE.getEnginePort());
 		} catch (ConnectException e) {
 			return startNewServerAndCreateSocket(e);
 		}
@@ -114,14 +114,14 @@ public enum GameExecutor {
 	private Socket startNewServerAndCreateSocket(ConnectException e) throws IOException, UnknownHostException {
 		if (isLocalEngine()) {
 			startServer();
-			return new Socket(CyrProperties.INSTANCE.getEngineHost(), CyrProperties.INSTANCE.getEnginePort());
+			return new Socket(WebContainerProperties.INSTANCE.getEngineHost(), WebContainerProperties.INSTANCE.getEnginePort());
 		} else {
 			throw new RuntimeException(e);
 		}
 	}
 
 	private boolean isLocalEngine() {
-		String engineHost = CyrProperties.INSTANCE.getEngineHost();
+		String engineHost = WebContainerProperties.INSTANCE.getEngineHost();
 		return "localhost".equalsIgnoreCase(engineHost) || "127.0.0.1".equals(engineHost);
 	}
 

@@ -29,7 +29,7 @@ import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
-import de.oglimmer.cyc.web.CyrProperties;
+import de.oglimmer.cyc.web.WebContainerProperties;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 import de.oglimmer.cyc.web.ThreeDaysWinner;
 
@@ -63,8 +63,8 @@ public class LandingActionBean extends BaseAction {
 
 	@Before(stages = { LifecycleStage.HandlerResolution })
 	public void beforeHandlerResolution() {
-		fbAppId = CyrProperties.INSTANCE.getFbAppId();
-		googleClientId = CyrProperties.INSTANCE.getGoogleClientId();
+		fbAppId = WebContainerProperties.INSTANCE.getFbAppId();
+		googleClientId = WebContainerProperties.INSTANCE.getGoogleClientId();
 		if (fbAppId.isEmpty() && googleClientId.isEmpty()) {
 			showCycLogin = true;
 		}

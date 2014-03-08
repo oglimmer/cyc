@@ -6,13 +6,13 @@ import java.util.Properties;
 
 import lombok.SneakyThrows;
 
-public enum CyrProperties {
+public enum WebContainerProperties {
 	INSTANCE;
 
 	private Properties prop = new Properties();
 
 	@SneakyThrows(value = IOException.class)
-	private CyrProperties() {
+	private WebContainerProperties() {
 		if (System.getProperty("cyc.properties") != null) {
 			try (FileInputStream fis = new FileInputStream(System.getProperty("cyc.properties"))) {
 				prop.load(fis);

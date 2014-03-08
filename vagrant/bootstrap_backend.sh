@@ -20,6 +20,7 @@ sysv-rc-conf cyc-engine on
 echo -e "couchdb.host=192.168.33.3" >>/etc/cyc.properties
 echo -e "couchdb.user=user_cyc" >>/etc/cyc.properties
 echo -e "couchdb.password=secretpassphrase" >>/etc/cyc.properties
+echo -e "bind=0.0.0.0" >>/etc/cyc.properties
 
 # start the engine
 service cyc-engine start

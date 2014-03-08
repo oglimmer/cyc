@@ -6,7 +6,7 @@ import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
 
-import de.oglimmer.cyc.util.CyrProperties;
+import de.oglimmer.cyc.util.PersistenceProperties;
 
 public class CouchDbUtil {
 
@@ -20,10 +20,10 @@ public class CouchDbUtil {
 
 	static {
 		StdHttpClient.Builder builder = new StdHttpClient.Builder();
-		builder.username(CyrProperties.INSTANCE.getCouchDbUser());
-		builder.password(CyrProperties.INSTANCE.getCouchDbPassword());
-		builder.host(CyrProperties.INSTANCE.getCouchDbHost());
-		builder.port(CyrProperties.INSTANCE.getCouchDbPort());
+		builder.username(PersistenceProperties.INSTANCE.getCouchDbUser());
+		builder.password(PersistenceProperties.INSTANCE.getCouchDbPassword());
+		builder.host(PersistenceProperties.INSTANCE.getCouchDbHost());
+		builder.port(PersistenceProperties.INSTANCE.getCouchDbPort());
 		if (System.getProperty("http.proxyHost") != null) {
 			builder.proxy(System.getProperty("http.proxyHost"));
 		}

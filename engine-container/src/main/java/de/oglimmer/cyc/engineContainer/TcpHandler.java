@@ -52,8 +52,8 @@ public class TcpHandler implements Closeable {
 		b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
 				.childHandler(new GameServerInitializer(this));
 
-		log.debug("Bind on 127.0.0.1:" + SERVER_PORT);
-		b.bind(SERVER_PORT).sync().channel().closeFuture().sync();
+		log.debug("Bind on {}:{}", EngineContainerProperties.INSTANCE.getBindAddress(), SERVER_PORT);
+		b.bind(EngineContainerProperties.INSTANCE.getBindAddress(), SERVER_PORT).sync().channel().closeFuture().sync();
 
 		log.debug("Server shutdown in progress...");
 	}

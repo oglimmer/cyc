@@ -31,7 +31,7 @@ import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
-import de.oglimmer.cyc.web.CyrProperties;
+import de.oglimmer.cyc.web.WebContainerProperties;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 import de.oglimmer.cyc.web.exception.FBException;
 
@@ -150,7 +150,7 @@ public class FBLoginActionBean extends BaseAction {
 
 	private void validateSignature(ParameterData paramData) throws NoSuchAlgorithmException, InvalidKeyException {
 		Mac mac = Mac.getInstance(HASH_ALGO);
-		SecretKeySpec secret = new SecretKeySpec(CyrProperties.INSTANCE.getFbSecret().getBytes(), HASH_ALGO);
+		SecretKeySpec secret = new SecretKeySpec(WebContainerProperties.INSTANCE.getFbSecret().getBytes(), HASH_ALGO);
 		mac.init(secret);
 		byte[] digest = mac.doFinal(paramData.getEncodedPayload().getBytes());
 
