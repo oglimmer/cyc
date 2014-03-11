@@ -1,0 +1,17 @@
+[db]
+192.168.66.2
+
+[backend]
+192.168.66.2
+
+[web]
+192.168.66.2
+
+[all:children]
+db
+backend
+web
+
+[all:vars]
+couchdb_user: user_cyc
+couchdb_password: secretpassphrase

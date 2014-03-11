@@ -29,6 +29,6 @@
   command: couchviews push http://127.0.0.1:5984/cyc /tmp/viewsToImport
 
 - name: create an admin user
-  command: curl --silent -X PUT http://127.0.0.1:5984/_config/admins/user_cyc -d '"secretpassphrase"'
+  command: curl --silent -X PUT http://127.0.0.1:5984/_config/admins/{{couchdb_user}} -d '"{{couchdb_password}}"'
 
 

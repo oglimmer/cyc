@@ -1,8 +1,6 @@
 ---
 - hosts: web
   roles:
-    - role: couchdb
-    - role: cyc-engine
     - role: tomcat7
 
    

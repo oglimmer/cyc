@@ -1,0 +1,6 @@
+---
+- hosts: db
+  roles:
+    - role: couchdb
+
+   
