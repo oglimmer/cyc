@@ -13,6 +13,5 @@ backend
 web
 
 [all:vars]
-couchdb_user: user_cyc
-couchdb_password: jkh-n3M4$8Dkhj1
-
+couchdb_user=user_cyc
+couchdb_password=jkh-n3M4$8Dkhj1

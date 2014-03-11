@@ -24,10 +24,22 @@
   notify:
     - restart cyc-engine
 
-- name: add socket permission
+- name: add socket permission (listen)
   lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission "localhost",.*resolve' line='permission java.net.SocketPermission "localhost", "resolve,listen";'
+  notify:
+    - restart cyc-engine
+
+- name: add socket permission (from WEB)
+  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:-", "accept,resolve";' line='permission java.net.SocketPermission "{{groups['web'][0]}}:-", "accept,resolve";'
+  notify:
+    - restart cyc-engine
+
+- name: add socket permission (to DB)
+  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:5984", "connect,resolve";' line='permission java.net.SocketPermission "{{groups['db'][0]}}:5984", "connect,resolve";'
   notify:
     - restart cyc-engine
 
 - name: auto start
   command: sysv-rc-conf cyc-engine on
+
+

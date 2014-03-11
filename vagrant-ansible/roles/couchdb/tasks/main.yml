@@ -31,4 +31,7 @@
 - name: create an admin user
   command: curl --silent -X PUT http://127.0.0.1:5984/_config/admins/{{couchdb_user}} -d '"{{couchdb_password}}"'
 
-
+- name: bind to 0.0.0.0
+  lineinfile: dest=/etc/couchdb/local.ini regexp='^.?bind_address =' line='bind_address = 0.0.0.0'
+  notify:
+    - restart couchdb
