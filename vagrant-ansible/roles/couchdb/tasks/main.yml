@@ -1,0 +1,34 @@
+---
+- name: Installs couchdb server
+  apt: pkg=couchdb state=installed update_cache=true
+  notify:
+    - restart couchdb
+
+- name: Installs npm
+  apt: pkg=npm state=installed update_cache=true
+
+- name: apply fix to Ubuntu 13.10
+  command: ln -s /usr/bin/nodejs /usr/bin/node creates=/usr/bin/node
+
+- name: Install npm-couchviews
+  npm: name=couchviews global=yes
+
+- name: create the couchdb database
+  command: curl --silent -X PUT http://127.0.0.1:5984/cyc
+
+- name: create tmp-dir
+  command: rm -rf /tmp/viewsToImport && mkdir /tmp/viewsToImport
+
+- name: copy views to import
+  copy: src=./ dest=/tmp/viewsToImport
+
+- name: make sure no other files are in this directory
+  command: find /tmp/viewsToImport -not -name "*.json" -type f -delete
+
+- name: import views
+  command: couchviews push http://127.0.0.1:5984/cyc /tmp/viewsToImport
+
+- name: create an admin user
+  command: curl --silent -X PUT http://127.0.0.1:5984/_config/admins/user_cyc -d '"secretpassphrase"'
+
+

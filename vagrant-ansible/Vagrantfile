@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = "v2"
+
+  config.vm.network :private_network, ip: "192.168.66.2"
+
+  config.vm.synced_folder "~/.ssh/public", "/svr/ssh_cert"
+
+  config.vm.provision :shell, :inline => "cat /svr/ssh_cert/id_rsa.pub >>/home/vagrant/.ssh/authorized_keys"
+  
+end

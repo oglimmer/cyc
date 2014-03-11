@@ -1,0 +1,3 @@
+---
+- name: copy views to import
+  copy: src=cyc.properties dest=/etc/cyc.properties
