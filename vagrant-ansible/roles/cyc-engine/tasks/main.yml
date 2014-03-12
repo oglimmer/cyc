@@ -1,45 +1,9 @@
 ---
-- name: Installs Java7
-  apt: pkg=default-jre-headless state=installed update_cache=true
+- name: install install-cyc-engine.sh
+  copy: src=install-cyc-engine.sh dest=/usr/bin/install-cyc-engine.sh mode=0755
 
-- name: Installs sysv-rc-conf package to manage runlevel config
-  apt: pkg=sysv-rc-conf state=installed update_cache=true
+- name: install latest engine.jar to tmp
+  copy: src=cyc-engine-container/cyc001/engine-jar-with-dependencies.jar dest=/tmp
 
-- name: remove the game-engine
-  command: rm -rf /usr/local/cyc-engine
-
-- name: copy engine
-  copy: src=cyc-engine dest=/usr/local/
-
-- name: copy start/stop script
-  copy: src=scripts/cyc-engine dest=/etc/init.d/cyc-engine mode=0755
-
-- name: create security.policy for a config under /etc/cyc.properties
-  copy: src=cyc-engine/security.policy dest=/etc/cyc-security.policy
-  notify:
-    - restart cyc-engine
-
-- name: add permission to read the config file
-  lineinfile: dest=/etc/cyc-security.policy line='grant { permission java.io.FilePermission "/etc/cyc.properties", "read"; };'
-  notify:
-    - restart cyc-engine
-
-- name: add socket permission (listen)
-  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission "localhost",.*resolve' line='permission java.net.SocketPermission "localhost", "resolve,listen";'
-  notify:
-    - restart cyc-engine
-
-- name: add socket permission (from WEB)
-  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:-", "accept,resolve";' line='permission java.net.SocketPermission "{{groups['web'][0]}}:-", "accept,resolve";'
-  notify:
-    - restart cyc-engine
-
-- name: add socket permission (to DB)
-  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:5984", "connect,resolve";' line='permission java.net.SocketPermission "{{groups['db'][0]}}:5984", "connect,resolve";'
-  notify:
-    - restart cyc-engine
-
-- name: auto start
-  command: sysv-rc-conf cyc-engine on
-
-
+- name: update engine
+  command: install-cyc-engine.sh

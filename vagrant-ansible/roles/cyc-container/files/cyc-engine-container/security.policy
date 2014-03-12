@@ -1,0 +1,133 @@
+grant codeBase "file:${cyc.home}/engine-container-jar-with-dependencies.jar" {
+
+	// needed for netty
+	permission java.util.PropertyPermission "io.netty.eventLoopThreads", "read";
+	permission java.util.PropertyPermission "io.netty.noUnsafe", "read";
+	permission java.util.PropertyPermission "io.netty.tryUnsafe", "read";
+	permission java.util.PropertyPermission "io.netty.noJavassist", "read";
+	permission java.util.PropertyPermission "io.netty.noKeySetOptimization", "read";
+	permission java.util.PropertyPermission "io.netty.selectorAutoRebuildThreshold", "read";
+	permission java.util.PropertyPermission "io.netty.initialSeedUniquifier", "read";
+	permission java.util.PropertyPermission "io.netty.noPreferDirect", "read";
+	permission java.util.PropertyPermission "io.netty.noResourceLeakDetection", "read";
+	permission java.util.PropertyPermission "org.jboss.netty.tryUnsafe", "read";
+	permission java.util.PropertyPermission "sun.nio.ch.bugLevel", "read,write";
+	permission java.util.PropertyPermission "cyc.debug", "read";
+	permission java.util.PropertyPermission "cyc.home", "read";
+	permission java.io.FilePermission "/usr/bin/id", "execute";
+	permission java.io.FilePermission "/proc/sys/net/core/somaxconn", "read";
+	permission java.lang.RuntimePermission "setIO";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.misc";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.nio.ch";
+	permission java.net.NetPermission "getNetworkInformation";
+	permission java.lang.management.ManagementPermission "monitor";
+
+	permission java.io.FilePermission "${cyc.home}", "read";
+	permission java.io.FilePermission "${cyc.home}/logs/-", "read,write";
+	permission java.net.SocketPermission "127.0.0.1:-", "accept,resolve";
+	permission java.net.SocketPermission "localhost", "resolve";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.text.resources";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.util.resources";
+	permission java.lang.RuntimePermission "readFileDescriptor";
+	permission java.lang.RuntimePermission "writeFileDescriptor";
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.net.www.protocol.jar";
+	permission java.net.NetPermission "getProxySelector";
+	permission java.security.SecurityPermission "getPolicy";
+	permission java.security.SecurityPermission "getProperty.networkaddress.cache.negative.ttl";
+	permission java.security.SecurityPermission "getProperty.networkaddress.cache.ttl";
+	permission java.util.logging.LoggingPermission "control";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.AbstractClassLoader$SystemLoader", "read";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.AbstractClassLoader$ParentLoader", "read";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.AbstractClassLoader$CurrentLoader", "read";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.AbstractClassLoader$ThreadContextLoader", "read";
+	permission java.util.PropertyPermission "org.xeustechnologies.jcl.JarClassLoader$LocalLoader", "read";
+	permission java.util.PropertyPermission "jcl.suppressCollisionException", "read";
+	permission java.util.PropertyPermission "jcl.suppressMissingResourceException", "read";
+	permission java.util.PropertyPermission "osgi.bootdelegation", "read";
+	permission java.util.PropertyPermission "osgi.bootdelegation.strict", "read";
+	permission java.util.PropertyPermission "org.osgi.framework.bootdelegation", "read";
+	permission java.util.PropertyPermission "file.encoding", "read";
+	permission java.util.PropertyPermission "java.home", "read";
+	permission java.util.PropertyPermission "java.net.useSystemProxies", "read";
+	permission java.util.PropertyPermission "java.protocol.handler.pkgs", "read";
+	permission java.util.PropertyPermission "java.util.Arrays.useLegacyMergeSort", "read";
+	permission java.util.PropertyPermission "jcl.autoProxy", "read";
+	permission java.util.PropertyPermission "line.separator", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.diagnostics.dest", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.Log", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.log", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.Log.allowFlawedContext", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.Log.allowFlawedDiscovery", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.Log.allowFlawedHierarchy", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.LogFactory", "read";
+	permission java.util.PropertyPermission "org.apache.commons.logging.LogFactory.HashtableImpl", "read";
+	permission java.util.PropertyPermission "socksProxyHost", "read";
+	permission java.util.PropertyPermission "sun.io.serialization.extendedDebugInfo", "read";
+	permission java.util.PropertyPermission "sun.net.inetaddr.ttl", "read";
+	permission java.util.PropertyPermission "sun.net.maxDatagramSockets", "read";
+	permission java.util.PropertyPermission "sun.reflect.proxy.allowsNewInstance", "read";
+	permission java.util.PropertyPermission "sun.reflect.proxy.allowsNullLoader", "read";
+	permission java.util.PropertyPermission "sun.util.logging.disableCallerCheck", "read";
+	permission java.util.PropertyPermission "user.dir", "read";	
+
+};
+
+// Standard extensions get all permissions by default
+
+grant codeBase "file:${{java.ext.dirs}}/*" {
+	permission java.security.AllPermission;
+};
+
+// MacOS X extensions START
+grant codeBase "file:${user.home}/Library/Java/Extensions/*" {
+	permission java.security.AllPermission;
+};
+
+grant codeBase "file:/Library/Java/Extensions/*" {
+	permission java.security.AllPermission;
+};
+
+grant codeBase "file:/System/Library/Java/Extensions/*" {
+	permission java.security.AllPermission;
+};
+
+grant codeBase "file:/Network/Library/Java/Extensions/*" {
+	permission java.security.AllPermission;
+};
+// MacOS X extensions END
+
+// Since JCL (Java ClassLoader doesn't support proper codeBase handling, we have to put permission for the engine here)
+// should be: grant codeBase "file:${cyc.home}/cyc*/-" { // sure "*" isn't supported, but that doesn't matter anyway
+grant {
+	permission java.util.PropertyPermission "http.proxyHost", "read";
+	permission java.util.PropertyPermission "http.proxyPort", "read";
+	permission java.util.PropertyPermission "cyc.properties", "read";
+	// needed as OpeningHours is running multi-threaded	
+	permission java.lang.RuntimePermission "modifyThread";
+	// needed for "version"
+	permission java.io.FilePermission "${cyc.home}/-", "read";
+	// needed for CouchDB access
+	permission java.net.SocketPermission "127.0.0.1:5984", "connect,resolve";
+	// needed for ektorp framework
+	permission java.lang.RuntimePermission "accessDeclaredMembers";
+	permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+	permission java.util.PropertyPermission "org.ektorp.support.AutoUpdateViewOnChange", "read";
+	permission java.util.PropertyPermission "org.ektorp.support.UpdateDesignDocOnDiff", "read";
+	// needed for groovy
+	permission groovy.security.GroovyCodeSourcePermission "/groovy/script";
+	permission java.lang.RuntimePermission "createClassLoader";
+	permission java.lang.RuntimePermission "getClassLoader";
+	permission java.lang.RuntimePermission "getProtectionDomain";
+	permission java.lang.RuntimePermission "closeClassLoader";
+	permission java.util.PropertyPermission "ANTLR_DO_NOT_EXIT", "read";
+	permission java.util.PropertyPermission "ANTLR_USE_DIRECT_CLASS_LOADING", "read";
+	permission java.util.PropertyPermission "groovy.ast", "read";
+	permission java.util.PropertyPermission "groovy.default.scriptExtension", "read";
+	permission java.util.PropertyPermission "groovy.source.encoding", "read";
+	permission java.util.PropertyPermission "groovy.target.bytecode", "read";
+	permission java.util.PropertyPermission "groovy.target.directory", "read";
+	permission java.util.PropertyPermission "groovy.target.indy", "read";
+	permission java.util.PropertyPermission "groovyjarjarantlr.ast", "read";
+	permission java.io.FilePermission "/groovy/script", "read";
+};

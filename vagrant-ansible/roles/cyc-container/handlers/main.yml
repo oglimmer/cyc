@@ -1,0 +1,3 @@
+---
+- name: restart cyc-engine-container
+  service: name=cyc-engine-container state=restarted

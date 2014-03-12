@@ -21,7 +21,8 @@ vagrant-single-host/.vagrant
 vagrant-single-host/web
 vagrant-single-host/db
 vagrant-single-host/backend
-vagrant-ansible/.vagrant
+vagrant-ansible/staging/.vagrant
+vagrant-ansible/production/.vagrant
 vagrant-ansible/roles/couchdb/files/
 vagrant-ansible/roles/cyc-engine/files/cyc-engine
 vagrant-ansible/roles/tomcat7/files/*.war

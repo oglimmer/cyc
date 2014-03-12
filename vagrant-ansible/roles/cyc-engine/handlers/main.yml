@@ -1,3 +1,0 @@
----
-- name: restart cyc-engine
-  service: name=cyc-engine state=restarted
