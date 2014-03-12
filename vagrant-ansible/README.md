@@ -1,12 +1,8 @@
 SETUP
 -----
 
-0.) install Vagrant and Ansible
+1.) install Vagrant and Ansible (and of course java,maven,npm for the build)
 
-1.) create a dir "public" in ~/.ssh
+2.) execute deploy.sh [staging|production]
 
-2.) copy your public key into public/id_rsa.pub
-
-3.) execute deploy.sh
-
-4.) browse http://192.168.66.2
+3.) browse http://192.168.66.2 for staging or http://192.168.66.3 for production
