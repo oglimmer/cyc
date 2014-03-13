@@ -31,6 +31,7 @@ cp -r ../persistence/src/couchdb/* $(pwd)/${0%/*}/roles/couchdb/files
 echo "Deploying couchdb scripts to ./roles/couchdb/files"
 
 # move the engine
+mkdir -p $(pwd)/${0%/*}/roles/cyc-engine/files/cyc-engine-container/
 mv $(pwd)/${0%/*}/roles/cyc-container/files/cyc-engine-container/cyc001 $(pwd)/${0%/*}/roles/cyc-engine/files/cyc-engine-container/
 
 # prepare insecure ssh
