@@ -40,4 +40,4 @@ chmod 400 /tmp/vagrant.key
 export ANSIBLE_HOST_KEY_CHECKING=False
 
 # provision
-ansible-playbook $build_yml.yml --user=vagrant --sudo --inventory-file=$target_environment/inventory --private-key=/tmp/vagrant.key --module-path ansible
+ansible-playbook $build_yml.yml --user=vagrant --sudo --inventory-file=$target_environment/inventory --private-key=/tmp/vagrant.key --module-path modules
