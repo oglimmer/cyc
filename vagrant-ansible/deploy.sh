@@ -40,5 +40,7 @@ curl --silent https://raw.github.com/mitchellh/vagrant/master/keys/vagrant >/tmp
 chmod 400 /tmp/vagrant.key 
 export ANSIBLE_HOST_KEY_CHECKING=False
 
+sleep 30
+
 # provision
 ansible-playbook $build_yml.yml --user=vagrant --sudo --inventory-file=$target_environment/inventory --private-key=/tmp/vagrant.key --module-path modules
