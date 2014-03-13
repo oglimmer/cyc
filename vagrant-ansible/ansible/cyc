@@ -29,7 +29,7 @@ if os.path.exists(dest):
                 if this_version>latest_version:
                     latest_version=this_version
         if dtype == 'web':
-            if filename.startswith("cyr"):
+            if filename.startswith("cyr") and os.path.isfile(dest+"/"+filename):
                 this_version=int(filename[5:-4])
                 if this_version>latest_version:
                     latest_version=this_version
