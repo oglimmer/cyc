@@ -39,5 +39,9 @@ curl --silent https://raw.github.com/mitchellh/vagrant/master/keys/vagrant >/tmp
 chmod 400 /tmp/vagrant.key 
 export ANSIBLE_HOST_KEY_CHECKING=False
 
+# install ansible module 'cyc'
+mkdir -p /usr/local/Cellar/ansible/1.5.0/share/ansible/oglimmer
+cp ansible/cyc /usr/local/Cellar/ansible/1.5.0/share/ansible/oglimmer/cyc
+
 # provision
 ansible-playbook $build_yml.yml --user=vagrant --sudo --inventory-file=$target_environment/inventory --private-key=/tmp/vagrant.key

@@ -1,9 +1,6 @@
 ---
-- name: install install-cyc-engine.sh
-  copy: src=install-cyc-engine.sh dest=/usr/bin/install-cyc-engine.sh mode=0755
-
 - name: install latest engine.jar to tmp
   copy: src=cyc-engine-container/cyc001/engine-jar-with-dependencies.jar dest=/tmp
 
 - name: update engine
-  command: install-cyc-engine.sh
+  cyc: src=/tmp/engine-jar-with-dependencies.jar dest=/usr/local/cyc-engine-container dtype=engine

@@ -28,11 +28,8 @@
 - name: change permission on new file  
   file: mode=0755 name=/var/lib/tomcat7/webapps/ROOT/index.jsp
 
-- name: install install-cyc-web.sh
-  copy: src=install-cyc-web.sh dest=/usr/bin/install-cyc-web.sh mode=0755
-
 - name: install latest war to tmp
   copy: src='cyr##001.war' dest='/tmp'
 
 - name: update engine
-  command: install-cyc-web.sh
+  cyc: src=/tmp/cyr##001.war dest=/var/lib/tomcat7/webapps dtype=web

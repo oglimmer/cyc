@@ -1,0 +1,54 @@
+#!/usr/bin/python
+
+import datetime
+import sys
+import json
+import os
+import shlex
+import shutil
+
+args_file = sys.argv[1]
+args_data = file(args_file).read()
+arguments = shlex.split(args_data)
+for arg in arguments:
+    if arg.find("=") != -1:
+        (key, value) = arg.split("=")
+        if key == "src":
+            src=value
+        if key == "dest":
+            dest=value
+        if key == "dtype":
+            dtype=value
+
+latest_version=000
+if os.path.exists(dest):
+    for filename in os.listdir (dest):
+        if dtype == 'engine':
+            if filename.startswith("cyc"):
+                this_version=int(filename[3:])
+                if this_version>latest_version:
+                    latest_version=this_version
+        if dtype == 'web':
+            if filename.startswith("cyr"):
+                this_version=int(filename[5:-4])
+                if this_version>latest_version:
+                    latest_version=this_version
+latest_version = str("%03d" % (latest_version+1))       
+
+if dtype == 'engine':
+    os.makedirs(dest+"/tmp-deploy")
+    shutil.copy2(src, dest+"/tmp-deploy")
+    os.rename(dest+"/tmp-deploy", dest+"/cyc"+latest_version)
+
+if dtype == 'web':
+    shutil.copy2(src, dest+"/cyr##"+latest_version+".war")
+
+print json.dumps({
+    "dtype" : dtype,
+    "src" : src,
+    "dest" : dest,
+    "latest_version" : latest_version,
+    "changed": True
+})
+
+
