@@ -1,0 +1,17 @@
+[db]
+{{ new_droplet.droplet.ip_address }}
+
+[backend]
+{{ new_droplet.droplet.ip_address }}
+
+[web]
+{{ new_droplet.droplet.ip_address }}
+
+[all:children]
+db
+backend
+web
+
+[all:vars]
+couchdb_user=user_cyc
+couchdb_password=dckIeF7-1dmcD
