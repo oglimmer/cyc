@@ -8,11 +8,11 @@ shift
 
 # create VM(s)
 cd $target_environment
-#vagrant up
+vagrant up
 cd ..
 
 # build and copy artifacts to roles/../files
-#./build.sh
+./build.sh
 
 # prepare insecure ssh
 rm -f /tmp/vagrant.key 
