@@ -6,6 +6,27 @@ import json
 import os
 import shlex
 import shutil
+import subprocess
+
+def destName(destDir, version, dtype):
+    if dtype == 'web':
+        return destDir+"/cyr##"+version+".war"
+    if dtype == 'engine':
+        return destDir+"/cyc"+version+"/engine-jar-with-dependencies.jar"
+    return -1
+def execCalcHash(fileName):
+    if not os.path.exists(fileName):
+        return "file_does_not_exist";
+    if not os.path.isfile(fileName):
+        return "file_is_not_a_regular_file";
+    tmpFileName = "/tmp/fileToCheck.zip"
+    shutil.copy2(fileName, tmpFileName)
+    p = subprocess.Popen(["(unzip -d tempUnzipDir "+tmpFileName+" >/dev/null && rm -rf tempUnzipDir/META-INF/ && rm -rf tempUnzipDir/WEB-INF/lib/web-*.jar && rm -rf tempUnzipDir/WEB-INF/lib/ ersistence-*.jar && find tempUnzipDir/ -type f | xargs shasum | awk '{print $1}'|sort|shasum && rm -rf tempUnzipDir && unzip "+tmpFileName+" WEB-INF/lib/web-*.jar >/dev/null && unzip "+tmpFileName+" WEB-INF/lib/persistence-*.jar >/dev/null && for file in WEB-INF/lib/*; do (unzip -d tempUnzipDir $file >/dev/null && rm -rf tempUnzipDir/META-INF/ && find tempUnzipDir/ -type f | xargs shasum | awk '{print $1}'|sort|shasum && rm -rf tempUnzipDir) ; done && rm -rf WEB-INF/ ) | sort | shasum"], shell=True, cwd="/tmp", stdout=subprocess.PIPE)
+    result = p.communicate()[0]
+    p.wait()
+    os.remove(tmpFileName)
+    return result
+
 
 args_file = sys.argv[1]
 args_data = file(args_file).read()
@@ -33,22 +54,32 @@ if os.path.exists(dest):
                 this_version=int(filename[5:-4])
                 if this_version>latest_version:
                     latest_version=this_version
-latest_version = str("%03d" % (latest_version+1))       
+next_version = str("%03d" % (latest_version+1))       
+latest_version = str("%03d" % latest_version)
 
-if dtype == 'engine':
-    os.makedirs(dest+"/tmp-deploy")
-    shutil.copy2(src, dest+"/tmp-deploy")
-    os.rename(dest+"/tmp-deploy", dest+"/cyc"+latest_version)
+resultA = execCalcHash(src)
+resultB = execCalcHash(destName(dest, latest_version, dtype))
 
-if dtype == 'web':
-    shutil.copy2(src, dest+"/cyr##"+latest_version+".war")
+changed = False
+if resultA != resultB:
+    changed = True
+    if dtype == 'engine':
+        os.makedirs(dest+"/tmp-deploy")
+        shutil.copy2(src, dest+"/tmp-deploy")
+        os.rename(dest+"/tmp-deploy", dest+"/cyc"+latest_version)
+    if dtype == 'web':
+        shutil.copy2(src, dest+"/cyr##"+latest_version+".war")
 
 print json.dumps({
     "dtype" : dtype,
     "src" : src,
     "dest" : dest,
     "latest_version" : latest_version,
-    "changed": True
+    "next_version" : next_version,
+    "resultA": resultA,
+    "resultB": resultB,
+    "destName": destName(dest, latest_version, dtype),
+    "changed": changed
 })
 
 
