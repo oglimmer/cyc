@@ -14,14 +14,17 @@ def destName(destDir, version, dtype):
     if dtype == 'engine':
         return destDir+"/cyc"+version+"/engine-jar-with-dependencies.jar"
     return -1
-def execCalcHash(fileName):
+def execCalcHash(fileName, dtype):
     if not os.path.exists(fileName):
         return "file_does_not_exist";
     if not os.path.isfile(fileName):
         return "file_is_not_a_regular_file";
     tmpFileName = "/tmp/fileToCheck.zip"
     shutil.copy2(fileName, tmpFileName)
-    p = subprocess.Popen(["(unzip -d tempUnzipDir "+tmpFileName+" >/dev/null && rm -rf tempUnzipDir/META-INF/ && rm -rf tempUnzipDir/WEB-INF/lib/web-*.jar && rm -rf tempUnzipDir/WEB-INF/lib/ ersistence-*.jar && find tempUnzipDir/ -type f | xargs shasum | awk '{print $1}'|sort|shasum && rm -rf tempUnzipDir && unzip "+tmpFileName+" WEB-INF/lib/web-*.jar >/dev/null && unzip "+tmpFileName+" WEB-INF/lib/persistence-*.jar >/dev/null && for file in WEB-INF/lib/*; do (unzip -d tempUnzipDir $file >/dev/null && rm -rf tempUnzipDir/META-INF/ && find tempUnzipDir/ -type f | xargs shasum | awk '{print $1}'|sort|shasum && rm -rf tempUnzipDir) ; done && rm -rf WEB-INF/ ) | sort | shasum"], shell=True, cwd="/tmp", stdout=subprocess.PIPE)
+    if dtype=="web":
+        p = subprocess.Popen(["(unzip -d tempUnzipDir "+tmpFileName+" >/dev/null && rm -rf tempUnzipDir/META-INF/ && rm -rf tempUnzipDir/WEB-INF/lib/web-*.jar && rm -rf tempUnzipDir/WEB-INF/lib/persistence-*.jar && find tempUnzipDir/ -type f | xargs shasum | awk '{print $1}'|sort|shasum && rm -rf tempUnzipDir && unzip "+tmpFileName+" WEB-INF/lib/web-*.jar >/dev/null && unzip "+tmpFileName+" WEB-INF/lib/persistence-*.jar >/dev/null && for file in WEB-INF/lib/*; do (unzip -d tempUnzipDir $file >/dev/null && rm -rf tempUnzipDir/META-INF/ && find tempUnzipDir/ -type f | xargs shasum | awk '{print $1}'|sort|shasum && rm -rf tempUnzipDir) ; done && rm -rf WEB-INF/ ) | sort | shasum"], shell=True, cwd="/tmp", stdout=subprocess.PIPE)
+    if dtype=="engine":
+        p = subprocess.Popen(["(unzip -d tempUnzipDir "+tmpFileName+" >/dev/null && rm -rf tempUnzipDir/META-INF/ && find tempUnzipDir/ -type f | xargs shasum | awk '{print $1}'|sort|shasum && rm -rf tempUnzipDir) | sort | shasum"], shell=True, cwd="/tmp", stdout=subprocess.PIPE)
     result = p.communicate()[0]
     p.wait()
     os.remove(tmpFileName)
@@ -57,8 +60,8 @@ if os.path.exists(dest):
 next_version = str("%03d" % (latest_version+1))       
 latest_version = str("%03d" % latest_version)
 
-resultA = execCalcHash(src)
-resultB = execCalcHash(destName(dest, latest_version, dtype))
+resultA = execCalcHash(src, dtype)
+resultB = execCalcHash(destName(dest, latest_version, dtype), dtype)
 
 changed = False
 if resultA != resultB:
@@ -66,9 +69,9 @@ if resultA != resultB:
     if dtype == 'engine':
         os.makedirs(dest+"/tmp-deploy")
         shutil.copy2(src, dest+"/tmp-deploy")
-        os.rename(dest+"/tmp-deploy", dest+"/cyc"+latest_version)
+        os.rename(dest+"/tmp-deploy", dest+"/cyc"+next_version)
     if dtype == 'web':
-        shutil.copy2(src, dest+"/cyr##"+latest_version+".war")
+        shutil.copy2(src, dest+"/cyr##"+next_version+".war")
 
 print json.dumps({
     "dtype" : dtype,
