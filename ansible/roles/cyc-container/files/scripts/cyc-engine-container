@@ -11,17 +11,25 @@ LOCK_FILE="/var/lock/cyc-server"
 do_start()
 {
         if [ ! -f "$LOCK_FILE" ] ; then
+                if ps -efH|grep -i java.*engine-container-jar-with-dependencies.jar|grep -v "grep" -q ; then
+                        echo "$SERVER is locked."        
+                        RETVAL=1
+                else
+                        rm -f $LOCK_FILE
+                fi                        
+        fi
+
+
+        if [ -z "$RETVAL" ] ; then
                 echo -n $"Starting $SERVER: "
-		cd $ROOT_DIR
-		echo sudo -b -u $USER $DAEMON $SERVER
+                cd $ROOT_DIR
+                echo sudo -b -u $USER $DAEMON $SERVER
                 sudo -b -u $USER $DAEMON $SERVER_OPTS $SERVER >> $LOG_FILE
                 RETVAL=$?
                 echo
                 [ $RETVAL -eq 0 ] && touch $LOCK_FILE
-        else
-                echo "$SERVER is locked."
-                RETVAL=1
         fi
+
 }
 do_stop()
 {
