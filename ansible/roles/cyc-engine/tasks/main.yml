@@ -1,6 +1,7 @@
 ---
-- name: install latest engine.jar to tmp
+- name: install latest engine.jar to tmp (ignore_change)
   copy: src=cyc-engine-container/cyc001/engine-jar-with-dependencies.jar dest=/tmp
+  changed_when: False
 
 - name: update engine
   cyc: src=/tmp/engine-jar-with-dependencies.jar dest=/usr/local/cyc-engine-container dtype=engine

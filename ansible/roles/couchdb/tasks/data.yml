@@ -1,0 +1,40 @@
+---
+- name: Is an admin already created?
+  shell: curl -s {{ couchdb_server_url_base_no_user }}/_config/admins | grep -q "^\{\}$"
+  register: check_admin
+  changed_when: check_admin.rc == 0
+  ignore_errors: True
+  failed_when: False
+
+- name: create an admin user
+  command: curl --silent -X PUT {{ couchdb_server_url_base_no_user }}/_config/admins/{{ couchdb_user }} -d '"{{ couchdb_password }}"'
+  when: check_admin.rc == 0
+
+- name: Is couchdb database already created?
+  shell: curl -s {{ couchdb_server_url_schema }} | grep -q "not_found"
+  register: check_db
+  changed_when: check_db.rc == 0
+  ignore_errors: True
+  failed_when: False
+
+- name: create the couchdb database
+  command: curl --silent -X PUT {{ couchdb_server_url_schema }}
+  when: check_db.rc == 0
+
+- name: create views to import directory
+  command: mkdir -p /usr/local/cyc-db-views creates="/usr/local/cyc-db-views"
+
+- name: copy views to import
+  copy: src=./ dest=/usr/local/cyc-db-views
+  register: check_import
+
+- name: make sure no other files are in this directory
+  command: find /usr/local/cyc-db-views -not -name "*.json" -type f -delete
+  changed_when: False
+
+- name: import views
+  command: couchviews push {{ couchdb_server_url_schema }} /usr/local/cyc-db-views
+  when: check_import.changed
+
+- name: sleep for 3 secs (couchdb is async) before a possible restart
+  pause: seconds=3

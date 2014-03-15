@@ -1,0 +1,19 @@
+---
+- name: Installs couchdb server
+  apt: pkg=couchdb state=installed update_cache=true
+  notify:
+    - restart couchdb
+
+- name: Installs npm
+  apt: pkg=npm state=installed update_cache=true
+
+- name: apply fix to Ubuntu 13.10
+  command: ln -s /usr/bin/nodejs /usr/bin/node creates=/usr/bin/node
+
+- name: Install npm-couchviews
+  npm: name=couchviews global=yes
+
+- name: bind to 0.0.0.0
+  lineinfile: dest=/etc/couchdb/local.ini regexp='^.?bind_address =' line='bind_address = 0.0.0.0'
+  notify:
+    - restart couchdb

@@ -1,0 +1,20 @@
+---
+- name: Installs tomcat7 web server
+  apt: pkg=tomcat7 state=installed update_cache=true
+  notify:
+    - restarted tomcat7
+
+- name: copy server config
+  copy: src=server.xml dest=/etc/tomcat7/server.xml
+  notify:
+    - restarted tomcat7
+
+- name: allow bind to port 80
+  lineinfile: dest=/etc/default/tomcat7 regexp='^.?AUTHBIND=' line='AUTHBIND=yes'
+  notify:
+    - restarted tomcat7
+
+- name: pass game-engine property file to tomat
+  lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Dcyc.properties=/etc/cyc.properties\""
+  notify:
+    - restarted tomcat7
