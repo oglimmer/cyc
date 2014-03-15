@@ -1,21 +1,38 @@
 ---
+## Java itself
+
 - name: Installs Java7
   apt: pkg=default-jre-headless state=installed update_cache=true
 
-- name: Installs sysv-rc-conf package to manage runlevel config
-  apt: pkg=sysv-rc-conf state=installed update_cache=true
+## binary&logs under /usr/local/cyc-engine-container
+
+- name: copy engine-container.jar to tmp
+  copy: src=cyc-engine-container/engine-container-jar-with-dependencies.jar dest=/tmp
+  changed_when: False
+
+- name: check for changed engine-container
+  command: if [ "$(unzip -p tmp/engine-container-jar-with-dependencies.jar -x META-INF/* | shasum)" = "$(unzip -p /usr/local/cyc-engine-container/engine-container-jar-with-dependencies.jar -x META-INF/* | shasum)" ] ; then exit 1 ; else exit 0 ; fi
+  register: check_new_container
+  changed_when: check_new_container.rc == 0
+  ignore_errors: True
+  failed_when: False 
 
 - name: copy engine-container
   copy: src=cyc-engine-container dest=/usr/local/
+  register: copied_container
+  when: check_new_container.rc == 0
 
 - name: create logs
-  command: mkdir -p /usr/local/cyc-engine-container/logs
+  command: mkdir -p /usr/local/cyc-engine-container/logs creates=/usr/local/cyc-engine-container/logs
+
+## config under /etc
 
 - name: copy start/stop script
   copy: src=scripts/cyc-engine-container dest=/etc/init.d/cyc-engine-container mode=0755
 
 - name: create security.policy for a config under /etc/cyc.properties
   copy: src=cyc-engine-container/security.policy dest=/etc/cyc-security.policy
+  when: copied_container.changed
   notify:
     - restart cyc-engine-container
 
@@ -40,6 +57,4 @@
     - restart cyc-engine-container
 
 - name: auto start
-  command: sysv-rc-conf cyc-engine-container on
-
-
+  service: name=cyc-engine-container enabled=yes

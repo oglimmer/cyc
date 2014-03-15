@@ -1,4 +1,5 @@
 ---
 dependencies:
     - role: cyc-properties
+    - role: cyc-engine
  

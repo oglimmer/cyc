@@ -1,6 +1,4 @@
 ---
-- include: backend-engine.yml
 - hosts: backend
   roles:
     - role: cyc-container
-
