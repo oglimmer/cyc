@@ -4,7 +4,7 @@
   tasks:
     - name: create (or get) a cloud VM
       digital_ocean: >
-        id=1298781
+        id=1303877
         ssh_key_ids=94992,94782
         state=present
         command=droplet

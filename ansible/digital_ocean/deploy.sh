@@ -6,7 +6,7 @@ echo "Setting up $build_yml on digital ocean"
 # create VM(s)
 ansible-playbook create_vm.yml --inventory-file=localhost
 cd $(pwd)/${0%/*}/..
-exit 1
+
 # build and copy artifacts to roles/../files
 ./build.sh
 
