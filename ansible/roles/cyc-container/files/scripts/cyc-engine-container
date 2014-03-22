@@ -50,6 +50,7 @@ case "$1" in
                 ;;
         restart)
                 do_stop
+                pause 2
                 do_start
                 ;;
         *)

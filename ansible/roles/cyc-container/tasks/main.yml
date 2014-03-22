@@ -50,7 +50,7 @@
     - restart cyc-engine-container
 
 - name: add socket permission (from WEB)
-  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:-", "accept,resolve";' line='permission java.net.SocketPermission "{{groups['web'][0]}}:-", "accept,resolve";'
+  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:-", "accept,resolve";' line='permission java.net.SocketPermission "{{ web_host }}:-", "accept,resolve";'
   notify:
     - restart cyc-engine-container
 
