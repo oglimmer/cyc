@@ -20,8 +20,14 @@ public class CouchDbUtil {
 
 	static {
 		StdHttpClient.Builder builder = new StdHttpClient.Builder();
-		builder.username(PersistenceProperties.INSTANCE.getCouchDbUser());
-		builder.password(PersistenceProperties.INSTANCE.getCouchDbPassword());
+		String user = PersistenceProperties.INSTANCE.getCouchDbUser();
+		if(user != null && !user.trim().isEmpty()) {
+			builder.username(user);
+		}
+		String password = PersistenceProperties.INSTANCE.getCouchDbPassword();
+		if(password != null && !password.trim().isEmpty()) {
+			builder.password(password);
+		}
 		builder.host(PersistenceProperties.INSTANCE.getCouchDbHost());
 		builder.port(PersistenceProperties.INSTANCE.getCouchDbPort());
 		if (System.getProperty("http.proxyHost") != null) {
