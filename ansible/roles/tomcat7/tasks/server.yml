@@ -1,6 +1,9 @@
 ---
 - name: Installs tomcat7 web server
-  apt: pkg=tomcat7 state=installed update_cache=true
+  apt: pkg={{ item }} state=installed update_cache=true
+  with_items:
+    - tomcat7
+    - tomcat7-admin
   notify:
     - restarted tomcat7
 
@@ -18,5 +21,11 @@
 
 - name: pass game-engine property file to tomat
   lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Dcyc.home=/usr/local/cyr-engine-container -Dcyc.properties=/etc/cyc.properties\""
+  notify:
+    - restarted tomcat7
+
+- name: add user to tomcat-users-xml
+  lineinfile: dest=/etc/tomcat7/tomcat-users.xml regexp="<user username=\"manager\" password.*" line="<user username=\"manager\" password=\"{{ lookup('env','TOMCAT_MANAGER_PASSWORD') }}\" roles=\"manager-gui\"/>" insertbefore="</tomcat-users>"
+  when: lookup('env','TOMCAT_MANAGER_PASSWORD') is defined
   notify:
     - restarted tomcat7
