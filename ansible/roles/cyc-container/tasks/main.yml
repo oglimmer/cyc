@@ -2,7 +2,7 @@
 ## Java itself
 
 - name: Installs Java7 + unzip
-  apt: pkg={{ item }} state=installed update_cache=true
+  apt: pkg={{ item }} state=installed update_cache={{ apt_update_cache }}
   with_items:
   - default-jre-headless
   - unzip

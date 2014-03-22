@@ -1,6 +1,6 @@
 ---
 - name: Installs tomcat7 web server
-  apt: pkg={{ item }} state=installed update_cache=true
+  apt: pkg={{ item }} state=installed update_cache={{ apt_update_cache }}
   with_items:
     - tomcat7
     - tomcat7-admin
@@ -29,3 +29,17 @@
   when: lookup('env','TOMCAT_MANAGER_PASSWORD') is defined
   notify:
     - restarted tomcat7
+
+## haproxy config
+
+- name: set haproxy-config
+  lineinfile: dest=/etc/default/haproxy regexp='^ENABLED=' line='ENABLED=1'
+  notify: restart haproxy
+
+- lineinfile: dest=/etc/haproxy/haproxy.cfg line='    acl is_cyr_oglimmer  hdr_end(host) -i cyr.oglimmer.de' insertbefore='#START-CUSTOM-OF-FRONTEND-CONFIG'
+  notify: restart haproxy
+
+- lineinfile: dest=/etc/haproxy/haproxy.cfg line='    use_backend tomcat          if is_cyr_oglimmer' insertafter='#START-CUSTOM-OF-FRONTEND-CONFIG'
+  notify: restart haproxy
+
+

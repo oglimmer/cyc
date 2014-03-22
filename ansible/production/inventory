@@ -14,7 +14,7 @@ web
 
 [all:vars]
 couchdb_user=user_cyc
-couchdb_password=jkh-n3M48Dkhj1
+couchdb_password={{ lookup('env','COUCHDB_PASSWORD') }}
 couchdb_host={{groups['db'][0]}}
 engine_host={{groups['backend'][0]}}
 engine_bind=0.0.0.0

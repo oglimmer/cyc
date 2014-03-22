@@ -1,3 +1,5 @@
 ---
 - name: restarted tomcat7
   service: name=tomcat7 state=restarted
+- name: restart haproxy
+  service: name=haproxy state=restarted

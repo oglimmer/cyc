@@ -1,11 +1,11 @@
 ---
 - name: Installs couchdb server
-  apt: pkg=couchdb state=installed update_cache=true
+  apt: pkg=couchdb state=installed update_cache={{ apt_update_cache }}
   notify:
     - restart couchdb
 
 - name: Installs npm
-  apt: pkg=npm state=installed update_cache=true
+  apt: pkg=npm state=installed update_cache={{ apt_update_cache }}
 
 - name: apply fix to Ubuntu 13.10
   command: ln -s /usr/bin/nodejs /usr/bin/node creates=/usr/bin/node
