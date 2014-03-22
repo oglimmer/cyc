@@ -6,15 +6,17 @@
 
 - name: copy server config
   copy: src=server.xml dest=/etc/tomcat7/server.xml
+  when: tomcat_standalone
   notify:
     - restarted tomcat7
 
 - name: allow bind to port 80
   lineinfile: dest=/etc/default/tomcat7 regexp='^.?AUTHBIND=' line='AUTHBIND=yes'
+  when: tomcat_standalone
   notify:
     - restarted tomcat7
 
 - name: pass game-engine property file to tomat
-  lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Dcyc.properties=/etc/cyc.properties\""
+  lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Dcyc.home=/usr/local/cyr-engine-container -Dcyc.properties=/etc/cyc.properties\""
   notify:
     - restarted tomcat7

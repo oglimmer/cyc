@@ -13,5 +13,7 @@ backend
 web
 
 [all:vars]
-couchdb_user=user_cyc
-couchdb_password=secretpassphrase
+couchdb_user=
+couchdb_password=
+couchdb_host=localhost
+engine_host=localhost

@@ -15,5 +15,6 @@
 
 - name: bind to 0.0.0.0
   lineinfile: dest=/etc/couchdb/local.ini regexp='^.?bind_address =' line='bind_address = 0.0.0.0'
+  when: couchdb_multi_server
   notify:
     - restart couchdb

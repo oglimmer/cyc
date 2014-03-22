@@ -55,7 +55,7 @@
     - restart cyc-engine-container
 
 - name: add socket permission (to DB)
-  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:5984", "connect,resolve";' line='permission java.net.SocketPermission "{{groups['db'][0]}}:5984", "connect,resolve";'
+  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:5984", "connect,resolve";' line='permission java.net.SocketPermission "{{ couchdb_host }}:5984", "connect,resolve";'
   notify:
     - restart cyc-engine-container
 
