@@ -16,7 +16,7 @@ public enum PersistenceProperties {
 		if (System.getProperty("cyc.properties") != null) {
 			try (FileInputStream fis = new FileInputStream(System.getProperty("cyc.properties"))) {
 				prop.load(fis);
-				System.out.println("Successfully loaded cyc.properties from {}", System.getProperty("cyc.properties"));
+				System.out.println("Successfully loaded cyc.properties from " + System.getProperty("cyc.properties"));
 			}
 		}
 	}
