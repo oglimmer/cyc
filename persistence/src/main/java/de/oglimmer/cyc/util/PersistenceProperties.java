@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public enum PersistenceProperties {
 	INSTANCE;
 
@@ -16,6 +18,7 @@ public enum PersistenceProperties {
 		if (System.getProperty("cyc.properties") != null) {
 			try (FileInputStream fis = new FileInputStream(System.getProperty("cyc.properties"))) {
 				prop.load(fis);
+				log.debug("Successfully loaded cyc.properties from {}", System.getProperty("cyc.properties"));
 			}
 		}
 	}
