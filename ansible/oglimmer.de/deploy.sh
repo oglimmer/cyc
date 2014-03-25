@@ -15,12 +15,12 @@ if [ "$VAGRANT" = "yes" ]; then
 	curl --silent https://raw.github.com/mitchellh/vagrant/master/keys/vagrant >/tmp/vagrant.key
 	chmod 400 /tmp/vagrant.key 
 	export ANSIBLE_HOST_KEY_CHECKING=False
-	USER=vagrant
+	SSHUSER=vagrant
 	SUDO="--sudo"
 	SSHKEY="--private-key=/tmp/vagrant.key"
 else 
-	USER=root
+	SSHUSER=root
 fi
 
 # provision
-ansible-playbook $build_yml.yml --user=$USER $SUDO --timeout=100 --inventory-file=oglimmer.de/inventory.ini $SSHKEY --module-path modules $*
+ansible-playbook $build_yml.yml --user=$SSHUSER $SUDO --timeout=100 --inventory-file=oglimmer.de/inventory.ini $SSHKEY --module-path modules $*
