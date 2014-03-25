@@ -67,7 +67,8 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("b", -1));
 
 		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners);
-		Assert.assertEquals("b (bankrupt), a (bankrupt)", result.getThreeDayWinner());
+		Assert.assertTrue(result.getThreeDayWinner().contains("b (bankrupt)"));
+		Assert.assertTrue(result.getThreeDayWinner().contains("a (bankrupt)"));
 		Assert.assertEquals("a (bankrupt)", result.getLastWinner());
 	}
 
@@ -118,7 +119,8 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("c", 3000));
 
 		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners);
-		Assert.assertEquals("c ($2,000.00), a ($20.00)", result.getThreeDayWinner());
+		Assert.assertTrue(result.getThreeDayWinner().contains("c ($2,000.00)"));
+		Assert.assertTrue(result.getThreeDayWinner().contains("a ($20.00)"));
 		Assert.assertEquals("b ($100.00)", result.getLastWinner());
 	}
 
