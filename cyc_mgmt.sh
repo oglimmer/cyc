@@ -49,7 +49,7 @@ shift $((OPTIND - 1))
 if [ -n "$AUTO_BUILD" ]; then
   BUILD=
   git=$(git pull)
-  if [ "$git" != "Already up-to-date." ]; then
+  if [ "$git" != "Already up-to-date." ] && [ -n "$git" ]; then
     mvn clean package || exit 1    
   else
     WAR=
