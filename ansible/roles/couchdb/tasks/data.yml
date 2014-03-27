@@ -1,7 +1,7 @@
 ---
 - name: Is an admin already created?
   shell: curl -s {{ couchdb_server_url_base_no_user }}/_config/admins | grep -q "^\{\}$"
-  when: couchdb_multi_server
+  when: couchdb_user|default("") != "" 
   register: check_admin
   changed_when: check_admin.rc == 0
   ignore_errors: True
@@ -9,7 +9,7 @@
 
 - name: create an admin user
   command: curl --silent -X PUT {{ couchdb_server_url_base_no_user }}/_config/admins/{{ couchdb_user }} -d '"{{ couchdb_password }}"'
-  when: couchdb_multi_server and check_admin.rc == 0
+  when: (couchdb_user|default("") != "") and check_admin.rc == 0
 
 - name: Is couchdb database already created?
   shell: curl -s {{ couchdb_server_url_schema }} | grep -q "not_found"
