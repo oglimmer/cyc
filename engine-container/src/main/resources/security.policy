@@ -25,7 +25,7 @@ grant codeBase "file:${cyc.home}/engine-container-jar-with-dependencies.jar" {
 	permission java.io.FilePermission "${cyc.home}", "read";
 	permission java.io.FilePermission "${cyc.home}/logs/-", "read,write";
 	permission java.net.SocketPermission "127.0.0.1:-", "accept,resolve";
-	permission java.net.SocketPermission "localhost", "resolve";
+	permission java.net.SocketPermission "localhost", "resolve,listen";
 	permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";
 	permission java.lang.RuntimePermission "accessClassInPackage.sun.text.resources";
 	permission java.lang.RuntimePermission "accessClassInPackage.sun.util.resources";
