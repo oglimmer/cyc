@@ -25,15 +25,32 @@
   register: copied_container
   when: check_new_container.rc != 0
 
+- name: create os user
+  user: name=cyc-engine
+
+- name: check if group tomcat7 exists
+  command: grep -q '^tomcat7' /etc/group
+  register: check_tomcat7_group
+  changed_when: False
+  ignore_errors: True
+  failed_when: False 
+
+- name: add user cyc-engine to group tomcat7
+  user: name=cyc-engine groups=tomcat7
+  when: check_tomcat7_group.rc == 0
+
 - name: create logs
   command: mkdir -p /usr/local/cyc-engine-container/logs creates=/usr/local/cyc-engine-container/logs
+
+- name: set attrs for logs
+  file: path=/usr/local/cyc-engine-container/logs mode=0775 owner=tomcat7 group=tomcat7
 
 ## config under /etc
 
 - name: copy start/stop script
   copy: src=scripts/cyc-engine-container dest=/etc/init.d/cyc-engine-container mode=0755
 
-- name: create security.policy for a config under /etc/cyc.properties
+- name: create security.policy for a config under /etc/cyc-security.policy
   copy: src=cyc-engine-container/security.policy dest=/etc/cyc-security.policy
   when: copied_container.changed
   notify:

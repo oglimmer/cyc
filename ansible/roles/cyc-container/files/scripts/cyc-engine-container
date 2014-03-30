@@ -1,43 +1,41 @@
 #!/bin/sh
 
-USER="root" 
+USER="cyc-engine" 
 DAEMON="/usr/bin/java"
 ROOT_DIR="/usr/local/cyc-engine-container/"
 SERVER_OPTS="-Xmx256M -XX:MaxPermSize=256M -Dcyc.properties=/etc/cyc.properties -Djava.security.policy=/etc/cyc-security.policy -Dcyc.home=. -jar " 
 SERVER="engine-container-jar-with-dependencies.jar"
 LOG_FILE="/var/log/cyc-engine.log"
-LOCK_FILE="/var/lock/cyc-server"
  
 do_start()
 {
-        if [ ! -f "$LOCK_FILE" ] ; then
-                if ps -efH|grep -i java.*engine-container-jar-with-dependencies.jar|grep -v "grep" -q ; then
-                        echo "$SERVER is locked."        
-                        RETVAL=1
-                else
-                        rm -f $LOCK_FILE
-                fi                        
-        fi
-
+        if ps -efH | grep -i java.*$SERVER | grep -v "grep" -q ; then
+                echo "$SERVER is locked."        
+                RETVAL=1
+        fi                        
 
         if [ -z "$RETVAL" ] ; then
-                echo -n $"Starting $SERVER: "
+                echo -n "Starting $SERVER: "
                 cd $ROOT_DIR
-                echo sudo -b -u $USER $DAEMON $SERVER
-                sudo -b -u $USER $DAEMON $SERVER_OPTS $SERVER >> $LOG_FILE
+                echo sudo -b -u $USER $ROOT_DIR/run.sh
+                sudo -b -u $USER $ROOT_DIR/run.sh >> $LOG_FILE
                 RETVAL=$?
-                echo
-                [ $RETVAL -eq 0 ] && touch $LOCK_FILE
+                echo                
         fi
 
 }
 do_stop()
 {
-        echo -n $"Stopping $SERVER: "
-        pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`
-        kill -9 $pid > /dev/null 2>&1
-        RETVAL=$?        
-        [ $RETVAL -eq 0 ] && rm -f $LOCK_FILE
+        echo -n $"Shutdown $SERVER: "
+        echo "exit" | nc localhost 9998
+        if [ $? != 0 ]; then        
+                echo -n "Killing $SERVER: "
+                pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`
+                kill -9 $pid > /dev/null 2>&1
+                RETVAL=$?        
+                [ $RETVAL -eq 0 ]
+        fi
+
         echo
 }
  

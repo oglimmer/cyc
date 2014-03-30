@@ -24,11 +24,27 @@
   notify:
     - restarted tomcat7
 
+- name: change umask
+  lineinfile: dest=/etc/default/tomcat7 line="umask 0002"
+  notify:
+    - restarted tomcat7
+
 - name: add user to tomcat-users-xml
   lineinfile: dest=/etc/tomcat7/tomcat-users.xml regexp="<user username=\"manager\" password.*" line="<user username=\"manager\" password=\"{{ lookup('env','TOMCAT_MANAGER_PASSWORD') }}\" roles=\"manager-gui\"/>" insertbefore="</tomcat-users>"
   when: lookup('env','TOMCAT_MANAGER_PASSWORD') is defined
   notify:
     - restarted tomcat7
+
+- name: check if user cyc-engine exists
+  command: grep -q '^cyc-engine' /etc/passwd
+  register: check_cyc_engine_user
+  changed_when: False
+  ignore_errors: True
+  failed_when: False 
+
+- name: add user cyc-engine to group tomcat7
+  user: name=cyc-engine groups=tomcat7
+  when: check_cyc_engine_user.rc == 0
 
 ## haproxy config
 
