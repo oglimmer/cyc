@@ -20,7 +20,7 @@
     - restarted tomcat7
 
 - name: pass game-engine property file to tomat
-  lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Dcyc.home=/usr/local/cyr-engine-container -Dcyc.properties=/etc/cyc.properties\""
+  lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Dcyc.home=/usr/local/cyc-engine-container -Dcyc.properties=/etc/cyc.properties\""
   notify:
     - restarted tomcat7
 
