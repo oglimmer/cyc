@@ -42,8 +42,8 @@
   ignore_errors: True
   failed_when: False 
 
-- name: add user cyc-engine to group tomcat7
-  user: name=cyc-engine groups=tomcat7
+- name: set user tomcat7 to group cyc-engine
+  user: name=tomcat7 group=cyc-engine
   when: check_cyc_engine_user.rc == 0
 
 ## haproxy config

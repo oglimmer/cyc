@@ -28,22 +28,25 @@
 - name: create os user
   user: name=cyc-engine
 
-- name: check if group tomcat7 exists
-  command: grep -q '^tomcat7' /etc/group
-  register: check_tomcat7_group
+- name: check if user tomcat7 exists
+  command: grep -q '^tomcat7' /etc/passwd
+  register: check_tomcat7_user
   changed_when: False
   ignore_errors: True
   failed_when: False 
 
-- name: add user cyc-engine to group tomcat7
-  user: name=cyc-engine groups=tomcat7
-  when: check_tomcat7_group.rc == 0
+- name: set user tomcat7 to group cyc-engine
+  user: name=tomcat7 group=cyc-engine
+  when: check_tomcat7_user.rc == 0
 
 - name: create logs
   command: mkdir -p /usr/local/cyc-engine-container/logs creates=/usr/local/cyc-engine-container/logs
 
 - name: set attrs for logs
-  file: path=/usr/local/cyc-engine-container/logs mode=0775 owner=tomcat7 group=tomcat7
+  file: path=/usr/local/cyc-engine-container/logs mode=0775 owner=cyc-engine group=cyc-engine
+
+- name: copy start/stop script
+  copy: src=scripts/run.sh dest=/usr/local/cyc-engine-container/run-service.sh mode=0755
 
 ## config under /etc
 
@@ -63,6 +66,11 @@
 
 - name: add socket permission (from WEB)
   lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:-", "accept,resolve";' line='permission java.net.SocketPermission "{{ web_host }}:-", "accept,resolve";'
+  notify:
+    - restart cyc-engine-container
+
+- name: add socket permission (from localhost)
+  lineinfile: dest=/etc/cyc-security.policy insertbefore='permission java.net.SocketPermission "localhost", "resolve,listen";' line='permission  java.net.SocketPermission "localhost:-", "accept,resolve";'
   notify:
     - restart cyc-engine-container
 

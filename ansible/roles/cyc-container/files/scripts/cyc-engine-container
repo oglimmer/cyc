@@ -18,7 +18,7 @@ do_start()
                 echo -n "Starting $SERVER: "
                 cd $ROOT_DIR
                 echo sudo -b -u $USER $ROOT_DIR/run.sh
-                sudo -b -u $USER $ROOT_DIR/run.sh >> $LOG_FILE
+                sudo -b -u $USER $ROOT_DIR/run-service.sh >> $LOG_FILE
                 RETVAL=$?
                 echo                
         fi
@@ -26,14 +26,18 @@ do_start()
 }
 do_stop()
 {
-        echo -n $"Shutdown $SERVER: "
-        echo "exit" | nc localhost 9998
+        echo -n "Shutdown $SERVER: "
+        echo "exit" | nc localhost 9998        
         if [ $? != 0 ]; then        
                 echo -n "Killing $SERVER: "
                 pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`
                 kill -9 $pid > /dev/null 2>&1
                 RETVAL=$?        
                 [ $RETVAL -eq 0 ]
+        else 
+                while ps -efH | grep -i java.*$SERVER | grep -v "grep" -q ; do
+                        sleep 1
+                done
         fi
 
         echo
@@ -47,8 +51,7 @@ case "$1" in
                 do_stop
                 ;;
         restart)
-                do_stop
-                sleep 2
+                do_stop                
                 RETVAL=
                 do_start
                 ;;
