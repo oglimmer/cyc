@@ -2,18 +2,3 @@
 # parameter to apt-get true/false
 # would force a apt-get cache update
 apt_update_cache: false
-
-# tomcat stand alone?
-tomcat_standalone: False
-
-# for a multi server deployment use this:
-#couchdb_multi_server: True
-#couchdb_server_url_base: "{{ couchdb_server_url_proto }}://{{ couchdb_user }}:{{ couchdb_password }}@{{ couchdb_server_url_host }}:{{ couchdb_server_url_port }}"
-
-# for a single server deployment use this:
-couchdb_multi_server: False
-couchdb_server_url_base: "{{ couchdb_server_url_proto }}://{{ couchdb_server_url_host }}:{{ couchdb_server_url_port }}"
-
-# general variables
-couchdb_server_url_base_no_user: "{{ couchdb_server_url_proto }}://{{ couchdb_server_url_host }}:{{ couchdb_server_url_port }}"
-couchdb_server_url_schema: "{{ couchdb_server_url_base }}/{{ couchdb_schema_name }}"
