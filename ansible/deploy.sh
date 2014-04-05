@@ -1,17 +1,20 @@
 #!/bin/sh
 
-usage="$(basename "$0") [-s] target-environment yaml-target
+usage="$(basename "$0") [-s] [-v] target-environment yaml-target
 
 where:
     -h  shows this help text
-    -s  skip build"
+    -s  skip build
+    -v  verbose"
 
-while getopts ':hs' option; do
+while getopts ':hsv' option; do
   case "$option" in
     h) echo "$usage"
        exit
        ;;
     s) SKIP_BUILD=YES
+       ;;
+    v) VERBOSE="-vvvv"
        ;;
     :) printf "missing argument for -%s\n" "$OPTARG" >&2
        echo "$usage" >&2
@@ -64,4 +67,4 @@ fi
 echo "Using TOMCAT_MANAGER_PASSWORD=$TOMCAT_MANAGER_PASSWORD"
 
 # provision
-ansible-playbook $build_yml.yml --user=vagrant --sudo --timeout=100 --inventory-file=$target_environment/inventory.ini --private-key=/tmp/vagrant.key --module-path modules $*
+ansible-playbook $build_yml.yml --user=$SSHUSER $SSHSUDO --timeout=100 --inventory-file=$target_environment/inventory.ini --private-key=/tmp/vagrant.key --module-path modules $VERBOSE

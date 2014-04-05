@@ -1,4 +1,6 @@
 VAGRANT=YES
+SSHUSER=vagrant
+SSHSUDO="--sudo"
 
 echo "For COUCHDB_PASSWORD=$COUCHDB_PASSWORD"
 if [ "$COUCHDB_PASSWORD" = "" ]; then
