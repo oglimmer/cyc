@@ -31,7 +31,7 @@
 
 - name: add user to tomcat-users-xml
   lineinfile: dest=/etc/tomcat7/tomcat-users.xml regexp="<user username=\"manager\" password.*" line="<user username=\"manager\" password=\"{{ lookup('env','TOMCAT_MANAGER_PASSWORD') }}\" roles=\"manager-gui\"/>" insertbefore="</tomcat-users>"
-  when: lookup('env','TOMCAT_MANAGER_PASSWORD') is defined
+  when: lookup('env','TOMCAT_MANAGER_PASSWORD')|default("") != ""
   notify:
     - restarted tomcat7
 
