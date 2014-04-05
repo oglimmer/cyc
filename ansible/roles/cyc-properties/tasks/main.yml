@@ -1,3 +1,15 @@
 ---
-- name: copy properties file
-  template: src=cyc.properties.j2 dest=/etc/cyc.properties mode=0644
+- name: set cyc.properties (couchdb.user)
+  lineinfile: dest=/etc/cyc.properties regexp='^couchdb.user=' line='couchdb.user={{ couchdb_user }}' create=yes mode=0644
+
+- name: set cyc.properties (couchdb.password)
+  lineinfile: dest=/etc/cyc.properties regexp='^couchdb.password=' line='couchdb.password={{ couchdb_password }}' create=yes mode=0644
+
+- name: set cyc.properties (couchdb.host)
+  lineinfile: dest=/etc/cyc.properties regexp='^couchdb.host=' line='couchdb.host={{ couchdb_host }}' create=yes mode=0644
+
+- name: set cyc.properties (engine.host)
+  lineinfile: dest=/etc/cyc.properties regexp='^engine.host=' line='engine.host={{ engine_host }}' create=yes mode=0644
+
+- name: set cyc.properties (bind)
+  lineinfile: dest=/etc/cyc.properties regexp='^bind=' line='bind={{ engine_bind }}' create=yes mode=0644
