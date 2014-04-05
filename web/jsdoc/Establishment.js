@@ -114,7 +114,7 @@ Establishment.prototype.buyInteriorAccessories = function(interiorAccessory) {
 };
 
 /**
-* Buys one or more interior accessories if they not already bought for this establishment. These are:<br/>
+* Buys one or more interior accessories if they haven't been bought for this establishment yet. These are:<br/>
 * TABLE for $500<br/>
 * CHAIR for $100<br/>
 * COUNTER for $2500<br/>
@@ -124,7 +124,8 @@ Establishment.prototype.buyInteriorAccessories = function(interiorAccessory) {
 * COFFEE_MACHINE for $2000 <br/>
 * BEVERAGE_COOLER for $1500<br/>
 * FRIDGE for $3500<br/>
-* You can buy more than one item of any kind with this method. Just pass it more than once.
+* You can buy more than one item of any kind with this method. Just pass it more than once. However the method will only buy an item (or many of a kind)
+* if it wasn't there at all before the call.
 *
 * @method buyInteriorAccessoriesNotExist
 * @param {String or Array} interiorAccessory An item or an array of items you bant to buy and add to the establishment
