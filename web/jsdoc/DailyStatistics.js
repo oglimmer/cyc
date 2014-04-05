@@ -69,7 +69,7 @@ DailyStatistics.prototype.missingIngredients;
 * Returns the number of rotten units for a given food
 *
 * @method getRottenUnitsPerFood
-* @param {String} food 
+* @param {String} food (e.g. "CHICKEN_MEAT")
 * @return {Number} the result
 */
 DailyStatistics.prototype.getRottenUnitsPerFood = function(food) {
@@ -79,7 +79,7 @@ DailyStatistics.prototype.getRottenUnitsPerFood = function(food) {
 * Returns the number of served units for a given menu
 *
 * @method getServedUnitsPerMenu
-* @param {String} menu 
+* @param {String} menu (e.g. "Kebab")
 * @return {Number} the result
 */
 DailyStatistics.prototype.getServedUnitsPerMenu = function(menu) {
@@ -89,7 +89,7 @@ DailyStatistics.prototype.getServedUnitsPerMenu = function(menu) {
 * Returns the number of served units for a given establishment
 *
 * @method getServedUnitsPerEstablishment
-* @param {String} establishment
+* @param {String} establishment (e.g. "Chippenham-1")
 * @return {Number} the result 
 */
 DailyStatistics.prototype.getServedUnitsPerEstablishment = function(establishment) {
@@ -99,7 +99,7 @@ DailyStatistics.prototype.getServedUnitsPerEstablishment = function(establishmen
  * Returns the number of guests for <b>all players</b> in a given city
  *
  * @method getGuestsTotalPerCity
- * @param {String} city 
+ * @param {String} city (e.g. "Chippenham")
  * @return {Number} the result
  */
 DailyStatistics.prototype.getGuestsTotalPerCity = function(city) {
@@ -109,7 +109,7 @@ DailyStatistics.prototype.getGuestsTotalPerCity = function(city) {
  * Returns the number of guests for a given establishment
  *
  * @method getGuestsPerEstablishment
- * @param {String} establishment 
+ * @param {String} establishment (e.g. "Chippenham-1")
  * @return {Number} the result
  */
 DailyStatistics.prototype.getGuestsPerEstablishment = function(establishment) {
@@ -119,7 +119,7 @@ DailyStatistics.prototype.getGuestsPerEstablishment = function(establishment) {
  * Returns the number of guests who left without ordering for a given establishment
  *
  * @method getGuestsLeftPerEstablishment
- * @param {String} establishment 
+ * @param {String} establishment (e.g. "Chippenham-1")
  * @return {Number} the result
  */
 DailyStatistics.prototype.getGuestsLeftPerEstablishment = function(establishment) {
@@ -129,7 +129,7 @@ DailyStatistics.prototype.getGuestsLeftPerEstablishment = function(establishment
  * Returns the number of guests who got nothing since you ran out of ingredients for a given establishment
  *
  * @method getGuestsOutOfIngPerEstablishment
- * @param {String} establishment 
+ * @param {String} establishment (e.g. "Chippenham-1")
  * @return {Number} the result
  */
 DailyStatistics.prototype.getGuestsOutOfIngPerEstablishment = function(establishment) {
@@ -139,7 +139,7 @@ DailyStatistics.prototype.getGuestsOutOfIngPerEstablishment = function(establish
  * Returns the number of missing ingredients for a given food
  *
  * @method getMissingIngredientsPerFood
- * @param {String} food 
+ * @param {String} food (e.g. "CHICKEN_MEAT")
  * @return {Number} the result
  */
 DailyStatistics.prototype.getMissingIngredientsPerFood = function(food) {
