@@ -58,7 +58,7 @@ public class GameRunStarter {
 
 			User u = userDao.get(uid);
 			lastError = gameRun.getResult().get(u.getUsername()).getDebug().toString()
-					+ (lastError.isEmpty() ? "Your script ran successfully." : lastError);
+					+ (lastError.isEmpty() ? "Your script ran successfully for "+game.getTotalMonth()+" months with "+game.getTotalDay()+" days each." : lastError);
 			u.setLastError(lastError);
 			u.setLastPrivateRun(new Date());
 			userDao.update(u);

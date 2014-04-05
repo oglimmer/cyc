@@ -51,11 +51,11 @@ public class Game {
 	@Getter(AccessLevel.PACKAGE)
 	private List<City> cities = new ArrayList<>();
 
-	@Getter(AccessLevel.PACKAGE)
+	@Getter
 	private final int totalYear;
-	@Getter(AccessLevel.PACKAGE)
+	@Getter
 	private final int totalMonth;
-	@Getter(AccessLevel.PACKAGE)
+	@Getter
 	private final int totalDay;
 	@Getter(AccessLevel.PACKAGE)
 	@Setter(AccessLevel.PACKAGE)
