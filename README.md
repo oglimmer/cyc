@@ -30,13 +30,7 @@ The game is installed at <a href="http://cyr.oglimmer.de">cyr.oglimmer.de</a>. T
 
 (*) The management script "cyc_mgmt.sh" uses Tomcat's (>= 7.x) parallel deployment feature. 
 
-(B) HOW TO INSTALL & DEPLOY VIA VAGRANT
----------------------------------------
+(B) HOW TO INSTALL & DEPLOY VIA VAGRANT/ANSIBLE
+-----------------------------------------------
 
-1.)   install Vagrant and VirtualBox
-
-2-a.) run deploy.sh in ./vagrant-multi-host to install it in a 3-VM configuration
-
-2-b.) run deploy.sh in ./vagrant-single-host to install it in a single VM configuration
-
-3.)   access the game via http://192.168.33.2
+see ./ansbile/README.md
