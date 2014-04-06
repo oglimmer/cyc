@@ -48,7 +48,7 @@ public abstract class Guest {
 			game.getDailyStatisticsManager().getCollecting(company).getGuestsOutOfIngPerEstablishmentMap()
 					.add(est.getAddress(), 1L);
 			game.getDailyStatisticsManager().getCollecting(company)
-					.addMissingIngredientsPerFood(e.getMissingIngredients());
+					.addMissingIngredientsPerFood(e.getMissingIngredients(), est);
 			log.debug("Unable to prepare meal, missing {} in {}", e.getMissingIngredients(), est.getAddress());
 		}
 	}

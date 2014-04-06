@@ -185,3 +185,13 @@ Establishment.prototype.sellInteriorAccessories = function() {
  */
 Establishment.prototype.getEmployees = function(jobPosition) {
 };
+
+/**
+ * Returns the total number of available food for this establishment.
+ *
+ * @method getTotalFoodUnits
+ * @param {String} foodName a food like BREAD or CHICKEN_MEAT
+ * @return {Number} Sum of all FoodUnit
+ */
+Establishment.prototype.getTotalFoodUnits = function(foodName) {
+};

@@ -171,6 +171,9 @@ public class PlayerResult {
 	}
 
 	public synchronized void addDebug(String debug) {
+		if (debug == null) {
+			debug = "null";
+		}
 		if (debugLength < MAX_DEBUG_OUTPUT) {
 			this.debug.append(debug).append("<br/>");
 			debugLength += debug.length();

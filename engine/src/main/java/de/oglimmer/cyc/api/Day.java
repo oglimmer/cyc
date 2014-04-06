@@ -57,15 +57,16 @@ public class Day {
 		}
 	}
 
-	private void incDailyCounter(Company c) {
-		PlayerResult playerResult = game.getResult().get(c.getName());
-		playerResult.addEstablishmentsByDays(c.getEstablishmentsInt().size());
-		for (Employee e : c.getHumanResources().getEmployees()) {
+	private void incDailyCounter(Company company) {
+		company.incCash(0.0);
+		PlayerResult playerResult = game.getResult().get(company.getName());
+		playerResult.addEstablishmentsByDays(company.getEstablishmentsInt().size());
+		for (Employee e : company.getHumanResources().getEmployees()) {
 			playerResult.addStaffByDays(e.getJobPosition().toString());
 		}
-		log.debug("{} at day {} => est={}, staff={} ", c.getName(), game.getCurrentDay(),
-				game.getResult().get(c.getName()).getEstablishmentsByDays(), game.getResult().get(c.getName())
-						.getStaffByDays());
+		log.debug("{} at day {} => est={}, staff={} ", company.getName(), game.getCurrentDay(),
+				game.getResult().get(company.getName()).getEstablishmentsByDays(),
+				game.getResult().get(company.getName()).getStaffByDays());
 	}
 
 	private void callWeekly() {

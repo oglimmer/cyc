@@ -46,6 +46,8 @@ public class SandboxClassShutter implements ClassShutter {
 		case "de.oglimmer.cyc.api.RealEstateProfile":
 		case "de.oglimmer.cyc.api.RealEstateProfiles":
 		case "de.oglimmer.cyc.api.DailyStatistics":
+		case "de.oglimmer.cyc.api.DailyStatistics$1":
+		case "de.oglimmer.cyc.util.CountMap":
 		case "java.lang.String":
 		case "java.lang.Long":
 		case "java.util.HashSet":

@@ -1,9 +1,11 @@
 package de.oglimmer.cyc.api;
 
+import java.util.Map;
 import java.util.Set;
 
 import lombok.Data;
 import de.oglimmer.cyc.util.CountMap;
+import de.oglimmer.cyc.util.SafeMap;
 
 @Data
 public class DailyStatistics {
@@ -20,15 +22,29 @@ public class DailyStatistics {
 	private CountMap<String> guestsOutOfIngPerEstablishmentMap = new CountMap<>();
 
 	private CountMap<String> missingIngredientsPerFoodMap = new CountMap<>();
+	private Map<String, CountMap<String>> missingIngredientsPerEstablishmentMap = new SafeMap<String, CountMap<String>>() {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		protected CountMap<String> createValue() {
+			return new CountMap<String>();
+		}
+	};
 
 	void addServedFood(String address, String name) {
 		servedUnitsPerMenuMap.add(name, 1L);
 		servedUnitsPerEstablishmentMap.add(address, 1L);
 	}
 
-	void addMissingIngredientsPerFood(Set<Food> missingIngredients) {
+	void addMissingIngredientsPerFood(Set<Food> missingIngredients, Establishment est) {
+		addMissingIngredientsPerFoodToMap(missingIngredientsPerFoodMap, missingIngredients);
+		CountMap<String> cm = missingIngredientsPerEstablishmentMap.get(est.getAddress());
+		addMissingIngredientsPerFoodToMap(cm, missingIngredients);
+	}
+
+	private void addMissingIngredientsPerFoodToMap(CountMap<String> targetMap, Set<Food> missingIngredients) {
 		for (Food food : missingIngredients) {
-			missingIngredientsPerFoodMap.add(food.toString(), 1L);
+			targetMap.add(food.toString(), 1L);
 		}
 	}
 
@@ -92,4 +108,9 @@ public class DailyStatistics {
 		return missingIngredientsPerFoodMap.sum();
 	}
 
+	public CountMap<String> getMissingIngredientsPerEstablishment(String estName) {
+		CountMap<String> ret= missingIngredientsPerEstablishmentMap.get(estName);
+		System.out.println(ret);
+		return ret;
+	}
 }

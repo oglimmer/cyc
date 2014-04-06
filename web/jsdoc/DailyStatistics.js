@@ -145,3 +145,20 @@ DailyStatistics.prototype.getGuestsOutOfIngPerEstablishment = function(establish
 DailyStatistics.prototype.getMissingIngredientsPerFood = function(food) {
 };
 
+/**
+ * Returns an object with food name and food total missing ingredients.<br/>
+ * This can used like this:<br/>
+ *<br/>
+ * company.establishments.each(function(est) {<br/>
+ * &nbsp;&nbsp;var data = stats.getMissingIngredientsPerEstablishment(est.address);<br/>
+ * &nbsp;&nbsp;console.log("Missing bread in "+est.address+" = "+data.get("BREAD"));<br/>
+ * });<br/>
+ * <br/>
+ *
+ *
+ * @method getMissingIngredientsPerEstablishment
+ * @param {String} establishment address (e.g. "Ross on Wye-1")
+ * @return {Object} data object per food with method "get".
+ */
+DailyStatistics.prototype.getMissingIngredientsPerEstablishment = function(establishment) {
+};

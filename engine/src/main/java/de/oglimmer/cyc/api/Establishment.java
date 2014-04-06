@@ -183,6 +183,16 @@ public class Establishment {
 		}
 	}
 
+	public int getTotalFoodUnits(String foodName) {
+		int total = 0;
+		for (FoodUnit fu : storedFoodUnits) {
+			if (fu.getFood().name().equalsIgnoreCase(foodName)) {
+				total += fu.getUnits();
+			}
+		}
+		return total;
+	}
+
 	class _Cache extends Cache<Integer> {
 
 		public _Cache(Game game) {
