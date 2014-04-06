@@ -54,10 +54,6 @@ public enum GlobalGameExecutor {
 		}
 	}
 
-	interface IDummy {
-		// no code
-	}
-
 	class DummyCls implements IDummy {
 		// no code
 	}

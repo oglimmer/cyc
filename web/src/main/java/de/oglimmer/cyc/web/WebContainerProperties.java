@@ -14,7 +14,8 @@ public enum WebContainerProperties {
 	@SneakyThrows(value = IOException.class)
 	private WebContainerProperties() {
 		if (System.getProperty("cyc.properties") != null) {
-			try (FileInputStream fis = new FileInputStream(System.getProperty("cyc.properties"))) {
+			try (FileInputStream fis = new FileInputStream(
+					System.getProperty("cyc.properties"))) {
 				prop.load(fis);
 			}
 		}
@@ -33,7 +34,8 @@ public enum WebContainerProperties {
 	}
 
 	public String getEngineHost() {
-		return prop.getProperty("engine.host", "localhost");
+		// don't use localhost, as JDK8 doesn't resolve localhost properly
+		return prop.getProperty("engine.host", "127.0.0.1");
 	}
 
 	public int getEnginePort() {

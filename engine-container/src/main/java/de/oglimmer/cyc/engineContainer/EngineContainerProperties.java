@@ -14,14 +14,16 @@ public enum EngineContainerProperties {
 	@SneakyThrows(value = IOException.class)
 	private EngineContainerProperties() {
 		if (System.getProperty("cyc.properties") != null) {
-			try (FileInputStream fis = new FileInputStream(System.getProperty("cyc.properties"))) {
+			try (FileInputStream fis = new FileInputStream(
+					System.getProperty("cyc.properties"))) {
 				prop.load(fis);
 			}
 		}
 	}
 
 	public String getBindAddress() {
-		return prop.getProperty("bind", "localhost");
+		// don't use localhost, as JDK8 doesn't resolve localhost properly
+		return prop.getProperty("bind", "127.0.0.1");
 	}
 
 }
