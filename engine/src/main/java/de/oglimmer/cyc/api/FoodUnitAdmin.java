@@ -39,14 +39,16 @@ public class FoodUnitAdmin {
 
 	private void removeFood(Establishment est) {
 		CountMap<Food> mapUsed = getCountMapUsed(est);
-		for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
-			Long toRemove = mapUsed.get(fu.getFood());
-			if (toRemove != null) {
-				if (toRemove > fu.getUnits()) {
-					toRemove = (long) fu.getUnits();
+		if (mapUsed != null) {
+			for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
+				Long toRemove = mapUsed.get(fu.getFood());
+				if (toRemove != null) {
+					if (toRemove > fu.getUnits()) {
+						toRemove = (long) fu.getUnits();
+					}
+					fu.decUnits(toRemove);
+					mapUsed.sub(fu.getFood(), toRemove);
 				}
-				fu.decUnits(toRemove);
-				mapUsed.sub(fu.getFood(), toRemove);
 			}
 		}
 		assertAllFoodRemoved(mapUsed);
