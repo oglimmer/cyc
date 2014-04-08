@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import de.oglimmer.cyc.util.CountMap;
 
 @Slf4j
 public class FoodUnit {
@@ -74,7 +75,18 @@ public class FoodUnit {
 		}
 		units = 0;
 	}
-
+	
+	void satisfy(CountMap<Food> usedFood) {
+		Long toRemove = usedFood.get(food);
+		if (toRemove != null) {
+			if (toRemove > units) {
+				toRemove = (long) units;
+			}
+			decUnits(toRemove);
+			usedFood.sub(food, toRemove);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "FoodUnit [units=" + units + ", food=" + food + ", pullDate=" + pullDate + "]";

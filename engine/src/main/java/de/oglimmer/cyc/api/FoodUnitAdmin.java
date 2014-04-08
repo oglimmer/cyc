@@ -32,34 +32,29 @@ public class FoodUnitAdmin {
 	void removeFood(Game game) {
 		for (Company c : game.getCompanies()) {
 			for (Establishment est : c.getEstablishmentsInt()) {
-				removeFood(est);
+				removeUsedFood(est);
 			}
 		}
 	}
 
-	private void removeFood(Establishment est) {
-		CountMap<Food> mapUsed = getCountMapUsed(est);
-		if (mapUsed != null) {
-			for (FoodUnit fu : est.getStoredFoodUnitsInt()) {
-				Long toRemove = mapUsed.get(fu.getFood());
-				if (toRemove != null) {
-					if (toRemove > fu.getUnits()) {
-						toRemove = (long) fu.getUnits();
-					}
-					fu.decUnits(toRemove);
-					mapUsed.sub(fu.getFood(), toRemove);
-				}
-			}
+	private void removeUsedFood(Establishment est) {
+		CountMap<Food> usedFood = getCountMapUsed(est);
+		if (usedFood != null) {
+			removeUsedFood(est, usedFood);
+			assertAllFoodRemoved(usedFood);
 		}
-		assertAllFoodRemoved(mapUsed);
+	}
+
+	private void removeUsedFood(Establishment est, CountMap<Food> usedFood) {
+		for (FoodUnit foodUnit : est.getStoredFoodUnitsInt()) {
+			foodUnit.satisfy(usedFood);
+		}
 	}
 
 	private void assertAllFoodRemoved(CountMap<Food> mapUsed) {
-		if (mapUsed != null) {
-			for (Food food : mapUsed.keySet()) {
-				long unitsToRemove = mapUsed.get(food);
-				assert unitsToRemove < 2 : "unitsToRemove=" + unitsToRemove;
-			}
+		for (Food food : mapUsed.keySet()) {
+			long unitsToRemove = mapUsed.get(food);
+			assert unitsToRemove < 2 : "unitsToRemove=" + unitsToRemove;
 		}
 	}
 
