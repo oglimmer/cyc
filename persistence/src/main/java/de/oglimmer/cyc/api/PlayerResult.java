@@ -67,6 +67,7 @@ public class PlayerResult {
 		this.name = name;
 	}
 	
+	@JsonIgnore
 	public String getNameSimplified() {
 		return HtmlUtil.calcHtmlSafeRepresentation(name);
 	}
