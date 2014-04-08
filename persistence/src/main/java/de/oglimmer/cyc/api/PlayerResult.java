@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import de.oglimmer.cyc.util.AverageMap;
 import de.oglimmer.cyc.util.CountDoubleMap;
 import de.oglimmer.cyc.util.CountMap;
+import de.oglimmer.cyc.util.HtmlUtil;
 
 /**
  * Thread-safe (parallel access in OpenHours/Guest)
@@ -64,6 +65,10 @@ public class PlayerResult {
 
 	public PlayerResult(String name) {
 		this.name = name;
+	}
+	
+	public String getNameSimplified() {
+		return HtmlUtil.calcHtmlSafeRepresentation(name);
 	}
 
 	public void addTotalOnRent(long rent) {

@@ -85,19 +85,27 @@
 	  				</tr>
 				</c:forEach>
 			</table> 
-		</div>	
+		</div>
+		
+		<script>
+			function toggleData(toogleId) {
+				$("#"+toogleId).toggle();
+			}
+		</script>
 		
 		<div class="centerElement" style="font-size:0.8em">
+				
+				<h3>Detailed company statistics (click a name to expand)</h3>
 				
 				<c:forEach items="${actionBean.result.playerResults}" var="entry">
 					<c:set var="expenses" value="${5000+entry.value.totalOnRent+entry.value.salariesTotal+entry.value.purchasedFoodCostsTotal+entry.value.totalBribe+entry.value.totalInterior }"/>
 					<c:set var="daysInPlay" value="${actionBean.result.totalDays<entry.value.bankruptOnDay||entry.value.bankruptOnDay==0?actionBean.result.totalDays:entry.value.bankruptOnDay}"/>
 					<fmt:formatNumber var="monthInPlay" value="${daysInPlay/30}" maxFractionDigits="0" />
 					<c:set var="counter" value="0"/>
-					<div>Company: ${entry.key}</div>
-					<table>
+					<div onclick="toggleData('dataCompany${entry.value.nameSimplified}');">Company: ${entry.key}</div>
+					<table style="display:none" id="dataCompany${entry.value.nameSimplified}">
 						<tr class="${counter % 2 == 0 ? 'row0' : 'row1'}">
-							<td>Total Assets (cash & real estates):</td>
+							<td>Total Assets (cash &amp; real estates):</td>
 							<td align="right" width="170">
 								<c:if test = "${entry.value.totalAssets != -1}">
 									<fmt:formatNumber value="${entry.value.totalAssets }" type="currency"/>
