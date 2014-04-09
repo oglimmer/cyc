@@ -260,9 +260,11 @@ public class Company {
 
 	double getTotalAssets() {
 		double totalAssets = cash;
-		for (Establishment est : establishments) {
-			if (!est.isRented()) {
-				totalAssets += est.getSalePrice();
+		if (totalAssets > -1) {
+			for (Establishment est : establishments) {
+				if (!est.isRented()) {
+					totalAssets += est.getSalePrice();
+				}
 			}
 		}
 		return totalAssets;
