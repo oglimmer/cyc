@@ -5,7 +5,9 @@ API - Documentation
 
 Use the drop down "Classes" in the menu to select a class or check out the "Globals" for the global variables.
 
-If you are looking for a starting point, go to <a href="global.html">the global</a> and start with the company object you always have.
+If you are looking for a starting point, go to <a href="global.html">the globals</a> and start with the company object you always have.
+
+To see an overview of <a href="classes.list.html">all classes</a> go here.
 
 <h2 id="overview">Tutorial</h2>
 

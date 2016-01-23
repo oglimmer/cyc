@@ -22,7 +22,7 @@
 
 		<div class="centerElement">
 			<div style="font-weight:bolder">Q: I am going bankrupt on day 360</div>
-			A: After 1 year (or 360 days) you need to pay the credit back. So going bankrupt on day 360 means
+			A: After 1 year (or 360 days) you need to pay the initial start credit back. So going bankrupt on day 360 means
 			that you had less than $55,000 at the end of game.  
 		</div>
 		
@@ -36,20 +36,20 @@
 			<div style="font-weight:bolder">Q: Why is the percentage of "Total visitors in .." so low?</div>
 			A: People (in a particular city) are preferring restaurants of your competitors. Try to hire a different chef or waiter 
 			(someone with a higher qualification), hire a manager to improve the quality of food and service in general. Furthermore try to
-			find a property with a higher quality or a larger size or buy some nice interior accessories. Finally it is also important
+			find a property with a higher quality or a larger size or buy some nice interior accessories. Ultimately it is also important
 			that you offer reasonably priced, yummy meals.  
 		</div>
 
 		<div class="centerElement">
 			<div style="font-weight:bolder">Q: How should a meal be created?</div>
 			A: People like to eat yummy stuff. So try to make it as delicious as possible. For example is it very likely that nobody
-			wants to have a Kebab with twice bread or 10-times Meat. On the other hand could
+			wants to have a Kebab with twice bread or 10-times meat. On the other hand could
 			it make sense to put some extra things into a meal, since the more you put in the higher prices are accepted.
 		</div>
 
 		<div class="centerElement">
 			<div style="font-weight:bolder">Q: What means "Missing CHICKEN_MEAT for x times"?</div>
-			A: People decided a meal with CHICKEN_MEAT, but you ran out of CHICKEN_MEAT in stock. In these cases the guest left without
+			A: People decided to order a meal with CHICKEN_MEAT, but you ran out of CHICKEN_MEAT in stock. In these cases the guest left without
 			ordering anything and you just lost an opportunity to make revenue. This is a detailed breakdown of "Total visitors who got nothing since you ran out of ingredients in ..."
 		</div>
 				
