@@ -14,8 +14,7 @@ public enum WebContainerProperties {
 	@SneakyThrows(value = IOException.class)
 	private WebContainerProperties() {
 		if (System.getProperty("cyc.properties") != null) {
-			try (FileInputStream fis = new FileInputStream(
-					System.getProperty("cyc.properties"))) {
+			try (FileInputStream fis = new FileInputStream(System.getProperty("cyc.properties"))) {
 				prop.load(fis);
 			}
 		}
@@ -46,8 +45,33 @@ public enum WebContainerProperties {
 	public boolean isHttpsEnabled() {
 		return Boolean.parseBoolean(prop.getProperty("web.https.required", "false"));
 	}
-	
+
 	public String getHttpsDomain() {
 		return prop.getProperty("web.https.domain", "codeyourrestaurant.com");
+	}
+
+	public String getSmtpUser() {
+		return prop.getProperty("smtp.user", System.getProperty("cyc.smtp.user", ""));
+	}
+
+	public String getSmtpPassword() {
+		return prop.getProperty("smtp.password", System.getProperty("cyc.smtp.password", ""));
+	}
+
+	public String getSmtpHost() {
+		return prop.getProperty("smtp.host", System.getProperty("cyc.smtp.host", "localhost"));
+	}
+
+	public int getSmtpPort() {
+		return Integer.parseInt(prop.getProperty("smtp.port", System.getProperty("cyc.smtp.port", "-1")));
+	}
+
+	public boolean getSmtpSSL() {
+		return Boolean.parseBoolean(prop.getProperty("smtp.ssl", System.getProperty("cyc.smtp.ssl", "false")));
+	}
+
+	public String getSmtpFrom() {
+		return prop.getProperty("smtp.from", System.getProperty("cyc.smtp.from",
+				"\"CodeYourRestaurant Mail System\" <no-reply@codeyourrestaurant.com>"));
 	}
 }
