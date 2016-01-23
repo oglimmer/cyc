@@ -9,24 +9,46 @@
 
 - name: copy server config
   copy: src=server.xml dest=/etc/tomcat7/server.xml
-  when: tomcat_standalone
+  when: tomcat_standalone and (tomcat_standalone_https == False)
   notify:
     - restarted tomcat7
 
-- name: allow bind to port 80
+- name: copy server config
+  copy: src=server-https.xml dest=/etc/tomcat7/server.xml
+  when: tomcat_standalone and tomcat_standalone_https
+  notify:
+    - restarted tomcat7
+
+- name: allow bind to port 80/443
   lineinfile: dest=/etc/default/tomcat7 regexp='^.?AUTHBIND=' line='AUTHBIND=yes'
   when: tomcat_standalone
   notify:
     - restarted tomcat7
 
-- name: Create authbind file for port 80
-  file: path=/etc/authbind/byport/80 state=touch mode="u=rx,g=,o=" owner="tomcat7"
-  when: tomcat_standalone
+- name: /etc/authbind find 80
+  stat: path=/etc/authbind/byport/80
+  register: p  
+- name: AUTHBIND creation
+  file: path=/etc/authbind/byport/80 state=touch owner=tomcat7 mode=0500
+  when: p.stat.exists is defined and not p.stat.exists
+
+- name: /etc/authbind find 443
+  stat: path=/etc/authbind/byport/443
+  register: p
+  when: tomcat_standalone_https
+- name: AUTHBIND creation
+  file: path=/etc/authbind/byport/443 state=touch owner=tomcat7 mode=0500
+  when: p.stat.exists is defined and not p.stat.exists and tomcat_standalone_https
+
 
 - name: Ubuntu 14.04 hangs on tomcat deployments when the default random generator is used
   lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom\""
   notify:
     - restarted tomcat7
+
+- name: copy strong tls cipher jar
+  copy: src=local_policy.jar dest=/usr/lib/jvm/default-java/jre/lib/security/local_policy.jar
+  notify: restarted tomcat7
 
 - name: pass game-engine property file to tomat
   lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Dcyc.home=/usr/local/cyc-engine-container -Dcyc.properties=/etc/cyc.properties\""

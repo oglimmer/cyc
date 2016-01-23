@@ -28,3 +28,4 @@ ansible/roles/cyc-container/files/cyc-engine-container
 ansible/roles/cyc-engine/files/cyc-engine-container
 ansible/roles/tomcat7/files/*.war
 ansible/digital_ocean/digitalocean
+ansible/roles/tomcat7/files/server-https.xml
