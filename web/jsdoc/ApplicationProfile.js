@@ -10,17 +10,28 @@
 *
 * @class 
 * @constructor
-* @property {String} name The name of the applicant. Read-only.
-* @property {Number} qualification The qualification level. Ranges from 1 to 10. The higher the better. Read-only.
-* @property {String} jobPosition The position the applicant could work. Can be CHEF, WAITER, MANAGER. Read-only.
-* @property {Number} desiredSalary The desired salary per month. Read-only.
 */
 function ApplicationProfile() {
 
-	// PROPERTIES
+	/** 
+	* The name of the applicant. Read-only.
+	* @member {String}
+	*/
 	this.name;
+	/** 
+	* The qualification level. Ranges from 1 to 10. The higher the better. Read-only.
+	* @member {Number}
+	*/
 	this.qualification;
+	/** 
+	* The position the applicant could work. Can be CHEF, WAITER, MANAGER. Read-only.
+	* @member {String}
+	*/
 	this.jobPosition;
+	/** 
+	* The desired salary per month. Read-only.
+	* @member {Number}
+	*/
 	this.desiredSalary;
 
 	/** 

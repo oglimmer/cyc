@@ -13,19 +13,33 @@
  * 
  * @class 
  * @constructor
- * @property {String} city Where the property is located. Read-only.
- * @property {Number} salePrice The price to buy in USD for this property. Read-only.
- * @property {Number} leaseCost The price to lease in USD per month for this property. Read-only.
- * @property {Number} locationQuality The quality of this property. Ranges from 1 to 10. Higher means better. Read-only.
- * @property {Number} locationSize The size of this property in square-meters. Ranges from 25 to 250. Read-only.
  */
 function RealEstateProfile() {
 
-	// PROPERTIES
+	/** 
+	* Where the property is located. Read-only.
+	* @member {String}
+	*/
 	this.city;
+	/** 
+	* The price to buy in USD for this property. Read-only.
+	* @member {Number}
+	*/
 	this.salePrice;
+	/** 
+	* The price to lease in USD per month for this property. Read-only.
+	* @member {Number}
+	*/
 	this.leaseCost;
+	/** 
+	* The quality of this property. Ranges from 1 to 10. Higher means better. Read-only.
+	* @member {Number}
+	*/
 	this.locationQuality;
+	/** 
+	* The size of this property in square-meters. Ranges from 25 to 250. Read-only.
+	* @member {Number}
+	*/
 	this.locationSize;
 
 	/**

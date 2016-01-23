@@ -10,13 +10,18 @@
 *
 * @class
 * @constructor
-* @property {ApplicationProfile} lowest Holds the lowest value element in the list if priorly sorted. Read-Only.   
-* @property {ApplicationProfile} highest Holds the highest value element in the list if priorly sorted. Read-Only. 
 */
 function ApplicationProfiles() {
 
-	// PROPERTIES
+	/** 
+	* Holds the lowest value element in the list if priorly sorted. Read-Only.   
+	* @member {ApplicationProfile}
+	*/
 	this.lowest;
+	/** 
+	* Holds the highest value element in the list if priorly sorted. Read-Only. 
+	* @member {ApplicationProfile}
+	*/
 	this.highest;
 
 	/**

@@ -6,12 +6,18 @@
 *
 * @class 
 * @constructor
-* @property {String} name The name of the entry
-* @property {number} value The value of the entry
 */
 function DataPair() {
 	
+	/** 
+	* The name of the entry
+	* @member {String}
+	*/
 	this.name;
+	/** 
+	* The value of the entry
+	* @member {number}
+	*/
 	this.value;	
 
 }

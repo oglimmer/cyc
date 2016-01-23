@@ -7,14 +7,23 @@
  * 
  * @class 
  * @constructor
- * @property {String} name  The name on the menu. Read-only.
- * @property {List} ingredients A <a href="List.html">list</a> of the ingredients in this meal. Read-only.
- * @property {Number} price The price you charge for this meal. Read-Write.
  */
 function MenuEntry() {
 
+	/** 
+	* The name on the menu. Read-only.
+	* @member {String}
+	*/
 	this.name;
+	/** 
+	* A <a href="List.html">list</a> of the ingredients in this meal. Read-only.
+	* @member {List}
+	*/
 	this.ingredients;	
+	/** 
+	* The price you charge for this meal. Read-Write.
+	* @member {Number}
+	*/
 	this.price;
 
 	/**

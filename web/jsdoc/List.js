@@ -5,7 +5,6 @@
 * 
 * @class 
 * @constructor
-* @property {Boolean} empty  True if no elements are inside the list. Read-Only
 * @example
 * // Loop through a list the JavaScript way
 * theList.each(function(element) {
@@ -27,6 +26,10 @@
 */
 function List() {
 	
+	/** 
+	* True if no elements are inside the list. Read-Only
+	* @member {Boolean}
+	*/
 	this.empty;
 
 	/**

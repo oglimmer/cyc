@@ -5,18 +5,23 @@
 *
 * @class 
 * @constructor
-* @property {Function} hiringProcess A callback method you might want to implement. It gets called at the start of each month.
-* @property {List} employees Returns a list of all employees your company employs. Read-only.
-* @example
-* company.humanResources.hiringProcess = function(applicationProfiles) {
-*   // this gets called once per month and you can use the 
-*   // applicationProfiles to hire chefs, waiters and managers.
-* }
 */
 function HumanResources() {
 
-	// PROPERTIES
+	/** 
+	* A callback method you might want to implement. It gets called at the start of each month.
+	* @member {Function}
+	* @example
+	* company.humanResources.hiringProcess = function(applicationProfiles) {
+	*   // this gets called once per month and you can use the 
+	*   // applicationProfiles to hire chefs, waiters and managers.
+	* }
+	*/
 	this.hiringProcess;
+	/** 
+	* Returns a list of all employees your company employs. Read-only.
+	* @member {List}
+	*/
 	this.employees;
 
 	/**

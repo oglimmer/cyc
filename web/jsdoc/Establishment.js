@@ -7,28 +7,53 @@
 *
 * @class Establishment
 * @constructor
-* @property {String} address Where the property is located. Read-only.
-* @property {Number} salePrice The price to buy in USD for this property. Read-only.
-* @property {Number} leaseCost The price to lease in USD per month for this property. Read-only.
-* @property {Number} locationQuality The quality of this property. Ranges from 1 to 10. Higher means better. Read-only.
-* @property {Number} locationSize The size of this property in square-meters. Ranges from 25 to 250. Read-only.
-* @property {Boolean} rented Whether the real estate is just rented (or bought). Read-only.
-* @property {List} interiorAccessories  A string <a href="List.html">list</a> of interior accessories in this establishment. Read-only.
-* @property {Set} storedFoodUnits <a href="Set.html">set</a> of <a href="FoodUnit.html">FoodUnit</a> currently stored in this property. Rotten food gets removed automatically. Read-Only.
-* @property {List} employees Returns a list of all employees for this establishment. Read-only.
-
 */
 function Establishment() {
 
-	// PROPERTIES
+	/** 
+	* Where the property is located. Read-only.
+	* @member {String}
+	*/
 	this.address;
+	/** 
+	* The price to buy in USD for this property. Read-only.
+	* @member {Number}
+	*/
 	this.salePrice;
+	/** 
+	* The price to lease in USD per month for this property. Read-only.
+	* @member {Number}
+	*/
 	this.leaseCost;
+	/** 
+	* The quality of this property. Ranges from 1 to 10. Higher means better. Read-only.
+	* @member {Number}
+	*/
 	this.locationQuality;
+	/** 
+	* The size of this property in square-meters. Ranges from 25 to 250. Read-only.
+	* @member {Number}
+	*/
 	this.locationSize;
+	/** 
+	* Whether the real estate is just rented (or bought). Read-only.
+	* @member {Boolean}
+	*/
 	this.rented;
+	/** 
+	* A string <a href="List.html">list</a> of interior accessories in this establishment. Read-only.
+	* @member {List}
+	*/
 	this.interiorAccessories;
+	/** 
+	* <a href="Set.html">set</a> of <a href="FoodUnit.html">FoodUnit</a> currently stored in this property. Rotten food gets removed automatically. Read-Only.
+	* @member {Set}
+	*/
 	this.storedFoodUnits;
+	/** 
+	* Returns a list of all employees for this establishment. Read-only.
+	* @member {List}
+	*/
 	this.employees;
 
 	/**

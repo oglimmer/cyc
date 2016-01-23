@@ -4,23 +4,43 @@
  * 
  * @class 
  * @constructor
- * @property {Number} rottenUnits Returns the number of rotten units.
- * @property {Number} servedUnits Returns the number of served units.
- * @property {Number} guests Returns the number of guests in all of <b>your</b> restaurants.
- * @property {Number} guestsTotal Returns the number of guests in all cities and all players.
- * @property {Number} guestsLeft Returns the number of guest who left without ordering.
- * @property {Number} guestsOutOfIng Returns the number of guests which got nothing as you ran out of ingredients.
- * @property {Number} missingIngredients Returns the number of missing ingredients.
  */
 function DailyStatistics() {
 
-	// PROPERTIES
+	/** 
+	* Returns the number of rotten units.
+	* @member {Number}
+	*/
 	this.rottenUnits;
+	/** 
+	* Returns the number of served units.
+	* @member {Number}
+	*/
 	this.servedUnits;
+	/** 
+	* Returns the number of guests in all of <b>your</b> restaurants.
+	* @member {Number}
+	*/
 	this.guests;
+	/** 
+	* Returns the number of guests in all cities and all players.
+	* @member {Number}
+	*/
 	this.guestsTotal;
+	/** 
+	* Returns the number of guest who left without ordering.
+	* @member {Number}
+	*/
 	this.guestsLeft;
+	/** 
+	* Returns the number of guests which got nothing as you ran out of ingredients.
+	* @member {Number}
+	*/
 	this.guestsOutOfIng;
+	/** 
+	* Returns the number of missing ingredients.
+	* @member {Number}
+	*/
 	this.missingIngredients;
 
 	/**

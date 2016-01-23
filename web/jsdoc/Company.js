@@ -36,63 +36,102 @@
 *
 * @class 
 * @constructor
-* @property {HumanResources} humanResources The human resources department in your company
-* @property {List} establishments A <a href="List.html">list</a> of all of your restaurants
-* @property {Grocer} grocer A handle to your grocer (to buy the fresh food you need every day)
-* @property {Menu} menu A handle to your menu you offer in all of your restaurants (you try to build a brank, so you offer the same meals in each of your restaurants)
-* @property {Number} cash Your cash money. You cannot spend more at any time. That means whenever you would need more money, you go bankrupt. The game start with 50,000. Read-only.
-* @property {Function} launch CALLBACK METHOD! This gets called once at the start of the game. Implement your callback and assign it to this property. For the method signature see the example.
-* @property {Function} doDaily  CALLBACK METHOD! This gets called at the start of each day. Implement your callback and assign it to this property.  For the method signature see the example.
-* @property {Function} doWeekly CALLBACK METHOD! This gets called at the start of each week. Implement your callback and assign it to this property.  For the method signature see the example.
-* @property {Function} doMonthly CALLBACK METHOD! This gets called at the start of each month. Implement your callback and assign it to this property.  For the method signature see the example.
-* @property {Function} realEstateAgent CALLBACK METHOD! This gets called at the start of each month. Implement your callback and assign it to this property.  For the method signature see the example.
-* @property {Function} foodDelivery CALLBACK METHOD! This gets called at the start of each day. Implement your callback and assign it to this property.  For the method signature see the example.
-* @example
-* company.launch = function() {
-	// things you want to do at the start of the game, e.g. define a menu
-* };
-* company.doDaily = function(dailyStatistics) {
-	// things you want to do each day, like ordering food 
-	// (via company.grocer) or using 
-	// dailyStatistics to look at last day's statistics. 
-* };
-* company.doWeekly = function() {
-	// things you want to do each week
-* };
-* company.doMonthly = function() {
-	// things you want to do each month
-* };
-* company.realEstateAgent = function(realEstateProfiles) {
-	// At the start of a month you can buy/rent new locations. 
-	// Use realEstateProfiles to see what is available.
-* };
-* company.foodDelivery = function(foodDelivery) {
-	// Each day you get a food delivery and you need to make sure that 
-	// all locations get what they need by using foodDelivery to 
-	// distribute the fresh items.
-* };
-* 
 */
 function Company() {
 
-	// PROPERTIES
+	/** 
+	* The human resources department in your company
+	* @member {HumanResources}
+	*/
 	this.humanResources;
+	/** 
+	* A <a href="List.html">list</a> of all of your restaurants
+	* @member {List}
+	*/
 	this.establishments;
+	/** 
+	* A handle to your grocer (to buy the fresh food you need every day)
+	* @member {Grocer}
+	*/
 	this.grocer;
+	/** 
+	* menu A handle to your menu you offer in all of your restaurants (you try to build a brank, so you offer the same meals in each of your restaurants)
+	* @member {Menu}
+	*/
 	this.menu;
+	/** 
+	* Your cash money. You cannot spend more at any time. That means whenever you would need more money, you go bankrupt. The game start with 50,000. Read-only.
+	* @member {Number}
+	*/
 	this.cash = 50000;
+
+	/** 
+	* CALLBACK METHOD! This gets called once at the start of the game. Implement your callback and assign it to this property. 
+	* @member {Function}
+	* @example
+	* company.launch = function() {
+	*	// things you want to do at the start of the game, e.g. define a menu
+	* };
+	*/
 	this.launch = function() {
 	};
+	/** 
+	* CALLBACK METHOD! This gets called at the start of each day. Implement your callback and assign it to this property.  
+	* @member {Function}
+	* @example
+	* company.doDaily = function(dailyStatistics) {
+	*	// things you want to do each day, like ordering food 
+	*	// (via company.grocer) or using 
+	*	// dailyStatistics to look at last day's statistics. 
+	* };
+	*/
 	this.doDaily = function(dailyStatistics) {
 	};
+	/** 
+	* CALLBACK METHOD! This gets called at the start of each week. Implement your callback and assign it to this property.  
+	* @member {Function}
+	* @example
+	* company.doWeekly = function() {
+		// things you want to do each week
+	* };
+	*/
 	this.doWeekly = function() {
 	};
+	/** 
+	* CALLBACK METHOD! This gets called at the start of each month. Implement your callback and assign it to this property.  
+	* @member {Function}
+	* @example
+	* company.doMonthly = function() {
+	*	// things you want to do each month
+	* };
+	*/
 	this.doMonthly = function() {
 	};
+	/** 
+	* CALLBACK METHOD! This gets called at the start of each month. Implement your callback and assign it to this property.  
+	* @member {Function}
+	* @example
+	* company.realEstateAgent = function(realEstateProfiles) {
+	*	// At the start of a month you can buy/rent new locations. 
+	*	// Use realEstateProfiles to see what is available.
+	* };
+	*/
 	this.realEstateAgent = function(realEstateProfiles) {
 	};
+	/** 
+	* CALLBACK METHOD! This gets called at the start of each day. Implement your callback and assign it to this property.  
+	* @member {Function}
+	* @example
+	* company.foodDelivery = function(foodDelivery) {
+	*	// Each day you get a food delivery and you need to make sure that 
+	*	// all locations get what they need by using foodDelivery to 
+	*	// distribute the fresh items.
+	* };	
+	*/
 	this.foodDelivery = function(foodDelivery) {
 	};
+
+
 
 	/**
 	* A <a href="List.html">list</a> of all of your restaurants in a particular city.

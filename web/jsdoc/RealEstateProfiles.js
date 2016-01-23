@@ -14,14 +14,23 @@
 *
 * @class 
 * @constructor
-* @property {List} citiesToRestaurants  A <a href="List.html">list</a> of <a href="DataPair.html">DataPair</a> with name=name of a city and value=total number of restaurants in this city. 
-* @property {RealEstateProfile} lowest Holds the lowest value element in the list if priorly sorted. Read-Only.   
-* @property {RealEstateProfile} highest Holds the highest value element in the list if priorly sorted. Read-Only. 
 */
 function RealEstateProfiles() {
 
+	/** 
+	* A <a href="List.html">list</a> of <a href="DataPair.html">DataPair</a> with name=name of a city and value=total number of restaurants in this city. 
+	* @member {List}
+	*/
 	this.citiesToRestaurants;
+	/** 
+	* Holds the lowest value element in the list if priorly sorted. Read-Only.   
+	* @member {RealEstateProfile}
+	*/
 	this.lowest;	
+	/** 
+	* Holds the highest value element in the list if priorly sorted. Read-Only. 
+	* @member {RealEstateProfile}
+	*/
 	this.highest;
 
 	/**

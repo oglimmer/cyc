@@ -4,7 +4,6 @@
 * 
 * @class 
 * @constructor
-* @property {Boolean} empty True if no elements are inside the Set. Read-Only
 * @example
 * // Loop through a Set the JavaScript way:
 * theSet.each(function(element) {
@@ -20,6 +19,10 @@
 */
 function Set() {
 
+	/** 
+	* True if no elements are inside the Set. Read-Only
+	* @member {Boolean}
+	*/
 	this.empty;
 
 	/**

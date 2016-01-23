@@ -5,14 +5,23 @@
 *
 * @class 
 * @constructor
-* @property {Number} units How many units are (still) in this package. Read-only.
-* @property {String} food The type of food in your package. Available as food is: SALAD, TOMATO, ONION, BREAD, LAMB_MEAT, CHICKEN_MEAT, BEEF_MEAT, CABBAGE, SPICES, GARLIC_SAUCE. Read-only.
-* @property {Number} pullDate The best-use-before date represented as a number in days to go. Default 10. Read-only.
 */
 function FoodUnit() {
 
+	/** 
+	* How many units are (still) in this package. Read-only.
+	* @member {Number}
+	*/
 	this.units;
+	/** 
+	* The type of food in your package. Available as food is: SALAD, TOMATO, ONION, BREAD, LAMB_MEAT, CHICKEN_MEAT, BEEF_MEAT, CABBAGE, SPICES, GARLIC_SAUCE. Read-only.
+	* @member {String}
+	*/
 	this.food;
+	/** 
+	* The best-use-before date represented as a number in days to go. Default 10. Read-only.
+	* @member {Number}
+	*/
 	this.pullDate;
 
 	/**
