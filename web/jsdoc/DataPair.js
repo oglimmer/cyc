@@ -4,25 +4,14 @@
 * <br/>
 * Used in the return list of RealEstateProfiles.citiesToRestaurants
 *
-* @class DataPair
+* @class 
 * @constructor
+* @property {String} name The name of the entry
+* @property {number} value The value of the entry
 */
 function DataPair() {
 	
+	this.name;
+	this.value;	
+
 }
-
-/**
-* The name of the entry
-* 
-* @property name
-* @type {String}
-*/
-Employee.prototype.name;
-
-/**
-* The value of the entry
-* 
-* @property value
-* @type {number}
-*/
-Employee.prototype.value;

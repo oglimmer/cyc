@@ -12,111 +12,95 @@
 * the more competitive struggle there is. After
 * sorting you should use lowest/highest attribute to access an element.  
 *
-* @class RealEstateProfiles
+* @class 
 * @constructor
+* @property {List} citiesToRestaurants  A <a href="List.html">list</a> of <a href="DataPair.html">DataPair</a> with name=name of a city and value=total number of restaurants in this city. 
+* @property {RealEstateProfile} lowest Holds the lowest value element in the list if priorly sorted. Read-Only.   
+* @property {RealEstateProfile} highest Holds the highest value element in the list if priorly sorted. Read-Only. 
 */
 function RealEstateProfiles() {
+
+	this.citiesToRestaurants;
+	this.lowest;	
+	this.highest;
+
+	/**
+	* Java-like iterator to loop over all RealEstateProfiles within this presentation.
+	*
+	* @method 
+	* @return {Iterator} An iterator to loop
+	*/
+	this.iterator = function() {
+	};
+
+	/**
+	* Returns a RealEstateProfile object at the index
+	* 
+	*
+	* @method 
+	* @param {Number} index index number to get
+	* @return {RealEstateProfile} the element at the position index
+	*/
+	this.get = function(index) {	
+	};
+
+	/**
+	* Sorts the list by lease cost with ascending order and returns the RealEstateProfiles object itself
+	* 
+	*
+	* @method 
+	* @return {RealEstateProfiles} returns self
+	*/
+	this.sortByLeaseCost = function() {	
+	};
+
+	/**
+	* Sorts the list by sales price with ascending order and returns the RealEstateProfiles object itself
+	* 
+	*
+	* @method 
+	* @return {RealEstateProfiles} returns self
+	*/
+	this.sortBySalePrice = function() {	
+	};
+
+	/**
+	* Sorts the list by location quality with ascending order and returns the RealEstateProfiles object itself
+	* 
+	*
+	* @method 
+	* @return {RealEstateProfiles} returns self
+	*/
+	this.sortByLocationQuality = function() {	
+	};
+
+	/**
+	* Sorts the list by location size with ascending order and returns the RealEstateProfiles object itself
+	* 
+	*
+	* @method 
+	* @return {RealEstateProfiles} returns self
+	*/
+	this.sortByLocationSize = function() {	
+	};
+
+	/**
+	* Returns the list size
+	*
+	* @method 
+	* @return {Number} the list size
+	*/
+	this.size = function() {	
+	};
+
+	/**
+	* JavaScript-like callback to loop over all RealEstateProfile within this call.
+	* 
+	*
+	* @method 
+	* @param {Function} forEachElement Will be called for each available RealEstateProfile. Needs to have one parameter.
+	*/
+	this.each = function() {	
+	};
+
 }
-
-/**
- * A <a href="List.html">list</a> of <a href="DataPair.html">DataPair</a> with name=name of a city and value=total number of restaurants in this city. 
- * 
- * @property citiesToRestaurants
- * @type {List}
- */
-RealEstateProfiles.prototype.citiesToRestaurants;
-
-/**
- * Holds the lowest value element in the list if priorly sorted. Read-Only.   
- * 
- * @property lowest
- * @type {RealEstateProfile}
- */
-RealEstateProfiles.prototype.lowest;
-
-/**
- * Holds the highest value element in the list if priorly sorted. Read-Only. 
- * 
- * @property highest
- * @type {RealEstateProfile}
- */
-RealEstateProfiles.prototype.highest;
-
-/**
-* Java-like iterator to loop over all RealEstateProfiles within this presentation.
-*
-* @method iterator
-* @return {Iterator} An iterator to loop
-*/
-RealEstateProfiles.prototype.iterator = function() {
-};
-
-/**
-* Returns a RealEstateProfile object at the index
-* 
-*
-* @method get
-* @param {Number} index index number to get
-* @return {RealEstateProfile} the element at the position index
-*/
-RealEstateProfiles.prototype.get = function(index) {	
-};
-
-/**
-* Sorts the list by lease cost with ascending order and returns the RealEstateProfiles object itself
-* 
-*
-* @method sortByLeaseCost
-* @return {RealEstateProfiles} returns self
-*/
-RealEstateProfiles.prototype.sortByLeaseCost = function() {	
-};
-
-/**
-* Sorts the list by sales price with ascending order and returns the RealEstateProfiles object itself
-* 
-*
-* @method sortBySalePrice
-* @return {RealEstateProfiles} returns self
-*/
-RealEstateProfiles.prototype.sortBySalePrice = function() {	
-};
-
-/**
-* Sorts the list by location quality with ascending order and returns the RealEstateProfiles object itself
-* 
-*
-* @method sortByLocationQuality
-* @return {RealEstateProfiles} returns self
-*/
-RealEstateProfiles.prototype.sortByLocationQuality = function() {	
-};
-
-/**
-* Sorts the list by location size with ascending order and returns the RealEstateProfiles object itself
-* 
-*
-* @method sortByLocationSize
-* @return {RealEstateProfiles} returns self
-*/
-RealEstateProfiles.prototype.sortByLocationSize = function() {	
-};
-
-/**
-* Returns the list size
-*
-* @method size
-* @return {Number} the list size
-*/
-RealEstateProfiles.prototype.size = function() {	
-};
-
-/**
-* JavaScript-like callback to loop over all RealEstateProfile within this call.
-* 
-*
-* @method each
-* @param {Function} forEachElement Will be called for each available RealEstateProfile. Needs to have one parameter.
-*/
-RealEstateProfiles.prototype.each = function() {	
-};

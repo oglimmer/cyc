@@ -3,53 +3,49 @@
 /**
 * Give you access to all of you employees. Manager class.
 *
-* @class HumanResources
+* @class 
 * @constructor
+* @property {Function} hiringProcess A callback method you might want to implement. It gets called at the start of each month.
+* @property {List} employees Returns a list of all employees your company employs. Read-only.
+* @example
+* company.humanResources.hiringProcess = function(applicationProfiles) {
+*   // this gets called once per month and you can use the 
+*   // applicationProfiles to hire chefs, waiters and managers.
+* }
 */
 function HumanResources() {
+
+	// PROPERTIES
+	this.hiringProcess;
+	this.employees;
+
+	/**
+	* Returns a <a href="List.html">list</a> of employees. This is a subset of all available employees.
+	*
+	* @method 
+	* @param {String} jobProfile A job profile to filter for: CHEF, WAITER, MANAGER
+	* @return {List} a filtered set of employees matching your desired job profile
+	*/
+	this.getEmployees = function(jobProfile) {	
+	};
+
+	/**
+	* Lays off the employee.
+	*
+	* @method 
+	* @param {Employee} employee Employee to lay off
+	*/
+	this.layOff = function(employee) {
+	};
+
+	/**
+	 * Lays off all employees at a certain establishment.
+	 *
+	 * @method 
+	 * @param {Establishment} Establishment to lay off all employees
+	 */
+	this.layOffAll = function(establishment) {
+	};
 	
 }
 
-/**
-* A callback method you might want to implement. It gets called at the start of each month.
-* 
-* @property hiringProcess
-* @type {Function}
-*/
-HumanResources.prototype.hiringProcess;
-
-/**
-* Returns a list of all employees your company employs. Read-only.
-* 
-* @property employees
-* @type {List}
-*/
-HumanResources.prototype.employees;
-
-/**
-* Returns a <a href="List.html">list</a> of employees. This is a subset of all available employees.
-*
-* @method getEmployees
-* @param {String} jobProfile A job profile to filter for: CHEF, WAITER, MANAGER
-* @return {List} a filtered set of employees matching your desired job profile
-*/
-HumanResources.prototype.getEmployees = function(jobProfile) {	
-};
-
-/**
-* Lays off the employee.
-*
-* @method layOff
-* @param {Employee} employee Employee to lay off
-*/
-HumanResources.prototype.layOff = function(employee) {
-};
-
-/**
- * Lays off all employees at a certain establishment.
- *
- * @method layOffAll
- * @param {Establishment} Establishment to lay off all employees
- */
-HumanResources.prototype.layOffAll = function(establishment) {
-};

@@ -1,0 +1,20 @@
+{
+    "templates": {
+        "systemName"            : "CodeYourRestaurant (1.0.7)",
+        "footer"                : "CodeYourRestaurant - API",
+        "copyright"             :  "Created by oglimmer.de",
+        "includeDate"           : "true",
+        "navType"               : "vertical",
+        "theme"                 : "sandstone",
+        "linenums"              : "true",
+        "collapseSymbols"       : "true",
+        "inverseNav"            : "false",
+        "outputSourceFiles"     : "true" ,
+        "outputSourcePath"      : "true",
+        "dateFormat"            : "dd.mm.yyyy",
+        "syntaxTheme"           : "default",
+        "sort"                  : "true"
+    }
+
+}
+
