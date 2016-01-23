@@ -19,6 +19,15 @@
   notify:
     - restarted tomcat7
 
+- name: Create authbind file for port 80
+  file: path=/etc/authbind/byport/80 state=touch mode="u=rx,g=,o=" owner="tomcat7"
+  when: tomcat_standalone
+
+- name: Ubuntu 14.04 hangs on tomcat deployments when the default random generator is used
+  lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom\""
+  notify:
+    - restarted tomcat7
+
 - name: pass game-engine property file to tomat
   lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -Dcyc.home=/usr/local/cyc-engine-container -Dcyc.properties=/etc/cyc.properties\""
   notify:
