@@ -1,3 +1,3 @@
-VAGRANT=YES
+VAGRANT=NO
 SSHUSER=vagrant
 SSHSUDO="--sudo"
