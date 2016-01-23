@@ -14,7 +14,7 @@ export CYC_ENGINE_CONTAINER=$(pwd)/${0%/*}/roles/cyc-container/files/cyc-engine-
 export MAVEN_OPTS="-Xmx3072m"
 
 # build and copy/deploy files
-../cyc_mgmt.sh -b -e -c -w
+../cyc_mgmt.sh -b -e -c -w || exit 1
 
 # copy couchDb scripts
 mkdir -p $(pwd)/${0%/*}/roles/couchdb/files

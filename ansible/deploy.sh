@@ -53,7 +53,7 @@ fi
 
 if [ "$SKIP_BUILD" != "YES" ]; then
 	# build and copy artifacts to roles/../files
-	./build.sh
+	./build.sh || exit 1
 fi
 
 if [ "$VAGRANT" = "YES" ]; then
