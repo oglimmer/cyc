@@ -3,6 +3,15 @@ package de.oglimmer.cyc.web.action;
 import java.util.Date;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
+import com.google.common.html.HtmlEscapers;
+
+import de.oglimmer.cyc.dao.UserDao;
+import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
+import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
+import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.web.DoesNotRequireLogin;
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -14,16 +23,6 @@ import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
-
-import org.mindrot.jbcrypt.BCrypt;
-
-import com.google.common.html.HtmlEscapers;
-
-import de.oglimmer.cyc.dao.UserDao;
-import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
-import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
-import de.oglimmer.cyc.model.User;
-import de.oglimmer.cyc.web.DoesNotRequireLogin;
 
 @DoesNotRequireLogin
 public class RegisterActionBean extends BaseAction {
@@ -48,6 +47,10 @@ public class RegisterActionBean extends BaseAction {
 	@Getter
 	@Setter
 	private String email;
+	@Validate(required = true)
+	@Getter
+	@Setter
+	private boolean agreetermsandconditions;
 
 	@DefaultHandler
 	@DontValidate
@@ -64,8 +67,12 @@ public class RegisterActionBean extends BaseAction {
 			errors.add("email", new SimpleError("The email address isn''t valid."));
 		}
 		List<User> userList = userDao.findByUsername(getUsername());
-		if (userList.size() == 1) {
+		if (!userList.isEmpty()) {
 			errors.add("username", new SimpleError("The username is already in use."));
+		}
+		List<User> emailList = userDao.findByEmail(getEmail());
+		if (!emailList.isEmpty()) {
+			errors.add("email", new SimpleError("The email address is already registered. Please use 'I forgot my passwort' to reset your password."));
 		}
 	}
 
@@ -74,7 +81,14 @@ public class RegisterActionBean extends BaseAction {
 		User user = new User(HtmlEscapers.htmlEscaper().escape(getUsername()), hashed, getEmail());
 		user.setMainJavaScript(DEFAULT_CODE);
 		user.setCreatedDate(new Date());
+		user.setLastLoginDate(new Date());
 		userDao.add(user);
+		getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
+		return new RedirectResolution(PortalActionBean.class);
+	}
+
+	@DontValidate
+	public Resolution cancel() {
 		return new RedirectResolution(LandingActionBean.class);
 	}
 }

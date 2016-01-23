@@ -21,12 +21,12 @@
 				<div id="cyrLoginHead">Click for CYR-Login</div>
 			</c:if>
 			<div id="cyrLoginPane" style="<c:if test="${!actionBean.showCycLogin}">display:none</c:if>">
-				<div>
-					<s:errors />
-				</div>			
 				<s:form beanclass="de.oglimmer.cyc.web.action.LandingActionBean" focus="">
 					<div>
-						<label for="username" style="display: inline-block;width:100px;text-align: right;">Username</label> <s:text name="username" style="width:130px;" />
+						<s:errors />
+					</div>			
+					<div>
+						<label for="username" style="display: inline-block;width:100px;text-align: right;">Email</label> <s:text name="email" style="width:130px;" />
 					</div>
 					<div style="width:255px;float:left;">
 						<label for="password" style="display: inline-block;width:100px;text-align: right;">Password</label> <s:password name="password" style="width:130px;" />
@@ -40,11 +40,11 @@
 						</div>					 
 					</div>
 					<hr style="clear:both;visibility:hidden;" />
+					<div style="padding:10px;">
+						If you are new here and feel comfortable to implement your own restaurant using JavaScript then 
+						click here to <s:submit name="register" value="register a new account" />					
+					</div>
 				</s:form>			
-				<div style="padding:10px;">
-					If you are new here and feel comfortable to implement your own restaurant using JavaScript then 
-					<s:link beanclass="de.oglimmer.cyc.web.action.RegisterActionBean">click here to register for a CYR-login</s:link>					
-				</div>
 
 			</div>
 			<c:if test="${actionBean.fbAppId != '' }">

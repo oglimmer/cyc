@@ -1,1 +1,1 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %><% response.sendRedirect("Landing.action"); %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %><% if(de.oglimmer.cyc.web.WebContainerProperties.INSTANCE.isHttpsEnabled() && !request.isSecure()) { response.sendRedirect("https://"+de.oglimmer.cyc.web.WebContainerProperties.INSTANCE.getHttpsDomain()); return; } response.sendRedirect("Landing.action"); %>

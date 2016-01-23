@@ -5,6 +5,18 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.ektorp.DocumentNotFoundException;
+import org.mindrot.jbcrypt.BCrypt;
+
+import com.google.common.html.HtmlEscapers;
+
+import de.oglimmer.cyc.dao.UserDao;
+import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
+import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
+import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.web.DoesNotRequireLogin;
+import de.oglimmer.cyc.web.ThreeDaysWinner;
+import de.oglimmer.cyc.web.WebContainerProperties;
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -20,19 +32,6 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 
-import org.ektorp.DocumentNotFoundException;
-import org.mindrot.jbcrypt.BCrypt;
-
-import com.google.common.html.HtmlEscapers;
-
-import de.oglimmer.cyc.dao.UserDao;
-import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
-import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
-import de.oglimmer.cyc.model.User;
-import de.oglimmer.cyc.web.WebContainerProperties;
-import de.oglimmer.cyc.web.DoesNotRequireLogin;
-import de.oglimmer.cyc.web.ThreeDaysWinner;
-
 @DoesNotRequireLogin
 public class LandingActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/landing.jsp";
@@ -42,7 +41,7 @@ public class LandingActionBean extends BaseAction {
 	@Validate(required = true)
 	@Getter
 	@Setter
-	private String username;
+	private String email;
 
 	@Validate(required = true)
 	@Getter
@@ -80,8 +79,8 @@ public class LandingActionBean extends BaseAction {
 			httpSession.removeAttribute("userid");
 		}
 		try {
-			String uname = HtmlEscapers.htmlEscaper().escape(getUsername()).toLowerCase();
-			List<User> userList = userDao.findByUsername(uname);
+			String email = HtmlEscapers.htmlEscaper().escape(getEmail()).toLowerCase();
+			List<User> userList = userDao.findByEmail(email);
 			if (userList.size() == 1) {
 				User user = userList.get(0);
 				checkPassword(errors, getContext(), user, password);
@@ -121,5 +120,10 @@ public class LandingActionBean extends BaseAction {
 	@DontValidate
 	public Resolution forgot() {
 		return new RedirectResolution(PasswordForgottenActionBean.class);
+	}
+
+	@DontValidate
+	public Resolution register() {
+		return new RedirectResolution(RegisterActionBean.class);
 	}
 }

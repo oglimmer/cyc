@@ -43,4 +43,11 @@ public enum WebContainerProperties {
 		return Integer.parseInt(prop.getProperty("engine.port", "9998"));
 	}
 
+	public boolean isHttpsEnabled() {
+		return Boolean.parseBoolean(prop.getProperty("web.https.required", "false"));
+	}
+	
+	public String getHttpsDomain() {
+		return prop.getProperty("web.https.domain", "codeyourrestaurant.com");
+	}
 }

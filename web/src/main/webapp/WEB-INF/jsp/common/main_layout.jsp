@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="css/styles.css" />
 <link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.min.css" />
 <script src="js/cookie.js"></script>
-<script src="js/jquery-2.0.3.js"></script>
+<script src="js/jquery-2.2.0.min.js"></script>
 <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
 </head>
 <body>
@@ -25,7 +25,7 @@
 	</div>
 	
 	<div class="footer">
-		${actionBean.longVersion } - Created by oglimmer.de &nbsp;
+		${actionBean.longVersion } - Created by oglimmer.de - <s:link beanclass="de.oglimmer.cyc.web.action.ImpressumActionBean">Impressum</s:link>&nbsp;
 	</div>
 </body>
 </html>

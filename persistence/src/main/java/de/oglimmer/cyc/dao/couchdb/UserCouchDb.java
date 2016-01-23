@@ -1,5 +1,6 @@
 package de.oglimmer.cyc.dao.couchdb;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.ektorp.CouchDbConnector;
@@ -20,7 +21,10 @@ public class UserCouchDb extends CouchDbRepositorySupport<User> implements UserD
 	@GenerateView
 	@Override
 	public List<User> findByUsername(String username) {
-		return queryView("by_username", username);
+		if (username == null) {
+			return Collections.emptyList();
+		}
+		return queryView("by_username", username.toLowerCase());
 	}
 
 	@Override
@@ -30,7 +34,10 @@ public class UserCouchDb extends CouchDbRepositorySupport<User> implements UserD
 
 	@Override
 	public List<User> findByEmail(String email) {
-		return queryView("by_email", email);
+		if (email == null) {
+			return Collections.emptyList();
+		}
+		return queryView("by_email", email.toLowerCase());
 	}
 
 	@Override

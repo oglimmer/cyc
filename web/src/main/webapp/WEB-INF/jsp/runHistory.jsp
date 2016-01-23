@@ -13,7 +13,7 @@
 		<div style="font-size:0.8em;">
 			<table width="100%">
 				<tr>
-					<th width="200">Start date</th>
+					<th width="200">Start date (UTC)</th>
 					<th>Participants</th>
 					<th>Winner</th>
 					<th width="60"></th>

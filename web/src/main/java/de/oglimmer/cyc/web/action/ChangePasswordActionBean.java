@@ -13,6 +13,11 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.List;
+
+import org.apache.commons.lang.StringEscapeUtils;
 import org.mindrot.jbcrypt.BCrypt;
 
 import de.oglimmer.cyc.dao.UserDao;
@@ -45,12 +50,18 @@ public class ChangePasswordActionBean extends BaseAction {
 	@Setter
 	private String email;
 
+	@Validate(required = true)
+	@Getter
+	@Setter
+	private String username;
+
 	private User user;
 
 	@Before
 	public void load() {
 		user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
 		email = user.getEmail();
+		username = StringEscapeUtils.unescapeHtml(user.getUsername());
 	}
 
 	@DefaultHandler
@@ -66,13 +77,30 @@ public class ChangePasswordActionBean extends BaseAction {
 		if (getPasswordNew() == null || !getPasswordNew().equals(getPassword2())) {
 			errors.add("password", new SimpleError("The confirmation password doesn''t match the password."));
 		}
+		if (!getEmail().matches("(?i)^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$")) {
+			errors.add("email", new SimpleError("The email address isn''t valid."));
+		}
+		List<User> userList = userDao.findByUsername(getUsername());
+		if (!userList.isEmpty() && !userList.get(0).getId().equals(user.getId())) {
+			errors.add("username", new SimpleError("The username is already in use."));
+		}
+		List<User> emailList = userDao.findByEmail(getEmail());
+		if (!emailList.isEmpty() && !emailList.get(0).getId().equals(user.getId())) {
+			errors.add("email", new SimpleError("The email address is already registered. Please use 'I forgot my passwort' to reset your password."));
+		}
 	}
-
+	
 	public Resolution change() {
 		String hashed = BCrypt.hashpw(passwordNew, BCrypt.gensalt());
 		user.setPassword(hashed);
 		user.setEmail(email);
+		user.setUsername(username);
 		userDao.update(user);
+		return new RedirectResolution(PortalActionBean.class);
+	}
+	
+	@DontValidate
+	public Resolution cancel() {
 		return new RedirectResolution(PortalActionBean.class);
 	}
 }

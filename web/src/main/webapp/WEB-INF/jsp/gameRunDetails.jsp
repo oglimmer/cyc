@@ -11,7 +11,7 @@
 		</div>
 
 		<div class="centerElement">
-			Start: <fmt:formatDate type="both" dateStyle="short" timeStyle="medium" value="${actionBean.startTime}" />
+			Start: <fmt:formatDate type="both" dateStyle="short" timeStyle="medium" value="${actionBean.startTime}" /> UTC
 			 (ran for <fmt:formatNumber value="${(actionBean.endTime.time-actionBean.startTime.time)/1000 }" type="number" maxFractionDigits="0"/> secs)
 		</div>	
 

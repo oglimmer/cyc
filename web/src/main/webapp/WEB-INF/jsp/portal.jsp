@@ -13,7 +13,7 @@
 
 		<div class="centerElement">
 			<h2>Global Runs</h2>
-			<div>Next run: <span id="nextRun">${actionBean.nextRun}</span></div>
+			<div>Next run: <span id="nextRun">${actionBean.nextRun}</span> UTC</div>
 			<div>Last run's winner: <s:link beanclass="de.oglimmer.cyc.web.action.GameRunDetailsActionBean" ><span id="lastWinner">${actionBean.lastWinner}</span></s:link></div>			
 			<div>
 				3 days winner: <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" ><span id="threeDayWinner">${actionBean.threeDayWinner}</span></s:link>
@@ -33,7 +33,8 @@
 				<c:if test="${actionBean.fullRun}">
 					<s:submit name="fullRun" value="Start global run" onclick="onSubmitFormFull(this);" />
 				</c:if>		
-				<s:checkbox name="openSource" onchange="onOpenSourceChanged()" /><span style="font-size:0.7em;">Show my source code to the public</span>		
+				<s:checkbox name="openSource" onchange="onOpenSourceChanged()" /><span style="font-size:0.7em;">Show my source code to the public</span>
+				<span style="font-size:0.7em;">(Hint: to reset your code, go to the bottom of the tutorial page)</span>		
 			</s:form>
 			
 		</div>	
