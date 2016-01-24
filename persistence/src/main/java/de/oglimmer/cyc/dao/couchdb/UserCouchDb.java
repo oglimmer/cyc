@@ -1,10 +1,13 @@
 package de.oglimmer.cyc.dao.couchdb;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.ViewQuery;
+import org.ektorp.ViewResult.Row;
 import org.ektorp.support.CouchDbRepositorySupport;
 import org.ektorp.support.GenerateView;
 
@@ -41,9 +44,14 @@ public class UserCouchDb extends CouchDbRepositorySupport<User> implements UserD
 	}
 
 	@Override
-	public int findByOpenSource(String username) {
-		ViewQuery vq = createQuery("by_openSource").includeDocs(false).key(username);
-		return db.queryView(vq).getSize();
+	public Collection<String> findByOpenSource(Collection<String> usernames) {
+		// TODO: filter query by given usernames
+		ViewQuery vq = createQuery("by_openSource").includeDocs(false);
+		Collection<String> retCol = new ArrayList<>();
+		for (Row row : db.queryView(vq).getRows()) {
+			retCol.add(row.getKey());
+		}
+		return retCol;
 	}
 
 	@Override

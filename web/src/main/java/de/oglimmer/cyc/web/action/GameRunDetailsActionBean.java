@@ -7,12 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import lombok.Getter;
-import lombok.Setter;
-import net.sourceforge.stripes.action.Before;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
 import de.oglimmer.cyc.api.GameResult;
 import de.oglimmer.cyc.dao.GameRunDao;
 import de.oglimmer.cyc.dao.UserDao;
@@ -22,7 +16,15 @@ import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.stripes.action.Before;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.Resolution;
 
+@Slf4j
 @DoesNotRequireLogin
 public class GameRunDetailsActionBean extends BaseAction {
 
@@ -74,12 +76,10 @@ public class GameRunDetailsActionBean extends BaseAction {
 			setResult(gr.getResult());
 			setStartTime(gr.getStartTime());
 			setEndTime(gr.getEndTime());
-			setParticipants(gr.getParticipants());
-			for (String p : gr.getParticipants()) {
-				if (userDao.findByOpenSource(p.toLowerCase()) > 0) {
-					showCode.put(p, true);
-				}
-			}
+			setParticipants(gr.getParticipants());			
+			for (String p : userDao.findByOpenSource(gr.getParticipants())) {
+				showCode.put(p, true);
+			}			
 		}
 	}
 

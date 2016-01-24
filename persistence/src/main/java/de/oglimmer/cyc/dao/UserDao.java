@@ -1,5 +1,6 @@
 package de.oglimmer.cyc.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.ektorp.support.GenericRepository;
@@ -13,14 +14,8 @@ public interface UserDao extends GenericRepository<User> {
 	List<User> findAllUser();
 
 	List<User> findByEmail(String email);
-
-	/**
-	 * Number of rows with "openSource==1" and a matching username
-	 * 
-	 * @param username
-	 * @return
-	 */
-	int findByOpenSource(String username);
+	
+	Collection<String> findByOpenSource(Collection<String> usernames);
 
 	List<User> findByFBUserId(String userId);
 

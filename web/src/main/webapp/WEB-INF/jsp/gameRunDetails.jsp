@@ -21,6 +21,7 @@
 					<th>Participating companies for ${actionBean.result.totalDays} days</th>
 				</tr>
 				<c:forEach items="${actionBean.participants}" var="element">
+					<c:set var="elementLowerCase" value="${fn:toLowerCase(element)}" />
 					<tr> 
 	  					<td>${element}</td>
 	  					<td>
@@ -32,7 +33,7 @@
 								Bankrupt on day ${actionBean.result.playerResults[element].bankruptOnDay}
 								<c:if test="${actionBean.result.errors.contains(element) }">(JS error)</c:if>
 							</c:if>
-							<c:if test="${actionBean.showCode[element] }">
+							<c:if test="${actionBean.showCode[elementLowerCase] }">
 								<s:link beanclass="de.oglimmer.cyc.web.action.ShowCodeActionBean">
 									<s:param name="username">${element }</s:param>
 									<s:param name="gameRunId">${param.gameRunId }</s:param>
