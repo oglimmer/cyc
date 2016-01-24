@@ -1,10 +1,5 @@
 package de.oglimmer.cyc.engineContainer;
 
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -19,6 +14,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +27,8 @@ public class TcpHandler implements Closeable {
 	/* used in security.policy as well & de.oglimmer.cyc.web.GameExecutor.getClientSocket() */
 	public static final int SERVER_PORT = 9998;
 
-	private ThreadPoolExecutor tpe;
+	private ThreadPoolExecutor tpeTestRun;
+	private ThreadPoolExecutor tpeFullRun;
 	private Date startTime;
 	private EngineLoader engineLoader;
 	private EventLoopGroup bossGroup;
@@ -38,7 +38,8 @@ public class TcpHandler implements Closeable {
 		startTime = new Date();
 		bossGroup = new NioEventLoopGroup();
 		workerGroup = new NioEventLoopGroup();
-		tpe = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		tpeTestRun = new ThreadPoolExecutor(1, 3, 60, TimeUnit.HOURS, new LinkedBlockingQueue<Runnable>());
+		tpeFullRun = new ThreadPoolExecutor(1, 1, 60, TimeUnit.HOURS, new LinkedBlockingQueue<Runnable>());
 		if ("true".equalsIgnoreCase(System.getProperty("cyc.debug"))) {
 			engineLoader = new DebugEngineLoader();
 		} else {
@@ -68,11 +69,11 @@ public class TcpHandler implements Closeable {
 	public String handleRunGame(final String clientRequest) {
 		log.debug("Received: " + clientRequest);
 
-		tpe.submit(new Runnable() {
+		getExecutor(clientRequest).submit(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					if ("full".equals(clientRequest)) {
+					if (isFullRun(clientRequest)) {
 						engineLoader.startGame(null);
 					} else {
 						engineLoader.startGame(clientRequest);
@@ -90,10 +91,22 @@ public class TcpHandler implements Closeable {
 		return "ok\n";
 	}
 
+	private ThreadPoolExecutor getExecutor(final String clientRequest) {
+		if (isFullRun(clientRequest)) {
+			return tpeFullRun;
+		} else {
+			return tpeTestRun;
+		}
+	}
+
+	private boolean isFullRun(final String clientRequest) {
+		return "full".equals(clientRequest);
+	}
+
 	public String handleStatus(boolean extended) {
 		StringBuilder buff = new StringBuilder();
-		int queueSize = tpe.getQueue().size();
-		int active = tpe.getActiveCount();
+		int queueSize = tpeTestRun.getQueue().size();
+		int active = tpeTestRun.getActiveCount();
 		NumberFormat nf = NumberFormat.getIntegerInstance();
 		String freeMem = nf.format(Runtime.getRuntime().freeMemory());
 		String maxMem = nf.format(Runtime.getRuntime().maxMemory());
@@ -142,7 +155,7 @@ public class TcpHandler implements Closeable {
 	public void close() {
 		bossGroup.shutdownGracefully();
 		workerGroup.shutdownGracefully();
-		tpe.shutdown();
+		tpeTestRun.shutdown();
 		engineLoader.stop();
 	}
 }
