@@ -14,7 +14,7 @@ import de.oglimmer.cyc.collections.JavaScriptList;
 import de.oglimmer.cyc.util.ExceptionConverter;
 
 @Slf4j
-public class Company {
+public class Company implements ICompany {
 
 	public Runnable launch;
 	public CallbackFunction doDaily;

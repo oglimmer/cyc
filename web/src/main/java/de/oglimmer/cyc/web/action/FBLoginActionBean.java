@@ -34,6 +34,7 @@ import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.WebContainerProperties;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 import de.oglimmer.cyc.web.exception.FBException;
+import de.oglimmer.cyc.web.util.DefaultCode;
 
 @Slf4j
 @DoesNotRequireLogin
@@ -103,7 +104,7 @@ public class FBLoginActionBean extends BaseAction {
 			return userFromDb.getId();
 		} else {
 			User newUser = new User(name, firstName, lastName, facebookId, email);
-			newUser.setMainJavaScript(RegisterActionBean.DEFAULT_CODE);
+			newUser.setMainJavaScript(DefaultCode.INSTANCE.getDefaultCode());
 			newUser.setCreatedDate(new Date());
 			userDao.add(newUser);
 			return newUser.getId();

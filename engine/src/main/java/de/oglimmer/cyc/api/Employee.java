@@ -3,7 +3,7 @@ package de.oglimmer.cyc.api;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Employee {
+public class Employee implements IEmployee {
 
 	@Getter
 	private String name;

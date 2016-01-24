@@ -2,6 +2,8 @@ package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import de.oglimmer.cyc.collections.Container;
 import de.oglimmer.cyc.collections.ForEach;
 import de.oglimmer.cyc.collections.UnmodifiableIterator;
 
-public class Menu implements Container<MenuEntry>, Iterable<MenuEntry> {
+public class Menu implements Container<MenuEntry>, Iterable<MenuEntry>, IMenu {
 
 	private List<MenuEntry> entries = new ArrayList<>();
 
@@ -52,6 +54,11 @@ public class Menu implements Container<MenuEntry>, Iterable<MenuEntry> {
 	@Override
 	public MenuEntry get(int index) {
 		return entries.get(index);
+	}
+	
+	@Override
+	public Collection<IMenuEntry> getIMenuEntries() {
+		return (Collection) Collections.unmodifiableList(entries);
 	}
 
 	@Override

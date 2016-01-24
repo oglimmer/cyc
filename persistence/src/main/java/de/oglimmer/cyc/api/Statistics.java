@@ -79,10 +79,14 @@ public class Statistics {
 	public List<Long> getCashHtml() {
 		List<Long> fixedList = new ArrayList<>(360);
 		for (StatValue sv : cash) {
-			fixedList.add((long) sv.getValueMin());
+			long l = (long) sv.getValueMin();
+			if (l < 0) {
+				l = 0;
+			}
+			fixedList.add(l);
 		}
 		for (int i = fixedList.size(); i < 360; i++) {
-			fixedList.add(Long.valueOf(-1L));
+			fixedList.add(Long.valueOf(0L));
 		}
 		return fixedList;
 	}

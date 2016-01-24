@@ -25,6 +25,7 @@ import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
+import de.oglimmer.cyc.web.util.DefaultCode;
 
 @Slf4j
 @DoesNotRequireLogin
@@ -93,7 +94,7 @@ public class GoogleLoginActionBean extends BaseAction {
 		}
 
 		User newUser = new User(name, firstName, lastName, googleId, firstEmail, true);
-		newUser.setMainJavaScript(RegisterActionBean.DEFAULT_CODE);
+		newUser.setMainJavaScript(DefaultCode.INSTANCE.getDefaultCode());
 		newUser.setCreatedDate(new Date());
 		userDao.add(newUser);
 		return newUser.getId();

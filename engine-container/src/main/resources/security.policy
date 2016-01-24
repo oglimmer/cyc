@@ -1,5 +1,6 @@
 grant codeBase "file:${cyc.home}/engine-container-jar-with-dependencies.jar" {
 
+	permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";
 	// needed for netty
 	permission java.util.PropertyPermission "io.netty.eventLoopThreads", "read";
 	permission java.util.PropertyPermission "io.netty.noUnsafe", "read";

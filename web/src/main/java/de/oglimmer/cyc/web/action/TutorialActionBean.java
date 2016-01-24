@@ -15,6 +15,7 @@ import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 import de.oglimmer.cyc.web.ext.SecurityInterceptor;
+import de.oglimmer.cyc.web.util.DefaultCode;
 
 @Slf4j
 @DoesNotRequireLogin
@@ -45,7 +46,7 @@ public class TutorialActionBean extends BaseAction {
 
 		try {
 			User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
-			user.setMainJavaScript(RegisterActionBean.DEFAULT_CODE);
+			user.setMainJavaScript(DefaultCode.INSTANCE.getDefaultCode());
 			user.setActive(true);
 			user.setLastCodeChangeDate(new Date());
 			userDao.update(user);

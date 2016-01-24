@@ -16,7 +16,7 @@ if [ -z "$CYC_WEBAPPS" ]; then
   CYC_WEBAPPS=/var/lib/tomcat/webapps
 fi
 if [ -z "$CYC_ENGINE_CONTAINER" ]; then
-  CYC_ENGINE_CONTAINER=/usr/local/cyr-engine-container
+  CYC_ENGINE_CONTAINER=/usr/local/cyc-engine-container
 fi
 
 while getopts ':hbweac' option; do

@@ -35,6 +35,7 @@
   </scm>
 
   <modules>
+    <module>engine-api</module>
     <module>engine</module>
     <module>engine-container</module>
     <module>web</module>

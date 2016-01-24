@@ -28,12 +28,16 @@
 	<logger name="de.oglimmer.cyc.api.Company" 			level="error"></logger>	
 	<logger name="de.oglimmer.cyc.api.GuestDispatcher"	level="error"></logger>	
 	<logger name="de.oglimmer.cyc.api.OpeningHours" 	level="error"></logger>
-	<logger name="de.oglimmer.cyc.api.Day" 				level="error"></logger>
+	<logger name="de.oglimmer.cyc.api.Day" 				level="info"></logger>
 	<logger name="de.oglimmer.cyc.api.Month" 			level="error"></logger>
 	<logger name="de.oglimmer.cyc.api.Year" 			level="error"></logger>
 	<logger name="de.oglimmer.cyc.api.Establishment"	level="error"></logger>
 	<logger name="de.oglimmer.cyc.api.Grocer" 			level="error"></logger>
 	<logger name="de.oglimmer.cyc.api.MenuEntry" 		level="error"></logger>
+	<logger name="de.oglimmer.cyc.api.MenuEntrySecret"	level="error"></logger>
+	<logger name="de.oglimmer.cyc.api.GuestRuleImpl"	level="error"></logger>
+	<logger name="de.oglimmer.cyc.api.EstablishmentRuleImpl"	level="error"></logger>
+	<logger name="de.oglimmer.cyc.api.MenuEntryRuleImpl"	level="error"></logger>
 
 	<logger name="de.oglimmer.cyc.api.EstablishmentRules.groovy"	level="error"></logger>
 	<logger name="de.oglimmer.cyc.api.GuestRules.groovy"			level="error"></logger>

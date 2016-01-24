@@ -16,11 +16,11 @@ import de.oglimmer.cyc.collections.JavaScriptSet;
 import de.oglimmer.cyc.util.CountMap;
 
 @Slf4j
-public class Establishment {
+public class Establishment implements IEstablishment {
 
 	private static CountMap<String> cityNames = new CountMap<>();
 
-	@Getter(AccessLevel.PACKAGE)
+	@Getter
 	private Company parent;
 	@Getter
 	private String address;
@@ -143,14 +143,14 @@ public class Establishment {
 		return CycCollections.unmodifiableSet(storedFoodUnits);
 	}
 
-	public JavaScriptList<Employee> getEmployees() {
+	public JavaScriptList<IEmployee> getEmployees() {
 		List<Employee> subList = new ArrayList<>();
 		for (Employee e : parent.getHumanResources().getEmployees()) {
 			if (e.getEstablishment() == this) {
 				subList.add(e);
 			}
 		}
-		return CycCollections.unmodifiableList(subList);
+		return (JavaScriptList)CycCollections.unmodifiableList(subList);
 	}
 
 	public JavaScriptList<Employee> getEmployees(String jobPosition) {

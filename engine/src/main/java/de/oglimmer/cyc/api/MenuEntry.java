@@ -6,17 +6,15 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-
 import com.google.common.html.HtmlEscapers;
 
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
-@Slf4j
-public class MenuEntry {
+public class MenuEntry implements IMenuEntry {
 
 	@Getter
 	private String name;
@@ -27,9 +25,14 @@ public class MenuEntry {
 
 	private List<Food> ingredients = new ArrayList<>();
 
+	@Getter(AccessLevel.PACKAGE)
 	private Game game;
 
+	@Getter(AccessLevel.PACKAGE)
 	private _Cache cache;
+	
+	@Getter
+	private MenuEntrySecret secret = new MenuEntrySecret(this);
 
 	MenuEntry(Game game, String name, String[] ingredients, double price) {
 		this.game = game;
@@ -60,31 +63,6 @@ public class MenuEntry {
 				it.remove();
 			}
 		}
-	}
-
-	/**
-	 * a value of 1 is a perfect price<br/>
-	 * a value of < 1 means it is too expensive<br/>
-	 * a value of > 1 means it is too cheap<br/>
-	 * 0 ... 6.23
-	 */
-	double getValueForMoneyScore() {
-		double netCost = 0;
-		for (Food f : ingredients) {
-			netCost += f.getBasePrice();
-		}
-		double valForMon = Math.pow(2, game.getConstants().getMenuPriceFactor() * price / netCost + 2.64094) - 0.00419190479;
-		log.debug("{} valForMoney={} ({}/{})", name, valForMon, netCost, price);
-		return valForMon;
-	}
-
-	/**
-	 * base deliciousness is 5. max 10, min 0.
-	 */
-	int getDeliciousness() {
-		int del = cache.getValue();
-		log.debug("{} deli={}", name, del);
-		return del;
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.util.ExceptionConverter;
 
 @Slf4j
-public class HumanResources {
+public class HumanResources implements IHumanResources {
 
 	private List<Employee> employees = new ArrayList<>();
 
@@ -40,17 +40,20 @@ public class HumanResources {
 		return CycCollections.unmodifiableList(subList);
 	}
 
-	Map<JobPosition, Long> getSummary(Establishment est) {
+	/*
+	 * Not in public API
+	 */
+	public Map<JobPosition, Long> getSummary(IEstablishment est) {
 		CountMap<JobPosition> summary = new CountMap<>();
 		for (JobPosition jp : JobPosition.values()) {
 			summary.add(jp, 0);
 		}
-		for (Employee emp : est.getEmployees()) {
+		for (IEmployee emp : est.getEmployees()) {
 			summary.add(emp.getJobPosition(), emp.getQualification());
 		}
 		return summary;
 	}
-
+	
 	public void layOff(Employee emp) {
 		employees.remove(emp);
 	}

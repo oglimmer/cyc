@@ -15,7 +15,7 @@ public class Day {
 		this.openingHours = new OpeningHours(game);
 	}
 
-	void processDay(int day) {
+	void processDay(int day) {		
 		clearCache();
 
 		incDailyCounter(day);
@@ -46,7 +46,7 @@ public class Day {
 
 	private void incDailyCounter(int day) {
 		game.setCurrentDay(game.getCurrentDay() + 1);
-		log.debug("Day: {}/{}", day, game.getCurrentDay());
+		log.info("Day: {}/{}", day, game.getCurrentDay());
 
 		for (Company c : game.getCompanies()) {
 			if (!c.isBankrupt()) {

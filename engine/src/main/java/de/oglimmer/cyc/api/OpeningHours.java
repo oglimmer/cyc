@@ -46,7 +46,7 @@ public class OpeningHours {
 		for (Company c : game.getCompanies()) {
 			if (!c.isBankrupt()) {
 				for (MenuEntry me : c.getMenu()) {
-					int del = (int) (me.getDeliciousness() * me.getValueForMoneyScore());
+					int del = (int) (me.getSecret().getDeliciousness() * me.getSecret().getValueForMoneyScore());
 					game.getResult().get(c.getName()).addMenuEntryScore(me.getName(), del);
 				}
 			}
