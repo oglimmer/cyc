@@ -4,38 +4,66 @@
 <s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
   <s:layout-component name="center">
   
-  	<script type="text/javascript">
+  	<script>
   	var PASS_STENGTH=["UNSAFE!","weak","okay","strong", "very strong"];
-  	var passwordStrength = 0;
+  	var passwordStrength = {score:0};
   	var submitButton;
   	function checkLegal() {
   		if(submitButton.value=="Cancel") {
   			return true;
   		}
   		if(!document.forms[0].agreetermsandconditions.checked) {
-  			alert("Du musst die Datenschutzbestimmungen akzeptieren");
+  			$( "<div title='Error'>Du hast deine Einverständniserklärung zur Datenspeicherung und Datenverwendung nicht gegeben. Damit ist eine Anmeldung nicht möglich!</div>" ).dialog({
+  		      modal: true,
+  		      width: 500, 
+  		      buttons: {
+  		        Ok: function() {
+  		          $( this ).dialog( "close" );
+  		        }
+  		      }
+  		    });
   			return false;
   		}
   		if(passwordStrength.score == 0) {
-  			alert("You need to have a stronger password!");
+  			$( "<div title='Error'>You need to have a stronger password!</div>" ).dialog({
+    		      modal: true,
+    		      width: 500, 
+    		      buttons: {
+    		        Ok: function() {
+    		          $( this ).dialog( "close" );
+    		        }
+    		      }
+    		    });
   			return false;
   		}
   		if(document.forms[0].password.value != document.forms[0].password2.value) {
-  			alert("The password verification doesn't match the password!");
+  			$( "<div title='Error'>The password verification doesn't match the password!</div>" ).dialog({
+    		      modal: true,
+    		      width: 500, 
+    		      buttons: {
+    		        Ok: function() {
+    		          $( this ).dialog( "close" );
+    		        }
+    		      }
+    		    });
   			return false;
   		}
   		return true;
   	}
-  	function passChanged() {
-  		passwordStrength = zxcvbn(document.forms[0].password.value);
+  	function passChanged(newVal) {
+  		passwordStrength = zxcvbn(newVal);
   		$("#passQual").html(PASS_STENGTH[passwordStrength.score]);
   	}  	
-  	
+  	$(document).ready(function() {
+		$('#password').on('keyup change',function() {
+			passChanged($(this).val());
+		});
+	});
   	</script>
   	<script>$(function() { $.ajax({ url: "js/zxcvbn.js", dataType: "script", cache: true }); });</script>
   
 		<div class="centerElement">
-			Keep in mind that you need to have JavaScript coding skills to play this game. (And btw, the password is stored via bcrypt)
+			Keep in mind that you need to have JavaScript coding skills to play this game. (And btw, the password is stored via <a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a>)
 		</div>
 		
 		<div>
@@ -51,7 +79,7 @@
 					</tr>
 					<tr>
 						<td style="text-align: right;">Password: </td>
-						<td><s:password name="password" style="width:400px" onkeypress="passChanged()"/></td>
+						<td><s:password id="password" name="password" style="width:400px"/></td>
 					</tr>
 					<tr>
 						<td style="text-align: right;">Password strength: </td>

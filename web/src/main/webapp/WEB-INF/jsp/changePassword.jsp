@@ -4,20 +4,36 @@
   <s:layout-component name="center">
 
 	<script>$(function() { $.ajax({ url: "js/zxcvbn.js", dataType: "script", cache: true }); });</script>
-	<script type="text/javascript">
+	<script>
   	var PASS_STENGTH=["UNSAFE!","weak","okay","strong", "very strong"];
-  	var passwordStrength = 0;
+  	var passwordStrength = {score:0};
   	var submitButton;
   	function checkLegal() {
   		if(submitButton.value=="Cancel") {
   			return true;
   		}
   		if(passwordStrength.score == 0) {
-  			alert("You need to have a stronger password!");
+  			$( "<div title='Error'>You need to have a stronger password!</div>" ).dialog({
+    		      modal: true,
+    		      width: 500, 
+    		      buttons: {
+    		        Ok: function() {
+    		          $( this ).dialog( "close" );
+    		        }
+    		      }
+    		    });
   			return false;
   		}
   		if(document.forms[0].passwordNew.value != document.forms[0].password2.value) {
-  			alert("The password verification doesn't match the password!");
+  			$( "<div title='Error'>The password verification doesn't match the password!</div>" ).dialog({
+    		      modal: true,
+    		      width: 500, 
+    		      buttons: {
+    		        Ok: function() {
+    		          $( this ).dialog( "close" );
+    		        }
+    		      }
+    		    });
   			return false;
   		}
   		return true;

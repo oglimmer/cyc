@@ -7,13 +7,14 @@
 		<div style="position:absolute;right:20px;top:7px;"><img src="images/200px-Beta-badge.svg.png"/></div>
 
 		<div class="centerElement">
-			CodeYourRestaurant is an online multi player coding competition - you might want to call it a game as well. The goal is to implement your
-			restaurant managing logic in a better, more optimal, way than all the other players.<br/>
+			CodeYourRestaurant is an online multi player coding competition - you might want to call it a game. 
+			The goal is to implement your restaurant managing logic in a better, more optimal, way than all the other 
+			players as every 15 mins a business competition is automatically started to find the best company.<br/>
 			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link>, <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> or the <a href="apidocs/index.html" target="_blank">API</a>.<br/>
 			Here are results of the <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >latest competitions</s:link>.
 		</div>
 		<div class="centerElement">
-				3 days winner: ${actionBean.threeDayWinner}
+				Current champion: ${actionBean.threeDayWinner}
 		</div>
 
 		<div>

@@ -10,13 +10,16 @@
 			<s:link beanclass="de.oglimmer.cyc.web.action.PortalActionBean" event="exit" >Log off</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.action.ChangePasswordActionBean" >Change password</s:link>			
 		</div>
+		<div style="font-size:0.6em;text-align:right;">
+			Logged in as <c:out value="${actionBean.companyName}" />
+		</div>
 
 		<div class="centerElement">
 			<h2>Global Runs</h2>
 			<div>Next run: <span id="nextRun">${actionBean.nextRun}</span> UTC</div>
 			<div>Last run's winner: <s:link beanclass="de.oglimmer.cyc.web.action.GameRunDetailsActionBean" ><span id="lastWinner">${actionBean.lastWinner}</span></s:link></div>			
 			<div>
-				3 days winner: <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" ><span id="threeDayWinner">${actionBean.threeDayWinner}</span></s:link>
+				Current champion: <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" ><span id="threeDayWinner">${actionBean.threeDayWinner}</span></s:link>
 			</div>
 		</div>
 		

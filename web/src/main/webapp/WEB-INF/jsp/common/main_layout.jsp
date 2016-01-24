@@ -7,10 +7,12 @@
 <meta charset="utf-8" />
 <title>CodeYourRestaurant</title>
 <link rel="stylesheet" type="text/css" href="css/styles.css" />
-<link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-1.10.3.custom.min.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.min.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.theme.min.css" />
 <script src="js/cookie.js"></script>
 <script src="js/jquery-2.2.0.min.js"></script>
-<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
 </head>
 <body>
 	<div class="head">
@@ -25,7 +27,7 @@
 	</div>
 	
 	<div class="footer">
-		${actionBean.longVersion } - Created by oglimmer.de - <s:link beanclass="de.oglimmer.cyc.web.action.ImpressumActionBean">Impressum</s:link>&nbsp;
+		${actionBean.longVersion } - Created by oglimmer.de - <s:link beanclass="de.oglimmer.cyc.web.action.ImpressumActionBean">Impressum/Kontakt</s:link>&nbsp;
 	</div>
 </body>
 </html>

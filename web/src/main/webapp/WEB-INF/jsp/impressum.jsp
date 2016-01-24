@@ -5,7 +5,7 @@
   <s:layout-component name="center">
 
 		<div class="centerElement">
-			<span style="float:left">Impressum</span> 
+			<span style="float:left">Impressum / Kontakt</span> 
 			<span style="float:right"><s:link beanclass="de.oglimmer.cyc.web.action.PortalActionBean" >Back to portal</s:link></span>
 			<hr style="clear:both;visibility:hidden;margin:0px;"/> 
 		</div>

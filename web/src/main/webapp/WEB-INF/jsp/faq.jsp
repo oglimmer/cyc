@@ -88,9 +88,9 @@
 
 		<div class="centerElement">
 			<div style="font-weight:bolder">Q: How can debug the processing?</div>
-			A: You can use <a href="./apidocs/classes/Console.html" target="apidoc">console.log("....")</a> to add a line to your debug log. But the buffer is limited to 4k chars, a [...] will indicate that you've reached this limit.
-			Additionally you can draw your own graphs by using <a href="./apidocs/classes/Console.html" target="apidoc">console.setDayStatistic(0, company.establishments.size())</a> (this will draw a graph with the number of your
-			restaurants over time). To name your graphs use <a href="./apidocs/classes/Console.html" target="apidoc">console.setDayStatisticDescription(0, "Number of restaurants");</a>
+			A: You can use <a href="./apidocs/Console.html" target="apidoc">console.log("....")</a> to add a line to your debug log. But the buffer is limited to 4k chars, a [...] will indicate that you've reached this limit.
+			Additionally you can draw your own graphs by using <a href="./apidocs/Console.html" target="apidoc">console.setDayStatistic(0, company.establishments.size())</a> (this will draw a graph with the number of your
+			restaurants over time). To name your graphs use <a href="./apidocs/Console.html" target="apidoc">console.setDayStatisticDescription(0, "Number of restaurants");</a>
 		</div>		
 
 		<div class="centerElement">

@@ -62,6 +62,9 @@ public class PortalActionBean extends BaseAction {
 	@Getter
 	@Setter
 	private boolean openSource;
+	@Getter
+	@Setter
+	private String companyName;
 
 	@Getter
 	private int editorHeight;
@@ -88,6 +91,7 @@ public class PortalActionBean extends BaseAction {
 	public void loadFromDb() {
 		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
 		company = user.getMainJavaScript();
+		companyName = user.getUsername();
 		output = user.getLastError();
 		lastRun = user.getLastPrivateRun();
 		fullRun = user.getPermission() > 0;
