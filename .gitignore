@@ -30,3 +30,4 @@ ansible/roles/tomcat7/files/*.war
 ansible/digital_ocean/digitalocean
 ansible/roles/tomcat7/files/server-https.xml
 web/jsdoc/node_modules
+rules/src/main/java/de/oglimmer/cyc/api/*Impl.java
