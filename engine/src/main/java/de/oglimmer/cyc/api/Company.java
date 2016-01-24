@@ -12,6 +12,7 @@ import org.mozilla.javascript.RhinoException;
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
 import de.oglimmer.cyc.util.ExceptionConverter;
+import de.oglimmer.cyc.util.PublicAPI;
 
 @Slf4j
 public class Company implements ICompany {
@@ -74,11 +75,13 @@ public class Company implements ICompany {
 		cash -= change;
 		game.getResult().get(name).getStatistics().addCash(game.getCurrentDay(), cash);
 	}
-
+	
+	@PublicAPI
 	public JavaScriptList<Establishment> getEstablishments() {
 		return CycCollections.unmodifiableList(establishments);
 	}
 
+	@PublicAPI
 	public JavaScriptList<Establishment> getEstablishments(String city) {
 		List<Establishment> cityList = new ArrayList<>();
 		for (Establishment est : establishments) {

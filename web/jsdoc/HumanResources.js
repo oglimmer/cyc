@@ -1,7 +1,7 @@
 
 
 /**
-* Give you access to all of you employees. Manager class.
+* Give you access to all of you employees. Game entity class.
 *
 * @class 
 * @constructor

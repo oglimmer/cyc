@@ -5,6 +5,7 @@ import java.util.Comparator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import de.oglimmer.cyc.util.CountMap;
+import de.oglimmer.cyc.util.PublicAPI;
 
 @Slf4j
 public class FoodUnit {
@@ -58,6 +59,7 @@ public class FoodUnit {
 		return pullDate == 0;
 	}
 
+	@PublicAPI
 	public FoodUnit split(int units) {
 		if (units > 0 && units < this.units) {
 			FoodUnit newFU = new FoodUnit(food, units, pullDate);
@@ -67,6 +69,7 @@ public class FoodUnit {
 		return null;
 	}
 
+	@PublicAPI
 	public void distributeEqually() {
 		Company company = ThreadLocal.getCompany();
 		int numberEst = company.getEstablishmentsInt().size();

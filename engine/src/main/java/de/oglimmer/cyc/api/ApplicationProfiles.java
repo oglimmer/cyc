@@ -10,6 +10,7 @@ import java.util.List;
 import de.oglimmer.cyc.collections.ForEach;
 import de.oglimmer.cyc.collections.SortableContainer;
 import de.oglimmer.cyc.collections.UnmodifiableIterator;
+import de.oglimmer.cyc.util.PublicAPI;
 
 public class ApplicationProfiles implements Iterable<ApplicationProfile>, SortableContainer<ApplicationProfile> {
 
@@ -37,7 +38,8 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Sortab
 			profiles.add(p);
 		}
 	}
-
+	
+	@PublicAPI
 	public ApplicationProfile get(int index) {
 		try {
 			return profiles.get(index);
@@ -46,6 +48,7 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Sortab
 		}
 	}
 
+	@PublicAPI
 	public ApplicationProfiles subList(String jobPosition) {
 		List<ApplicationProfile> newList = new ArrayList<>();
 		for (ApplicationProfile ap : profiles) {
@@ -56,10 +59,14 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Sortab
 		return new ApplicationProfiles(newList);
 	}
 
+	@PublicAPI
+	@Override
 	public int size() {
 		return profiles.size();
 	}
 
+	@PublicAPI
+	@Override
 	public void each(ForEach r) {
 		for (ApplicationProfile ap : profiles) {
 			r.run(ap);
@@ -76,6 +83,7 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Sortab
 		return get(size() - 1);
 	}
 	
+	@PublicAPI
 	public ApplicationProfiles sortByQualification() {
 		Collections.sort(profiles, new Comparator<ApplicationProfile>() {
 			@Override
@@ -86,6 +94,7 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Sortab
 		return this;
 	}
 
+	@PublicAPI
 	public ApplicationProfiles sortBySalary() {
 		Collections.sort(profiles, new Comparator<ApplicationProfile>() {
 			@Override
@@ -96,12 +105,13 @@ public class ApplicationProfiles implements Iterable<ApplicationProfile>, Sortab
 		return this;
 	}
 
+	@PublicAPI
 	@Override
 	public Iterator<ApplicationProfile> iterator() {
 		return new UnmodifiableIterator<ApplicationProfile>(profiles.iterator());
 	}
 
-	public Iterator<ApplicationProfile> iteratorInt() {
+	Iterator<ApplicationProfile> iteratorInt() {
 		return profiles.iterator();
 	}
 

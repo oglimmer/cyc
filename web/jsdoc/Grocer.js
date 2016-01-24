@@ -2,7 +2,7 @@
 
 /**
 * Your grocer to order food. Available food is: SALAD, TOMATO, ONION, BREAD, LAMB_MEAT, CHICKEN_MEAT, BEEF_MEAT, CABBAGE, SPICES, GARLIC_SAUCE.
-* Manager class. 
+* Game entity class. 
 *
 * @class 
 * @constructor

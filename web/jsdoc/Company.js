@@ -1,6 +1,6 @@
 
 /**
-* This class represents your company. The game engine will create an instance under the name "company" for you.<br/>
+* This class represents your company. Game entity class. The game engine will create an instance under the name "company" for you.<br/>
 * This diagram shows the order and point in time when a particular function (you implemented) is called by the engine. <br/><br/>
 * The number put in brackets defines the priority. The higher the priority the first it is called, e.g. on a day
 * which is the first of a month (but not the start of a week), the following methods will be called in that order: realEstateAgent, hiringProcess, doMonthly,

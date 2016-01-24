@@ -10,6 +10,7 @@ import com.google.common.html.HtmlEscapers;
 
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
+import de.oglimmer.cyc.util.PublicAPI;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +45,7 @@ public class MenuEntry implements IMenuEntry {
 		cache = new _Cache(game);
 	}
 
+	@PublicAPI
 	public JavaScriptList<Food> getIngredients() {
 		return CycCollections.unmodifiableList(ingredients);
 	}
@@ -52,10 +54,12 @@ public class MenuEntry implements IMenuEntry {
 		return ingredients;
 	}
 
+	@PublicAPI
 	public void addIngredient(String i) {
 		this.ingredients.add(Food.valueOf(i));
 	}
 
+	@PublicAPI
 	public void removeIngredient(String i) {
 		for (Iterator<Food> it = ingredients.iterator(); it.hasNext();) {
 			Food food = it.next();

@@ -1,6 +1,6 @@
 
 /**
-* Represents an application to your company. Data class.<br/>
+* Represents an application to your company. Game entity class.<br/>
 * <br/>
 * You only deal with this class in company.humanResources.hiringProcess function. There you
 * look into all available ApplicationProfile objects and recruit at least one chef and one waiter. Someone with

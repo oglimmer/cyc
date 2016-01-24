@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
 import de.oglimmer.cyc.collections.JavaScriptSet;
 import de.oglimmer.cyc.util.CountMap;
+import de.oglimmer.cyc.util.PublicAPI;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Establishment implements IEstablishment {
@@ -56,6 +56,7 @@ public class Establishment implements IEstablishment {
 		return cache.getValue();
 	}
 
+	@PublicAPI
 	public void sell() {
 		if (!rented) {
 			layOffAllEmployees();
@@ -65,6 +66,7 @@ public class Establishment implements IEstablishment {
 		}
 	}
 
+	@PublicAPI
 	public void vacate() {
 		if (rented) {
 			layOffAllEmployees();
@@ -73,10 +75,12 @@ public class Establishment implements IEstablishment {
 		}
 	}
 
+	@PublicAPI
 	public void layOffAllEmployees() {
 		parent.getHumanResources().layOffAll(this);
 	}
 
+	@PublicAPI
 	public void sellInteriorAccessories() {
 		for (InteriorAccessory intAcc : interiorAccessories) {
 			int cost = (int) (intAcc.getAssetCost() * parent.getGame().getConstants()
@@ -86,6 +90,7 @@ public class Establishment implements IEstablishment {
 		}
 	}
 
+	@PublicAPI
 	public void buy() throws OutOfMoneyException {
 		parent.decCash(salePrice);
 		rented = false;
@@ -93,11 +98,13 @@ public class Establishment implements IEstablishment {
 		parent.getGame().getResult().get(parent.getName()).addTotalRealEstate(getSalePrice());
 	}
 
+	@PublicAPI
 	public void buyInteriorAccessories(String... intAccies) {
 		Collection<InteriorAccessory> iaToAdd = InteriorAccessory.valuesOf(null, intAccies);
 		buyInteriorAccessories(iaToAdd);
 	}
 
+	@PublicAPI
 	public void buyInteriorAccessoriesNotExist(String... intAccies) {
 		Collection<InteriorAccessory> iaToAdd = InteriorAccessory.valuesOf(interiorAccessories, intAccies);
 		buyInteriorAccessories(iaToAdd);
@@ -127,10 +134,12 @@ public class Establishment implements IEstablishment {
 		}
 	}
 
+	@PublicAPI
 	public JavaScriptList<InteriorAccessory> getInteriorAccessories() {
 		return CycCollections.unmodifiableList(interiorAccessories);
 	}
 
+	@PublicAPI
 	public void sendFood(FoodUnit foodUnit) {
 		storedFoodUnits.add(foodUnit);
 	}
@@ -139,10 +148,12 @@ public class Establishment implements IEstablishment {
 		return storedFoodUnits;
 	}
 
+	@PublicAPI
 	public JavaScriptSet<FoodUnit> getStoredFoodUnits() {
 		return CycCollections.unmodifiableSet(storedFoodUnits);
 	}
 
+	@PublicAPI
 	public JavaScriptList<IEmployee> getEmployees() {
 		List<Employee> subList = new ArrayList<>();
 		for (Employee e : parent.getHumanResources().getEmployees()) {
@@ -153,6 +164,7 @@ public class Establishment implements IEstablishment {
 		return (JavaScriptList)CycCollections.unmodifiableList(subList);
 	}
 
+	@PublicAPI
 	public JavaScriptList<Employee> getEmployees(String jobPosition) {
 		List<Employee> subList = new ArrayList<>();
 		for (Employee employee : parent.getHumanResources().getEmployees(jobPosition)) {
@@ -183,6 +195,7 @@ public class Establishment implements IEstablishment {
 		}
 	}
 
+	@PublicAPI
 	public int getTotalFoodUnits(String foodName) {
 		int total = 0;
 		for (FoodUnit fu : storedFoodUnits) {

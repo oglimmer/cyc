@@ -1,6 +1,6 @@
 
 /**
-* A member of your staff. Data class.<br/>
+* A member of your staff. Game entity class.<br/>
 * <br/>
 * This class could be used to get information about your current staff. The only writable
 * property is establishment, as you can send an employee to another restaurant.

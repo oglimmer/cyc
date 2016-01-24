@@ -1,6 +1,6 @@
 
 /**
-* A restaurant. Data class.<br/>
+* A restaurant. Game entity class.<br/>
 * <br/>
 * After you leased a restaurant you need to buy at least a COUNTER, but it makes sense to buy
 * a complete set of interior accessories.
@@ -80,6 +80,10 @@ function Establishment() {
 	*
 	* @method 
 	* @param {Object} interiorAccessory A single item (string) or an array of items (string) you want to buy and add to the establishment
+	* @example
+	* company.establishments.get(0).
+	* 	buyInteriorAccessories("COUNTER", "VERTICAL_ROTISSERIE", 
+	* 	"TOASTER", "COFFEE_MACHINE", "BEVERAGE_COOLER");
 	*/
 	this.buyInteriorAccessories = function(interiorAccessory) {
 		
@@ -101,6 +105,10 @@ function Establishment() {
 	*
 	* @method 
 	* @param {Object} interiorAccessory A single item (string) or an array of items (string) you want to buy and add to the establishment
+	* @example
+	* company.establishments.get(0).
+	* 	buyInteriorAccessoriesNotExist("COUNTER", "VERTICAL_ROTISSERIE", 
+	* 	"TOASTER", "COFFEE_MACHINE", "BEVERAGE_COOLER");
 	*/
 	this.buyInteriorAccessoriesNotExist = function(interiorAccessory) {
 		

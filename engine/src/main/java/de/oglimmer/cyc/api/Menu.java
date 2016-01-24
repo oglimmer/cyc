@@ -10,6 +10,8 @@ import java.util.List;
 import de.oglimmer.cyc.collections.Container;
 import de.oglimmer.cyc.collections.ForEach;
 import de.oglimmer.cyc.collections.UnmodifiableIterator;
+import de.oglimmer.cyc.util.PublicAPI;
+import de.oglimmer.cyc.util.UndocumentedAPI;
 
 public class Menu implements Container<MenuEntry>, Iterable<MenuEntry>, IMenu {
 
@@ -21,10 +23,12 @@ public class Menu implements Container<MenuEntry>, Iterable<MenuEntry>, IMenu {
 		this.game = game;
 	}
 
+	@PublicAPI
 	public void add(String name, String[] ingredients, double price) {
 		entries.add(new MenuEntry(game, name, ingredients, price));
 	}
 
+	@PublicAPI
 	public void remove(String name) {
 		for (Iterator<MenuEntry> it = entries.iterator(); it.hasNext();) {
 			MenuEntry me = it.next();
@@ -34,11 +38,13 @@ public class Menu implements Container<MenuEntry>, Iterable<MenuEntry>, IMenu {
 		}
 	}
 
+	@PublicAPI
 	@Override
 	public int size() {
 		return entries.size();
 	}
 
+	@PublicAPI
 	@Override
 	public void each(ForEach r) {
 		for (Object o : entries) {
@@ -46,16 +52,19 @@ public class Menu implements Container<MenuEntry>, Iterable<MenuEntry>, IMenu {
 		}
 	}
 
+	@PublicAPI
 	@Override
 	public Iterator<MenuEntry> iterator() {
 		return new UnmodifiableIterator<>(entries.iterator());
 	}
 
+	@PublicAPI
 	@Override
 	public MenuEntry get(int index) {
 		return entries.get(index);
 	}
 	
+	@UndocumentedAPI
 	@Override
 	public Collection<IMenuEntry> getIMenuEntries() {
 		return (Collection) Collections.unmodifiableList(entries);

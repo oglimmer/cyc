@@ -13,6 +13,7 @@ import de.oglimmer.cyc.collections.ForEach;
 import de.oglimmer.cyc.collections.SortableContainer;
 import de.oglimmer.cyc.collections.UnmodifiableIterator;
 import de.oglimmer.cyc.util.CountMap;
+import de.oglimmer.cyc.util.PublicAPI;
 
 public class RealEstateProfiles implements Iterable<RealEstateProfile>, SortableContainer<RealEstateProfile> {
 
@@ -46,6 +47,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		}
 	}
 
+	@PublicAPI
 	@Override
 	public Iterator<RealEstateProfile> iterator() {
 		return new UnmodifiableIterator<RealEstateProfile>(profiles.iterator());
@@ -55,10 +57,12 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		return profiles.iterator();
 	}
 
+	@PublicAPI
 	public List<DataPair> getCitiesToRestaurants() {
 		return Collections.unmodifiableList(citiesToRestaurants);
 	}
 
+	@PublicAPI
 	@Override
 	public RealEstateProfile get(int index) {
 		try {
@@ -68,16 +72,19 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		}
 	}
 
+	@PublicAPI
 	@Override
 	public RealEstateProfile getLowest() {
 		return get(0);
 	}
 
+	@PublicAPI
 	@Override
 	public RealEstateProfile getHighest() {
 		return get(size() - 1);
 	}
 
+	@PublicAPI
 	public RealEstateProfiles sortByLeaseCost() {
 		Collections.sort(profiles, new Comparator<RealEstateProfile>() {
 			@Override
@@ -88,6 +95,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		return this;
 	}
 
+	@PublicAPI
 	public RealEstateProfiles sortBySalePrice() {
 		Collections.sort(profiles, new Comparator<RealEstateProfile>() {
 			@Override
@@ -98,6 +106,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		return this;
 	}
 
+	@PublicAPI
 	public RealEstateProfiles sortByLocationQuality() {
 		Collections.sort(profiles, new Comparator<RealEstateProfile>() {
 			@Override
@@ -108,6 +117,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		return this;
 	}
 
+	@PublicAPI
 	public RealEstateProfiles sortByLocationSize() {
 		Collections.sort(profiles, new Comparator<RealEstateProfile>() {
 			@Override
@@ -123,11 +133,13 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 		return "RealEstateProfiles [profiles=" + Arrays.toString(profiles.toArray()) + "]";
 	}
 
+	@PublicAPI
 	@Override
 	public int size() {
 		return profiles.size();
 	}
 
+	@PublicAPI
 	@Override
 	public void each(ForEach r) {
 		for (RealEstateProfile rep : profiles) {

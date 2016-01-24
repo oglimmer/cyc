@@ -5,6 +5,7 @@ import java.util.Set;
 
 import lombok.Data;
 import de.oglimmer.cyc.util.CountMap;
+import de.oglimmer.cyc.util.PublicAPI;
 import de.oglimmer.cyc.util.SafeMap;
 
 @Data
@@ -48,74 +49,90 @@ public class DailyStatistics {
 		}
 	}
 
+	@PublicAPI
 	public Long getRottenUnitsPerFood(String food) {
 		Long units = rottenUnitsPerFoodMap.get(food);
 		return units != null ? units : 0;
 	}
 
+	@PublicAPI
 	public Long getRottenUnits() {
 		return rottenUnitsPerFoodMap.sum();
 	}
 
+	@PublicAPI
 	public Long getServedUnitsPerMenu(String menu) {
 		Long units = servedUnitsPerMenuMap.get(menu);
 		return units != null ? units : 0;
 	}
 
+	@PublicAPI
 	public Long getServedUnits() {
 		return servedUnitsPerMenuMap.sum();
 	}
 
+	@PublicAPI
 	public Long getServedUnitsPerEstablishment(String est) {
 		Long units = servedUnitsPerEstablishmentMap.get(est);
 		return units != null ? units : 0; 
 	}
 
+	@PublicAPI
 	public Long getGuestsTotalPerCity(String city) {
 		Long guests = guestsTotalPerCityMap.get(city);
 		return guests != null ? guests : 0;
 	}
 
+	@PublicAPI
 	public Long getGuestsTotal() {
 		return guestsTotalPerCityMap.sum();
 	}
 
+	@PublicAPI
 	public Long getGuestsPerEstablishment(String est) {
 		Long guests = guestsPerEstablishmentMap.get(est);
 		return guests != null ? guests : 0;
 	}
 
+	@PublicAPI
 	public Long getGuests() {
 		return guestsPerEstablishmentMap.sum();
 	}
 
+	@PublicAPI
 	public Long getGuestsLeftPerEstablishment(String est) {
 		Long guests = guestsLeftPerEstablishmentMap.get(est);
 		return guests != null ? guests : 0;
 	}
 
+	@PublicAPI
 	public Long getGuestsLeft() {
 		return guestsLeftPerEstablishmentMap.sum();
 	}
 
+	@PublicAPI
 	public Long getGuestsOutOfIngPerEstablishment(String est) {
 		Long guests = guestsOutOfIngPerEstablishmentMap.get(est);
 		return guests != null ? guests : 0;
 	}
 
+	@PublicAPI
 	public Long getGuestsOutOfIng() {
 		return guestsOutOfIngPerEstablishmentMap.sum();
 	}
 
+	@PublicAPI
 	public Long getMissingIngredientsPerFood(String food) {
 		Long units = missingIngredientsPerFoodMap.get(food);
 		return units != null ? units : 0; 
 	}
 
+	@PublicAPI
 	public Long getMissingIngredients() {
 		return missingIngredientsPerFoodMap.sum();
 	}
 
+	@PublicAPI
 	public CountMap<String> getMissingIngredientsPerEstablishment(String estName) {
 		CountMap<String> ret= missingIngredientsPerEstablishmentMap.get(estName);
 		System.out.println(ret);

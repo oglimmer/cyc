@@ -6,14 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.mozilla.javascript.RhinoException;
 
 import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
 import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.util.ExceptionConverter;
+import de.oglimmer.cyc.util.PublicAPI;
+import de.oglimmer.cyc.util.UndocumentedAPI;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class HumanResources implements IHumanResources {
@@ -26,10 +27,12 @@ public class HumanResources implements IHumanResources {
 		return employees;
 	}
 
+	@PublicAPI
 	public JavaScriptList<Employee> getEmployees() {
 		return CycCollections.unmodifiableList(employees);
 	}
 
+	@PublicAPI
 	public JavaScriptList<Employee> getEmployees(String jp) {
 		List<Employee> subList = new ArrayList<>();
 		for (Employee e : employees) {
@@ -40,9 +43,8 @@ public class HumanResources implements IHumanResources {
 		return CycCollections.unmodifiableList(subList);
 	}
 
-	/*
-	 * Not in public API
-	 */
+	@Override
+	@UndocumentedAPI
 	public Map<JobPosition, Long> getSummary(IEstablishment est) {
 		CountMap<JobPosition> summary = new CountMap<>();
 		for (JobPosition jp : JobPosition.values()) {
@@ -54,10 +56,12 @@ public class HumanResources implements IHumanResources {
 		return summary;
 	}
 	
+	@PublicAPI
 	public void layOff(Employee emp) {
 		employees.remove(emp);
 	}
 
+	@PublicAPI
 	public void layOffAll(Establishment establishment) {
 		for (Iterator<Employee> it = employees.iterator(); it.hasNext();) {
 			Employee e = it.next();

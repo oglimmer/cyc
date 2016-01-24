@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import de.oglimmer.cyc.util.PublicAPI;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class Grocer {
 		}
 	}
 
+	@PublicAPI
 	public double getPrice(String food, int units) {
 		double currentPrice = currentPrices.get(Food.valueOf(food));
 		double basePrice = units * currentPrice;
@@ -47,10 +49,12 @@ public class Grocer {
 		return 1;
 	}
 
+	@PublicAPI
 	public void order(String food, int units) throws OutOfMoneyException {
 		bulkOrder(food, units, 1);
 	}
 
+	@PublicAPI
 	public void bulkOrder(String food, int unitsPerDay, int days) throws OutOfMoneyException {
 		if (unitsPerDay > 0 && days > 0) {
 			Company c = ThreadLocal.getCompany();

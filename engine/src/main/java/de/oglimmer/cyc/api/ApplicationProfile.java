@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.oglimmer.cyc.util.PublicAPI;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Value;
@@ -36,10 +37,12 @@ public class ApplicationProfile {
 		this.offeredSalary = new HashMap<>();
 	}
 
+	@PublicAPI
 	public void offer(Establishment est) {
 		offer(est, desiredSalary);
 	}
 
+	@PublicAPI
 	public void offer(Establishment est, int salary) {
 		if (est != null) {
 			Company company = ThreadLocal.getCompany();

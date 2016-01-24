@@ -1,8 +1,7 @@
 
 
 /**
- * Represents a profile during a presentation of an real estate agent. Data
- * class.<br/> <br/> 
+ * Represents a profile during a presentation of an real estate agent. Game entity class.<br/> <br/> 
  * You only deal with this class in company.realEstateAgent
  * function. There you look into all available RealEstateProfile objects and
  * lease at least one restaurant. A place with a high

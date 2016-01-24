@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.oglimmer.cyc.util.PublicAPI;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Value;
@@ -43,12 +44,14 @@ public class RealEstateProfile {
 		this.bribes = new HashMap<>();
 	}
 
+	@PublicAPI
 	public void tryLease(int bribe) {
 		if (bribe >= 0) {
 			offers.put(ThreadLocal.getCompany(), new Offer(false, bribe));
 		}
 	}
 
+	@PublicAPI
 	public void tryAcquisition(int bribe) {
 		if (bribe >= 0) {
 			offers.put(ThreadLocal.getCompany(), new Offer(true, bribe));

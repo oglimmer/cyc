@@ -36,7 +36,7 @@
 	company.menu.add("Kebab", ["CHICKEN_MEAT", "BREAD"], 3);	
 };</pre></div>
 			<br/>
-			As we see the company class has ha menu property which could be used to add, remove or list our menu entries. 
+			As we see the company class has a menu property which could be used to add, remove or list our menu entries. 
 			We add a simple Chicken Kebab with nothing than meat and bread for $3.<br/>
 			If you want to create other meals, these are the available ingredients: 
 			SALAD, TOMATO, ONION, BREAD, LAMB_MEAT, CHICKEN_MEAT, BEEF_MEAT, CABBAGE, SPICES, GARLIC_SAUCE.<br/>
@@ -99,8 +99,9 @@
 			<br/>
 			Our company has a reference to a grocer we trust and there we're able to order 100 units of chicken and 100 units of bread. 
 			Our Kebab uses one of each ingredient, so we could sell 100
-			Kebabs per day. Roughly 100 people per participating player want to have Kebab per day.
-			However we need to keep in mind that food decays over time, so whatever we buy it gets rotten after 10 days. <br/>
+			Kebabs per day. You should also be aware of that roughly 100 people per participating player want to have Kebab per day.
+			However we need to keep in mind that food decays over time, so whatever we buy it gets rotten after 10 days
+			on the other hand will you get a discount if you buy larger numbers of food.<br/>
 			<br/>
 			As a final step we need to distribute our <a href="./apidocs/FoodDelivery.html" target="apidoc">food delivery</a>. 
 			As we only have one restaurant that is fairly simple:<br/>
