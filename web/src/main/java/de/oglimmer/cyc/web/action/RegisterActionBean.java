@@ -12,7 +12,7 @@ import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
-import de.oglimmer.cyc.web.util.DefaultCode;
+import de.oglimmer.cyc.util.DefaultCode;
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.DefaultHandler;

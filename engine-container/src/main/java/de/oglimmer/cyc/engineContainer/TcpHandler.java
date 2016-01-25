@@ -78,6 +78,10 @@ public class TcpHandler implements Closeable {
 					} else {
 						engineLoader.startGame(clientRequest);
 					}
+				} catch (InvocationTargetException e) {
+					if (!(e.getCause() instanceof InterruptedException)) {
+						log.error("Uncaught Exception", e);
+					}
 				} catch (Exception e) {
 					log.error("Uncaught Exception", e);
 				}
