@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.oglimmer.cyc.DataProviderMemory;
 import de.oglimmer.cyc.api.Constants.Mode;
 
 public class FoodUnitAdminTest {
@@ -13,7 +14,7 @@ public class FoodUnitAdminTest {
 
 	@Before
 	public void warmUp() {
-		game = new Game(Mode.FULL);
+		game = new Game(Mode.FULL, DataProviderMemory.INSTANCE);
 		Company c = new Company(game, "companyA", game.getGrocer());
 		est = new Establishment(c, "cityA", 5, 50, 5000, 50000);
 		c.getEstablishmentsInt().add(est);

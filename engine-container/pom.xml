@@ -96,6 +96,11 @@
 			<artifactId>netty-all</artifactId>
 			<version>4.0.13.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>de.oglimmer.cyc</groupId>
+			<artifactId>engine-api</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 </project>

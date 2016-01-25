@@ -3,7 +3,6 @@ package de.oglimmer.cyc;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,60 +10,65 @@ import java.util.Map;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import lombok.extern.slf4j.Slf4j;
 import de.oglimmer.cyc.api.Constants;
 import de.oglimmer.cyc.api.Game;
 import de.oglimmer.cyc.api.GroovyInitializer;
 import de.oglimmer.cyc.dao.GameRunDao;
-import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
-import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
+import de.oglimmer.cyc.engine.IGameRunStarter;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class GameRunStarter {
+public class GameRunStarter implements IGameRunStarter {
 
-	private static final int ROUNDS_TO_BE_EXCLUDED = 10;
-
-	private boolean writeGameResult;
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
-
+	@Override
 	public void startFullGame() {
 		GroovyInitializer.globalInit();
 		log.debug("Running full game");
-		List<User> userList = allPlayers();
+		List<User> userList = DataProviderCouchDB.INSTANCE.allPlayers();
 
 		if (!userList.isEmpty()) {
-			Game game = new Game(Constants.Mode.FULL);
-			game.executeGame(userList, writeGameResult);
+			Game game = new Game(Constants.Mode.FULL, DataProviderCouchDB.INSTANCE);
+			game.executeGame(userList);
 		}
 
-		inactivateUsers();
-
+		inactivateUsers(DataProviderCouchDB.INSTANCE);
 	}
 
+	@Override
 	public void startCheckRun(String uid) {
 		assert uid != null && !uid.isEmpty();
 		GroovyInitializer.globalInit();
-		List<User> userList = singlePlayer(uid);
+
+		List<User> userList = DataProviderCouchDB.INSTANCE.singlePlayer(uid);
 
 		if (!userList.isEmpty()) {
-			Game game = new Game(Constants.Mode.SINGLE);
-			GameRun gameRun = game.executeGame(userList, writeGameResult);
+			Game game = new Game(Constants.Mode.SINGLE, DataProviderCouchDB.INSTANCE);
+			GameRun gameRun = game.executeGame(userList);
 
-			String lastError = gameRun.getResult().getError().toString();
-
-			User u = userDao.get(uid);
-			lastError = gameRun.getResult().get(u.getUsername()).getDebug().toString()
-					+ (lastError.isEmpty() ? "Your script ran successfully for "+game.getTotalMonth()+" months with "+game.getTotalDay()+" days each." : lastError);
-			u.setLastError(lastError);
-			u.setLastPrivateRun(new Date());
-			userDao.update(u);
+			DataProviderCouchDB.INSTANCE.writeTestRunProtocol(uid, gameRun, game);
 		}
 	}
 
+	@Override
+	public void startTestRun(String numberOfUsers) {
+		assert numberOfUsers != null && !numberOfUsers.isEmpty();
+		GroovyInitializer.globalInit();
+		IDataProvider dataProvider = new DataProviderMemory(numberOfUsers);
+		List<User> userList = dataProvider.allPlayers();
+
+		if (!userList.isEmpty()) {
+			Game game = new Game(Constants.Mode.FULL, dataProvider);
+			game.executeGame(userList);
+		}
+
+		inactivateUsers(dataProvider);
+	}
+
+	@Override
 	public String getVersion() {
 		String commit = "?";
 		String version = "?";
@@ -91,40 +95,15 @@ public class GameRunStarter {
 		return "V" + version + " [Commit#" + commit + "] build " + creationDate;
 	}
 
-	private List<User> allPlayers() {
-		List<User> userList = new ArrayList<>();
-		writeGameResult = true;
-
-		List<User> ul = userDao.findAllUser();
-		for (User u : ul) {
-			if (u.isActive()) {
-				userList.add(u);
-				log.debug("Adding player to game:" + u.getUsername());
-			}
-		}
-
-		return userList;
-	}
-
-	private void inactivateUsers() {
-
+	private void inactivateUsers(IDataProvider dataProvider) {
 		Map<String, Integer> playersToRemove = findBankruptPlayers();
-
-		List<User> ul = userDao.findAllUser();
-		for (User u : ul) {
-			if (playersToRemove.containsKey(u.getUsername())
-					&& playersToRemove.get(u.getUsername()) == ROUNDS_TO_BE_EXCLUDED) {
-				u.setActive(false);
-				userDao.update(u);
-			}
-		}
-
+		dataProvider.setPlayersInactive(playersToRemove);
 	}
 
 	private Map<String, Integer> findBankruptPlayers() {
 		Map<String, Integer> playersToRemove = new HashMap<>();
 		GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
-		List<GameRun> runHistory = dao.findAllGameRun(ROUNDS_TO_BE_EXCLUDED);
+		List<GameRun> runHistory = dao.findAllGameRun(IDataProvider.ROUNDS_TO_BE_EXCLUDED);
 		for (GameRun gr : runHistory) {
 			for (String parti : gr.getParticipants()) {
 				Double total = gr.getResult().getPlayerResults().get(parti).getTotalAssets();
@@ -138,16 +117,6 @@ public class GameRunStarter {
 			}
 		}
 		return playersToRemove;
-	}
-
-	private List<User> singlePlayer(String uid) {
-		List<User> userList = new ArrayList<>();
-		writeGameResult = false;
-		log.debug("Running game for user:" + uid);
-		User u = userDao.get(uid);
-		userList.add(u);
-		log.debug("Adding player to game:" + u.getUsername());
-		return userList;
 	}
 
 }

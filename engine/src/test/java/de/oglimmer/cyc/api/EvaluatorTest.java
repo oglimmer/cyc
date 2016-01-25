@@ -1,11 +1,10 @@
 package de.oglimmer.cyc.api;
 
-import net.sourceforge.jeval.EvaluationException;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import de.oglimmer.cyc.api.Grocer.BulkOrderDiscount;
+import net.sourceforge.jeval.EvaluationException;
 
 public class EvaluatorTest {
 

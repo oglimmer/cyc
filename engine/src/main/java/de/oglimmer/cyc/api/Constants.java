@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Properties;
 
+import lombok.Getter;
 import lombok.SneakyThrows;
 import net.sourceforge.jeval.EvaluationConstants;
 import net.sourceforge.jeval.EvaluationException;
@@ -24,9 +25,13 @@ public class Constants {
 
 	private Properties prop = new Properties();
 	private Evaluator e;
+	
+	@Getter
+	private Mode mode;
 
 	@SneakyThrows(value = IOException.class)
 	public Constants(Mode mode) {
+		this.mode = mode;
 		prop.load(Constants.class.getResourceAsStream(mode == Mode.FULL ? "/cyc-engine-full.properties"
 				: "/cyc-engine-single.properties"));
 		e = new Evaluator(EvaluationConstants.SINGLE_QUOTE, false, true, false, true);

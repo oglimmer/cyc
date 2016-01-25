@@ -6,11 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.RhinoException;
@@ -20,17 +15,15 @@ import org.mozilla.javascript.ScriptableObject;
 import com.cloudbees.util.rhino.sandbox.SandboxContextFactory;
 import com.cloudbees.util.rhino.sandbox.SandboxNativeJavaObject;
 
+import de.oglimmer.cyc.IDataProvider;
 import de.oglimmer.cyc.api.Constants.Mode;
-import de.oglimmer.cyc.dao.GameRunDao;
-import de.oglimmer.cyc.dao.GameWinnersDao;
-import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
-import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
-import de.oglimmer.cyc.dao.couchdb.GameWinnersCouchDb;
 import de.oglimmer.cyc.model.GameRun;
-import de.oglimmer.cyc.model.GameWinners;
-import de.oglimmer.cyc.model.GameWinners.GameWinnerEntry;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.util.ExceptionConverter;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Game {
@@ -38,6 +31,8 @@ public class Game {
 	static {
 		ContextFactory.initGlobal(new SandboxContextFactory());
 	}
+
+	private IDataProvider dataProvider;
 
 	@Getter(AccessLevel.PACKAGE)
 	private Grocer grocer = new Grocer(this);
@@ -70,14 +65,15 @@ public class Game {
 	@Getter(AccessLevel.PACKAGE)
 	private DailyStatisticsManager dailyStatisticsManager = new DailyStatisticsManager();
 
-	public Game(Mode mode) {
-		constants = new Constants(mode);
+	public Game(Mode mode, IDataProvider dataProvider) {
+		this.dataProvider = dataProvider;
+		this.constants = new Constants(mode);
 		this.totalYear = constants.getRuntimeYear();
 		this.totalMonth = constants.getRuntimeMonth();
 		this.totalDay = constants.getRuntimeDay();
 	}
 
-	public GameRun executeGame(List<User> userList, boolean writeGameResult) {
+	public GameRun executeGame(List<User> userList) {
 
 		gameRun.setStartTime(new Date());
 
@@ -89,8 +85,8 @@ public class Game {
 
 		calcResults();
 
-		if (writeGameResult) {
-			writeGameResults();
+		if (constants.getMode() == Mode.FULL) {
+			dataProvider.writeGameResults(gameRun);
 		}
 
 		log.debug("Run completed in {} millies.", gameRun.getEndTime().getTime() - gameRun.getStartTime().getTime());
@@ -98,23 +94,9 @@ public class Game {
 		return gameRun;
 	}
 
-	private void writeGameResults() {
-		GameRunDao gameRunDao = new GameRunCouchDb(CouchDbUtil.getDatabase());
-		gameRunDao.add(gameRun);
-
-		GameWinnersDao gameWinnersDao = new GameWinnersCouchDb(CouchDbUtil.getDatabase());
-		GameWinners gw = new GameWinners();
-		gw.setRefGameRunId(gameRun.getId());
-		gw.setStartTime(gameRun.getStartTime());
-		for (String company : gameRun.getParticipants()) {
-			gw.getParticipants().add(new GameWinnerEntry(company, gameRun.getResult().get(company).getTotalAssets()));
-		}
-		gameWinnersDao.add(gw);
-	}
-
 	void createCities() {
-		for (int i = cities.size(); i < constants.getNumberCities(Math.max(companies.size(),
-				getNumberTotalEstablishments())); i++) {
+		for (int i = cities.size(); i < constants
+				.getNumberCities(Math.max(companies.size(), getNumberTotalEstablishments())); i++) {
 			String city = constants.getCity(cities);
 			cities.add(new City(city, this));
 			log.debug("Created city={}", city);
@@ -174,8 +156,8 @@ public class Game {
 
 				Object jsCompany = new SandboxNativeJavaObject(scope, company, Company.class);
 				prototype.put("company", scope, jsCompany);
-				Object jsSystemout = new SandboxNativeJavaObject(scope, new DebugAdapter(this, gameRun.getResult(),
-						company.getName()), DebugAdapter.class);
+				Object jsSystemout = new SandboxNativeJavaObject(scope,
+						new DebugAdapter(this, gameRun.getResult(), company.getName()), DebugAdapter.class);
 				prototype.put("out", scope, jsSystemout);
 				prototype.put("console", scope, jsSystemout);
 

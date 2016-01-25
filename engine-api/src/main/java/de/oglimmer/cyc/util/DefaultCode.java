@@ -1,4 +1,4 @@
-package de.oglimmer.cyc.web.util;
+package de.oglimmer.cyc.util;
 
 import java.io.IOException;
 

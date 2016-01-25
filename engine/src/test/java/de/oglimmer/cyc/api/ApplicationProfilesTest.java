@@ -3,11 +3,13 @@ package de.oglimmer.cyc.api;
 import org.junit.Assert;
 import org.junit.Test;
 
+import de.oglimmer.cyc.DataProviderMemory;
+
 public class ApplicationProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestSingle() {
-		Game game = new Game(Constants.Mode.FULL);
+		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
 		Company comp = new Company(game, "compA", null);
 		Establishment est = new Establishment(comp, "cityA", 5, 10, 500, 2000);
 		ApplicationProfile p = new ApplicationProfile("appA", 5, JobPosition.CHEF, 2000);
@@ -22,7 +24,7 @@ public class ApplicationProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestDuo() {
-		Game game = new Game(Constants.Mode.FULL);
+		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
 		Company comp1 = new Company(game, "compA", null);
 		Company comp2 = new Company(game, "compB", null);
 		Establishment est1 = new Establishment(comp1, "cityA", 5, 10, 500, 2000);

@@ -1,5 +1,5 @@
-HOW TO DEBUG
-============
+HOW TO REMOTE DEBUG
+===================
 
 1.) set CYC_ENGINE_CONTAINER to whatever you want
 
@@ -11,11 +11,19 @@ java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n -Dcyc
 
 4.) connect a remote debugger at port 4000
 
+HOW TO DEBUG IN ECLIPSE
+=======================
+
+1.) Import all projects into eclipse and add the engine project to the engine-container project
+
+2.) Set -Dcyc.home=NOTSET -Dcyc.security=disable -Dcyc.debug=true -ea
+
+3.) Start de.oglimmer.cyc.engineContainer.GameServer
+
 EXTRAS
 ======
 
 # check the engine-container/src/main/resources/logback.xml. Remove the loggers for de.oglimmer.cyc.api.* to enable debug logging for certain classes.
 
 # to check the security.policy, remove -Dcyc.security=disable and replace with -Djava.security.policy=security.policy. You also might want to add -Djava.security.debug=access:failure
-
-# To debug in Eclipse add the engine project to the engine-container project and set -Dcyc.home=${workspace_loc:engine-container}/target -Dcyc.security=disable -Dcyc.debug=true -ea
+ 

@@ -3,15 +3,14 @@ package de.oglimmer.cyc.engineContainer;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.security.Policy;
 import java.util.concurrent.TimeUnit;
 
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
+
+import de.oglimmer.cyc.engine.IGameRunStarter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class EngineLoader {
@@ -45,32 +44,26 @@ public class EngineLoader {
 		return baseDir;
 	}
 
-	@SneakyThrows(value = { NoSuchMethodException.class, IllegalAccessException.class, InstantiationException.class,
-			ClassNotFoundException.class })
-	public void startGame(String clientRequest) throws InvocationTargetException {
+	public void startGame(String clientRequest) {
 
-		Object obj = createGameRunStarter();
+		IGameRunStarter obj = createGameRunStarter();
 		if (clientRequest == null || clientRequest.trim().isEmpty()) {
-			Method m = obj.getClass().getMethod("startFullGame", new Class[0]);
-			m.invoke(obj);
+			obj.startFullGame();
+		} else if (clientRequest.toUpperCase().startsWith("TEST")) { 
+			obj.startTestRun(clientRequest.substring(4));
 		} else {
-			Method m = obj.getClass().getMethod("startCheckRun", String.class);
-			m.invoke(obj, clientRequest);
+			obj.startCheckRun(clientRequest);
 		}
 	}
 
-	@SneakyThrows(value = { IllegalAccessException.class, IllegalArgumentException.class, NoSuchMethodException.class,
-			SecurityException.class, InstantiationException.class, ClassNotFoundException.class })
 	public String getVersion() throws InvocationTargetException {
-		Object obj = createGameRunStarter();
-		Method m = obj.getClass().getMethod("getVersion", new Class[0]);
-		return (String) m.invoke(obj);
+		IGameRunStarter obj = createGameRunStarter();
+		return obj.getVersion();
 	}
 
-	protected Object createGameRunStarter() throws InstantiationException, IllegalAccessException,
-			ClassNotFoundException {
+	protected IGameRunStarter createGameRunStarter() {
 		JclObjectFactory factory = JclObjectFactory.getInstance();
-		return factory.create(jcl, "de.oglimmer.cyc.GameRunStarter");
+		return (IGameRunStarter) factory.create(jcl, "de.oglimmer.cyc.GameRunStarter");
 	}
 
 	protected void initClassLoader() {
