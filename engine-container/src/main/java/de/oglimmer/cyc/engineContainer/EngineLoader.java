@@ -3,14 +3,15 @@ package de.oglimmer.cyc.engineContainer;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.Policy;
 import java.util.concurrent.TimeUnit;
 
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
-
-import de.oglimmer.cyc.engine.IGameRunStarter;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class EngineLoader {
@@ -44,26 +45,32 @@ public class EngineLoader {
 		return baseDir;
 	}
 
-	public void startGame(String clientRequest) {
+	@SneakyThrows(value = { NoSuchMethodException.class, IllegalAccessException.class, InstantiationException.class,
+			ClassNotFoundException.class })
+	public void startGame(String clientRequest) throws InvocationTargetException {
 
-		IGameRunStarter obj = createGameRunStarter();
+		Object obj = createGameRunStarter();
 		if (clientRequest == null || clientRequest.trim().isEmpty()) {
-			obj.startFullGame();
-		} else if (clientRequest.toUpperCase().startsWith("TEST")) { 
-			obj.startTestRun(clientRequest.substring(4));
+			Method m = obj.getClass().getMethod("startFullGame", new Class[0]);
+			m.invoke(obj);
 		} else {
-			obj.startCheckRun(clientRequest);
+			Method m = obj.getClass().getMethod("startCheckRun", String.class);
+			m.invoke(obj, clientRequest);
 		}
 	}
 
+	@SneakyThrows(value = { IllegalAccessException.class, IllegalArgumentException.class, NoSuchMethodException.class,
+			SecurityException.class, InstantiationException.class, ClassNotFoundException.class })
 	public String getVersion() throws InvocationTargetException {
-		IGameRunStarter obj = createGameRunStarter();
-		return obj.getVersion();
+		Object obj = createGameRunStarter();
+		Method m = obj.getClass().getMethod("getVersion", new Class[0]);
+		return (String) m.invoke(obj);
 	}
 
-	protected IGameRunStarter createGameRunStarter() {
+	protected Object createGameRunStarter() throws InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
 		JclObjectFactory factory = JclObjectFactory.getInstance();
-		return (IGameRunStarter) factory.create(jcl, "de.oglimmer.cyc.GameRunStarter");
+		return factory.create(jcl, "de.oglimmer.cyc.GameRunStarter");
 	}
 
 	protected void initClassLoader() {
