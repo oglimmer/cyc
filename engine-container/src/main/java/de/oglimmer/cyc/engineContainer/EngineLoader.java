@@ -7,11 +7,11 @@ import java.lang.reflect.Method;
 import java.security.Policy;
 import java.util.concurrent.TimeUnit;
 
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
+
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class EngineLoader {
@@ -53,6 +53,9 @@ public class EngineLoader {
 		if (clientRequest == null || clientRequest.trim().isEmpty()) {
 			Method m = obj.getClass().getMethod("startFullGame", new Class[0]);
 			m.invoke(obj);
+		} else if (clientRequest.toUpperCase().startsWith("TEST")) {
+			Method m = obj.getClass().getMethod("startTestRun", String.class);
+			m.invoke(obj, clientRequest.substring(4));
 		} else {
 			Method m = obj.getClass().getMethod("startCheckRun", String.class);
 			m.invoke(obj, clientRequest);
