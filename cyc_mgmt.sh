@@ -81,7 +81,7 @@ fi
 if [ -n "$ENGINE_CONTAINER" ]; then
 	if [ -d "$CYC_ENGINE_CONTAINER" ]; then
 		nc -z localhost 9998
-		if [ $? -eq 0 ]; then
+		if [ $? -eq 0 -a $IGNORE_RUNNING_SYSTEM -ne 1 ]; then
 			echo "Deployment of engine-container aborted, since engine-container process is running"
 			exit 1
 		fi

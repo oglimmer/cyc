@@ -16,48 +16,44 @@ import de.oglimmer.cyc.api.GroovyInitializer;
 import de.oglimmer.cyc.dao.GameRunDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
-import de.oglimmer.cyc.engine.IGameRunStarter;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class GameRunStarter implements IGameRunStarter {
+public class GameRunStarter {
 
-	@Override
 	public void startFullGame() {
 		GroovyInitializer.globalInit();
 		log.debug("Running full game");
-		List<User> userList = DataProviderCouchDB.INSTANCE.allPlayers();
+		List<User> userList = DataBackendCouchDB.INSTANCE.allPlayers();
 
 		if (!userList.isEmpty()) {
-			Game game = new Game(Constants.Mode.FULL, DataProviderCouchDB.INSTANCE);
+			Game game = new Game(Constants.Mode.FULL, DataBackendCouchDB.INSTANCE);
 			game.executeGame(userList);
 		}
 
-		inactivateUsers(DataProviderCouchDB.INSTANCE);
+		inactivateUsers(DataBackendCouchDB.INSTANCE);
 	}
 
-	@Override
 	public void startCheckRun(String uid) {
 		assert uid != null && !uid.isEmpty();
 		GroovyInitializer.globalInit();
 
-		List<User> userList = DataProviderCouchDB.INSTANCE.singlePlayer(uid);
+		List<User> userList = DataBackendCouchDB.INSTANCE.singlePlayer(uid);
 
 		if (!userList.isEmpty()) {
-			Game game = new Game(Constants.Mode.SINGLE, DataProviderCouchDB.INSTANCE);
+			Game game = new Game(Constants.Mode.SINGLE, DataBackendCouchDB.INSTANCE);
 			GameRun gameRun = game.executeGame(userList);
 
-			DataProviderCouchDB.INSTANCE.writeTestRunProtocol(uid, gameRun, game);
+			DataBackendCouchDB.INSTANCE.writeTestRunProtocol(uid, gameRun, game);
 		}
 	}
 
-	@Override
 	public void startTestRun(String numberOfUsers) {
 		assert numberOfUsers != null && !numberOfUsers.isEmpty();
 		GroovyInitializer.globalInit();
-		IDataProvider dataProvider = new DataProviderMemory(numberOfUsers);
+		IDataBackend dataProvider = new DataBackendMemory(numberOfUsers);
 		List<User> userList = dataProvider.allPlayers();
 
 		if (!userList.isEmpty()) {
@@ -68,7 +64,6 @@ public class GameRunStarter implements IGameRunStarter {
 		inactivateUsers(dataProvider);
 	}
 
-	@Override
 	public String getVersion() {
 		String commit = "?";
 		String version = "?";
@@ -95,7 +90,7 @@ public class GameRunStarter implements IGameRunStarter {
 		return "V" + version + " [Commit#" + commit + "] build " + creationDate;
 	}
 
-	private void inactivateUsers(IDataProvider dataProvider) {
+	private void inactivateUsers(IDataBackend dataProvider) {
 		Map<String, Integer> playersToRemove = findBankruptPlayers();
 		dataProvider.setPlayersInactive(playersToRemove);
 	}
@@ -103,7 +98,7 @@ public class GameRunStarter implements IGameRunStarter {
 	private Map<String, Integer> findBankruptPlayers() {
 		Map<String, Integer> playersToRemove = new HashMap<>();
 		GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
-		List<GameRun> runHistory = dao.findAllGameRun(IDataProvider.ROUNDS_TO_BE_EXCLUDED);
+		List<GameRun> runHistory = dao.findAllGameRun(IDataBackend.ROUNDS_TO_BE_EXCLUDED);
 		for (GameRun gr : runHistory) {
 			for (String parti : gr.getParticipants()) {
 				Double total = gr.getResult().getPlayerResults().get(parti).getTotalAssets();

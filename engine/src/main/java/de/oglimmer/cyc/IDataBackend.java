@@ -7,7 +7,7 @@ import de.oglimmer.cyc.api.Game;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 
-public interface IDataProvider {
+public interface IDataBackend {
 
 	int ROUNDS_TO_BE_EXCLUDED = 10;
 

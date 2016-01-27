@@ -5,15 +5,6 @@ import java.util.Date;
 
 import javax.servlet.http.Cookie;
 
-import lombok.Getter;
-import lombok.Setter;
-import net.sourceforge.stripes.action.Before;
-import net.sourceforge.stripes.action.DefaultHandler;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.RedirectResolution;
-import net.sourceforge.stripes.action.Resolution;
-import net.sourceforge.stripes.controller.LifecycleStage;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -22,10 +13,19 @@ import org.slf4j.LoggerFactory;
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
+import de.oglimmer.cyc.mbean.CycStatistics;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.GameExecutor;
 import de.oglimmer.cyc.web.ThreeDaysWinner;
 import de.oglimmer.cyc.web.exception.CycPermissionException;
+import lombok.Getter;
+import lombok.Setter;
+import net.sourceforge.stripes.action.Before;
+import net.sourceforge.stripes.action.DefaultHandler;
+import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.RedirectResolution;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.controller.LifecycleStage;
 
 public class PortalActionBean extends BaseAction {
 	private static Logger log = LoggerFactory.getLogger(PortalActionBean.class);
@@ -119,6 +119,8 @@ public class PortalActionBean extends BaseAction {
 		user.setActive(true);
 		user.setLastCodeChangeDate(new Date());
 		userDao.update(user);
+
+		CycStatistics.INSTANCE.getMbean().incCheckRuns();
 
 		try {
 			GameExecutor.INSTANCE.runGame((String) getContext().getRequest().getSession().getAttribute("userid"));

@@ -20,11 +20,11 @@ import de.oglimmer.cyc.model.User;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class DataProviderCouchDB implements IDataProvider {
+public class DataBackendCouchDB implements IDataBackend {
 
-	public static final DataProviderCouchDB INSTANCE = new DataProviderCouchDB();
+	public static final DataBackendCouchDB INSTANCE = new DataBackendCouchDB();
 
-	private DataProviderCouchDB() {
+	private DataBackendCouchDB() {
 	}
 
 	private GameRunDao gameRunDao = new GameRunCouchDb(CouchDbUtil.getDatabase());

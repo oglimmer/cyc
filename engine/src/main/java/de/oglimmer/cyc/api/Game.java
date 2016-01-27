@@ -15,7 +15,7 @@ import org.mozilla.javascript.ScriptableObject;
 import com.cloudbees.util.rhino.sandbox.SandboxContextFactory;
 import com.cloudbees.util.rhino.sandbox.SandboxNativeJavaObject;
 
-import de.oglimmer.cyc.IDataProvider;
+import de.oglimmer.cyc.IDataBackend;
 import de.oglimmer.cyc.api.Constants.Mode;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
@@ -32,7 +32,7 @@ public class Game {
 		ContextFactory.initGlobal(new SandboxContextFactory());
 	}
 
-	private IDataProvider dataProvider;
+	private IDataBackend dataProvider;
 
 	@Getter(AccessLevel.PACKAGE)
 	private Grocer grocer = new Grocer(this);
@@ -65,7 +65,7 @@ public class Game {
 	@Getter(AccessLevel.PACKAGE)
 	private DailyStatisticsManager dailyStatisticsManager = new DailyStatisticsManager();
 
-	public Game(Mode mode, IDataProvider dataProvider) {
+	public Game(Mode mode, IDataBackend dataProvider) {
 		this.dataProvider = dataProvider;
 		this.constants = new Constants(mode);
 		this.totalYear = constants.getRuntimeYear();

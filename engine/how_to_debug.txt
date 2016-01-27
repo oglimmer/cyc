@@ -16,7 +16,7 @@ HOW TO DEBUG IN ECLIPSE
 
 1.) Import all projects into eclipse and add the engine project to the engine-container project
 
-2.) Set -Dcyc.home=NOTSET -Dcyc.security=disable -Dcyc.debug=true -ea
+2.) Set -Dcyc.home=logs/../ -Dcyc.security=disable -Dcyc.debug=true -ea
 
 3.) Start de.oglimmer.cyc.engineContainer.GameServer
 

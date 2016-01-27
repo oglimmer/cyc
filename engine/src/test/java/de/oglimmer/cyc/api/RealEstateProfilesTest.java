@@ -3,13 +3,13 @@ package de.oglimmer.cyc.api;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.oglimmer.cyc.DataProviderMemory;
+import de.oglimmer.cyc.DataBackendMemory;
 import de.oglimmer.cyc.api.RealEstateProfile.RealEstateOffer;
 
 public class RealEstateProfilesTest {
 	@Test
 	public void getMaxOfferForTestSingleLease() {
-		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Constants.Mode.FULL, DataBackendMemory.INSTANCE);
 		Company comp = new Company(game, "compA", null);
 		RealEstateProfile rep = new RealEstateProfile("cityA", 1000, 200, 5, 5);
 
@@ -25,7 +25,7 @@ public class RealEstateProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestTwoLease() {
-		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Constants.Mode.FULL, DataBackendMemory.INSTANCE);
 		Company comp1 = new Company(game, "compA", null);
 		Company comp2 = new Company(game, "compB", null);
 		RealEstateProfile rep = new RealEstateProfile("cityA", 1000, 200, 5, 5);
@@ -46,7 +46,7 @@ public class RealEstateProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestThreeLease() {
-		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Constants.Mode.FULL, DataBackendMemory.INSTANCE);
 		Company comp1 = new Company(game, "compA", null);
 		Company comp2 = new Company(game, "compB", null);
 		Company comp3 = new Company(game, "compC", null);
@@ -72,7 +72,7 @@ public class RealEstateProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestSingleBuy() {
-		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Constants.Mode.FULL, DataBackendMemory.INSTANCE);
 		Company comp = new Company(game, "compA", null);
 		RealEstateProfile rep = new RealEstateProfile("cityA", 1000, 200, 5, 5);
 
@@ -88,7 +88,7 @@ public class RealEstateProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestTwoBuy() {
-		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Constants.Mode.FULL, DataBackendMemory.INSTANCE);
 		Company comp1 = new Company(game, "compA", null);
 		Company comp2 = new Company(game, "compB", null);
 		RealEstateProfile rep = new RealEstateProfile("cityA", 1000, 200, 5, 5);
@@ -109,7 +109,7 @@ public class RealEstateProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestThreeBuy() {
-		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Constants.Mode.FULL, DataBackendMemory.INSTANCE);
 		Company comp1 = new Company(game, "compA", null);
 		Company comp2 = new Company(game, "compB", null);
 		Company comp3 = new Company(game, "compC", null);
@@ -135,7 +135,7 @@ public class RealEstateProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestTwoMixed() {
-		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Constants.Mode.FULL, DataBackendMemory.INSTANCE);
 		Company comp1 = new Company(game, "compA", null);
 		Company comp2 = new Company(game, "compB", null);
 		RealEstateProfile rep = new RealEstateProfile("cityA", 1000, 200, 5, 5);
@@ -156,7 +156,7 @@ public class RealEstateProfilesTest {
 
 	@Test
 	public void getMaxOfferForTestThreeMixed() {
-		Game game = new Game(Constants.Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Constants.Mode.FULL, DataBackendMemory.INSTANCE);
 		Company comp1 = new Company(game, "compA", null);
 		Company comp2 = new Company(game, "compB", null);
 		Company comp3 = new Company(game, "compC", null);

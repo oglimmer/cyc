@@ -10,17 +10,17 @@ import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.util.DefaultCode;
 
-public class DataProviderMemory implements IDataProvider {
+public class DataBackendMemory implements IDataBackend {
 
-	public static final DataProviderMemory INSTANCE = new DataProviderMemory();
+	public static final DataBackendMemory INSTANCE = new DataBackendMemory();
 
 	private List<User> users = new ArrayList<>();
 
-	public DataProviderMemory() {
+	public DataBackendMemory() {
 		this("1");
 	}
 
-	public DataProviderMemory(String numberOfUser) {
+	public DataBackendMemory(String numberOfUser) {
 		for (int i = 0; i < Integer.parseInt(numberOfUser); i++) {
 			User user = new User();
 			user.setActive(true);

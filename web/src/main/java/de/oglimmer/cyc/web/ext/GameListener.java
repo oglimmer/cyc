@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebListener;
 import org.apache.commons.lang.StringUtils;
 
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
+import de.oglimmer.cyc.mbean.CycStatistics;
 import de.oglimmer.cyc.web.GameExecutor;
 
 @WebListener
@@ -14,6 +15,7 @@ public class GameListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
+		CycStatistics.INSTANCE.toString();
 		String realPath = sce.getServletContext().getRealPath("/");
 		GameExecutor.INSTANCE
 				.setWarVersion(StringUtils.substringBefore(StringUtils.substringAfter(realPath, "##"), "/"));

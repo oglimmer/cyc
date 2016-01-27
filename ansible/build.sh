@@ -13,6 +13,8 @@ export CYC_ENGINE_CONTAINER=$(pwd)/${0%/*}/roles/cyc-container/files/cyc-engine-
 # mvn build needs more heap space
 export MAVEN_OPTS="-Xmx3072m"
 
+export IGNORE_RUNNING_SYSTEM=1
+
 # build and copy/deploy files
 ../cyc_mgmt.sh -b -e -c -w || exit 1
 

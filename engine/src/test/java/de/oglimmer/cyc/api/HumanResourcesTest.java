@@ -5,14 +5,14 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.oglimmer.cyc.DataProviderMemory;
+import de.oglimmer.cyc.DataBackendMemory;
 import de.oglimmer.cyc.api.Constants.Mode;
 
 public class HumanResourcesTest {
 
 	@Test
 	public void summaryTest() {
-		Game game = new Game(Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Mode.FULL, DataBackendMemory.INSTANCE);
 		Company comp = new Company(game, "comp", new Grocer(game));
 		HumanResources hr = comp.getHumanResources();
 		Establishment est = new Establishment(comp, "city", 5, 5, 1000, 2000);

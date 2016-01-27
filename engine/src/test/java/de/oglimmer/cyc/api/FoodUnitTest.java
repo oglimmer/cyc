@@ -3,7 +3,7 @@ package de.oglimmer.cyc.api;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.oglimmer.cyc.DataProviderMemory;
+import de.oglimmer.cyc.DataBackendMemory;
 import de.oglimmer.cyc.api.Constants.Mode;
 import de.oglimmer.cyc.util.CountMap;
 
@@ -11,7 +11,7 @@ public class FoodUnitTest {
 
 	@Test
 	public void testIncDay() {
-		Game game = new Game(Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Mode.FULL, DataBackendMemory.INSTANCE);
 		Company company = new Company(game, "companyA", game.getGrocer());
 		Establishment est = new Establishment(company, "cityA", 5, 50, 1000, 2000);
 

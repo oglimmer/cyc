@@ -5,14 +5,14 @@ import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.oglimmer.cyc.DataProviderMemory;
+import de.oglimmer.cyc.DataBackendMemory;
 import de.oglimmer.cyc.api.Constants.Mode;
 
 public class EstablishmentTest {
 
 	@Test
 	public void testDistributeEquallyOne() {
-		Game game = new Game(Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Mode.FULL, DataBackendMemory.INSTANCE);
 		Company company = new Company(game, "companyA", game.getGrocer());
 		Establishment est = new Establishment(company, "cityA", 5, 50, 1000, 2000);
 		company.getEstablishmentsInt().add(est);
@@ -32,7 +32,7 @@ public class EstablishmentTest {
 
 	@Test
 	public void testDistributeEquallyTwo() {
-		Game game = new Game(Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Mode.FULL, DataBackendMemory.INSTANCE);
 		Company company = new Company(game, "companyA", game.getGrocer());
 		Establishment est1 = new Establishment(company, "cityA", 5, 50, 1000, 2000);
 		Establishment est2 = new Establishment(company, "cityA", 5, 50, 1000, 2000);
@@ -59,7 +59,7 @@ public class EstablishmentTest {
 
 	@Test
 	public void testCleanFoodStorage() {
-		Game game = new Game(Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Mode.FULL, DataBackendMemory.INSTANCE);
 		Company company = new Company(game, "companyA", game.getGrocer());
 		Establishment est = new Establishment(company, "cityA", 5, 50, 1000, 2000);
 		company.getEstablishmentsInt().add(est);
@@ -84,7 +84,7 @@ public class EstablishmentTest {
 
 	@Test
 	public void testNewFoodUnit() {
-		Game game = new Game(Mode.FULL, DataProviderMemory.INSTANCE);
+		Game game = new Game(Mode.FULL, DataBackendMemory.INSTANCE);
 		Company company = new Company(game, "companyA", game.getGrocer());
 		Establishment est = new Establishment(company, "cityA", 5, 50, 1000, 2000);
 		company.getEstablishmentsInt().add(est);
