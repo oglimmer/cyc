@@ -2,12 +2,12 @@
     <queries>
 
 		<!-- APP -->
-		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="TotalUsers" resultAlias="gameRunStats.TotalUsers"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="TotalUsers" resultAlias="gameRunStats.TotalUsers.max"/>
 		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="ActiveUsers" resultAlias="gameRunStats.ActiveUsers"/>
 		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="InActiveUsers" resultAlias="gameRunStats.InActiveUsers"/>
 		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="LastFullRunTime" resultAlias="gameRunStats.LastFullRunTime"/>
 		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="ShowCodeUsers" resultAlias="gameRunStats.ShowCodeUsers"/>
-		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="CheckRuns" resultAlias="gameRunStats.CheckRuns"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="CheckRuns" resultAlias="gameRunStats.CheckRuns.count"/>
 
 
         <!-- OS -->

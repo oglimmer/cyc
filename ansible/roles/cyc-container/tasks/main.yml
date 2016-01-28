@@ -50,6 +50,8 @@
 
 - name: copy jmxtrans.xml
   copy: src=scripts/jmxtrans.xml dest=/usr/local/cyc-engine-container/jmxtrans.xml mode=0755
+  notify:
+    - restart cyc-engine-container
 
 ## config under /etc
 
