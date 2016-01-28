@@ -1,3 +1,26 @@
+grant codeBase "file:/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar" {
+	permission javax.management.MBeanPermission "-#-[-]", "queryNames";
+	permission javax.management.MBeanPermission "sun.management.ClassLoadingImpl#-[java.lang:type=ClassLoading]", "queryNames";
+	permission javax.management.MBeanPermission "sun.management.ClassLoadingImpl#LoadedClassCount[java.lang:type=ClassLoading]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.ThreadImpl#-[java.lang:type=Threading]", "queryNames";
+	permission javax.management.MBeanPermission "sun.management.ThreadImpl#ThreadCount[java.lang:type=Threading]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.MemoryImpl#-[java.lang:type=Memory]", "queryNames";
+	permission javax.management.MBeanPermission "sun.management.MemoryImpl#NonHeapMemoryUsage[java.lang:type=Memory]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.MemoryImpl#HeapMemoryUsage[java.lang:type=Memory]", "getAttribute";
+	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#-[java.lang:type=OperatingSystem]", "queryNames";
+	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#SystemLoadAverage[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#SystemCpuLoad[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#ProcessCpuLoad[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#OpenFileDescriptorCount[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#FreeSwapSpaceSize[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#FreePhysicalMemorySize[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#CommittedVirtualMemorySize[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "de.oglimmer.cyc.mbean.GameRunStats#-[de.oglimmer.cyc:type=GameRunStats]", "queryNames";
+	permission javax.management.MBeanPermission "de.oglimmer.cyc.mbean.GameRunStats#*[de.oglimmer.cyc:type=GameRunStats]", "getAttribute";
+	permission java.net.SocketPermission "vpn.oglimmer.de", "resolve";
+	permission java.net.SocketPermission "104.236.33.19:2003", "connect,resolve";
+};
+
 grant codeBase "file:${cyc.home}/engine-container-jar-with-dependencies.jar" {
 
 	permission java.lang.RuntimePermission "accessClassInPackage.com.sun.proxy";

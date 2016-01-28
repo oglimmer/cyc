@@ -2,6 +2,7 @@ package de.oglimmer.cyc.engineContainer;
 
 import java.io.IOException;
 
+import de.oglimmer.cyc.mbean.CycStatistics;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -13,6 +14,7 @@ public class GameServer {
 
 	public static void main(String[] args) {
 		assert System.getProperty("cyc.home") != null;
+		CycStatistics.INSTANCE.toString();
 		armSecurityManager();
 		startServer();
 	}

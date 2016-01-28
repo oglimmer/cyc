@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
-import de.oglimmer.cyc.mbean.CycStatistics;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.GameExecutor;
 import de.oglimmer.cyc.web.ThreeDaysWinner;
@@ -119,8 +118,6 @@ public class PortalActionBean extends BaseAction {
 		user.setActive(true);
 		user.setLastCodeChangeDate(new Date());
 		userDao.update(user);
-
-		CycStatistics.INSTANCE.getMbean().incCheckRuns();
 
 		try {
 			GameExecutor.INSTANCE.runGame((String) getContext().getRequest().getSession().getAttribute("userid"));

@@ -30,4 +30,9 @@ fi
 #	OPTS="$OPTS -Dcyc.properties=/etc/cyc.properties"
 #fi
 
+if [ -e "/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar" ]; then
+	OPTS="$OPTS -javaagent:/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar=/usr/local/cyc-engine-container/jmxtrans.xml"
+fi
+
+
 $_java -Xmx512M $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=/usr/local/cyc-engine-container/security.policy -Dcyc.home=/usr/local/cyc-engine-container -jar /usr/local/cyc-engine-container/engine-container-jar-with-dependencies.jar

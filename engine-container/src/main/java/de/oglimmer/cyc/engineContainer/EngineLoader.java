@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
 
+import de.oglimmer.cyc.mbean.CycStatistics;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,6 +58,7 @@ public class EngineLoader {
 			Method m = obj.getClass().getMethod("startTestRun", String.class);
 			m.invoke(obj, clientRequest.substring(4));
 		} else {
+			CycStatistics.INSTANCE.getMbean().incCheckRuns();
 			Method m = obj.getClass().getMethod("startCheckRun", String.class);
 			m.invoke(obj, clientRequest);
 		}

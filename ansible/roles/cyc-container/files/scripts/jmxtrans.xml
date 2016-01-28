@@ -1,0 +1,50 @@
+<jmxtrans-agent>
+    <queries>
+
+		<!-- APP -->
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="TotalUsers" resultAlias="gameRunStats.TotalUsers"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="ActiveUsers" resultAlias="gameRunStats.ActiveUsers"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="InActiveUsers" resultAlias="gameRunStats.InActiveUsers"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="LastFullRunTime" resultAlias="gameRunStats.LastFullRunTime"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="ShowCodeUsers" resultAlias="gameRunStats.ShowCodeUsers"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="CheckRuns" resultAlias="gameRunStats.CheckRuns"/>
+
+
+        <!-- OS -->
+        <query objectName="java.lang:type=OperatingSystem" attribute="CommittedVirtualMemorySize" resultAlias="os.CommittedVirtualMemorySize"/>
+        <query objectName="java.lang:type=OperatingSystem" attribute="FreePhysicalMemorySize" resultAlias="os.FreePhysicalMemorySize"/>
+        <query objectName="java.lang:type=OperatingSystem" attribute="FreeSwapSpaceSize" resultAlias="os.FreeSwapSpaceSize"/>
+        <query objectName="java.lang:type=OperatingSystem" attribute="OpenFileDescriptorCount" resultAlias="os.OpenFileDescriptorCount.count"/>
+        <query objectName="java.lang:type=OperatingSystem" attribute="ProcessCpuLoad" resultAlias="os.ProcessCpuLoad"/>
+        <query objectName="java.lang:type=OperatingSystem" attribute="SystemCpuLoad" resultAlias="os.SystemCpuLoad"/>
+        <query objectName="java.lang:type=OperatingSystem" attribute="SystemLoadAverage" resultAlias="os.SystemLoadAverage"/>
+
+        <!-- JVM -->
+        <query objectName="java.lang:type=Memory" attribute="HeapMemoryUsage" key="used"
+               resultAlias="jvm.heapMemoryUsage.used"/>
+        <query objectName="java.lang:type=Memory" attribute="HeapMemoryUsage" key="committed"
+               resultAlias="jvm.heapMemoryUsage.committed"/>
+        <query objectName="java.lang:type=Memory" attribute="NonHeapMemoryUsage" key="used"
+               resultAlias="jvm.nonHeapMemoryUsage.used"/>
+        <query objectName="java.lang:type=Memory" attribute="NonHeapMemoryUsage" key="committed"
+               resultAlias="jvm.nonHeapMemoryUsage.committed"/>
+        <query objectName="java.lang:type=ClassLoading" attribute="LoadedClassCount" resultAlias="jvm.loadedClasses.count"/>
+
+        <query objectName="java.lang:type=Threading" attribute="ThreadCount" resultAlias="jvm.thread.count"/>
+
+        <query objectName="java.lang:type=GarbageCollector,name=PS MarkSweep" attribute="CollectionCount" resultAlias="jvm.gc.ms.CollectionCount.count"/>
+        <query objectName="java.lang:type=GarbageCollector,name=PS MarkSweep" attribute="CollectionTime" resultAlias="jvm.gc.ms.CollectionTime"/>
+        <query objectName="java.lang:type=GarbageCollector,name=PS Scavenge" attribute="CollectionCount" resultAlias="jvm.gc.sc.CollectionCount.count"/>
+        <query objectName="java.lang:type=GarbageCollector,name=PS Scavenge" attribute="CollectionTime" resultAlias="jvm.gc.sc.CollectionTime"/>
+
+
+    </queries>
+    
+    <outputWriter class="org.jmxtrans.agent.GraphitePlainTextTcpOutputWriter">
+        <host>vpn.oglimmer.de</host>
+        <port>2003</port>
+        <namePrefix>cyc.engine.</namePrefix>
+    </outputWriter>
+  
+    <collectIntervalInSeconds>15</collectIntervalInSeconds>
+</jmxtrans-agent>
