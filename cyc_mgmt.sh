@@ -92,6 +92,7 @@ if [ -n "$ENGINE_CONTAINER" ]; then
 	cp engine-container/target/classes/security.policy $CYC_ENGINE_CONTAINER	
 	mkdir -p $CYC_ENGINE_CONTAINER/logs
 	cp ansible/roles/cyc-container/files/scripts/run.sh $CYC_ENGINE_CONTAINER
+	cp ansible/roles/cyc-container/files/scripts/jmxtrans.xml $CYC_ENGINE_CONTAINER
 	chmod 777 $CYC_ENGINE_CONTAINER/run.sh
 fi
 
