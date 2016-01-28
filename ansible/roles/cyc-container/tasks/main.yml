@@ -46,7 +46,7 @@
   file: path=/usr/local/cyc-engine-container/logs mode=0775 owner=cyc-engine group=cyc-engine
 
 - name: copy start/stop script
-  copy: src=scripts/run.sh dest=/usr/local/cyc-engine-container/run-service.sh mode=0755
+  copy: src=scripts/run.sh dest=/usr/local/cyc-engine-container/run.sh mode=0755
 
 - name: copy jmxtrans.xml
   copy: src=scripts/jmxtrans.xml dest=/usr/local/cyc-engine-container/jmxtrans.xml mode=0755

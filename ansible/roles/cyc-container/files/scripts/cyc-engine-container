@@ -16,7 +16,7 @@ do_start()
                 echo -n "Starting $SERVER: "
                 cd $ROOT_DIR
                 echo sudo -b -u $USER $ROOT_DIR/run.sh
-                sudo -b -u $USER $ROOT_DIR/run-service.sh >> $LOG_FILE
+                sudo -b -u $USER $ROOT_DIR/run.sh >> $LOG_FILE
                 RETVAL=$?
                 echo                
         fi
