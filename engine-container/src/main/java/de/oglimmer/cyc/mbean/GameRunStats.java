@@ -1,5 +1,6 @@
 package de.oglimmer.cyc.mbean;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -22,11 +23,11 @@ public class GameRunStats implements GameRunStatsMBean {
 	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
-	private int counterCheckRuns;
-
 	private enum CACHE_TYPE {
 		TOTAL_USERS, ACTIVE_USERS, INACTIVE_USERS, LAST_FULLRUN_TIME, SHOW_CODE_USERS
 	}
+
+	private DecayList counterCheckRuns = new DecayList(TimeUnit.SECONDS, 15);
 
 	private LoadingCache<CACHE_TYPE, Integer> totalUsersCache = CacheBuilder.newBuilder()
 			.refreshAfterWrite(15, TimeUnit.SECONDS).build(new CacheLoader<CACHE_TYPE, Integer>() {
@@ -97,11 +98,11 @@ public class GameRunStats implements GameRunStatsMBean {
 
 	@Override
 	public int getCheckRuns() {
-		return counterCheckRuns;
+		return counterCheckRuns.size();
 	}
 
 	@Override
 	public void incCheckRuns() {
-		counterCheckRuns++;
+		counterCheckRuns.add(new Date());
 	}
 }
