@@ -121,8 +121,10 @@ public class TcpHandler implements Closeable {
 		log.info("Current dir: {}", curDir);
 		log.info("Uptime: {}", startTime);
 		log.info("Memory(free/total/max): {}/{}/{}", freeMem, totalMem, maxMem);
-		buff.append("Queue-size: " + queueSizeTestRun + "\n");
-		buff.append("Active: " + activeTestRun + "\n");
+		buff.append("Queue-size(test): " + queueSizeTestRun + "\n");
+		buff.append("Active(test): " + activeTestRun + "\n");
+		buff.append("Queue-size(full): " + queueSizeFullRun + "\n");
+		buff.append("Active(full): " + activeFullRun + "\n");
 		buff.append("Current dir: " + curDir + "\n");
 		buff.append("Uptime: " + startTime + "\n");
 		buff.append("Memory(free/total/max): " + freeMem + "/" + totalMem + "/" + maxMem + "\n");
