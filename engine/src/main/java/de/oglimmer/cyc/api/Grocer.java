@@ -63,7 +63,7 @@ public class Grocer {
 			c.decCash(cost);
 			log.debug(c.getName() + " bought {} (over {} days) of {} for total ${}", totalUnits, days, food, cost);
 			foodOrders.add(new FoodOrder(c, Food.valueOf(food), unitsPerDay, days));
-			game.getResult().get(c.getName()).addTotalPurchasedFood(food, totalUnits, cost);
+			game.getResult().getCreateNotExists(c.getName()).addTotalPurchasedFood(food, totalUnits, cost);
 		}
 	}
 

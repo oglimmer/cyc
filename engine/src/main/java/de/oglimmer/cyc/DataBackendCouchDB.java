@@ -58,7 +58,7 @@ public class DataBackendCouchDB implements IDataBackend {
 	public void writeTestRunProtocol(String uid, GameRun gameRun, Game game) {
 		String lastError = gameRun.getResult().getError().toString();
 		User u = userDao.get(uid);
-		lastError = gameRun.getResult().get(u.getUsername()).getDebug().toString()
+		lastError = gameRun.getResult().getCreateNotExists(u.getUsername()).getDebug().toString()
 				+ (lastError.isEmpty() ? "Your script ran successfully for " + game.getTotalMonth() + " months with "
 						+ game.getTotalDay() + " days each." : lastError);
 		u.setLastError(lastError);
@@ -84,7 +84,7 @@ public class DataBackendCouchDB implements IDataBackend {
 		gw.setRefGameRunId(gameRun.getId());
 		gw.setStartTime(gameRun.getStartTime());
 		for (String company : gameRun.getParticipants()) {
-			gw.getParticipants().add(new GameWinnerEntry(company, gameRun.getResult().get(company).getTotalAssets()));
+			gw.getParticipants().add(new GameWinnerEntry(company, gameRun.getResult().getCreateNotExists(company).getTotalAssets()));
 		}
 		gameWinnersDao.add(gw);
 	}

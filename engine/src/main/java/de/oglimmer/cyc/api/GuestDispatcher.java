@@ -54,7 +54,7 @@ public class GuestDispatcher {
 				for (Establishment est : c.getEstablishments(city.getName())) {
 					int score = est.getScore();
 					log.debug("Est score: {}:{} ({})", est.getAddress(), score, c.getName());
-					game.getResult().get(c.getName()).addEstablishmentScore(est.getAddress(), score);
+					game.getResult().getCreateNotExists(c.getName()).addEstablishmentScore(est.getAddress(), score);
 					if (score > 0) {
 						estList.put(totalScore + score, est);
 						totalScore += score;

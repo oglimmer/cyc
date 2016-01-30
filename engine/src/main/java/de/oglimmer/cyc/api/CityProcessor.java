@@ -52,7 +52,7 @@ public class CityProcessor implements Runnable {
 			throws MissingIngredient {
 		if (missingIngredients == null) {
 			company.incCash(menu.getPrice());
-			game.getResult().get(company.getName())
+			game.getResult().getCreateNotExists(company.getName())
 					.addServedFoodServed(est.getAddress(), menu.getName(), menu.getPrice());
 			game.getDailyStatisticsManager().getCollecting(company).addServedFood(est.getAddress(), menu.getName());
 		} else {

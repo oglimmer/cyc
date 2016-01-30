@@ -10,11 +10,11 @@ public class GameResultTest {
 	@Test
 	public void winner() {
 		GameResult gr = new GameResult();
-		PlayerResult prA = gr.get("a");
+		PlayerResult prA = gr.getCreateNotExists("a");
 		prA.setTotalAssets(100);
-		PlayerResult prB = gr.get("b");
+		PlayerResult prB = gr.getCreateNotExists("b");
 		prB.setTotalAssets(200);
-		PlayerResult prC = gr.get("c");
+		PlayerResult prC = gr.getCreateNotExists("c");
 		prC.setTotalAssets(-1);
 		Assert.assertEquals("b ($200.00)", gr.getWinner());
 	}
@@ -22,7 +22,7 @@ public class GameResultTest {
 	@Test
 	public void foodChart() {
 		GameResult gr = new GameResult();
-		PlayerResult prA = gr.get("a");
+		PlayerResult prA = gr.getCreateNotExists("a");
 		prA.addMenuEntryScore("A", 7);
 		prA.addMenuEntryScore("A", 10);
 		prA.addMenuEntryScore("A", 13);
@@ -37,7 +37,7 @@ public class GameResultTest {
 	@Test
 	public void establishmentChart() {
 		GameResult gr = new GameResult();
-		PlayerResult prA = gr.get("a");
+		PlayerResult prA = gr.getCreateNotExists("a");
 		prA.addEstablishmentScore("A", 7);
 		prA.addEstablishmentScore("A", 10);
 		prA.addEstablishmentScore("A", 13);

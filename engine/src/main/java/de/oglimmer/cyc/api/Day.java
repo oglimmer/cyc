@@ -59,14 +59,14 @@ public class Day {
 
 	private void incDailyCounter(Company company) {
 		company.incCash(0.0);
-		PlayerResult playerResult = game.getResult().get(company.getName());
+		PlayerResult playerResult = game.getResult().getCreateNotExists(company.getName());
 		playerResult.addEstablishmentsByDays(company.getEstablishmentsInt().size());
 		for (Employee e : company.getHumanResources().getEmployees()) {
 			playerResult.addStaffByDays(e.getJobPosition().toString());
 		}
 		log.debug("{} at day {} => est={}, staff={} ", company.getName(), game.getCurrentDay(),
-				game.getResult().get(company.getName()).getEstablishmentsByDays(),
-				game.getResult().get(company.getName()).getStaffByDays());
+				game.getResult().getCreateNotExists(company.getName()).getEstablishmentsByDays(),
+				game.getResult().getCreateNotExists(company.getName()).getStaffByDays());
 	}
 
 	private void callWeekly() {

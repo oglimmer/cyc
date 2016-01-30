@@ -47,7 +47,7 @@ public class OpeningHours {
 			if (!c.isBankrupt()) {
 				for (MenuEntry me : c.getMenu()) {
 					int del = (int) (me.getSecret().getDeliciousness() * me.getSecret().getValueForMoneyScore());
-					game.getResult().get(c.getName()).addMenuEntryScore(me.getName(), del);
+					game.getResult().getCreateNotExists(c.getName()).addMenuEntryScore(me.getName(), del);
 				}
 			}
 		}

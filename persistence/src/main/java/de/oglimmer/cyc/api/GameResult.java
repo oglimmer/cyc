@@ -45,7 +45,7 @@ public class GameResult {
 	/** contains all stack traces */
 	private StringBuilder error = new StringBuilder();
 
-	public PlayerResult get(String name) {
+	public PlayerResult getCreateNotExists(String name) {
 		PlayerResult pr = playerResults.get(name);
 		if (pr == null) {
 			pr = new PlayerResult(name);
@@ -111,8 +111,9 @@ public class GameResult {
 		tmpMap.putAll(playerResults);
 		playerResults = Collections.synchronizedMap(tmpMap);
 	}
-
-	public void sortByCashDesc() {
+	
+	@JsonIgnore
+	public Map<String, PlayerResult> getPlayerResultsSortedByCashDesc() {
 		final Map<String, PlayerResult> nonSyncedMap = new HashMap<>(playerResults);
 		Map<String, PlayerResult> tmpMap = new TreeMap<>(new Comparator<String>() {
 			@Override
@@ -123,7 +124,7 @@ public class GameResult {
 			}
 		});
 		tmpMap.putAll(playerResults);
-		playerResults = Collections.synchronizedMap(tmpMap);
+		return tmpMap;
 	}
 
 	@JsonIgnore
@@ -183,11 +184,11 @@ public class GameResult {
 		return max;
 	}
 	
+	@JsonIgnore
 	public Map<String, PlayerResult> getPlayerResultsTop15() {
-		sortByCashDesc();
 		Map<String, PlayerResult> top15 = new HashMap<>();
 		int counter = 0;
-		for (Map.Entry<String, PlayerResult> en : playerResults.entrySet()) {			
+		for (Map.Entry<String, PlayerResult> en : getPlayerResultsSortedByCashDesc().entrySet()) {
 			top15.put(en.getKey(), en.getValue());
 			counter++;
 			if (counter == 15) {
@@ -196,11 +197,7 @@ public class GameResult {
 		}
 		return top15;
 	}
-	
-	public Map<String, PlayerResult> getPlayerResultsCopy() {
-		return new HashMap<>(playerResults);
-	}
-	
+
 }
 
 class ValueComparator implements Comparator<String> {

@@ -148,7 +148,7 @@ public class Month {
 	private void finalizeRealEstateBusiness(RealEstateProfile p, RealEstateOffer reo) {
 		try {
 			reo.getCompany().decCash(reo.getOffer().getBribe());
-			game.getResult().get(reo.getCompany().getName()).addTotalBribe(reo.getOffer().getBribe());
+			game.getResult().getCreateNotExists(reo.getCompany().getName()).addTotalBribe(reo.getOffer().getBribe());
 			Establishment est = new Establishment(reo.getCompany(), p.getCity(), p.getLocationQuality(),
 					p.getLocationSize(), p.getLeaseCost(), p.getSalePrice());
 			reo.getCompany().getEstablishmentsInt().add(est);

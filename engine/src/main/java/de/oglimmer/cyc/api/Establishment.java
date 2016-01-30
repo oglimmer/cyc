@@ -86,7 +86,7 @@ public class Establishment implements IEstablishment {
 			int cost = (int) (intAcc.getAssetCost() * parent.getGame().getConstants()
 					.getSellFactorInteriorAccessories());
 			parent.incCash(cost);
-			parent.getGame().getResult().get(parent.getName()).addTotalInterior(-cost);
+			parent.getGame().getResult().getCreateNotExists(parent.getName()).addTotalInterior(-cost);
 		}
 	}
 
@@ -95,7 +95,7 @@ public class Establishment implements IEstablishment {
 		parent.decCash(salePrice);
 		rented = false;
 		leaseCost = 0;
-		parent.getGame().getResult().get(parent.getName()).addTotalRealEstate(getSalePrice());
+		parent.getGame().getResult().getCreateNotExists(parent.getName()).addTotalRealEstate(getSalePrice());
 	}
 
 	@PublicAPI
@@ -123,7 +123,7 @@ public class Establishment implements IEstablishment {
 		if (parent.getCash() >= total) {
 			try {
 				parent.decCash(total);
-				parent.getGame().getResult().get(parent.getName()).addTotalInterior(total);
+				parent.getGame().getResult().getCreateNotExists(parent.getName()).addTotalInterior(total);
 				for (InteriorAccessory ia : iaToAdd) {
 					interiorAccessories.add(ia);
 					log.debug(parent.getName() + " bought " + ia + " for " + getAddress());

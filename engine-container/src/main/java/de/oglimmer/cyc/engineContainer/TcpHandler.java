@@ -38,8 +38,11 @@ public class TcpHandler implements Closeable {
 		startTime = new Date();
 		bossGroup = new NioEventLoopGroup();
 		workerGroup = new NioEventLoopGroup();
-		tpeTestRun = new ThreadPoolExecutor(1, 3, 60, TimeUnit.HOURS, new LinkedBlockingQueue<Runnable>());
-		tpeFullRun = new ThreadPoolExecutor(1, 1, 60, TimeUnit.HOURS, new LinkedBlockingQueue<Runnable>());
+
+		tpeTestRun = new ThreadPoolExecutor(1, 3, 60, TimeUnit.HOURS, new LinkedBlockingQueue<Runnable>(),
+				new NamedThreadFactory("TestRun"));
+		tpeFullRun = new ThreadPoolExecutor(1, 1, 60, TimeUnit.HOURS, new LinkedBlockingQueue<Runnable>(),
+				new NamedThreadFactory("FullRun"));
 		if ("true".equalsIgnoreCase(System.getProperty("cyc.debug"))) {
 			engineLoader = new DebugEngineLoader();
 		} else {
@@ -162,6 +165,8 @@ public class TcpHandler implements Closeable {
 		bossGroup.shutdownGracefully();
 		workerGroup.shutdownGracefully();
 		tpeTestRun.shutdown();
+		tpeFullRun.shutdown();
 		engineLoader.stop();
 	}
+
 }

@@ -21,14 +21,14 @@ public class FoodUnitTest {
 			Assert.assertFalse(fu.incDay(est));
 			Assert.assertEquals(9 - i, fu.getPullDate());
 			Assert.assertEquals(10, fu.getUnits());
-			Assert.assertNull(game.getGameRun().getResult().get("companyA").getTotalRottenFood()
+			Assert.assertNull(game.getGameRun().getResult().getCreateNotExists("companyA").getTotalRottenFood()
 					.get(Food.BEEF_MEAT.toString()));
 		}
 		Assert.assertTrue(fu.incDay(est));
 		Assert.assertEquals(0, fu.getUnits());
 		Assert.assertEquals(0, fu.getPullDate());
 		Assert.assertEquals(10,
-				game.getGameRun().getResult().get("companyA").getTotalRottenFood().get(Food.BEEF_MEAT.toString())
+				game.getGameRun().getResult().getCreateNotExists("companyA").getTotalRottenFood().get(Food.BEEF_MEAT.toString())
 						.longValue());
 	}
 

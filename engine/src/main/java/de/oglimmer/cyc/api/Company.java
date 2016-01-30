@@ -50,7 +50,7 @@ public class Company implements ICompany {
 		this.grocer = grocer;
 		this.menu = new Menu(game);
 		this.cash = game.getConstants().getStartCredit();
-		game.getResult().get(name).getStatistics().addCash(game.getCurrentDay(), cash);
+		game.getResult().getCreateNotExists(name).getStatistics().addCash(game.getCurrentDay(), cash);
 	}
 
 	void incCash(double change) {
@@ -60,7 +60,7 @@ public class Company implements ICompany {
 			log.error("{} got money even if bankrupt", name);
 		} else {
 			cash += change;
-			game.getResult().get(name).getStatistics().addCash(game.getCurrentDay(), cash);
+			game.getResult().getCreateNotExists(name).getStatistics().addCash(game.getCurrentDay(), cash);
 		}
 	}
 
@@ -69,11 +69,11 @@ public class Company implements ICompany {
 		assert cash > -1;
 		if (cash - change < 0) {
 			setBankrupt();
-			game.getResult().get(name).getStatistics().addCash(game.getCurrentDay(), cash);
+			game.getResult().getCreateNotExists(name).getStatistics().addCash(game.getCurrentDay(), cash);
 			throw new OutOfMoneyException(this);
 		}
 		cash -= change;
-		game.getResult().get(name).getStatistics().addCash(game.getCurrentDay(), cash);
+		game.getResult().getCreateNotExists(name).getStatistics().addCash(game.getCurrentDay(), cash);
 	}
 	
 	@PublicAPI
@@ -107,20 +107,20 @@ public class Company implements ICompany {
 
 	void setBankruptFromError(String formattedStackTrace) {
 		game.getResult().getErrors().add(getName());
-		game.getResult().get(getName()).setDebug(new StringBuilder(formattedStackTrace));
+		game.getResult().getCreateNotExists(getName()).setDebug(new StringBuilder(formattedStackTrace));
 		setBankrupt();
 	}
 
 	private void setBankrupt() {
 		log.debug("{} became bankrupt on {}", name, game.getCurrentDay());
-		game.getResult().get(getName()).setBankruptOnDay(game.getCurrentDay());
+		game.getResult().getCreateNotExists(getName()).setBankruptOnDay(game.getCurrentDay());
 		cash = -1;
 	}
 
 	void paySalaries() {
 		try {
 			for (Employee e : getHumanResources().getEmployees()) {
-				game.getResult().get(getName()).addTotalOnSalaries(e.getJobPosition().toString(), e.getSalary());
+				game.getResult().getCreateNotExists(getName()).addTotalOnSalaries(e.getJobPosition().toString(), e.getSalary());
 				decCash(e.getSalary());
 				log.debug("{} payed ${} for {}", getName(), e.getSalary(), e.getName());
 			}
@@ -133,7 +133,7 @@ public class Company implements ICompany {
 		try {
 			for (Establishment e : establishments) {
 				if (e.isRented()) {
-					game.getResult().get(getName()).addTotalOnRent(e.getLeaseCost());
+					game.getResult().getCreateNotExists(getName()).addTotalOnRent(e.getLeaseCost());
 					decCash(e.getLeaseCost());
 					log.debug("{} payed ${} for {}", getName(), e.getLeaseCost(), e.getAddress());
 				}
@@ -149,7 +149,7 @@ public class Company implements ICompany {
 				ThreadLocal.setCompany(this);
 				long time = System.nanoTime();
 				launch.run();
-				game.getResult().get(getName()).addRunTime("launch", System.nanoTime() - time);
+				game.getResult().getCreateNotExists(getName()).addRunTime("launch", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
@@ -167,7 +167,7 @@ public class Company implements ICompany {
 				ThreadLocal.setCompany(this);
 				long time = System.nanoTime();
 				doWeekly.run();
-				game.getResult().get(getName()).addRunTime("weekly", System.nanoTime() - time);
+				game.getResult().getCreateNotExists(getName()).addRunTime("weekly", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
@@ -186,7 +186,7 @@ public class Company implements ICompany {
 				ThreadLocal.setCompany(this);
 				long time = System.nanoTime();
 				doDaily.run(game.getDailyStatisticsManager().getLastDays(this));
-				game.getResult().get(getName()).addRunTime("daily", System.nanoTime() - time);
+				game.getResult().getCreateNotExists(getName()).addRunTime("daily", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
@@ -205,7 +205,7 @@ public class Company implements ICompany {
 				ThreadLocal.setCompany(this);
 				long time = System.nanoTime();
 				doMonthly.run();
-				game.getResult().get(getName()).addRunTime("monthly", System.nanoTime() - time);
+				game.getResult().getCreateNotExists(getName()).addRunTime("monthly", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {
@@ -228,7 +228,7 @@ public class Company implements ICompany {
 				ThreadLocal.setCompany(this);
 				long time = System.nanoTime();
 				realEstateAgent.run(ap);
-				game.getResult().get(getName()).addRunTime("realEstateAgent", System.nanoTime() - time);
+				game.getResult().getCreateNotExists(getName()).addRunTime("realEstateAgent", System.nanoTime() - time);
 			} catch (RhinoException e) {
 				if (!(e.getCause() instanceof GameException)) {
 					String formattedStackTrace = ExceptionConverter.convertToString(e);
@@ -248,7 +248,7 @@ public class Company implements ICompany {
 				ThreadLocal.setCompany(this);
 				long time = System.nanoTime();
 				foodDelivery.run(fd);
-				game.getResult().get(getName()).addRunTime("foodDelivery", System.nanoTime() - time);
+				game.getResult().getCreateNotExists(getName()).addRunTime("foodDelivery", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {
 			if (!(e.getCause() instanceof GameException)) {

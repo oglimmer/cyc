@@ -35,7 +35,7 @@ public abstract class Guest {
 	private void walkIntoRestaurant(CityProcessor cityProcessor, Establishment est) {
 		Company company = est.getParent();
 		Game game = company.getGame();
-		game.getResult().get(company.getName()).getGuestsYouPerCity().add(cityProcessor.getCity().getName(), 1);
+		game.getResult().getCreateNotExists(company.getName()).getGuestsYouPerCity().add(cityProcessor.getCity().getName(), 1);
 		game.getDailyStatisticsManager().getCollecting(company).getGuestsPerEstablishmentMap()
 				.add(est.getAddress(), 1L);
 		try {
@@ -43,8 +43,8 @@ public abstract class Guest {
 				selectMenu(cityProcessor, est);
 			}
 		} catch (MissingIngredient e) {
-			game.getResult().get(company.getName()).addGuestsOutOfIngPerCity(cityProcessor.getCity().getName());
-			game.getResult().get(company.getName()).addMissingIngredients(e.getMissingIngredients());
+			game.getResult().getCreateNotExists(company.getName()).addGuestsOutOfIngPerCity(cityProcessor.getCity().getName());
+			game.getResult().getCreateNotExists(company.getName()).addMissingIngredients(e.getMissingIngredients());
 			game.getDailyStatisticsManager().getCollecting(company).getGuestsOutOfIngPerEstablishmentMap()
 					.add(est.getAddress(), 1L);
 			game.getDailyStatisticsManager().getCollecting(company)
@@ -56,7 +56,7 @@ public abstract class Guest {
 	private void selectMenu(CityProcessor cityProcessor, Establishment est) throws MissingIngredient {
 		Collection<MenuEntry> foodSelCol = selectMenuWrapper(est.getParent());
 		if (foodSelCol.isEmpty()) {
-			est.getParent().getGame().getResult().get(est.getParent().getName()).getGuestsLeftPerCity()
+			est.getParent().getGame().getResult().getCreateNotExists(est.getParent().getName()).getGuestsLeftPerCity()
 					.add(cityProcessor.getCity().getName(), 1);
 			est.getParent().getGame().getDailyStatisticsManager().getCollecting(est.getParent())
 					.getGuestsLeftPerEstablishmentMap().add(est.getAddress(), 1L);

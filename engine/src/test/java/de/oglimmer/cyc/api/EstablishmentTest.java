@@ -78,7 +78,7 @@ public class EstablishmentTest {
 		Assert.assertEquals(0, fuEst.getPullDate());
 		Assert.assertEquals(0, est.getStoredFoodUnits().size());
 		Assert.assertEquals(10,
-				game.getGameRun().getResult().get("companyA").getTotalRottenFood().get(Food.BEEF_MEAT.toString())
+				game.getGameRun().getResult().getCreateNotExists("companyA").getTotalRottenFood().get(Food.BEEF_MEAT.toString())
 						.longValue());
 	}
 

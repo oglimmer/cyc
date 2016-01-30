@@ -123,7 +123,7 @@ public class Game {
 		for (Company company : companies) {
 			gameRun.getParticipants().add(company.getName());
 
-			gameRun.getResult().get(company.getName()).setTotalAssets(company.getTotalAssets());
+			gameRun.getResult().getCreateNotExists(company.getName()).setTotalAssets(company.getTotalAssets());
 		}
 
 		gameRun.setEndTime(new Date());
@@ -164,8 +164,8 @@ public class Game {
 				try {
 					long time = System.nanoTime();
 					context.evaluateString(scope, user.getMainJavaScript(), company.getName(), 1, null);
-					getResult().get(company.getName()).addRunTime("init", System.nanoTime() - time);
-					getResult().get(company.getName()).setCode(user.getMainJavaScript());
+					getResult().getCreateNotExists(company.getName()).addRunTime("init", System.nanoTime() - time);
+					getResult().getCreateNotExists(company.getName()).setCode(user.getMainJavaScript());
 				} catch (RhinoException e) {
 					if (e.getCause() instanceof GameException) {
 						log.info("Failed to initialize the JavaScript, but found a GameException", e);

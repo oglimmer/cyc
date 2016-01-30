@@ -77,7 +77,7 @@ public class HumanResources implements IHumanResources {
 				ThreadLocal.setCompany(company);
 				long time = System.nanoTime();
 				hiringProcess.run(ap);
-				company.getGame().getResult().get(company.getName())
+				company.getGame().getResult().getCreateNotExists(company.getName())
 						.addRunTime("hiringProcess", System.nanoTime() - time);
 			} catch (RhinoException e) {
 				if (!(e.getCause() instanceof GameException)) {
