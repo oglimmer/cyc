@@ -105,20 +105,24 @@ public class TcpHandler implements Closeable {
 
 	public String handleStatus(boolean extended) {
 		StringBuilder buff = new StringBuilder();
-		int queueSize = tpeTestRun.getQueue().size();
-		int active = tpeTestRun.getActiveCount();
+		int queueSizeTestRun = tpeTestRun.getQueue().size();
+		int activeTestRun = tpeTestRun.getActiveCount();
+		int queueSizeFullRun = tpeFullRun.getQueue().size();
+		int activeFullRun = tpeFullRun.getActiveCount();
 		NumberFormat nf = NumberFormat.getIntegerInstance();
 		String freeMem = nf.format(Runtime.getRuntime().freeMemory());
 		String maxMem = nf.format(Runtime.getRuntime().maxMemory());
 		String totalMem = nf.format(Runtime.getRuntime().totalMemory());
 		String curDir = engineLoader.getBaseDir() + engineLoader.getCurrentDir();
-		log.info("Queue-size: {}", queueSize);
-		log.info("Active: {}", active);
+		log.info("Queue-size(test): {}", queueSizeTestRun);
+		log.info("Active(test): {}", activeTestRun);
+		log.info("Queue-size(full): {}", queueSizeFullRun);
+		log.info("Active(full): {}", activeFullRun);
 		log.info("Current dir: {}", curDir);
 		log.info("Uptime: {}", startTime);
 		log.info("Memory(free/total/max): {}/{}/{}", freeMem, totalMem, maxMem);
-		buff.append("Queue-size: " + queueSize + "\n");
-		buff.append("Active: " + active + "\n");
+		buff.append("Queue-size: " + queueSizeTestRun + "\n");
+		buff.append("Active: " + activeTestRun + "\n");
 		buff.append("Current dir: " + curDir + "\n");
 		buff.append("Uptime: " + startTime + "\n");
 		buff.append("Memory(free/total/max): " + freeMem + "/" + totalMem + "/" + maxMem + "\n");

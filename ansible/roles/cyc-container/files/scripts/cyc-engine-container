@@ -15,8 +15,13 @@ do_start()
         if [ -z "$RETVAL" ] ; then
                 echo -n "Starting $SERVER: "
                 cd $ROOT_DIR
-                echo sudo -b -u $USER $ROOT_DIR/run.sh
-                sudo -b -u $USER $ROOT_DIR/run.sh >> $LOG_FILE
+                if [ $(whoami) = "cyc-engine" ] || [ $(whoami) = "tomcat7" ]; then
+	                echo $ROOT_DIR/run.sh
+	                nohup $ROOT_DIR/run.sh </dev/null 1>>$LOG_FILE 2>&1 &
+                else
+	                echo sudo -b -u $USER $ROOT_DIR/run.sh
+	                sudo -b -u $USER $ROOT_DIR/run.sh >> $LOG_FILE
+                fi
                 RETVAL=$?
                 echo                
         fi
@@ -33,12 +38,26 @@ do_stop()
                 RETVAL=$?        
                 [ $RETVAL -eq 0 ]
         else 
+        		COUNTER=0
                 while ps -efH | grep -i java.*$SERVER | grep -v "grep" -q ; do
                         sleep 1
+                        COUNTER=$((COUNTER+1))
+                        if [ "$COUNTER" = 10 ]; then
+                        	pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`
+                			kill $pid > /dev/null 2>&1
+                        fi
                 done
         fi
 
         echo
+}
+do_status()
+{
+        if ps -efH | grep -i java.*$SERVER | grep -v "grep" -q ; then
+			echo "$SERVER is running."        
+        else 
+        	echo "$SERVER is stopped."
+        fi    
 }
  
 case "$1" in
@@ -53,8 +72,11 @@ case "$1" in
                 RETVAL=
                 do_start
                 ;;
+        status)
+        		do_status
+        		;;
         *)
-                echo "Usage: $0 {start|stop|restart}"
+                echo "Usage: $0 {start|stop|restart|status}"
                 RETVAL=1
 esac
  

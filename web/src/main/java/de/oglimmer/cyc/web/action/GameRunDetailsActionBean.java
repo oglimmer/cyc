@@ -18,13 +18,11 @@ import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.Resolution;
 
-@Slf4j
 @DoesNotRequireLogin
 public class GameRunDetailsActionBean extends BaseAction {
 
@@ -69,7 +67,11 @@ public class GameRunDetailsActionBean extends BaseAction {
 				gr = listGameRuns.get(0);
 			}
 		} else {
-			gr = dao.get(gameRunId);
+			try {
+				gr = dao.get(gameRunId);
+			} catch (org.ektorp.DocumentNotFoundException e) {
+				// happens a lot via bots/crawlers
+			}
 		}
 		if (gr != null) {
 			gr.getResult().sortPlayers();

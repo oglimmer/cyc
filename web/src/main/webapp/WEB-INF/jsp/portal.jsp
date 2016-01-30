@@ -19,7 +19,7 @@
 			<div>Next run: <span id="nextRun">${actionBean.nextRun}</span> UTC</div>
 			<div>Last run's winner: <s:link beanclass="de.oglimmer.cyc.web.action.GameRunDetailsActionBean" ><span id="lastWinner">${actionBean.lastWinner}</span></s:link></div>			
 			<div>
-				Current champion: <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" ><span id="threeDayWinner">${actionBean.threeDayWinner}</span></s:link>
+				Current champion: <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" ><span id="threeDayWinner">${actionBean.threeDayWinner}</span></s:link>  (click for 3 days history)
 			</div>
 		</div>
 		
@@ -104,8 +104,8 @@
 		    function checkForUpdateSaveTest() {
 		    	
 		    	$.get(document.mainForm.action+"?checkForUpdateSaveTest=", function(returnData) {
-		    		console.log(returnData.lastRun +"!="+ lastRun+"="+(returnData.lastRun == lastRun));
-		    		if(returnData.lastRun != lastRun) {
+		    		console.log("retData.lastRun:"+returnData.lastRun +" / lastRun:"+ lastRun+" / result:"+(returnData.lastRun == lastRun));
+		    		if(typeof returnData.lastRun !== "undefined" && returnData.lastRun != lastRun) {
 		    			lastRun = returnData.lastRun;
 						$(".log").html(returnData.html);
 				    	document.mainForm.saveRun.disabled = false;

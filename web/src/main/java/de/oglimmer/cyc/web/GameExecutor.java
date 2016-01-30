@@ -6,22 +6,13 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -29,11 +20,15 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 public enum GameExecutor {
 	INSTANCE;
 
-	private static final boolean DEBUG_AUTO_START = false;
 	private static final String CRON_SCHEDULE = "0 0/15 * * * ?";
 
 	private volatile boolean running;
@@ -105,7 +100,8 @@ public enum GameExecutor {
 
 	private synchronized Socket getClientSocket() throws IOException {
 		try {
-			return new Socket(WebContainerProperties.INSTANCE.getEngineHost(), WebContainerProperties.INSTANCE.getEnginePort());
+			return new Socket(WebContainerProperties.INSTANCE.getEngineHost(),
+					WebContainerProperties.INSTANCE.getEnginePort());
 		} catch (ConnectException e) {
 			return startNewServerAndCreateSocket(e);
 		}
@@ -113,69 +109,36 @@ public enum GameExecutor {
 
 	private Socket startNewServerAndCreateSocket(ConnectException e) throws IOException, UnknownHostException {
 		if (isLocalEngine()) {
-			startServer();
-			return new Socket(WebContainerProperties.INSTANCE.getEngineHost(), WebContainerProperties.INSTANCE.getEnginePort());
+			WebGameEngineStarter.INSTANCE.startServer();
+			return connectToStartingEngine();
 		} else {
 			throw new RuntimeException(e);
+		}
+	}
+
+	private Socket connectToStartingEngine() throws IOException, ConnectException {
+		int retries = 0;
+		while (true) {
+			try {
+				return new Socket(WebContainerProperties.INSTANCE.getEngineHost(),
+						WebContainerProperties.INSTANCE.getEnginePort());
+			} catch (ConnectException ce) {
+				retries++;
+				if (retries > 5) {
+					throw ce;
+				}
+				try {
+					TimeUnit.SECONDS.sleep(3);
+				} catch (InterruptedException e) {
+					throw new ConnectException("CONNECT ABORTED DUE TO INTERRUPT EXCEPTION");
+				}
+			}
 		}
 	}
 
 	private boolean isLocalEngine() {
 		String engineHost = WebContainerProperties.INSTANCE.getEngineHost();
 		return "localhost".equalsIgnoreCase(engineHost) || "127.0.0.1".equals(engineHost);
-	}
-
-	public void startServer() throws IOException {
-		try {
-			String home = System.getProperty("cyc.home");
-			assert home != null;
-
-			String[] commandLineArgs = createCommandLineArray(home);
-
-			log.debug(Arrays.toString(commandLineArgs));
-
-			ProcessBuilder pb = new ProcessBuilder(commandLineArgs);
-			if (DEBUG_AUTO_START) {
-				pb.inheritIO();
-			} else {
-				pb.redirectError(new File(home + "/logs/engine.err"));
-				pb.redirectOutput(new File(home + "/logs/engine.out"));
-			}
-			pb.start();
-
-			TimeUnit.SECONDS.sleep(3);
-		} catch (InterruptedException e) {
-			// ignore if interrupted
-		} catch (IOException e) {
-			log.error("Failed to process the child process", e);
-			throw e;
-		}
-	}
-
-	private String[] createCommandLineArray(String home) {
-		StringBuilder buff = new StringBuilder();
-		buff.append("java");
-		buff.append(" -Xmx256M");
-		buff.append(" -XX:MaxPermSize=256M");
-		buff.append(" -Dcyc.home=" + home);
-		buff.append(" -Djava.security.policy=" + home + "/security.policy");
-
-		if ("enabled".equalsIgnoreCase(System.getProperty("cyc.remoteDebug"))) {
-			buff.append(" -Xdebug");
-			buff.append(" -Xrunjdwp:server=y,transport=dt_socket,address=4000,suspend=n");
-		}
-
-		if ("enabled".equalsIgnoreCase(System.getProperty("cyc.jmx"))) {
-			buff.append(" -Dcom.sun.management.jmxremote.port=9997 -Dcom.sun.management.jmxremote.password.file=jmxremote.password -Dcom.sun.management.jmxremote.ssl=false");
-		}
-
-		buff.append(" -jar " + home + "/engine-container-jar-with-dependencies.jar");
-
-		Collection<String> commandLineCol = new ArrayList<>();
-		commandLineCol.add("sh");
-		commandLineCol.add("-c");
-		commandLineCol.add(buff.toString());
-		return commandLineCol.toArray(new String[commandLineCol.size()]);
 	}
 
 	class MasterToStartObserver implements Runnable {
