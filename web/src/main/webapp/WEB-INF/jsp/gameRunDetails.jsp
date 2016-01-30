@@ -372,7 +372,7 @@
 		        .Draw();
 		    	
 		    	for(var i = 0 ; i < labelData.length ; i++) {
-		    		$("#labels").append("<span style='color:"+labelColors[i]+"'>"+labelData[i]+"</span>&nbsp;-&nbsp;");
+		    		$("#labels").append("<span style='color:"+labelColors[i]+"'>"+labelData[i]+"</span> - ");
 		    	}
 		    	
 	    	</script>	    	
