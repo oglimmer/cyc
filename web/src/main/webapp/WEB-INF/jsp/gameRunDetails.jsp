@@ -324,18 +324,33 @@
 		
 		<div class="centerElement">
 		
-			Cash flow over time:<br/>
+			Top 15 players cash flow over time:<br/>
 			<span style="font-size:10px;">(as lowest figure per day)</span>
+			
+			<c:set var="userTop15" value="${actionBean.result.playerResultsTop15}" />
 			
 			<script src="js/RGraph.common.core.js" ></script>
 	    	<script src="js/RGraph.line.js" ></script>
 	    	<canvas id="cvs" width="700" height="600">[No canvas support]</canvas>
-			<div id="labels" style="font-family:Arial;font-size:12px;">Legend: </div>
+			<div id="labels" style="font-family:Arial;font-size:12px;">Legend:<br/> </div>
 			<script>
-				var jsonData = [<c:forEach items="${actionBean.result.playerResults}" var="play">${play.value.statistics.cashHtml},</c:forEach>];
-				var labelData = [<c:forEach items="${actionBean.result.playerResults}" var="play">'${fn:replace(play.key, "'", "\\'")}',</c:forEach>];
-				var labelColors = ['red', 'blue', 'white', 'yellow', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'black', 'orange', 'purple', 'silver', 'aqua', 'teal'];
+				var jsonData = [<c:forEach items="${userTop15}" var="play">${play.value.statistics.cashHtml},</c:forEach>];
+				var labelData = [<c:forEach items="${userTop15}" var="play">'${fn:replace(play.key, "'", "\\'")}',</c:forEach>];
+				var labelColors = ['blue', 'white', 'yellow', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive', 'black', 'orange', 'purple', 'silver', 'aqua'];
 			</script>
+
+
+			<c:if test="${not empty actionBean.username }">
+	    		<c:set var="currentUserParticipated" value="${actionBean.result.playerResultsCopy[actionBean.username]}" />
+	    		<c:set var="currentUserInTop15" value="${userTop15[actionBean.username]}" />
+	    		<c:if test="${empty currentUserInTop15 && not empty currentUserParticipated}">
+			    	<script>
+			    		jsonData.push(${currentUserParticipated.statistics.cashHtml});
+			    		labelData.push("${actionBean.username}");
+			    		labelColors.push('red');
+			    	</script>
+		    	</c:if>
+	    	</c:if>
 			
 	    	<script>
 	    		var maxMoney = ${actionBean.result.upperCashBoundary};
@@ -362,13 +377,13 @@
 	    	</script>	    	
 	    </div>
 
-		<c:if test="${not empty actionBean.username }">
+		<c:if test="${not empty currentUserParticipated }">
 
 			<div id="customGraph" class="centerElement">
 		    </div>
 			<script>
-				var jsonDataCustom = [${actionBean.result.playerResults[actionBean.username].statistics.getCustomHtml()}];
-				var jsonDataCustomNames = [<c:forEach var="i" begin="0" end="4">"${actionBean.result.playerResults[actionBean.username].statistics.getCustomStatisticsName(i)}",</c:forEach>];				
+				var jsonDataCustom = [${currentUserParticipated.statistics.getCustomHtml()}];
+				var jsonDataCustomNames = [<c:forEach var="i" begin="0" end="4">"${currentUserParticipated.statistics.getCustomStatisticsName(i)}",</c:forEach>];				
 				
 				for(var i = 0 ; i < jsonDataCustom.length ; i++) {
 					
@@ -393,7 +408,7 @@
 			<div class="log" style="padding-bottom:40px;">
 				<div>Your log output:</div>
 				<div style="padding-left:20px;">
-					${actionBean.result.playerResults[actionBean.username].debug }
+					${currentUserParticipated.debug }
 				</div>
 			</div>
 				

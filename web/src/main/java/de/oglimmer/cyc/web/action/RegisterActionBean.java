@@ -83,7 +83,7 @@ public class RegisterActionBean extends BaseAction {
 		user.setMainJavaScript(DefaultCode.INSTANCE.getDefaultCode());
 		user.setCreatedDate(new Date());
 		user.setLastLoginDate(new Date());
-		user.setActive(false);
+		user.setActive(true);
 		userDao.add(user);
 		getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
 		return new RedirectResolution(PortalActionBean.class);

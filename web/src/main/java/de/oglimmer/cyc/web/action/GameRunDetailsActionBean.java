@@ -74,7 +74,7 @@ public class GameRunDetailsActionBean extends BaseAction {
 			}
 		}
 		if (gr != null) {
-			gr.getResult().sortPlayers();
+			gr.getResult().sortByPlayerName();
 			setResult(gr.getResult());
 			setStartTime(gr.getStartTime());
 			setEndTime(gr.getEndTime());

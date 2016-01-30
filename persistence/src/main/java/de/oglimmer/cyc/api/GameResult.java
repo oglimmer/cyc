@@ -32,11 +32,9 @@ public class GameResult {
 	private int totalDays;
 
 	@Getter
-	@Setter
 	private Map<String, PlayerResult> playerResults = Collections.synchronizedMap(new HashMap<String, PlayerResult>());
 
 	@Getter
-	@Setter
 	private CountMap<String> guestsTotalPerCity = new CountMap<>();
 
 	/** names of all companies went bankrupt in this run */
@@ -103,7 +101,7 @@ public class GameResult {
 		this.error = error;
 	}
 
-	public void sortPlayers() {
+	public void sortByPlayerName() {
 		Map<String, PlayerResult> tmpMap = new TreeMap<>(new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
@@ -111,7 +109,21 @@ public class GameResult {
 			}
 		});
 		tmpMap.putAll(playerResults);
-		playerResults = tmpMap;
+		playerResults = Collections.synchronizedMap(tmpMap);
+	}
+
+	public void sortByCashDesc() {
+		final Map<String, PlayerResult> nonSyncedMap = new HashMap<>(playerResults);
+		Map<String, PlayerResult> tmpMap = new TreeMap<>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				PlayerResult pr1 = nonSyncedMap.get(o1);
+				PlayerResult pr2 = nonSyncedMap.get(o2);
+				return -1 * Double.compare(pr1.getTotalAssets(), pr2.getTotalAssets());
+			}
+		});
+		tmpMap.putAll(playerResults);
+		playerResults = Collections.synchronizedMap(tmpMap);
 	}
 
 	@JsonIgnore
@@ -170,6 +182,25 @@ public class GameResult {
 		}
 		return max;
 	}
+	
+	public Map<String, PlayerResult> getPlayerResultsTop15() {
+		sortByCashDesc();
+		Map<String, PlayerResult> top15 = new HashMap<>();
+		int counter = 0;
+		for (Map.Entry<String, PlayerResult> en : playerResults.entrySet()) {			
+			top15.put(en.getKey(), en.getValue());
+			counter++;
+			if (counter == 15) {
+				break;
+			}
+		}
+		return top15;
+	}
+	
+	public Map<String, PlayerResult> getPlayerResultsCopy() {
+		return new HashMap<>(playerResults);
+	}
+	
 }
 
 class ValueComparator implements Comparator<String> {
