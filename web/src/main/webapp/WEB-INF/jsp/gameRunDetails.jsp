@@ -341,6 +341,7 @@
 
 
 			<c:if test="${not empty actionBean.username }">
+				<%-- HACK/TODO: you must not use playerResults[actionBean.username] as it creates the current user in the result list, but this user might haven't participated --%>
 	    		<c:set var="currentUserParticipated" value="${actionBean.result.playerResultsCopy[actionBean.username]}" />
 	    		<c:set var="currentUserInTop15" value="${userTop15[actionBean.username]}" />
 	    		<c:if test="${empty currentUserInTop15 && not empty currentUserParticipated}">
