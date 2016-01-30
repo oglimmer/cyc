@@ -124,11 +124,11 @@ public enum GameExecutor {
 						WebContainerProperties.INSTANCE.getEnginePort());
 			} catch (ConnectException ce) {
 				retries++;
-				if (retries > 5) {
+				if (retries > 30) {
 					throw ce;
 				}
 				try {
-					TimeUnit.SECONDS.sleep(3);
+					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {
 					throw new ConnectException("CONNECT ABORTED DUE TO INTERRUPT EXCEPTION");
 				}
