@@ -14,7 +14,7 @@
         <query objectName="java.lang:type=OperatingSystem" attribute="CommittedVirtualMemorySize" resultAlias="os.CommittedVirtualMemorySize"/>
         <query objectName="java.lang:type=OperatingSystem" attribute="FreePhysicalMemorySize" resultAlias="os.FreePhysicalMemorySize"/>
         <query objectName="java.lang:type=OperatingSystem" attribute="FreeSwapSpaceSize" resultAlias="os.FreeSwapSpaceSize"/>
-        <query objectName="java.lang:type=OperatingSystem" attribute="OpenFileDescriptorCount" resultAlias="os.OpenFileDescriptorCount.count"/>
+        <query objectName="java.lang:type=OperatingSystem" attribute="OpenFileDescriptorCount" resultAlias="os.OpenFileDescriptorCount.max"/>
         <query objectName="java.lang:type=OperatingSystem" attribute="ProcessCpuLoad" resultAlias="os.ProcessCpuLoad"/>
         <query objectName="java.lang:type=OperatingSystem" attribute="SystemCpuLoad" resultAlias="os.SystemCpuLoad"/>
         <query objectName="java.lang:type=OperatingSystem" attribute="SystemLoadAverage" resultAlias="os.SystemLoadAverage"/>
@@ -28,14 +28,12 @@
                resultAlias="jvm.nonHeapMemoryUsage.used"/>
         <query objectName="java.lang:type=Memory" attribute="NonHeapMemoryUsage" key="committed"
                resultAlias="jvm.nonHeapMemoryUsage.committed"/>
-        <query objectName="java.lang:type=ClassLoading" attribute="LoadedClassCount" resultAlias="jvm.loadedClasses.count"/>
+        <query objectName="java.lang:type=ClassLoading" attribute="LoadedClassCount" resultAlias="jvm.loadedClasses.max"/>
 
-        <query objectName="java.lang:type=Threading" attribute="ThreadCount" resultAlias="jvm.thread.count"/>
+        <query objectName="java.lang:type=Threading" attribute="ThreadCount" resultAlias="jvm.thread.max"/>
 
-        <query objectName="java.lang:type=GarbageCollector,name=PS MarkSweep" attribute="CollectionCount" resultAlias="jvm.gc.ms.CollectionCount.count"/>
-        <query objectName="java.lang:type=GarbageCollector,name=PS MarkSweep" attribute="CollectionTime" resultAlias="jvm.gc.ms.CollectionTime"/>
-        <query objectName="java.lang:type=GarbageCollector,name=PS Scavenge" attribute="CollectionCount" resultAlias="jvm.gc.sc.CollectionCount.count"/>
-        <query objectName="java.lang:type=GarbageCollector,name=PS Scavenge" attribute="CollectionTime" resultAlias="jvm.gc.sc.CollectionTime"/>
+        <query objectName="java.lang:type=GarbageCollector,name=*" attribute="CollectionCount" resultAlias="jvm.gc.%name%.CollectionCount" />
+        <query objectName="java.lang:type=GarbageCollector,name=*" attribute="CollectionTime" resultAlias="jvm.gc.%name%.CollectionTime" />
 
 
     </queries>
