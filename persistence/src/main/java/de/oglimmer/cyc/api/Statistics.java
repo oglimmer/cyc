@@ -1,14 +1,25 @@
 package de.oglimmer.cyc.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
+import org.codehaus.jackson.map.JsonSerializer;
+import org.codehaus.jackson.map.SerializerProvider;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Data
 public class Statistics {
@@ -93,6 +104,8 @@ public class Statistics {
 
 	@Data
 	@NoArgsConstructor
+	@JsonDeserialize(using = StatValueDeserializer.class)
+	@JsonSerialize(using = StatValueSerializer.class)
 	public static class StatValue {
 		@JsonIgnore
 		private int day;
@@ -118,6 +131,33 @@ public class Statistics {
 			if (value < getValueMin()) {
 				setValueMin(value);
 			}
+		}
+
+	}
+
+	public static class StatValueDeserializer extends JsonDeserializer<StatValue> {
+
+		@Override
+		public StatValue deserialize(JsonParser jp, DeserializationContext ctxt)
+				throws IOException, JsonProcessingException {
+			JsonNode node = jp.getCodec().readTree(jp);
+			double valueMin;
+			if (node.isObject()) {
+				valueMin = node.get("valueMin").getDoubleValue();
+			} else {
+				valueMin = node.getDoubleValue();
+			}
+			return new StatValue(0, valueMin);
+		}
+
+	}
+
+	public static class StatValueSerializer extends JsonSerializer<StatValue> {
+
+		@Override
+		public void serialize(StatValue value, JsonGenerator jgen, SerializerProvider provider)
+				throws IOException, JsonProcessingException {
+			jgen.writeNumber(value.getValueMin());
 		}
 
 	}
