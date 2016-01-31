@@ -103,7 +103,7 @@
 		    var lastRun = "${actionBean.lastRun}";		    
 		    function checkForUpdateSaveTest() {
 		    	
-		    	$.get(document.mainForm.action+"?checkForUpdateSaveTest=", function(returnData) {
+		    	$.get(document.mainForm.action+"?checkForUpdateSaveTest=&reload=" + Math.random(), function(returnData) {
 		    		console.log("retData.lastRun:"+returnData.lastRun +" / lastRun:"+ lastRun+" / result:"+(returnData.lastRun == lastRun));
 		    		if(typeof returnData.lastRun !== "undefined" && returnData.lastRun != lastRun) {
 		    			lastRun = returnData.lastRun;
