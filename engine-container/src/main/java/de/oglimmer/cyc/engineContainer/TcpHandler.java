@@ -68,7 +68,6 @@ public class TcpHandler implements Closeable {
 	@SneakyThrows(value = InvocationTargetException.class)
 	public String handleVersion() {
 		String version = engineLoader.getVersion();
-		log.info("Version: {}", version);
 		return "Version: " + version + "\n";
 	}
 
@@ -120,13 +119,6 @@ public class TcpHandler implements Closeable {
 		String maxMem = nf.format(Runtime.getRuntime().maxMemory());
 		String totalMem = nf.format(Runtime.getRuntime().totalMemory());
 		String curDir = engineLoader.getBaseDir() + engineLoader.getCurrentDir();
-		log.info("Queue-size(test): {}", queueSizeTestRun);
-		log.info("Active(test): {}", activeTestRun);
-		log.info("Queue-size(full): {}", queueSizeFullRun);
-		log.info("Active(full): {}", activeFullRun);
-		log.info("Current dir: {}", curDir);
-		log.info("Uptime: {}", startTime);
-		log.info("Memory(free/total/max): {}/{}/{}", freeMem, totalMem, maxMem);
 		buff.append("Queue-size(test): " + queueSizeTestRun + "\n");
 		buff.append("Active(test): " + activeTestRun + "\n");
 		buff.append("Queue-size(full): " + queueSizeFullRun + "\n");
@@ -143,14 +135,10 @@ public class TcpHandler implements Closeable {
 				MemoryUsage usage = item.getUsage();
 				MemoryUsage peak = item.getPeakUsage();
 				MemoryUsage collections = item.getCollectionUsage();
-				log.debug("{} ({})", name, type);
 				buff.append(name + " (" + type + ")\n");
-				log.debug("Usage:{}", usage.toString());
 				buff.append("Usage:" + usage + "\n");
-				log.debug("Peak:{}", peak.toString());
 				buff.append("Peak:" + peak + "\n");
 				if (collections != null) {
-					log.debug("Collections:{}", collections.toString());
 					buff.append("Collections:" + collections + "\n");
 				}
 			}
