@@ -12,7 +12,7 @@
   		if(submitButton.value=="Cancel") {
   			return true;
   		}
-  		if(passwordStrength.score == 0) {
+  		if(passwordNew != "" && password2 != "" && passwordStrength.score == 0) {
   			$( "<div title='Error'>You need to have a stronger password!</div>" ).dialog({
     		      modal: true,
     		      width: 500, 
@@ -24,7 +24,7 @@
     		    });
   			return false;
   		}
-  		if(document.forms[0].passwordNew.value != document.forms[0].password2.value) {
+  		if(passwordNew != "" && password2 != "" && document.forms[0].passwordNew.value != document.forms[0].password2.value) {
   			$( "<div title='Error'>The password verification doesn't match the password!</div>" ).dialog({
     		      modal: true,
     		      width: 500, 
@@ -39,8 +39,12 @@
   		return true;
   	}
   	function passChanged(newVal) {
-		passwordStrength = zxcvbn(newVal);
-  		$("#passQual").html(PASS_STENGTH[passwordStrength.score]);
+  		if(newVal!="") {
+			passwordStrength = zxcvbn(newVal);
+  			$("#passQual").html(PASS_STENGTH[passwordStrength.score]);
+  		} else {
+  			$("#passQual").html("No password change.");
+  		}
   	} 
 	$(document).ready(function() {
 		$('#passwordNew').on('keyup change',function() {
@@ -70,7 +74,7 @@
 					</tr>
 					<tr>
 						<td>Password strength: </td>
-						<td><span id="passQual">UNSAFE!</span></td>
+						<td><span id="passQual">No password change.</span></td>
 					</tr>
 					<tr>
 						<td>Password verification: </td>

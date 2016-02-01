@@ -35,12 +35,10 @@ public class ChangePasswordActionBean extends BaseAction {
 	@Setter
 	private String passwordOld;
 
-	@Validate(required = true)
 	@Getter
 	@Setter
 	private String passwordNew;
 
-	@Validate(required = true)
 	@Getter
 	@Setter
 	private String password2;
@@ -74,7 +72,7 @@ public class ChangePasswordActionBean extends BaseAction {
 	public void validateUser(ValidationErrors errors) {
 		user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
 		LandingActionBean.checkPassword(errors, getContext(), user, passwordOld);
-		if (getPasswordNew() == null || !getPasswordNew().equals(getPassword2())) {
+		if (getPasswordNew() != null && !getPasswordNew().isEmpty() && !getPasswordNew().equals(getPassword2())) {
 			errors.add("password", new SimpleError("The confirmation password doesn''t match the password."));
 		}
 		if (!getEmail().matches("(?i)^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$")) {
@@ -91,8 +89,10 @@ public class ChangePasswordActionBean extends BaseAction {
 	}
 	
 	public Resolution change() {
-		String hashed = BCrypt.hashpw(passwordNew, BCrypt.gensalt());
-		user.setPassword(hashed);
+		if (getPasswordNew() != null && !getPasswordNew().isEmpty()) {
+			String hashed = BCrypt.hashpw(passwordNew, BCrypt.gensalt());
+			user.setPassword(hashed);
+		}
 		user.setEmail(email);
 		user.setUsername(HtmlEscapers.htmlEscaper().escape(username));
 		userDao.update(user);
