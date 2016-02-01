@@ -35,4 +35,4 @@ if [ -e "/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar" ]; then
 fi
 
 
-$_java -Xmx512M $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=/usr/local/cyc-engine-container/security.policy -Dcyc.home=/usr/local/cyc-engine-container -jar /usr/local/cyc-engine-container/engine-container-jar-with-dependencies.jar
+$_java -Xmx768M $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=/usr/local/cyc-engine-container/security.policy -Dcyc.home=/usr/local/cyc-engine-container -jar /usr/local/cyc-engine-container/engine-container-jar-with-dependencies.jar
