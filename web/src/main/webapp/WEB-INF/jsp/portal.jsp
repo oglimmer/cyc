@@ -11,7 +11,7 @@
 			<s:link beanclass="de.oglimmer.cyc.web.action.ChangePasswordActionBean" >Change password</s:link>			
 		</div>
 		<div style="font-size:0.6em;text-align:right;">
-			Logged in as <c:out value="${actionBean.companyName}" />
+			Logged in as <c:out value="${actionBean.companyName}" escapeXml="false" />
 		</div>
 
 		<div class="centerElement">

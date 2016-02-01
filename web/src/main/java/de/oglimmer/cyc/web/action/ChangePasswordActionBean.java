@@ -1,5 +1,16 @@
 package de.oglimmer.cyc.web.action;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.mindrot.jbcrypt.BCrypt;
+
+import com.google.common.html.HtmlEscapers;
+
+import de.oglimmer.cyc.dao.UserDao;
+import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
+import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
+import de.oglimmer.cyc.model.User;
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
@@ -8,22 +19,11 @@ import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.List;
-
-import org.apache.commons.lang.StringEscapeUtils;
-import org.mindrot.jbcrypt.BCrypt;
-
-import de.oglimmer.cyc.dao.UserDao;
-import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
-import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
-import de.oglimmer.cyc.model.User;
 
 public class ChangePasswordActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/changePassword.jsp";
@@ -57,7 +57,7 @@ public class ChangePasswordActionBean extends BaseAction {
 
 	private User user;
 
-	@Before
+	@Before(stages = { LifecycleStage.BindingAndValidation })
 	public void load() {
 		user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
 		email = user.getEmail();
@@ -94,7 +94,7 @@ public class ChangePasswordActionBean extends BaseAction {
 		String hashed = BCrypt.hashpw(passwordNew, BCrypt.gensalt());
 		user.setPassword(hashed);
 		user.setEmail(email);
-		user.setUsername(username);
+		user.setUsername(HtmlEscapers.htmlEscaper().escape(username));
 		userDao.update(user);
 		return new RedirectResolution(PortalActionBean.class);
 	}
