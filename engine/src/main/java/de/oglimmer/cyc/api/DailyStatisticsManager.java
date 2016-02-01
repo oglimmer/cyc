@@ -1,12 +1,15 @@
 package de.oglimmer.cyc.api;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DailyStatisticsManager {
 
-	private Map<Company, DailyStatistics> collecting = new HashMap<>();
-	private Map<Company, DailyStatistics> lastDays = new HashMap<>();
+	private Map<Company, DailyStatistics> collecting = Collections
+			.synchronizedMap(new HashMap<Company, DailyStatistics>());
+	private Map<Company, DailyStatistics> lastDays = Collections
+			.synchronizedMap(new HashMap<Company, DailyStatistics>());
 
 	void reset() {
 		lastDays = collecting;
