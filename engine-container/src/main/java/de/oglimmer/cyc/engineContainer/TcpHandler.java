@@ -18,6 +18,7 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +28,9 @@ public class TcpHandler implements Closeable {
 	/* used in security.policy as well & de.oglimmer.cyc.web.GameExecutor.getClientSocket() */
 	public static final int SERVER_PORT = 9998;
 
+	@Getter
 	private ThreadPoolExecutor tpeTestRun;
+	@Getter
 	private ThreadPoolExecutor tpeFullRun;
 	private Date startTime;
 	private EngineLoader engineLoader;

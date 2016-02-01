@@ -14,6 +14,7 @@ import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.GameRunCouchDb;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
+import de.oglimmer.cyc.engineContainer.GameServer;
 import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 import lombok.SneakyThrows;
@@ -104,5 +105,25 @@ public class GameRunStats implements GameRunStatsMBean {
 	@Override
 	public void incCheckRuns() {
 		counterCheckRuns.add(new Date());
+	}
+
+	@Override
+	public int getActiveFullRuns() {
+		return GameServer.getTcpHandler().getTpeFullRun().getActiveCount();
+	}
+
+	@Override
+	public int getQueuedFullRuns() {
+		return GameServer.getTcpHandler().getTpeFullRun().getQueue().size();
+	}
+
+	@Override
+	public int getActiveTestRuns() {
+		return GameServer.getTcpHandler().getTpeTestRun().getActiveCount();
+	}
+	
+	@Override
+	public int getQueuedTestRuns() {
+		return GameServer.getTcpHandler().getTpeTestRun().getQueue().size();
 	}
 }

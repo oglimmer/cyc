@@ -16,4 +16,11 @@ public interface GameRunStatsMBean {
 
 	int getLastFullRunTime();
 
+	int getActiveFullRuns();
+	
+	int getQueuedFullRuns();
+
+	int getActiveTestRuns();
+	
+	int getQueuedTestRuns();
 }

@@ -3,10 +3,14 @@ package de.oglimmer.cyc.engineContainer;
 import java.io.IOException;
 
 import de.oglimmer.cyc.mbean.CycStatistics;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class GameServer {
+	
+	@Getter
+	private static TcpHandler tcpHandler;
 
 	private GameServer() {
 		// no code here
@@ -20,10 +24,13 @@ public class GameServer {
 	}
 
 	private static void startServer() {
-		try (TcpHandler tcpHandler = new TcpHandler()) {
+		tcpHandler = new TcpHandler();
+		try {
 			tcpHandler.runServer();
 		} catch (IOException | InterruptedException e) {
 			log.error("Failed to start StartEngine", e);
+		} finally {
+			tcpHandler.close();
 		}
 	}
 

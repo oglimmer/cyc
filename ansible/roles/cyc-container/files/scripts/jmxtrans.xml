@@ -8,6 +8,10 @@
 		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="LastFullRunTime" resultAlias="gameRunStats.LastFullRunTime"/>
 		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="ShowCodeUsers" resultAlias="gameRunStats.ShowCodeUsers"/>
 		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="CheckRuns" resultAlias="gameRunStats.CheckRuns.count"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="ActiveFullRuns" resultAlias="gameRunStats.ActiveFullRuns"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="QueuedFullRuns" resultAlias="gameRunStats.QueuedFullRuns"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="ActiveTestRuns" resultAlias="gameRunStats.ActiveTestRuns"/>
+		<query objectName="de.oglimmer.cyc:type=GameRunStats" attribute="QueuedTestRuns" resultAlias="gameRunStats.QueuedTestRuns"/>
 
 
         <!-- OS -->

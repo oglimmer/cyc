@@ -6,7 +6,20 @@ grant codeBase "file:/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar" {
 	permission javax.management.MBeanPermission "sun.management.ThreadImpl#ThreadCount[java.lang:type=Threading]", "getAttribute";
 	permission javax.management.MBeanPermission "sun.management.MemoryImpl#-[java.lang:type=Memory]", "queryNames";
 	permission javax.management.MBeanPermission "sun.management.MemoryImpl#NonHeapMemoryUsage[java.lang:type=Memory]", "getAttribute";
-	permission javax.management.MBeanPermission "sun.management.MemoryImpl#HeapMemoryUsage[java.lang:type=Memory]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.MemoryImpl#HeapMemoryUsage[java.lang:type=Memory]", "getAttribute";	
+	permission javax.management.MBeanPermission "sun.management.GarbageCollectorImpl#-[java.lang:name=*,type=GarbageCollector]", "queryNames";
+	permission javax.management.MBeanPermission "sun.management.GarbageCollectorImpl#CollectionTime[java.lang:name=*,type=GarbageCollector]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.GarbageCollectorImpl#CollectionCount[java.lang:name=*,type=GarbageCollector]", "getAttribute";
+	// OS X 
+	permission javax.management.MBeanPermission "sun.management.OperatingSystemImpl#-[java.lang:type=OperatingSystem]", "queryNames";
+	permission javax.management.MBeanPermission "sun.management.OperatingSystemImpl#SystemLoadAverage[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.OperatingSystemImpl#SystemCpuLoad[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.OperatingSystemImpl#ProcessCpuLoad[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.OperatingSystemImpl#OpenFileDescriptorCount[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.OperatingSystemImpl#FreeSwapSpaceSize[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.OperatingSystemImpl#FreePhysicalMemorySize[java.lang:type=OperatingSystem]", "getAttribute";
+	permission javax.management.MBeanPermission "sun.management.OperatingSystemImpl#CommittedVirtualMemorySize[java.lang:type=OperatingSystem]", "getAttribute";
+	// Linux
 	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#-[java.lang:type=OperatingSystem]", "queryNames";
 	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#SystemLoadAverage[java.lang:type=OperatingSystem]", "getAttribute";
 	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#SystemCpuLoad[java.lang:type=OperatingSystem]", "getAttribute";
@@ -15,6 +28,7 @@ grant codeBase "file:/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar" {
 	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#FreeSwapSpaceSize[java.lang:type=OperatingSystem]", "getAttribute";
 	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#FreePhysicalMemorySize[java.lang:type=OperatingSystem]", "getAttribute";
 	permission javax.management.MBeanPermission "com.sun.management.UnixOperatingSystem#CommittedVirtualMemorySize[java.lang:type=OperatingSystem]", "getAttribute";
+	
 	permission javax.management.MBeanPermission "de.oglimmer.cyc.mbean.GameRunStats#-[de.oglimmer.cyc:type=GameRunStats]", "queryNames";
 	permission javax.management.MBeanPermission "de.oglimmer.cyc.mbean.GameRunStats#*[de.oglimmer.cyc:type=GameRunStats]", "getAttribute";
 	permission java.net.SocketPermission "vpn.oglimmer.de", "resolve";
