@@ -41,12 +41,14 @@
 
 
     </queries>
-    
     <outputWriter class="org.jmxtrans.agent.GraphitePlainTextTcpOutputWriter">
         <host>vpn.oglimmer.de</host>
         <port>2003</port>
         <namePrefix>cyc.engine.</namePrefix>
     </outputWriter>
+    <!-- 
+    <outputWriter class="org.jmxtrans.agent.ConsoleOutputWriter"/>
+     -->
   
     <collectIntervalInSeconds>15</collectIntervalInSeconds>
 </jmxtrans-agent>
