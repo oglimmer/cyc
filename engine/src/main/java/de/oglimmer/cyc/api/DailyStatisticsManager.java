@@ -13,7 +13,7 @@ public class DailyStatisticsManager {
 
 	void reset() {
 		lastDays = collecting;
-		collecting = new HashMap<>();
+		collecting = Collections.synchronizedMap(new HashMap<Company, DailyStatistics>());
 	}
 
 	DailyStatistics getLastDays(Company company) {
