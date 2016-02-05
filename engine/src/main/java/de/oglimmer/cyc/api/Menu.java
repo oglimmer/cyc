@@ -64,6 +64,7 @@ public class Menu implements Container<MenuEntry>, Iterable<MenuEntry>, IMenu {
 		return entries.get(index);
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@UndocumentedAPI
 	@Override
 	public Collection<IMenuEntry> getIMenuEntries() {

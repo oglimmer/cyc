@@ -78,12 +78,13 @@ public class Day {
 	}
 
 	private void callDaily() {
-		game.getDailyStatisticsManager().reset();
+		game.getDailyStatisticsManager().startMultiThreading();
 		for (Company company : game.getCompanies()) {
 			if (!company.isBankrupt()) {
 				company.callDaily();
 			}
 		}
+		game.getDailyStatisticsManager().endMultiThreading();
 	}
 
 	private void cleanFoodStorages() {

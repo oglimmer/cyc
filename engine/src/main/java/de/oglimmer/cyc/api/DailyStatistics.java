@@ -11,6 +11,10 @@ import de.oglimmer.cyc.util.SafeMap;
 @Data
 public class DailyStatistics {
 
+	/*
+	 * ALL ATTRIBUTES MUST BE addStats() TO THE ADD METHOD AT THE BOTTOM!!!
+	 */
+	
 	private CountMap<String> rottenUnitsPerFoodMap = new CountMap<>();
 
 	private CountMap<String> servedUnitsPerMenuMap = new CountMap<>();
@@ -23,7 +27,7 @@ public class DailyStatistics {
 	private CountMap<String> guestsOutOfIngPerEstablishmentMap = new CountMap<>();
 
 	private CountMap<String> missingIngredientsPerFoodMap = new CountMap<>();
-	private Map<String, CountMap<String>> missingIngredientsPerEstablishmentMap = new SafeMap<String, CountMap<String>>() {
+	private SafeMap<String, CountMap<String>> missingIngredientsPerEstablishmentMap = new SafeMap<String, CountMap<String>>() {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -135,7 +139,25 @@ public class DailyStatistics {
 	@PublicAPI
 	public CountMap<String> getMissingIngredientsPerEstablishment(String estName) {
 		CountMap<String> ret= missingIngredientsPerEstablishmentMap.get(estName);
-		System.out.println(ret);
 		return ret;
+	}
+
+	private void addStats(DailyStatistics toAdd) {
+		rottenUnitsPerFoodMap.addAll(toAdd.rottenUnitsPerFoodMap);
+		servedUnitsPerMenuMap.addAll(toAdd.servedUnitsPerMenuMap);
+		servedUnitsPerEstablishmentMap.addAll(toAdd.servedUnitsPerEstablishmentMap);
+		guestsTotalPerCityMap.addAll(toAdd.guestsTotalPerCityMap);
+		guestsPerEstablishmentMap.addAll(toAdd.guestsPerEstablishmentMap);
+		guestsLeftPerEstablishmentMap.addAll(toAdd.guestsLeftPerEstablishmentMap);
+		guestsOutOfIngPerEstablishmentMap.addAll(toAdd.guestsOutOfIngPerEstablishmentMap);
+		missingIngredientsPerFoodMap.addAll(toAdd.missingIngredientsPerFoodMap);
+		missingIngredientsPerEstablishmentMap.addAll(toAdd.missingIngredientsPerEstablishmentMap);
+	}
+
+	static void add(Map<Company, DailyStatistics> total, Map<Company, DailyStatistics> toAdd) {
+		for (Map.Entry<Company, DailyStatistics> en : toAdd.entrySet()) {
+			DailyStatistics ds = total.get(en.getValue());
+			ds.addStats(en.getValue());
+		}
 	}
 }

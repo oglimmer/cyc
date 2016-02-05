@@ -3,6 +3,7 @@ package de.oglimmer.cyc.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CountMap<K> extends HashMap<K, Long> {
 
@@ -51,6 +52,12 @@ public class CountMap<K> extends HashMap<K, Long> {
 			sum += l;
 		}
 		return sum;
+	}
+
+	public void addAll(Map<K, Long> toAdd) {
+		for (Map.Entry<K, Long> en : toAdd.entrySet()) {
+			this.add(en.getKey(), en.getValue());
+		}
 	}
 
 }

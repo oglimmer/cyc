@@ -153,6 +153,7 @@ public class Establishment implements IEstablishment {
 		return CycCollections.unmodifiableSet(storedFoodUnits);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PublicAPI
 	public JavaScriptList<IEmployee> getEmployees() {
 		List<Employee> subList = new ArrayList<>();
