@@ -60,6 +60,11 @@
   notify:
     - restarted tomcat7
 
+- name: set XMS to XMX
+  lineinfile: dest=/etc/default/tomcat7 regexp="^JAVA_OPTS=\"-Djava.awt.headless=true" line="JAVA_OPTS=\"-Djava.awt.headless=true -Xmx128m -Xms128m -XX:+UseConcMarkSweepGC\""
+  notify:
+    - restarted tomcat7
+
 - name: add user to tomcat-users-xml
   lineinfile: dest=/etc/tomcat7/tomcat-users.xml regexp="<user username=\"manager\" password.*" line="<user username=\"manager\" password=\"{{ lookup('env','TOMCAT_MANAGER_PASSWORD') }}\" roles=\"manager-gui\"/>" insertbefore="</tomcat-users>"
   when: lookup('env','TOMCAT_MANAGER_PASSWORD')|default("") != ""
