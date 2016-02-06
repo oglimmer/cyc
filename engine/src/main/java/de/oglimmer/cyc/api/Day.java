@@ -1,6 +1,5 @@
 package de.oglimmer.cyc.api;
 
-import java.util.Currency;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
