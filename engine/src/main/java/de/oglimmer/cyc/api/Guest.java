@@ -5,6 +5,12 @@ import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Runs multi-threaded.
+ * 
+ * @author oli
+ *
+ */
 @Slf4j
 public abstract class Guest {
 
@@ -27,7 +33,7 @@ public abstract class Guest {
 
 	private void incTotalGuestsDailyStats(CityProcessor cityProcessor) {
 		for (Company company : cityProcessor.getGame().getCompanies()) {
-			cityProcessor.getGame().getDailyStatisticsManager().getCollecting(company).getGuestsTotalPerCityMap()
+			cityProcessor.getDailyStatisticsManager().getCollecting(company).getGuestsTotalPerCityMap()
 					.add(cityProcessor.getCity().getName(), 1L);
 		}
 	}
@@ -36,7 +42,7 @@ public abstract class Guest {
 		Company company = est.getParent();
 		Game game = company.getGame();
 		game.getResult().getCreateNotExists(company.getName()).getGuestsYouPerCity().add(cityProcessor.getCity().getName(), 1);
-		game.getDailyStatisticsManager().getCollecting(company).getGuestsPerEstablishmentMap()
+		cityProcessor.getDailyStatisticsManager().getCollecting(company).getGuestsPerEstablishmentMap()
 				.add(est.getAddress(), 1L);
 		try {
 			if (company.getMenu().size() > 0) {
@@ -45,9 +51,9 @@ public abstract class Guest {
 		} catch (MissingIngredient e) {
 			game.getResult().getCreateNotExists(company.getName()).addGuestsOutOfIngPerCity(cityProcessor.getCity().getName());
 			game.getResult().getCreateNotExists(company.getName()).addMissingIngredients(e.getMissingIngredients());
-			game.getDailyStatisticsManager().getCollecting(company).getGuestsOutOfIngPerEstablishmentMap()
+			cityProcessor.getDailyStatisticsManager().getCollecting(company).getGuestsOutOfIngPerEstablishmentMap()
 					.add(est.getAddress(), 1L);
-			game.getDailyStatisticsManager().getCollecting(company)
+			cityProcessor.getDailyStatisticsManager().getCollecting(company)
 					.addMissingIngredientsPerFood(e.getMissingIngredients(), est);
 			log.debug("Unable to prepare meal, missing {} in {}", e.getMissingIngredients(), est.getAddress());
 		}
@@ -58,7 +64,7 @@ public abstract class Guest {
 		if (foodSelCol.isEmpty()) {
 			est.getParent().getGame().getResult().getCreateNotExists(est.getParent().getName()).getGuestsLeftPerCity()
 					.add(cityProcessor.getCity().getName(), 1);
-			est.getParent().getGame().getDailyStatisticsManager().getCollecting(est.getParent())
+			cityProcessor.getDailyStatisticsManager().getCollecting(est.getParent())
 					.getGuestsLeftPerEstablishmentMap().add(est.getAddress(), 1L);
 			log.debug("Guest went to {} in {} and ordered nothing", est.getParent().getName(), est.getAddress());
 		} else {

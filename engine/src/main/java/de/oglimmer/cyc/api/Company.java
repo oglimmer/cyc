@@ -185,7 +185,7 @@ public class Company implements ICompany {
 			if (doDaily != null) {
 				ThreadLocal.setCompany(this);
 				long time = System.nanoTime();
-				doDaily.run(game.getDailyStatisticsManager().getLastDays(this));
+				doDaily.run(game.getDailyStatisticsManager().getLastDay(this));
 				game.getResult().getCreateNotExists(getName()).addRunTime("daily", System.nanoTime() - time);
 			}
 		} catch (RhinoException e) {

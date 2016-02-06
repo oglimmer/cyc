@@ -1,4 +1,4 @@
-package de.oglimmer.cyc.engineContainer;
+package de.oglimmer.cyc.util;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;

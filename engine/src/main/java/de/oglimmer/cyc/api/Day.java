@@ -1,14 +1,22 @@
 package de.oglimmer.cyc.api;
 
+import java.util.Currency;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Runs in a single thread.
+ * 
+ * @author oli
+ *
+ */
 @Slf4j
 public class Day {
 
 	private Game game;
 	private OpeningHours openingHours;
+	private long dayStartTime;
 
 	public Day(Game game) {
 		this.game = game;
@@ -46,7 +54,8 @@ public class Day {
 
 	private void incDailyCounter(int day) {
 		game.setCurrentDay(game.getCurrentDay() + 1);
-		log.info("Day: {}/{}", day, game.getCurrentDay());
+		log.info("Day: {}/{} ({}ms)", day, game.getCurrentDay(), System.currentTimeMillis()-dayStartTime);
+		dayStartTime = System.currentTimeMillis();
 
 		for (Company c : game.getCompanies()) {
 			if (!c.isBankrupt()) {
@@ -78,13 +87,12 @@ public class Day {
 	}
 
 	private void callDaily() {
-		game.getDailyStatisticsManager().startMultiThreading();
+		game.getDailyStatisticsManager().reset();
 		for (Company company : game.getCompanies()) {
 			if (!company.isBankrupt()) {
 				company.callDaily();
 			}
 		}
-		game.getDailyStatisticsManager().endMultiThreading();
 	}
 
 	private void cleanFoodStorages() {

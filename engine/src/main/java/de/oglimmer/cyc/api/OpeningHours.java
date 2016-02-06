@@ -4,8 +4,15 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import de.oglimmer.cyc.util.NamedThreadFactory;
 import lombok.SneakyThrows;
 
+/**
+ * Runs in a single thread.
+ * 
+ * @author oli
+ *
+ */
 public class OpeningHours {
 
 	private final Game game;
@@ -14,7 +21,8 @@ public class OpeningHours {
 
 	public OpeningHours(Game game) {
 		this.game = game;
-		executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(),
+				new NamedThreadFactory("CityProcessor"));
 		foodUnitAdmin = new FoodUnitAdmin();
 	}
 

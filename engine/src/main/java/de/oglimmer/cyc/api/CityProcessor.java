@@ -6,6 +6,12 @@ import java.util.concurrent.CountDownLatch;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Runs multi-threaded.
+ * 
+ * @author oli
+ *
+ */
 @Slf4j
 public class CityProcessor implements Runnable {
 	@Getter
@@ -16,6 +22,8 @@ public class CityProcessor implements Runnable {
 	@Getter
 	private Game game;
 	private FoodUnitAdmin foodUnitAdmin;
+	@Getter
+	private DailyStatisticsManagerCityProcessor dailyStatisticsManager = new DailyStatisticsManagerCityProcessor();
 
 	public CityProcessor(Game game, City city, CountDownLatch cdl, FoodUnitAdmin foodUnitAdmin) {
 		this.game = game;
@@ -29,6 +37,7 @@ public class CityProcessor implements Runnable {
 	public void run() {
 		try {
 			processGuests();
+			game.getDailyStatisticsManager().add(dailyStatisticsManager);
 		} finally {
 			cdl.countDown();
 		}
@@ -54,7 +63,7 @@ public class CityProcessor implements Runnable {
 			company.incCash(menu.getPrice());
 			game.getResult().getCreateNotExists(company.getName())
 					.addServedFoodServed(est.getAddress(), menu.getName(), menu.getPrice());
-			game.getDailyStatisticsManager().getCollecting(company).addServedFood(est.getAddress(), menu.getName());
+			dailyStatisticsManager.getCollecting(company).addServedFood(est.getAddress(), menu.getName());
 		} else {
 			throw new MissingIngredient(missingIngredients);
 		}

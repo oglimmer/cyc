@@ -7,6 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.util.PublicAPI;
 
+/**
+ * Runs in a single thread.
+ * 
+ * @author oli
+ *
+ */
 @Slf4j
 public class FoodUnit {
 
@@ -51,7 +57,7 @@ public class FoodUnit {
 					est.getAddress());
 			est.getParent().getGame().getResult().getCreateNotExists(est.getParent().getName()).getTotalRottenFood()
 					.add(food.toString(), units);
-			est.getParent().getGame().getDailyStatisticsManager().getCollecting(est.getParent())
+			est.getParent().getGame().getDailyStatisticsManager().getCurrentDay(est.getParent())
 					.getRottenUnitsPerFoodMap().add(food.toString(), units);
 
 			units = 0;

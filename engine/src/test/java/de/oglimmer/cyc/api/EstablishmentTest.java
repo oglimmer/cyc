@@ -59,6 +59,7 @@ public class EstablishmentTest {
 
 	@Test
 	public void testCleanFoodStorage() {
+		Thread.currentThread().setName("TestRun-0");
 		Game game = new Game(Mode.FULL, DataBackendMemory.INSTANCE);
 		Company company = new Company(game, "companyA", game.getGrocer());
 		Establishment est = new Establishment(company, "cityA", 5, 50, 1000, 2000);

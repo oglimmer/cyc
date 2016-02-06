@@ -154,10 +154,15 @@ public class DailyStatistics {
 		missingIngredientsPerEstablishmentMap.addAll(toAdd.missingIngredientsPerEstablishmentMap);
 	}
 
-	static void add(Map<Company, DailyStatistics> total, Map<Company, DailyStatistics> toAdd) {
-		for (Map.Entry<Company, DailyStatistics> en : toAdd.entrySet()) {
-			DailyStatistics ds = total.get(en.getValue());
-			ds.addStats(en.getValue());
+	static void add(Map<Company, DailyStatistics> target, Map<Company, DailyStatistics> toAdd) {
+		for (Company c : toAdd.keySet()) {
+			DailyStatistics toAddStats = toAdd.get(c);
+			DailyStatistics targetStats = target.get(c);
+			if (targetStats == null) {
+				targetStats = new DailyStatistics();
+				target.put(c, targetStats);
+			}
+			targetStats.addStats(toAddStats);
 		}
 	}
 }
