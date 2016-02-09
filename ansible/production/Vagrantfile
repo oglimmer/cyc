@@ -5,8 +5,15 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "v2"
-  config.vm.box_url = "https://dl.dropboxusercontent.com/s/haqiv201gqbkl2f/Ubuntu_13_10.box?dl=1&token_hash=AAFvxg-WeVwUCgd-gbJrTa7U_CBBDxXJrvWOQtgZzdVJnw"
+  config.vm.box = "ubuntu/trusty64"
+  
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+      echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+    SHELL
+  end
   
   config.vm.define :db do |db|
     db.vm.network :private_network, ip: "192.168.66.4"

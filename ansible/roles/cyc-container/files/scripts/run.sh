@@ -34,5 +34,15 @@ if [ -e "/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar" ]; then
 	OPTS="$OPTS -javaagent:/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar=/usr/local/cyc-engine-container/jmxtrans.xml"
 fi
 
+TOTAL_MEM=$(free|grep Mem|awk '{print $2}')
+if [ $TOTAL_MEM -lt 600000 ]; then
+    XMX=128M
+elif [ $TOTAL_MEM -lt 1100000 ]; then
+    XMX=348M
+elif [ $TOTAL_MEM -lt 1600000 ]; then
+    XMX=512M
+else
+    XMX=786M
+fi
 
-$_java -Xms768M -Xmx768M $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=/usr/local/cyc-engine-container/security.policy -Dcyc.home=/usr/local/cyc-engine-container -jar /usr/local/cyc-engine-container/engine-container-jar-with-dependencies.jar
+$_java -Xms$XMX -Xmx$XMX $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=/usr/local/cyc-engine-container/security.policy -Dcyc.home=/usr/local/cyc-engine-container -jar /usr/local/cyc-engine-container/engine-container-jar-with-dependencies.jar

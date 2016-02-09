@@ -58,13 +58,10 @@ fi
 
 if [ "$VAGRANT" = "YES" ]; then
 	# prepare insecure ssh
-	rm -f /tmp/vagrant.key 
-	curl --silent https://raw.github.com/mitchellh/vagrant/master/keys/vagrant >/tmp/vagrant.key
-	chmod 400 /tmp/vagrant.key 
 	export ANSIBLE_HOST_KEY_CHECKING=False
 fi
 
 echo "Using TOMCAT_MANAGER_PASSWORD=$TOMCAT_MANAGER_PASSWORD"
 
 # provision
-ansible-playbook $build_yml.yml --user=$SSHUSER $SSHSUDO --timeout=100 --inventory-file=$target_environment/inventory.ini --private-key=/tmp/vagrant.key --module-path modules $VERBOSE
+ansible-playbook $build_yml.yml --user=$SSHUSER $SSHSUDO --timeout=100 --inventory-file=$target_environment/inventory.ini --module-path modules $VERBOSE

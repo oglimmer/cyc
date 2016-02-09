@@ -4,6 +4,11 @@
 
 - name: set redirect on /
   lineinfile: dest=/var/lib/tomcat7/webapps/ROOT/index.jsp create=yes line="<%@ page contentType=\"text/html;charset=UTF-8\" language=\"java\" session=\"false\" %><% if(!request.isSecure()) { response.sendRedirect(\"https://codeyourrestaurant.com/cyr\"); return; } response.sendRedirect(\"/cyr\"); %>"
+  when: tomcat_standalone_https
+
+- name: set redirect on /
+  lineinfile: dest=/var/lib/tomcat7/webapps/ROOT/index.jsp create=yes line="<%@ page contentType=\"text/html;charset=UTF-8\" language=\"java\" session=\"false\" %><% response.sendRedirect(\"/cyr\"); %>"
+  when: tomcat_standalone_https == False
 
 - name: change permission on new file  
   file: mode=0755 name=/var/lib/tomcat7/webapps/ROOT/index.jsp

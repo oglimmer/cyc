@@ -114,21 +114,26 @@
 
 - name: create jmxtrans dir
   command: mkdir -p /var/lib/tomcat7/jmxtrans creates=/var/lib/tomcat7/jmxtrans
+  when: jmxtrans
 
 - name: copy jmxtrans
   copy: src=jmxtrans/jmxtrans-agent-1.2.0.jar dest=/var/lib/tomcat7/jmxtrans/jmxtrans-agent-1.2.0.jar
+  when: jmxtrans
   notify: restarted tomcat7
 
 - name: copy jmxtrans
   file: src=/var/lib/tomcat7/jmxtrans/jmxtrans-agent-1.2.0.jar dest=/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar state=link
+  when: jmxtrans
   notify: restarted tomcat7
 
 - name: copy jmxtrans.xml
   copy: src=jmxtrans/jmxtrans.xml dest=/var/lib/tomcat7/jmxtrans/jmxtrans.xml
+  when: jmxtrans
   notify: restarted tomcat7
   
 - name: Add javaagent to tomcat
   lineinfile: dest=/etc/default/tomcat7 line="JAVA_OPTS=\"${JAVA_OPTS} -javaagent:/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar=/var/lib/tomcat7/jmxtrans/jmxtrans.xml\""
+  when: jmxtrans
   notify:
     - restarted tomcat7
   
