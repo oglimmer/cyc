@@ -97,6 +97,7 @@
 						<td colspan="2">
 							<div id="legal">
 								TOC
+								<s:checkbox name="agreetermsandconditions"></s:checkbox>
 							</div>
 
 						</td>
