@@ -32,3 +32,4 @@ ansible/roles/tomcat7/files/server-https.xml
 web/jsdoc/node_modules
 rules/src/main/java/de/oglimmer/cyc/api/*Impl.java
 org.eclipse.m2e.core.prefs
+web/src/main/webapp/META-INF/MANIFEST.MF
