@@ -2,11 +2,10 @@ package de.oglimmer.cyc.api;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class GuestDispatcherManager {
 
-	private Map<Set<Company>, GuestDispatcher> map = new HashMap<>();
+	private Map<Long, GuestDispatcher> map = new HashMap<>();
 
 	private Game game;
 	private City city;
@@ -14,14 +13,14 @@ public class GuestDispatcherManager {
 	public GuestDispatcherManager(Game game, City city) {
 		this.game = game;
 		this.city = city;
-		map.put(null, new GuestDispatcher(game, city));
+		map.put(0L, new GuestDispatcher(game, city));
 	}
 
 	public GuestDispatcher getDispatcher(Guest guest) {
-		GuestDispatcher guestdisp = map.get(guest.getAlreadyVisited());
+		GuestDispatcher guestdisp = map.get(guest.getAlreadyVisitedHash());
 		if (guestdisp == null) {
 			guestdisp = new GuestDispatcher(game, city, guest.getAlreadyVisited());
-			map.put(guest.getAlreadyVisited(), guestdisp);
+			map.put(guest.getAlreadyVisitedHash(), guestdisp);
 		}
 		return guestdisp;
 	}

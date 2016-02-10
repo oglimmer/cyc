@@ -34,7 +34,7 @@ public class RealEstateProfiles implements Iterable<RealEstateProfile>, Sortable
 			}
 		}
 		for (String city : tmpCountMap.keySet()) {
-			citiesToRestaurants.add(new DataPair(city, tmpCountMap.get(city)));
+			citiesToRestaurants.add(new DataPair(city, tmpCountMap.getLong(city)));
 		}
 
 		for (int i = 0; i < game.getConstants().getNumberRealEstateProfiles(companies.size()); i++) {

@@ -53,7 +53,7 @@ public class FoodUnitAdmin {
 
 	private void assertAllFoodRemoved(CountMap<Food> mapUsed) {
 		for (Food food : mapUsed.keySet()) {
-			long unitsToRemove = mapUsed.get(food);
+			long unitsToRemove = mapUsed.getLong(food);
 			assert unitsToRemove < 2 : "unitsToRemove=" + unitsToRemove;
 		}
 	}

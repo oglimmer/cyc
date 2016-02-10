@@ -55,8 +55,7 @@ public class DailyStatistics {
 
 	@PublicAPI
 	public Long getRottenUnitsPerFood(String food) {
-		Long units = rottenUnitsPerFoodMap.get(food);
-		return units != null ? units : 0;
+		return rottenUnitsPerFoodMap.getLong(food);
 	}
 
 	@PublicAPI
@@ -66,8 +65,7 @@ public class DailyStatistics {
 
 	@PublicAPI
 	public Long getServedUnitsPerMenu(String menu) {
-		Long units = servedUnitsPerMenuMap.get(menu);
-		return units != null ? units : 0;
+		return servedUnitsPerMenuMap.getLong(menu);
 	}
 
 	@PublicAPI
@@ -77,14 +75,12 @@ public class DailyStatistics {
 
 	@PublicAPI
 	public Long getServedUnitsPerEstablishment(String est) {
-		Long units = servedUnitsPerEstablishmentMap.get(est);
-		return units != null ? units : 0; 
+		return servedUnitsPerEstablishmentMap.getLong(est);
 	}
 
 	@PublicAPI
 	public Long getGuestsTotalPerCity(String city) {
-		Long guests = guestsTotalPerCityMap.get(city);
-		return guests != null ? guests : 0;
+		return guestsTotalPerCityMap.getLong(city);
 	}
 
 	@PublicAPI
@@ -94,8 +90,7 @@ public class DailyStatistics {
 
 	@PublicAPI
 	public Long getGuestsPerEstablishment(String est) {
-		Long guests = guestsPerEstablishmentMap.get(est);
-		return guests != null ? guests : 0;
+		return guestsPerEstablishmentMap.getLong(est);
 	}
 
 	@PublicAPI
@@ -105,8 +100,7 @@ public class DailyStatistics {
 
 	@PublicAPI
 	public Long getGuestsLeftPerEstablishment(String est) {
-		Long guests = guestsLeftPerEstablishmentMap.get(est);
-		return guests != null ? guests : 0;
+		return guestsLeftPerEstablishmentMap.getLong(est);
 	}
 
 	@PublicAPI
@@ -116,8 +110,7 @@ public class DailyStatistics {
 
 	@PublicAPI
 	public Long getGuestsOutOfIngPerEstablishment(String est) {
-		Long guests = guestsOutOfIngPerEstablishmentMap.get(est);
-		return guests != null ? guests : 0;
+		return guestsOutOfIngPerEstablishmentMap.getLong(est);
 	}
 
 	@PublicAPI
@@ -127,8 +120,7 @@ public class DailyStatistics {
 
 	@PublicAPI
 	public Long getMissingIngredientsPerFood(String food) {
-		Long units = missingIngredientsPerFoodMap.get(food);
-		return units != null ? units : 0; 
+		return missingIngredientsPerFoodMap.getLong(food);
 	}
 
 	@PublicAPI

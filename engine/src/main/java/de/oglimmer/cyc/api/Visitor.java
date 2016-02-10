@@ -11,6 +11,11 @@ public class Visitor extends Guest {
 	}
 
 	@Override
+	public Long getAlreadyVisitedHash() {
+		return 0L;
+	}
+
+	@Override
 	public void addAlreadyVisited(Company company) {
 		// visitors haven't memory
 	}

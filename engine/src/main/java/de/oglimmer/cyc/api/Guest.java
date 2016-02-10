@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class Guest {
 
 	public abstract Set<Company> getAlreadyVisited();
+	
+	public abstract Long getAlreadyVisitedHash();
 
 	public abstract void addAlreadyVisited(Company company);
 

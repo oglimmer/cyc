@@ -1,6 +1,7 @@
 package de.oglimmer.cyc.api;
 
 import java.util.Collection;
+import java.util.logging.LoggingMXBean;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import de.oglimmer.cyc.util.AverageMap;
 import de.oglimmer.cyc.util.CountDoubleMap;
 import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.util.HtmlUtil;
+import de.oglimmer.cyc.util.LongMutable;
 
 /**
  * Thread-safe (parallel access in OpenHours/Guest)
@@ -95,8 +97,8 @@ public class PlayerResult {
 	@JsonIgnore
 	public long getSalariesTotal() {
 		long total = 0;
-		for (Long l : totalOnSalaries.values()) {
-			total += l;
+		for (LongMutable l : totalOnSalaries.values()) {
+			total += l.val;
 		}
 		return total;
 	}
@@ -109,8 +111,8 @@ public class PlayerResult {
 	@JsonIgnore
 	public long getPurchasedFoodCostsTotal() {
 		long total = 0;
-		for (Long l : totalPurchasedFoodCosts.values()) {
-			total += l;
+		for (LongMutable l : totalPurchasedFoodCosts.values()) {
+			total += l.val;
 		}
 		return total;
 	}
@@ -118,8 +120,8 @@ public class PlayerResult {
 	@JsonIgnore
 	public long getServedFoodUnitsTotal() {
 		long total = 0;
-		for (Long l : servedFoodPerTypeUnits.values()) {
-			total += l;
+		for (LongMutable l : servedFoodPerTypeUnits.values()) {
+			total += l.val;
 		}
 		return total;
 	}
@@ -127,8 +129,8 @@ public class PlayerResult {
 	@JsonIgnore
 	public long getServedFoodEstablishmentUnitsTotal() {
 		long total = 0;
-		for (Long l : servedFoodPerEstablishmentUnits.values()) {
-			total += l;
+		for (LongMutable l : servedFoodPerEstablishmentUnits.values()) {
+			total += l.val;
 		}
 		return total;
 	}

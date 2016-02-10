@@ -11,7 +11,7 @@ public class CountMapTest {
 		map.add(1, 1);
 		map.add(1, 2);
 		map.add(1, 3);
-		Assert.assertEquals(6L, (long) map.get(1));
+		Assert.assertEquals(6L, map.getLong(1));
 	}
 
 	@Test
@@ -26,8 +26,8 @@ public class CountMapTest {
 		map.add(3, 0);
 		map.add(3, 0);
 		map.add(3, 0);
-		Assert.assertEquals(6L, (long) map.get(1));
-		Assert.assertEquals(60L, (long) map.get(2));
-		Assert.assertEquals(0L, (long) map.get(3));
+		Assert.assertEquals(6L, map.getLong(1));
+		Assert.assertEquals(60L, map.getLong(2));
+		Assert.assertEquals(0L, map.getLong(3));
 	}
 }

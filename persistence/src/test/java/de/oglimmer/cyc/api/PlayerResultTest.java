@@ -43,8 +43,8 @@ public class PlayerResultTest {
 		pr.addStaffByDays("A");
 		pr.addStaffByDays("A");
 		pr.addStaffByDays("B");
-		Assert.assertEquals(3, (long) pr.getStaffByDays().get("A"));
-		Assert.assertEquals(1, (long) pr.getStaffByDays().get("B"));
+		Assert.assertEquals(3, pr.getStaffByDays().getLong("A"));
+		Assert.assertEquals(1, pr.getStaffByDays().getLong("B"));
 	}
 
 	@Test
@@ -54,8 +54,8 @@ public class PlayerResultTest {
 		pr.addTotalOnSalaries("A", 20);
 		pr.addTotalOnSalaries("A", 30);
 		pr.addTotalOnSalaries("B", 20);
-		Assert.assertEquals(60, (long) pr.getTotalOnSalaries().get("A"));
-		Assert.assertEquals(20, (long) pr.getTotalOnSalaries().get("B"));
+		Assert.assertEquals(60, pr.getTotalOnSalaries().getLong("A"));
+		Assert.assertEquals(20, pr.getTotalOnSalaries().getLong("B"));
 	}
 
 	@Test
@@ -75,10 +75,10 @@ public class PlayerResultTest {
 		pr.addTotalPurchasedFood("A", 20, 200);
 		pr.addTotalPurchasedFood("A", 30, 300);
 		pr.addTotalPurchasedFood("B", 20, 300);
-		Assert.assertEquals(60, (long) pr.getTotalPurchasedFoodUnits().get("A"));
-		Assert.assertEquals(600, (long) pr.getTotalPurchasedFoodCosts().get("A"));
-		Assert.assertEquals(20, (long) pr.getTotalPurchasedFoodUnits().get("B"));
-		Assert.assertEquals(300, (long) pr.getTotalPurchasedFoodCosts().get("B"));
+		Assert.assertEquals(60, pr.getTotalPurchasedFoodUnits().getLong("A"));
+		Assert.assertEquals(600, pr.getTotalPurchasedFoodCosts().getLong("A"));
+		Assert.assertEquals(20, pr.getTotalPurchasedFoodUnits().getLong("B"));
+		Assert.assertEquals(300, pr.getTotalPurchasedFoodCosts().getLong("B"));
 	}
 
 	@Test
@@ -135,8 +135,8 @@ public class PlayerResultTest {
 		pr.addServedFoodServed("A", "b", 7);
 		pr.addServedFoodServed("A", "b", 103);
 		pr.addServedFoodServed("B", "a", 9);
-		Assert.assertEquals(5, (long) pr.getServedFoodPerEstablishmentUnits().get("A"));
-		Assert.assertEquals(4, (long) pr.getServedFoodPerTypeUnits().get("a"));
+		Assert.assertEquals(5, pr.getServedFoodPerEstablishmentUnits().getLong("A"));
+		Assert.assertEquals(4, pr.getServedFoodPerTypeUnits().getLong("a"));
 		Assert.assertEquals(140, (double) pr.getServedFoodPerEstablishmentRevenue().get("A"), 0d);
 		Assert.assertEquals(39, (double) pr.getServedFoodPerTypeRevenue().get("a"), 0d);
 	}
@@ -148,8 +148,8 @@ public class PlayerResultTest {
 		pr.addGuestsOutOfIngPerCity("A");
 		pr.addGuestsOutOfIngPerCity("A");
 		pr.addGuestsOutOfIngPerCity("B");
-		Assert.assertEquals(3, (long) pr.getGuestsOutOfIngPerCity().get("A"));
-		Assert.assertEquals(1, (long) pr.getGuestsOutOfIngPerCity().get("B"));
+		Assert.assertEquals(3, pr.getGuestsOutOfIngPerCity().getLong("A"));
+		Assert.assertEquals(1, pr.getGuestsOutOfIngPerCity().getLong("B"));
 	}
 
 	@Test
@@ -167,9 +167,9 @@ public class PlayerResultTest {
 		val missingIngredients3 = new ArrayList<>();
 		missingIngredients3.add("A");
 		pr.addMissingIngredients(missingIngredients3);
-		Assert.assertEquals(3, (long) pr.getMissingIngredients().get("A"));
-		Assert.assertEquals(2, (long) pr.getMissingIngredients().get("B"));
-		Assert.assertEquals(1, (long) pr.getMissingIngredients().get("C"));
+		Assert.assertEquals(3, pr.getMissingIngredients().getLong("A"));
+		Assert.assertEquals(2, pr.getMissingIngredients().getLong("B"));
+		Assert.assertEquals(1, pr.getMissingIngredients().getLong("C"));
 	}
 
 	@Test

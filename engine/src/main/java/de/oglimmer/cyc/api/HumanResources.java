@@ -2,6 +2,7 @@ package de.oglimmer.cyc.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import de.oglimmer.cyc.collections.CycCollections;
 import de.oglimmer.cyc.collections.JavaScriptList;
 import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.util.ExceptionConverter;
+import de.oglimmer.cyc.util.LongMutable;
 import de.oglimmer.cyc.util.PublicAPI;
 import de.oglimmer.cyc.util.UndocumentedAPI;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +55,11 @@ public class HumanResources implements IHumanResources {
 		for (IEmployee emp : est.getEmployees()) {
 			summary.add(emp.getJobPosition(), emp.getQualification());
 		}
-		return summary;
+		Map<JobPosition, Long> apiMap = new HashMap<>();
+		for (Map.Entry<JobPosition, LongMutable> en : summary.entrySet()) {
+			apiMap.put(en.getKey(), en.getValue().val);
+		}
+		return apiMap;
 	}
 	
 	@PublicAPI

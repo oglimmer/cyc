@@ -86,8 +86,8 @@ public class FoodUnit {
 	}
 	
 	void satisfy(CountMap<Food> usedFood) {
-		Long toRemove = usedFood.get(food);
-		if (toRemove != null) {
+		long toRemove = usedFood.getLong(food);
+		if (toRemove > 0) {
 			if (toRemove > units) {
 				toRemove = (long) units;
 			}

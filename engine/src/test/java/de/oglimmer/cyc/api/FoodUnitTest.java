@@ -29,7 +29,7 @@ public class FoodUnitTest {
 		Assert.assertEquals(0, fu.getPullDate());
 		Assert.assertEquals(10,
 				game.getGameRun().getResult().getCreateNotExists("companyA").getTotalRottenFood().get(Food.BEEF_MEAT.toString())
-						.longValue());
+						.val);
 	}
 
 	@Test

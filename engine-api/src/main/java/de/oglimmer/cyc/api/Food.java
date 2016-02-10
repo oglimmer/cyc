@@ -29,12 +29,9 @@ public enum Food {
 	 * @return true if availStore.get(this) > usedStore.get(this)
 	 */
 	boolean check(CountMap<Food> availStore, CountMap<Food> usedStore) {
-		Long avail = availStore.get(this);
-		Long used = usedStore.get(this);
-		if (used == null) {
-			used = Long.valueOf(0L);
-		}
-		return avail != null && avail > used;
+		long avail = availStore.getLong(this);
+		long used = usedStore.getLong(this);
+		return avail > used;
 	}
 
 	public int count(List<Food> list) {
