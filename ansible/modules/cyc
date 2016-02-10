@@ -39,6 +39,8 @@ for arg in arguments:
         (key, value) = arg.split("=")
         if key == "src":
             src=value
+            if src.startswith("'") and src.endswith("'"):
+                src = src[1:-1]
         if key == "dest":
             dest=value
         if key == "dtype":
