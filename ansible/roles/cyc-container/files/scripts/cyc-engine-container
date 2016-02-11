@@ -20,7 +20,7 @@ do_start()
 	                nohup $ROOT_DIR/run.sh </dev/null 1>>$LOG_FILE 2>&1 &
                 else
 	                echo sudo -b -u $USER $ROOT_DIR/run.sh
-	                sudo -b -u $USER $ROOT_DIR/run.sh >> $LOG_FILE
+	                sudo -b -u $USER $ROOT_DIR/run.sh >>$LOG_FILE 2>&1
                 fi
                 RETVAL=$?
                 echo                
