@@ -16,6 +16,7 @@ import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.GameExecutor;
 import de.oglimmer.cyc.web.ThreeDaysWinner;
+import de.oglimmer.cyc.web.WebContainerProperties;
 import de.oglimmer.cyc.web.exception.CycPermissionException;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,11 +54,14 @@ public class PortalActionBean extends BaseAction {
 
 	@Getter
 	@Setter
-	private String threeDayWinner;
+	private String[] threeDayWinner;
 
 	@Getter
 	@Setter
 	private boolean fullRun;
+	@Getter
+	@Setter
+	private boolean testRun;
 	@Getter
 	@Setter
 	private boolean openSource;
@@ -95,6 +99,8 @@ public class PortalActionBean extends BaseAction {
 		lastRun = user.getLastPrivateRun();
 		fullRun = user.getPermission() > 0;
 		openSource = user.getOpenSource() > 0;
+		
+		testRun = WebContainerProperties.INSTANCE.getSystemDisabledDate().after(new Date());
 
 		String userAgent = getContext().getRequest().getHeader("User-Agent").toLowerCase();
 		boolean isMobile = userAgent.matches("(?i).*(ipad|iphone|android).*");
@@ -113,6 +119,10 @@ public class PortalActionBean extends BaseAction {
 	}
 
 	public Resolution saveRun() {
+		if (WebContainerProperties.INSTANCE.getSystemDisabledDate().before(new Date())) {
+			output = "System disabled.";
+			return new ForwardResolution("/WEB-INF/jsp/ajax/portalSave.jsp");
+		}
 		User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
 		user.setMainJavaScript(getCompany());
 		user.setActive(true);

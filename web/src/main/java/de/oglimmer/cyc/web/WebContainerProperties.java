@@ -2,6 +2,9 @@ package de.oglimmer.cyc.web;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import lombok.SneakyThrows;
@@ -73,5 +76,16 @@ public enum WebContainerProperties {
 	public String getSmtpFrom() {
 		return prop.getProperty("smtp.from", System.getProperty("cyc.smtp.from",
 				"\"CodeYourRestaurant Mail System\" <no-reply@codeyourrestaurant.com>"));
+	}
+
+	public Date getSystemDisabledDate() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			return sdf.parse(prop.getProperty("cyc.date-disabled", ""));
+		} catch (ParseException e) {
+			Date never = new Date();
+			never.setTime(4102444799000L);// 2099-12-31 23:59:59
+			return never;
+		}
 	}
 }

@@ -11,10 +11,12 @@
 			The goal is to implement your restaurant managing logic in a better, more optimal, way than all the other 
 			players as every 15 mins a business competition is automatically started to find the best company.<br/>
 			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link>, <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> or the <a href="apidocs/index.html" target="_blank">API</a>.<br/>
-			Here are results of the <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >latest competitions</s:link>.
+			Here are results of a <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >3 days window</s:link>.
 		</div>
 		<div class="centerElement">
-				Current champion: ${actionBean.threeDayWinner}
+				Current 1st: ${actionBean.threeDayWinner[0]}<br/>
+				Current 2nd: ${actionBean.threeDayWinner[1]}<br/>
+				Current 3rd: ${actionBean.threeDayWinner[2]}<br/>
 		</div>
 
 		<div>
@@ -41,10 +43,12 @@
 						</div>					 
 					</div>
 					<hr style="clear:both;visibility:hidden;" />
-					<div style="padding:10px;">
-						If you are new here and feel comfortable to implement your own restaurant using JavaScript then 
-						click here to <s:submit name="register" value="register a new account" />					
-					</div>
+					<c:if test="${!actionBean.registerDisabled}">
+						<div style="padding:10px;">
+							If you are new here and feel comfortable to implement your own restaurant using JavaScript then 
+							click here to <s:submit name="register" value="register a new account" />					
+						</div>
+					</c:if>
 				</s:form>			
 
 			</div>

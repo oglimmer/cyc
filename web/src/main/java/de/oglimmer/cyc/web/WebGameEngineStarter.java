@@ -18,9 +18,23 @@ public enum WebGameEngineStarter {
 	public void startServer() throws IOException {
 		if (isServiceAvailable()) {
 			serviceStart();
+		}
+		if (isRunScriptAvailable()) {
+			runScriptStart();
 		} else {
 			directStart();
 		}
+	}
+
+	private boolean isRunScriptAvailable() {
+		return new File(getCycHome() + "/run.sh").exists();
+	}
+
+	private void runScriptStart() throws IOException {
+		String home = getCycHome();
+		log.debug("startEngineProcess via run.sh");
+		String[] commandLineArgs = new String[] { home + "/run.sh" };
+		createProcess(commandLineArgs, home);
 	}
 
 	private void serviceStart() throws IOException {
@@ -37,12 +51,13 @@ public enum WebGameEngineStarter {
 	}
 
 	private void startEngineProcess(String[] commandLineArgs) throws IOException {
+		String home = getCycHome();
+		log.debug("startEngineProcess: {}", Arrays.toString(commandLineArgs));
+		createProcess(commandLineArgs, home);
+	}
+
+	private void createProcess(String[] commandLineArgs, String home) throws IOException {
 		try {
-			String home = System.getProperty("cyc.home");
-			assert home != null;
-
-			log.debug("startEngineProcess: {}", Arrays.toString(commandLineArgs));
-
 			ProcessBuilder pb = new ProcessBuilder(commandLineArgs);
 			if (DEBUG_AUTO_START) {
 				pb.inheritIO();
@@ -61,9 +76,14 @@ public enum WebGameEngineStarter {
 		}
 	}
 
-	private String[] createCommandLineArray() {
+	private String getCycHome() {
 		String home = System.getProperty("cyc.home");
 		assert home != null;
+		return home;
+	}
+
+	private String[] createCommandLineArray() {
+		String home = getCycHome();
 
 		StringBuilder buff = new StringBuilder();
 		buff.append("java");

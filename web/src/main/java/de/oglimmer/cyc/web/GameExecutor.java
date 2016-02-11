@@ -70,17 +70,16 @@ public enum GameExecutor {
 		return trigger.getFireTimeAfter(new Date());
 	}
 
-	public void runGame(final String userId) throws IOException {
+	public void runGame(String userId) throws IOException {
 		Socket clientSocket = null;
 		try {
 			clientSocket = getClientSocket();
 			DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			if (userId != null) {
-				outToServer.writeBytes(userId + '\n');
-			} else {
-				outToServer.writeBytes("full\n");
+			if (userId == null) {
+				userId = "full";
 			}
+			outToServer.writeBytes(userId + '\n');
 			String serverResponse = inFromServer.readLine();
 			if (!"ok".equals(serverResponse)) {
 				log.error("Call to game server returned error:{}", serverResponse);
