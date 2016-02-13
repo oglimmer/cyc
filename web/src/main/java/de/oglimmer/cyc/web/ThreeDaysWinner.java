@@ -46,21 +46,19 @@ public enum ThreeDaysWinner {
 	private String[] calcLast3DaysWinner(List<GameWinners> listGameWinners) {
 
 		AverageMap<String> winAvgTotal = new AverageMap<>();
-		CountMap<String> winCount = new CountMap<>();
 
-		aggregate(listGameWinners, winAvgTotal, winCount);
-		return calcCountWinner(winAvgTotal, winCount);
+		aggregate(listGameWinners, winAvgTotal);
+		return calcCountWinner(winAvgTotal);
 	}
 
-	private void aggregate(List<GameWinners> listGameWinners, AverageMap<String> winAvgTotal,
-			CountMap<String> winCount) {
+	private void aggregate(List<GameWinners> listGameWinners, AverageMap<String> winAvgTotal) {
 		for (GameWinners gw : listGameWinners) {
-			winCount.add(gw.getWinnerName(), 1);
 			winAvgTotal.add(gw.getWinnerName(), (long) gw.getWinnerTotal());
 		}
 	}
 
-	private String[] calcCountWinner(AverageMap<String> winAvgTotal, CountMap<String> winCount) {
+	private String[] calcCountWinner(AverageMap<String> winAvgTotal) {
+		CountMap<String> winCount = winAvgTotal.getCount();
 		String threeDayWinner0 = buildCountWinner(0, winAvgTotal, winCount);
 		String threeDayWinner1 = buildCountWinner(1, winAvgTotal, winCount);
 		String threeDayWinner2 = buildCountWinner(2, winAvgTotal, winCount);

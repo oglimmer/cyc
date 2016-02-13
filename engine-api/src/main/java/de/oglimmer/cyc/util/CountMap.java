@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.Getter;
@@ -75,9 +75,9 @@ public class CountMap<K> extends ConcurrentHashMap<K, LongMutable> {
 
 		public Collection<K> max(int pos) {
 
-			TreeMap<K, LongMutable> sorted = getSortedMap();
+			Map<K, LongMutable> sorted = getSortedMap();
 
-			TreeMap<Long, Collection<K>> sortedStacked = new StackedTransformator(sorted).getSortedStacked();
+			Map<Long, Collection<K>> sortedStacked = new StackedTransformator(sorted).getSortedStacked();
 
 			if (sortedStacked.size() <= pos) {
 				return Collections.emptyList();
@@ -85,33 +85,29 @@ public class CountMap<K> extends ConcurrentHashMap<K, LongMutable> {
 
 			removeFirstItems(pos, sortedStacked);
 
-			return sortedStacked.firstEntry().getValue();
+			return sortedStacked.values().iterator().next();
 		}
 
-		private void removeFirstItems(int pos, TreeMap<Long, Collection<K>> sortedStacked) {
+		private void removeFirstItems(int pos, Map<Long, Collection<K>> sortedStacked) {
 			for (int i = 0; i < pos; i++) {
-				sortedStacked.remove(sortedStacked.firstKey());
+				sortedStacked.remove(sortedStacked.keySet().iterator().next());
 			}
 		}
 
-		private TreeMap<K, LongMutable> getSortedMap() {
-			TreeMap<K, LongMutable> sortedMap = new TreeMap<>(new Comparator<K>() {
-				@Override
-				public int compare(K o1, K o2) {
-					return -1 * Long.compare(get(o1).val, get(o2).val);
-				}
-			});
-			sortedMap.putAll(CountMap.this);
+		private Map<K, LongMutable> getSortedMap() {
+			Map<K, LongMutable> sortedMap = new LinkedHashMap<>();
+			entrySet().stream().sorted(Comparator.comparing(e -> -1 * e.getValue().val))
+					.forEachOrdered(e -> sortedMap.put(e.getKey(), e.getValue()));
 			return sortedMap;
 		}
 
 		class StackedTransformator {
 			@Getter
-			private TreeMap<Long, Collection<K>> sortedStacked = new TreeMap<>();
-			private long lastValue = -1;
-			private Collection<K> lastCol = null;
+			private Map<Long, Collection<K>> sortedStacked = new LinkedHashMap<>();
+			private long lastKey = -1;
+			private Collection<K> lastValueCol = null;
 
-			private StackedTransformator(TreeMap<K, LongMutable> sorted) {
+			private StackedTransformator(Map<K, LongMutable> sorted) {
 				for (Map.Entry<K, LongMutable> en : sorted.entrySet()) {
 					processEntry(en);
 				}
@@ -119,17 +115,19 @@ public class CountMap<K> extends ConcurrentHashMap<K, LongMutable> {
 			}
 
 			private void processEntry(Map.Entry<K, LongMutable> en) {
-				if (lastValue != en.getValue().val) {
+				K oldKeyNewVal = en.getKey();
+				long oldValNewKey = en.getValue().val;
+				if (lastKey != oldValNewKey) {
 					putLastCollectedIntoResult();
-					lastCol = new ArrayList<>();
-					lastValue = en.getValue().val;
+					lastValueCol = new ArrayList<>();
+					lastKey = oldValNewKey;
 				}
-				lastCol.add(en.getKey());
+				lastValueCol.add(oldKeyNewVal);
 			}
 
 			private void putLastCollectedIntoResult() {
-				if (lastCol != null) {
-					sortedStacked.put(lastValue, lastCol);
+				if (lastValueCol != null) {
+					sortedStacked.put(lastKey, lastValueCol);
 				}
 			}
 		}

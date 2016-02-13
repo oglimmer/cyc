@@ -14,5 +14,11 @@ public class AverageMap<K> extends HashMap<K, Average> {
 			currentVal.add(value);
 		}
 	}
+	
+	public CountMap<K> getCount() {
+		CountMap<K> ret = new CountMap<K>();
+		entrySet().stream().forEach(en -> ret.put(en.getKey(), en.getValue().getNum()));
+		return ret;
+	}
 
 }
