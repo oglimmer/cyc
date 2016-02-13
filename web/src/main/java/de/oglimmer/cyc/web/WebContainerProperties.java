@@ -88,4 +88,15 @@ public enum WebContainerProperties {
 			return never;
 		}
 	}
+
+	public Date getSystemHaltDate() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			return sdf.parse(prop.getProperty("cyc.date-halt", ""));
+		} catch (ParseException e) {
+			Date never = new Date();
+			never.setTime(4102444799000L);// 2099-12-31 23:59:59
+			return never;
+		}
+	}
 }

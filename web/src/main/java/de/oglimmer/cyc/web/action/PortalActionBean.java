@@ -15,6 +15,7 @@ import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.GameExecutor;
+import de.oglimmer.cyc.web.GameScheduler;
 import de.oglimmer.cyc.web.ThreeDaysWinner;
 import de.oglimmer.cyc.web.WebContainerProperties;
 import de.oglimmer.cyc.web.exception.CycPermissionException;
@@ -74,7 +75,7 @@ public class PortalActionBean extends BaseAction {
 
 	@Before(stages = { LifecycleStage.EventHandling })
 	public void getNextRunFromGameEngine() {
-		Date nextRunDate = GameExecutor.INSTANCE.getNextRun();
+		Date nextRunDate = GameScheduler.INSTANCE.getNextRun();
 		DateFormat dateTimeDf = DateFormat.getDateTimeInstance();
 		setNextRun(dateTimeDf.format(nextRunDate));
 

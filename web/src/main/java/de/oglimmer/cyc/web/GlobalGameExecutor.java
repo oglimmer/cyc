@@ -26,7 +26,7 @@ public enum GlobalGameExecutor {
 	@SneakyThrows
 	public boolean isMaster() {
 		if (isMaster) {
-			log.debug("Running as Master (1, {}): true", GameExecutor.INSTANCE.getWarVersion());
+			log.debug("Running as Master (1, {}): true", GameScheduler.INSTANCE.getWarVersion());
 			return true;
 		}
 		ObjectName oname = new javax.management.ObjectName(GlobalGameExecutor.MBEAN_NAME);
@@ -37,10 +37,10 @@ public enum GlobalGameExecutor {
 				StandardMBean standardmbean = new StandardMBean(mbean, IDummy.class);
 				mbs.registerMBean(standardmbean, oname);
 				isMaster = true;
-				log.debug("Created Master ({})", GameExecutor.INSTANCE.getWarVersion());
+				log.debug("Created Master ({})", GameScheduler.INSTANCE.getWarVersion());
 			}
 		}
-		log.debug("Running as Master (2, {}): {}", GameExecutor.INSTANCE.getWarVersion(), isMaster);
+		log.debug("Running as Master (2, {}): {}", GameScheduler.INSTANCE.getWarVersion(), isMaster);
 		return isMaster;
 	}
 
@@ -50,7 +50,7 @@ public enum GlobalGameExecutor {
 			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 			ObjectName name = new ObjectName(GlobalGameExecutor.MBEAN_NAME);
 			mbs.unregisterMBean(name);
-			log.debug("Closed Master ({})", GameExecutor.INSTANCE.getWarVersion());
+			log.debug("Closed Master ({})", GameScheduler.INSTANCE.getWarVersion());
 		}
 	}
 
