@@ -17,9 +17,9 @@
 <body>
 	<div class="head">
 		<h1>Welcome to "CodeYourRestaurant"</h1>
-		
+		<%--
 		<a href="https://github.com/oglimmer/cyc"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub"></a>
-		
+		 --%>
 	</div>
 
 	<div class="center" style="${style}">
@@ -27,7 +27,7 @@
 	</div>
 	
 	<div class="footer">
-		${actionBean.longVersion } - Created by oglimmer.de - <s:link beanclass="de.oglimmer.cyc.web.action.ImpressumActionBean">Impressum/Kontakt</s:link>&nbsp;
+		${actionBean.longVersion } - Created by oglimmer.de - <s:link beanclass="de.oglimmer.cyc.web.action.ImpressumActionBean">Impressum/Kontakt/Datenschutz</s:link>&nbsp;
 	</div>
 </body>
 </html>
