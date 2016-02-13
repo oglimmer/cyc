@@ -59,9 +59,12 @@ public class LandingActionBean extends BaseAction {
 
 	@Getter
 	private boolean showCycLogin;
-	
+
 	@Getter
 	private boolean registerDisabled;
+
+	@Getter
+	private String systemMessage;
 
 	@Before(stages = { LifecycleStage.HandlerResolution })
 	public void beforeHandlerResolution() {
@@ -73,8 +76,9 @@ public class LandingActionBean extends BaseAction {
 
 		ThreeDaysWinner.Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner();
 		threeDayWinner = result.getThreeDayWinner();
-		
+
 		registerDisabled = WebContainerProperties.INSTANCE.getSystemDisabledDate().before(new Date());
+		systemMessage = WebContainerProperties.INSTANCE.getSystemMessage();
 	}
 
 	@ValidationMethod

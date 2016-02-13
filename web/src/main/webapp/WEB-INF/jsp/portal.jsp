@@ -19,9 +19,9 @@
 			<div>Next run: <span id="nextRun">${actionBean.nextRun}</span> UTC</div>
 			<div>Last run's winner: <s:link beanclass="de.oglimmer.cyc.web.action.GameRunDetailsActionBean" ><span id="lastWinner">${actionBean.lastWinner}</span></s:link></div>			
 			<div>
-				Current 1st: <span id="threeDayWinner">${actionBean.threeDayWinner[0]}</span>, 
-				2nd: <span id="threeDayWinner">${actionBean.threeDayWinner[1]}</span>,
-				3rd: <span id="threeDayWinner">${actionBean.threeDayWinner[2]}</span>
+				Current 1st: <span id="threeDayWinner0">${actionBean.threeDayWinner[0]}</span>, 
+				2nd: <span id="threeDayWinner1">${actionBean.threeDayWinner[1]}</span>,
+				3rd: <span id="threeDayWinner2">${actionBean.threeDayWinner[2]}</span>
 				<s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >(click for 3 days history)</s:link>
 			</div>
 		</div>
@@ -40,8 +40,9 @@
 				</c:if>		
 				<c:if test="${actionBean.fullRun}">
 					<s:submit name="fullRun" value="Start global run" onclick="onSubmitFormFull(this);" />
-				</c:if>		
-				<s:checkbox name="openSource" onchange="onOpenSourceChanged()" /><span style="font-size:0.7em;">Show my source code to the public</span>
+				</c:if>	
+				<!-- 	
+				<s:checkbox name="openSource" onchange="onOpenSourceChanged()" /><span style="font-size:0.7em;">Show my source code to the public</span>  -->
 				<span style="font-size:0.7em;">(Hint: to reset your code, go to the bottom of the tutorial page)</span>		
 			</s:form>
 			
@@ -98,7 +99,9 @@
 		    function checkForUpdateGlobalRun() {
 		    	$.get(document.mainForm.action+"?checkForUpdateGlobalRun=", function(returnData) {
 					$("#lastWinner").html(returnData.lastWinner);
-					$("#threeDayWinner").html(returnData.threeDayWinner);
+					$("#threeDayWinner0").html(returnData.threeDayWinner0);
+					$("#threeDayWinner1").html(returnData.threeDayWinner1);
+					$("#threeDayWinner2").html(returnData.threeDayWinner2);
 					$("#nextRun").html(returnData.nextRun);
 		    	},"json");
 		    	setTimeout(checkForUpdateGlobalRun, 1000*60);	

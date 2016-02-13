@@ -1,24 +1,53 @@
 package de.oglimmer.cyc.web;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
-import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public enum WebContainerProperties {
 	INSTANCE;
 
-	private Properties prop = new Properties();
+	private static final String CYC_PROPERTIES = "cyc.properties";
 
-	@SneakyThrows(value = IOException.class)
+	private Properties prop = new Properties();
+	private boolean running = true;
+	private Thread propertyFileWatcherThread;
+	private List<Runnable> reloadables = new ArrayList<>();
+	private String sourceLocation;
+
 	private WebContainerProperties() {
-		if (System.getProperty("cyc.properties") != null) {
-			try (FileInputStream fis = new FileInputStream(System.getProperty("cyc.properties"))) {
-				prop.load(fis);
+		init();
+	}
+
+	private void init() {
+		sourceLocation = System.getProperty(CYC_PROPERTIES);
+		if (sourceLocation != null) {
+			try {
+				try (InputStream fis = new FileInputStream(sourceLocation)) {
+					prop.load(fis);
+				}
+				if (propertyFileWatcherThread == null) {
+					propertyFileWatcherThread = new Thread(new PropertyFileWatcher());
+					propertyFileWatcherThread.start();
+				}
+			} catch (IOException e) {
+				log.error("Failed to load properties file " + sourceLocation, e);
 			}
 		}
 	}
@@ -97,6 +126,57 @@ public enum WebContainerProperties {
 			Date never = new Date();
 			never.setTime(4102444799000L);// 2099-12-31 23:59:59
 			return never;
+		}
+	}
+
+	public String getSystemMessage() {
+		return prop.getProperty("cyc.system-message", "");
+	}
+
+	public void registerOnReload(Runnable toCall) {
+		reloadables.add(toCall);
+	}
+
+	void reload() {
+		init();
+		reloadables.forEach(c -> c.run());
+	}
+
+	public void shutdown() {
+		running = false;
+		propertyFileWatcherThread.interrupt();
+	}
+
+	class PropertyFileWatcher implements Runnable {
+
+		public void run() {
+			File toWatch = new File(sourceLocation);
+			log.info("PropertyFileWatcher started");
+			try {
+				final Path path = FileSystems.getDefault().getPath(toWatch.getParent());
+				try (final WatchService watchService = FileSystems.getDefault().newWatchService()) {
+					path.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
+					while (running) {
+						final WatchKey wk = watchService.take();
+						for (WatchEvent<?> event : wk.pollEvents()) {
+							// we only register "ENTRY_MODIFY" so the context is always a Path.
+							final Path changed = (Path) event.context();
+							if (changed.endsWith(toWatch.getName())) {
+								log.trace("{} changed => reload", toWatch.getAbsolutePath());
+								reload();
+							}
+						}
+						boolean valid = wk.reset();
+						if (!valid) {
+							log.warn("The PropertyFileWatcher's key has been unregistered.");
+						}
+					}
+				}
+			} catch (InterruptedException e) {
+			} catch (Exception e) {
+				log.error("PropertyFileWatcher failed", e);
+			}
+			log.info("PropertyFileWatcher ended");
 		}
 	}
 }

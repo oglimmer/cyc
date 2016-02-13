@@ -164,7 +164,9 @@ public class PortalActionBean extends BaseAction {
 			JSONObject json = new JSONObject();
 			json.put("nextRun", getNextRun());
 			json.put("lastWinner", getLastWinner());
-			json.put("threeDayWinner", getThreeDayWinner());
+			json.put("threeDayWinner0", getThreeDayWinner()[0]);
+			json.put("threeDayWinner1", getThreeDayWinner()[1]);
+			json.put("threeDayWinner2", getThreeDayWinner()[2]);
 			output = json.toString();
 		} catch (JSONException e) {
 			log.error("Failed to create JSON response", e);

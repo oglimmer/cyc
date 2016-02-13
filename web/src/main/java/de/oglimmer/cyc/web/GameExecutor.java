@@ -17,7 +17,7 @@ public enum GameExecutor {
 	INSTANCE;
 
 	public void runGame(String userId) throws IOException {
-		if (WebContainerProperties.INSTANCE.getSystemHaltDate().before(new Date())) {
+		if (!WebContainerProperties.INSTANCE.getSystemHaltDate().after(new Date())) {
 			return;
 		}
 		Socket clientSocket = null;
