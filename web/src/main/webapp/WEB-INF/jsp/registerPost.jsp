@@ -5,8 +5,8 @@
   <s:layout-component name="center">
   
 		<div class="centerElement">
-			We sent an email to ${actionBean.email}. Please check our inbox and click the link in the next 48h in the email
-			to confirm your email address.
+			We've sent an email to ${actionBean.email}. Please check your inbox and click the link in the email
+			to confirm your email address in the next 48h.
 		</div>
 		
 		<div style="margin-bottom:40px;">				

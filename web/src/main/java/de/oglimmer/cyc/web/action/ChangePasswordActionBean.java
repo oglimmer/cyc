@@ -1,5 +1,6 @@
 package de.oglimmer.cyc.web.action;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -11,6 +12,7 @@ import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.web.WebContainerProperties;
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
@@ -94,7 +96,9 @@ public class ChangePasswordActionBean extends BaseAction {
 			user.setPassword(hashed);
 		}
 		user.setEmail(email);
-		user.setUsername(HtmlEscapers.htmlEscaper().escape(username));
+		if (!WebContainerProperties.INSTANCE.getSystemDisabledDate().before(new Date())) {
+			user.setUsername(HtmlEscapers.htmlEscaper().escape(username));
+		}
 		userDao.update(user);
 		return new RedirectResolution(PortalActionBean.class);
 	}
