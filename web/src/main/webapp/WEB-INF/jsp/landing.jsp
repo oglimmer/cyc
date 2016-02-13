@@ -10,13 +10,13 @@
 			CodeYourRestaurant is an online multi player coding competition - you might want to call it a game. 
 			The goal is to implement your restaurant managing logic in a better, more optimal, way than all the other 
 			players as every 15 mins a business competition is automatically started to find the best company.<br/>
-			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link>, <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> or the <a href="apidocs/index.html" target="_blank">API</a>.<br/>
-			Here are results of a <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >3 days window</s:link>.
+			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link>, <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> or the <a href="apidocs/index.html" target="_blank">API</a>.			
 		</div>
-		<div class="centerElement">
+		<div class="centerElement">				
 				Current 1st: ${actionBean.threeDayWinner[0]}<br/>
 				Current 2nd: ${actionBean.threeDayWinner[1]}<br/>
 				Current 3rd: ${actionBean.threeDayWinner[2]}<br/>
+				Here are results of a <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >3 days window</s:link>.
 		</div>
 
 		<div>

@@ -46,8 +46,8 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("b", -1));
 
 		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners);
-		Assert.assertEquals("a (bankrupt)", result.getThreeDayWinner()[0]);
-		Assert.assertEquals("b (bankrupt)", result.getThreeDayWinner()[1]);
+		Assert.assertEquals("-", result.getThreeDayWinner()[0]);
+		Assert.assertEquals("-", result.getThreeDayWinner()[1]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[2]);
 		Assert.assertEquals("a (bankrupt)", result.getLastWinner());
 	}
@@ -59,7 +59,7 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("a", -1));
 
 		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners);
-		Assert.assertEquals("a (bankrupt)", result.getThreeDayWinner()[0]);
+		Assert.assertEquals("-", result.getThreeDayWinner()[0]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[1]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[2]);
 		Assert.assertEquals("a (bankrupt)", result.getLastWinner());
@@ -73,8 +73,7 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("b", -1));
 
 		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners);
-		Assert.assertTrue(result.getThreeDayWinner()[0].contains("b (bankrupt)"));
-		Assert.assertTrue(result.getThreeDayWinner()[0].contains("a (bankrupt)"));
+		Assert.assertEquals("-", result.getThreeDayWinner()[0]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[1]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[2]);
 		Assert.assertEquals("a (bankrupt)", result.getLastWinner());
@@ -93,9 +92,9 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("c", 200));
 
 		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners);
-		Assert.assertEquals("a ($20.00)", result.getThreeDayWinner()[0]);
-		Assert.assertTrue(result.getThreeDayWinner()[1].contains("b ($150.00)"));
-		Assert.assertTrue(result.getThreeDayWinner()[1].contains("c ($600.00)"));
+		Assert.assertEquals("a (3x)", result.getThreeDayWinner()[0]);
+		Assert.assertTrue(result.getThreeDayWinner()[1].contains("b (2x)"));
+		Assert.assertTrue(result.getThreeDayWinner()[1].contains("c (2x)"));
 		Assert.assertTrue(result.getThreeDayWinner()[2].equals("-"));
 		Assert.assertEquals("b ($100.00)", result.getLastWinner());
 	}
@@ -113,9 +112,9 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("c", 200));
 
 		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners);
-		Assert.assertEquals("a ($20.00)", result.getThreeDayWinner()[0]);
-		Assert.assertTrue(result.getThreeDayWinner()[1].contains("b ($150.00)"));
-		Assert.assertTrue(result.getThreeDayWinner()[1].contains("c ($600.00)"));
+		Assert.assertEquals("a (3x)", result.getThreeDayWinner()[0]);
+		Assert.assertTrue(result.getThreeDayWinner()[1].contains("b (2x)"));
+		Assert.assertTrue(result.getThreeDayWinner()[1].contains("c (2x)"));
 		Assert.assertTrue(result.getThreeDayWinner()[2].equals("-"));
 		Assert.assertEquals("a ($10.00)", result.getLastWinner());
 	}
@@ -133,9 +132,9 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("c", 3000));
 
 		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners);
-		Assert.assertTrue(result.getThreeDayWinner()[0].contains("c ($2,000.00)"));
-		Assert.assertTrue(result.getThreeDayWinner()[0].contains("a ($20.00)"));
-		Assert.assertTrue(result.getThreeDayWinner()[1].equals("b ($100.00)"));
+		Assert.assertTrue(result.getThreeDayWinner()[0].contains("c (3x)"));
+		Assert.assertTrue(result.getThreeDayWinner()[0].contains("a (3x)"));
+		Assert.assertTrue(result.getThreeDayWinner()[1].equals("b (1x)"));
 		Assert.assertTrue(result.getThreeDayWinner()[2].equals("-"));
 		Assert.assertEquals("b ($100.00)", result.getLastWinner());
 	}

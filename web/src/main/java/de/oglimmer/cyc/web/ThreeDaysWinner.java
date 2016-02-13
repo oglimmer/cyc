@@ -53,7 +53,9 @@ public enum ThreeDaysWinner {
 
 	private void aggregate(List<GameWinners> listGameWinners, AverageMap<String> winAvgTotal) {
 		for (GameWinners gw : listGameWinners) {
-			winAvgTotal.add(gw.getWinnerName(), (long) gw.getWinnerTotal());
+			if (gw.getWinnerTotal() > 0) {
+				winAvgTotal.add(gw.getWinnerName(), (long) gw.getWinnerTotal());
+			}
 		}
 	}
 
@@ -71,7 +73,7 @@ public enum ThreeDaysWinner {
 			if (threeDayWinnerBuff.length() > 0) {
 				threeDayWinnerBuff.append(", ");
 			}
-			threeDayWinnerBuff.append(name + " (" + formatTotal(winAvgTotal.get(name).average()) + ")");
+			threeDayWinnerBuff.append(name + " (" + winAvgTotal.get(name).getNum() + "x)");
 		}
 		if (threeDayWinnerBuff.length() == 0) {
 			threeDayWinnerBuff.append("-");
