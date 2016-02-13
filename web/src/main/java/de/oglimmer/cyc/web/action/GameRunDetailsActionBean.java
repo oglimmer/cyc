@@ -17,7 +17,6 @@ import de.oglimmer.cyc.model.GameRun;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 import lombok.Getter;
-import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -30,22 +29,14 @@ public class GameRunDetailsActionBean extends BaseAction {
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
 	@Getter
-	@Setter
 	private GameResult result;
 	@Getter
-	@Setter
 	private Date startTime;
 	@Getter
-	@Setter
 	private Date endTime;
 	@Getter
-	@Setter
-	private List<String> participants;
-	@Getter
-	@Setter
 	private String username;
 	@Getter
-	@Setter
 	private Map<String, Boolean> showCode = new HashMap<>();
 
 	@Before
@@ -74,11 +65,10 @@ public class GameRunDetailsActionBean extends BaseAction {
 			}
 		}
 		if (gr != null) {
-			gr.getResult().sortByPlayerName();
-			setResult(gr.getResult());
-			setStartTime(gr.getStartTime());
-			setEndTime(gr.getEndTime());
-			setParticipants(gr.getParticipants());			
+			gr.getResult().sortByTotalAssetsDesc();
+			result = gr.getResult();
+			startTime = gr.getStartTime();
+			endTime = gr.getEndTime();
 			for (String p : userDao.findByOpenSource(gr.getParticipants())) {
 				showCode.put(p, true);
 			}			

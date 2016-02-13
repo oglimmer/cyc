@@ -1,10 +1,6 @@
 package de.oglimmer.cyc.api;
 
 import java.util.Collection;
-import java.util.logging.LoggingMXBean;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -13,6 +9,8 @@ import de.oglimmer.cyc.util.CountDoubleMap;
 import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.util.HtmlUtil;
 import de.oglimmer.cyc.util.LongMutable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Thread-safe (parallel access in OpenHours/Guest)

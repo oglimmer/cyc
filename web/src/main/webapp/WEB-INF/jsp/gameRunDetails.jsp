@@ -20,22 +20,22 @@
 				<tr>
 					<th>Participating companies for ${actionBean.result.totalDays} days</th>
 				</tr>
-				<c:forEach items="${actionBean.participants}" var="element">
-					<c:set var="elementLowerCase" value="${fn:toLowerCase(element)}" />
+				<c:forEach items="${actionBean.result.playerResults}" var="mapEntry">
+					<c:set var="companyNameLowerCase" value="${fn:toLowerCase(mapEntry.key)}" />
 					<tr> 
-	  					<td>${element}</td>
+	  					<td>${mapEntry.key}</td>
 	  					<td>
-	  						<c:set value="${actionBean.result.playerResults[element].totalAssets}" var="tmpAsset"/>
+	  						<c:set value="${mapEntry.value.totalAssets}" var="tmpAsset"/>
 							<c:if test = "${tmpAsset != -1}">
 								<fmt:formatNumber value="${tmpAsset}" type="currency" pattern="¤#,##0.00;-¤#,##0.00"/>
 							</c:if>
 							<c:if test = "${tmpAsset == -1}">
-								Bankrupt on day ${actionBean.result.playerResults[element].bankruptOnDay}
-								<c:if test="${actionBean.result.errors.contains(element) }">(JS error)</c:if>
+								Bankrupt on day ${mapEntry.value.bankruptOnDay}
+								<c:if test="${actionBean.result.errors.contains(mapEntry.key) }">(JS error)</c:if>
 							</c:if>
-							<c:if test="${actionBean.showCode[elementLowerCase] }">
+							<c:if test="${actionBean.showCode[companyNameLowerCase] }">
 								<s:link beanclass="de.oglimmer.cyc.web.action.ShowCodeActionBean">
-									<s:param name="username">${element }</s:param>
+									<s:param name="username">${mapEntry.key }</s:param>
 									<s:param name="gameRunId">${param.gameRunId }</s:param>
 									[Code]
 								</s:link>

@@ -5,20 +5,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import de.oglimmer.cyc.api.Statistics.StatValue;
 import de.oglimmer.cyc.util.Average;
 import de.oglimmer.cyc.util.CountMap;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Thread-safe (parallel access in OpenHours/Guest)
@@ -110,6 +110,15 @@ public class GameResult {
 		});
 		tmpMap.putAll(playerResults);
 		playerResults = Collections.synchronizedMap(tmpMap);
+	}
+
+	public void sortByTotalAssetsDesc() {
+		Map<String, PlayerResult> tmpMap = new LinkedHashMap<>();		
+		playerResults.entrySet()
+				.stream().sorted(Comparator
+						.comparing((Map.Entry<String, PlayerResult> e) -> e.getValue().getTotalAssets()).reversed())
+				.forEachOrdered(e -> tmpMap.put(e.getKey(), e.getValue()));
+		playerResults = Collections.synchronizedMap(tmpMap);				
 	}
 	
 	@JsonIgnore
