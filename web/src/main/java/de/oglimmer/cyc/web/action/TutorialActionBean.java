@@ -15,6 +15,7 @@ import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.util.DefaultCode;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
+import de.oglimmer.cyc.web.WebContainerProperties;
 import de.oglimmer.cyc.web.ext.SecurityInterceptor;
 
 @Slf4j
@@ -43,6 +44,9 @@ public class TutorialActionBean extends BaseAction {
 	}
 
 	public Resolution replaceCode() {
+		if (WebContainerProperties.INSTANCE.getSystemDisabledDate().before(new Date())) {
+			return new ForwardResolution(VIEW);	
+		}
 
 		try {
 			User user = userDao.get((String) getContext().getRequest().getSession().getAttribute("userid"));
