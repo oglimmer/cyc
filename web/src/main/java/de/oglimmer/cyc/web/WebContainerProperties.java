@@ -133,6 +133,10 @@ public enum WebContainerProperties {
 		return prop.getProperty("cyc.system-message", "");
 	}
 
+	public String getAddressPageOwner() {
+		return prop.getProperty("cyc.address-page-owner", "");
+	}
+
 	public void registerOnReload(Runnable toCall) {
 		reloadables.add(toCall);
 	}

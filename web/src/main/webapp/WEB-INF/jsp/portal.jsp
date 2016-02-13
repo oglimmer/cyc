@@ -8,7 +8,7 @@
 			<s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.action.PortalActionBean" event="exit" >Log off</s:link> &nbsp;
-			<s:link beanclass="de.oglimmer.cyc.web.action.ChangePasswordActionBean" >Change password</s:link>			
+			<s:link beanclass="de.oglimmer.cyc.web.action.ChangePasswordActionBean" >Profile</s:link>			
 		</div>
 		<div style="font-size:0.6em;text-align:right;">
 			Logged in as <c:out value="${actionBean.companyName}" escapeXml="false" />
@@ -22,7 +22,7 @@
 				Current 1st: <span id="threeDayWinner0">${actionBean.threeDayWinner[0]}</span>, 
 				2nd: <span id="threeDayWinner1">${actionBean.threeDayWinner[1]}</span>,
 				3rd: <span id="threeDayWinner2">${actionBean.threeDayWinner[2]}</span>
-				<s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >(click for 3 days history)</s:link>
+				<s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >(3 days history)</s:link>
 			</div>
 		</div>
 		

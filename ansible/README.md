@@ -18,7 +18,9 @@ Java -D variables
 
 * web
 
-	cyc.home =  <path> where the engine-container is installed. Can have a run.sh to start the engine-container  
+	cyc.home =  <path> where the engine-container is installed. Can have a run.sh to start the engine-container
+	cyc.jmx = enable|disable, defines if the engine-container process should be called with remote JMX flags
+	cyc.remoteDebug = enable|disable, defines if the engine-container process should be called with remote debugging flags
 
 * all
 

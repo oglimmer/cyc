@@ -6,6 +6,7 @@ import java.io.StringWriter;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
@@ -16,16 +17,17 @@ import lombok.extern.slf4j.Slf4j;
 public enum EmailService {
 	INSTANCE;
 
-	public void sendNewAccount(String email) {
-		createAndSendMailFile(email, "Account creation for codeyourrestaurant.com", "/account-creation.txt");
+	public void sendNewAccount(String email, String id, String userName) {
+		createAndSendMailFile(email, "Account creation for codeyourrestaurant.com", "/account-creation.txt", userName,
+				id, WebContainerProperties.INSTANCE.getAddressPageOwner());
 	}
 
-	private void createAndSendMailFile(String email, String subject, String fileName) {
+	private void createAndSendMailFile(String email, String subject, String fileName, Object... params) {
 		try (InputStream is = getClass().getResourceAsStream(fileName)) {
 			StringWriter writer = new StringWriter();
 			IOUtils.copy(is, writer, null);
 			String msg = writer.toString();
-			createAndSendMail(email, subject, msg);
+			createAndSendMail(email, subject, String.format(msg, params));
 		} catch (IOException e) {
 			log.error("Failed to get resource from file", e);
 		}
@@ -39,6 +41,7 @@ public enum EmailService {
 	private void createAndSendMail(String email, String subject, String msg) {
 		try {
 			Email simpleEmail = new SimpleEmail();
+			simpleEmail.setCharset(EmailConstants.UTF_8);
 			simpleEmail.setHostName(WebContainerProperties.INSTANCE.getSmtpHost());
 			if (WebContainerProperties.INSTANCE.getSmtpPort() > 0) {
 				simpleEmail.setSmtpPort(WebContainerProperties.INSTANCE.getSmtpPort());

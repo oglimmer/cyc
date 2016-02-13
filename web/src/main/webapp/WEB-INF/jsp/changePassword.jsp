@@ -5,6 +5,17 @@
 
 	<script>$(function() { $.ajax({ url: "js/zxcvbn.js", dataType: "script", cache: true }); });</script>
 	<script>
+  	function errorDialog(text) {
+  		$("<div title='Error'>"+text+"</div>").dialog({
+	      modal: true,
+	      width: 500, 
+	      buttons: {
+	        Ok: function() {
+	          $( this ).dialog( "close" );
+	        }
+	      }
+	    });
+  	}  	
   	var PASS_STENGTH=["UNSAFE!","weak","okay","strong", "very strong"];
   	var passwordStrength = {score:0};
   	var submitButton;
@@ -13,27 +24,11 @@
   			return true;
   		}
   		if(passwordNew != "" && password2 != "" && passwordStrength.score == 0) {
-  			$( "<div title='Error'>You need to have a stronger password!</div>" ).dialog({
-    		      modal: true,
-    		      width: 500, 
-    		      buttons: {
-    		        Ok: function() {
-    		          $( this ).dialog( "close" );
-    		        }
-    		      }
-    		    });
+  			errorDialog("You need to have a stronger password!");  			
   			return false;
   		}
   		if(passwordNew != "" && password2 != "" && document.forms[0].passwordNew.value != document.forms[0].password2.value) {
-  			$( "<div title='Error'>The password verification doesn't match the password!</div>" ).dialog({
-    		      modal: true,
-    		      width: 500, 
-    		      buttons: {
-    		        Ok: function() {
-    		          $( this ).dialog( "close" );
-    		        }
-    		      }
-    		    });
+  			errorDialog("The password verification doesn't match the password!");
   			return false;
   		}
   		return true;

@@ -16,6 +16,7 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
+	private boolean emailConfirmed;
 	private boolean active;
 	private int permission;
 	private String mainJavaScript;

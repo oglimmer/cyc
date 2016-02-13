@@ -11,10 +11,10 @@ import de.oglimmer.cyc.dao.UserDao;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
+import de.oglimmer.cyc.util.DefaultCode;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 import de.oglimmer.cyc.web.WebContainerProperties;
 import de.oglimmer.cyc.web.util.EmailService;
-import de.oglimmer.cyc.util.DefaultCode;
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -30,6 +30,7 @@ import net.sourceforge.stripes.validation.ValidationMethod;
 @DoesNotRequireLogin
 public class RegisterActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/register.jsp";
+	private static final String POST = "/WEB-INF/jsp/registerPost.jsp";
 
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
@@ -53,6 +54,9 @@ public class RegisterActionBean extends BaseAction {
 	@Getter
 	@Setter
 	private boolean agreetermsandconditions;
+
+	@Getter
+	private String addressPageOwner = WebContainerProperties.INSTANCE.getAddressPageOwner();
 
 	@DefaultHandler
 	@DontValidate
@@ -88,11 +92,11 @@ public class RegisterActionBean extends BaseAction {
 		user.setMainJavaScript(DefaultCode.INSTANCE.getDefaultCode());
 		user.setCreatedDate(new Date());
 		user.setLastLoginDate(new Date());
-		user.setActive(true);
+		user.setActive(false);
+		user.setEmailConfirmed(false);
 		userDao.add(user);
-		getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
-		EmailService.INSTANCE.sendNewAccount(user.getEmail());
-		return new RedirectResolution(PortalActionBean.class);
+		EmailService.INSTANCE.sendNewAccount(user.getEmail(), user.getId(), user.getUsername());
+		return new ForwardResolution(POST);
 	}
 
 	@DontValidate

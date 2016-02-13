@@ -93,9 +93,12 @@ public class LandingActionBean extends BaseAction {
 			if (userList.size() == 1) {
 				User user = userList.get(0);
 				checkPassword(errors, getContext(), user, password);
-				getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
-				user.setLastLoginDate(new Date());
-				userDao.update(user);
+				checkAccountConfirmation(errors, user);
+				if (errors.isEmpty()) {
+					getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
+					user.setLastLoginDate(new Date());
+					userDao.update(user);
+				}
 			} else {
 				errors.add("password", new SimpleError("The password is incorrect."));
 			}
@@ -103,6 +106,16 @@ public class LandingActionBean extends BaseAction {
 			errors.add("password", new SimpleError("The password is incorrect."));
 		}
 		showCycLogin = true;
+	}
+
+	private void checkAccountConfirmation(ValidationErrors errors, User user) {
+		if (!user.isEmailConfirmed()) {
+			errors.add("account",
+					new SimpleError(
+							"Your account is not confirmed. Check your email inbox and click the confirmation link. "
+									+ "If we should re-send the link, <a href=\"Resend.action?email=" + user.getEmail()
+									+ "\">click here</a>."));
+		}
 	}
 
 	static void checkPassword(ValidationErrors errors, ActionBeanContext context, User user, String password) {

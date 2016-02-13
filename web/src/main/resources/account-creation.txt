@@ -1,9 +1,67 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pretium commodo odio in tristique. Maecenas tincidunt ultricies interdum. Etiam euismod eleifend purus. Cras a mauris in dui sodales mollis nec sed nunc. Nulla posuere eleifend libero, a posuere nibh ullamcorper tristique. Cras eu ornare diam. Nulla egestas ligula diam, nec vulputate metus ultricies et. Phasellus elit nunc, interdum rhoncus nibh non, tincidunt convallis nisi. Aenean et lobortis sem. Nulla elementum nisi sed purus vestibulum, cursus tempor massa iaculis. Mauris fermentum est nisi, vel vestibulum dui convallis at.
+Hello %s,
 
-Suspendisse at felis id sem cursus gravida non in velit. Curabitur hendrerit dolor ut porta volutpat. Nullam eleifend aliquet varius. Etiam pharetra lacinia semper. Mauris congue enim et nulla accumsan, eu pellentesque nunc accumsan. Praesent posuere dolor sit amet lectus dapibus, at blandit nulla posuere. Proin vel hendrerit quam. In hac habitasse platea dictumst. Aenean volutpat arcu a sem rutrum, ac consequat augue placerat. Nunc posuere, arcu sed aliquam tempor, arcu leo posuere velit, non sodales mauris nulla at mi. Aliquam eu ante in massa placerat commodo.
+you have registered yourself for codeyourrestaurant.com.
 
-Nullam lobortis pretium enim, ut pellentesque enim ultricies egestas. Vestibulum dapibus mauris in ultrices consectetur. Praesent non scelerisque nunc, vel efficitur magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse vel nulla viverra, congue erat id, elementum nulla. Praesent vehicula egestas diam sit amet gravida. Vestibulum sed bibendum nulla. Suspendisse pellentesque mi quis ante faucibus scelerisque. Quisque feugiat facilisis tellus, a eleifend leo volutpat sed. Duis gravida sollicitudin tortor vel auctor. Mauris interdum metus et gravida auctor. Mauris placerat sapien ac ante tempor fermentum.
+To confirm your email address please click the following link within the next 48 hours:
 
-Nunc quis est sed velit venenatis finibus sed vitae elit. Duis nisl ex, mattis et viverra ac, imperdiet quis sem. Pellentesque quis augue non mi dictum fringilla. Cras volutpat turpis lacus, ac volutpat purus congue nec. Integer nec interdum nisi. Fusce magna turpis, euismod id risus quis, venenatis convallis sem. In hac habitasse platea dictumst. Integer rutrum sem id gravida dictum.
+https://codeyourrestaurant.com/cyr/RegisterConfirm.action?confirmId=%s
 
-Morbi vehicula dapibus pretium. Aenean posuere mattis ipsum, et porta mauris sagittis in. Maecenas lacus dui, faucibus non mi consectetur, gravida malesuada orci. Aliquam in elit eget odio fermentum feugiat. Nam viverra eros quis mauris fermentum, vel mollis arcu efficitur. Donec non metus suscipit, tincidunt sem nec, lacinia ligula. Ut porttitor enim quis purus tempor, non efficitur odio ullamcorper. Mauris dignissim mattis ligula, id consectetur augue tempus eget. Nullam at ante diam. Aliquam nulla tellus, aliquam id nisi in, sodales venenatis lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+Einverständniserklärung zur Datenspeicherung und Datenverwendung:
+
+Du hast dich einverstanden erklärt, dass deine personenbezogenen 
+Daten, die du im Zusammenhang mit der Kontoeröffnung für diese Webseite offenbart hast, elektronisch gespeichert und im 
+weiteren Spielverlauf verwendet werden. Du hast der Übermittlung deiner Daten an die ADTECH GmbH und Aol Global Operations Ltd. 
+/ AOL und Technologies Ireland Ltd. sowie der Nutzung für die Zwecke des Wettbewerbs und der Stellenbesetzung zugestimmt. 
+Andere Firmen und Personen dürfen deine Daten nicht erhalten. Außerdem hast du dem speichern des 
+Session Cookies während des Anmeldevorgangs zugestimmt. Der von dir erstellte JavaScript Programmcode darf von dieser Webseite 
+gespeichert, ausgeführt und eingesehen werden und sofern du der Veröffentlichung zugestimmt hast, auch veröffentlich werden. 
+Dir ist bekannt, dass du deine Einwilligung jederzeit durch entsprechende Erklärung per E-Mail an webmaster@codeyourrestaurant.com 
+oder auf dem Postweg (%s) für die Zukunft widerrufen kannst. Um deine Rechte 
+auf Auskunft, Berichtigung und Löschung geltend zu machen, kannst du dich an dieselben Adresse wenden.
+
+
+
+Hinweis zur Speicherung, Verarbeitung und Übermittlung personenbezogener Daten
+
+Im Rahmen dieser Webseite werden Daten gespeichert, verarbeitet und einmalig nach Ermittlung des Gewinners am 27.4.2016 
+an die ADTECH GmbH und AOL Global Operations Limited übermittelt. Die ADTECH GmbH, Aol Global Operations Ltd. / AOL und 
+Technologies Ireland Ltd. werden diese Daten zur Kontaktaufnahme im Rahmen der Suche nach neuen Mitarbeitern zwecks 
+Stellenbesetzung nutzen.
+
+
+ 
+Welche Daten werden übermittelt?
+
+Diese Webseite benötigt einen Namen und eine gültige Email-Adresse zur Kontoerstellung. Im Rahmen des Anmeldevorgangs 
+wird ein Cookie auf deinem Computer gespeichert, der bis zum Beenden des Browser eine ID enthält, die dich eindeutig 
+identifiziert. Dieses Cookie wird Sitzung-Cookie genannt und enthält keine weiteren Informationen, als die Zuordnung 
+deines Anmeldevorgangs. Im Rahmen des Spiels erstellst und übermittelst du JavaScript-Code der die Geschäftslogik deines 
+Restaurants enthalt.
+
+
+ 
+Wer hat Einsicht in deine Dokumente und Daten?
+ 
+Der Name des Kontos wird öffentlich auf dieser Webseite gezeigt. Die Email-Adresse kann nur vom Administrator/Inhaber 
+(Oliver Zimpasser) dieser Seite eingesehen werden. 
+Der von dir erstellte JavaScript Programmcode kann immer von Administratoren und Inhabern dieser Seite gesehen werden, 
+falls du es möchtest hast du allerdings auch die Möglichkeit deinen Programmcode öffentlich zu machen. Alle Daten werden 
+auch von Mitarbeitern der ADTECH GmbH im Rahmen der Kontaktaufnahme zur Stellenbesetzung eingesehen.
+
+ 
+
+An wen werden deine Daten weitergegeben?
+
+Deine Daten werden innerhalb dieser Webseite gespeichert und auch an die "ADTECH GmbH, Robert-Bosch-Str. 32, 63303 Dreieich,
+Deutschland" sowie "Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd., Heuston South Quarter, Dublin 8, Ireland" 
+weitergereicht.
+An andere Dritte erfolgt keine Weitergabe.
+ 
+
+
+Wie lange erfolgt die Speicherung?
+
+Deine Daten werden auf diesem Server solange gespeichert, wie dein Konto hier am Spiel teilnimmt. Die ADTECH GmbH und die 
+Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. speichern deine Daten für maximal 3 Monate.
+
+ 

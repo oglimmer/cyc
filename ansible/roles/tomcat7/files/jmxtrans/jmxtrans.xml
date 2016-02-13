@@ -45,5 +45,5 @@
         <namePrefix>cyc.web.</namePrefix>
     </outputWriter>
   
-    <collectIntervalInSeconds>15</collectIntervalInSeconds>
+    <collectIntervalInSeconds>14</collectIntervalInSeconds>
 </jmxtrans-agent>
