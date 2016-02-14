@@ -35,6 +35,9 @@ public enum GameScheduler {
 	private String warVersion;
 
 	private GameScheduler() {
+		trigger = newTrigger().withIdentity("trigger1", "group1").withSchedule(cronSchedule(CRON_SCHEDULE))
+				.forJob("job1", "group1").build();
+		
 		running = true;
 		thread = new Thread(new MasterToStartObserver(), "MasterObserver-" + Math.random());
 		thread.start();
@@ -68,9 +71,6 @@ public enum GameScheduler {
 
 						scheduler = StdSchedulerFactory.getDefaultScheduler();
 						JobDetail job = newJob(GameExecutionJob.class).withIdentity("job1", "group1").build();
-
-						trigger = newTrigger().withIdentity("trigger1", "group1")
-								.withSchedule(cronSchedule(CRON_SCHEDULE)).forJob("job1", "group1").build();
 
 						scheduler.scheduleJob(job, trigger);
 
