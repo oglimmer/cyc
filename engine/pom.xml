@@ -139,7 +139,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.12.2</version>
+			<version>1.16.6</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -150,7 +150,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>15.0</version>
+			<version>19.0</version>
 		</dependency>
 	</dependencies>
 

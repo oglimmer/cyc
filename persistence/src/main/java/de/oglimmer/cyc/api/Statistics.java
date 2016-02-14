@@ -111,6 +111,11 @@ public class Statistics {
 		private int day;
 		private double valueMin;
 
+		public StatValue(double value) {
+			super();
+			this.valueMin = value;
+		}
+		
 		public StatValue(int day, double value) {
 			super();
 			this.day = day;

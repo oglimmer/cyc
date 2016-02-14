@@ -35,28 +35,21 @@ public enum GameScheduler {
 	private String warVersion;
 
 	private GameScheduler() {
-
-		trigger = newTrigger().withIdentity("trigger1", "group1").withSchedule(cronSchedule(CRON_SCHEDULE))
-				.forJob("job1", "group1").build();
-
 		running = true;
 		thread = new Thread(new MasterToStartObserver(), "MasterObserver-" + Math.random());
 		thread.start();
 	}
 
-	@SneakyThrows(value = { SchedulerException.class, InterruptedException.class })
+	@SneakyThrows(value = { SchedulerException.class })
 	public void stop() {
 		GlobalGameExecutor.INSTANCE.close();
 		if (scheduler != null) {
 			scheduler.shutdown(true);
 		}
 		running = false;
-		synchronized (thread) {
-			if (thread != null) {
-				thread.interrupt();
-			}
+		if (thread != null) {
+			thread.interrupt();
 		}
-		TimeUnit.SECONDS.sleep(1);
 	}
 
 	public Date getNextRun() {
@@ -69,7 +62,7 @@ public enum GameScheduler {
 		public void run() {
 			log.debug("MasterToStartObserver in {} started", warVersion);
 			try {
-				while (running) {
+				while (running) {					
 					if (GlobalGameExecutor.INSTANCE.isMaster()) {
 						log.debug("Starting Quartz-scheduler in {} now", warVersion);
 
@@ -83,15 +76,14 @@ public enum GameScheduler {
 
 						scheduler.start();
 						running = false;
+					} else {
+						sleep();
 					}
-					sleep();
 				}
 			} catch (SchedulerException e) {
 				log.error("Failed to start Quartz-scheduler in " + warVersion, e);
 			}
-			synchronized (thread) {
-				thread = null;
-			}
+			thread = null;
 			log.debug("MasterToStartObserver in {} ended", warVersion);
 		}
 

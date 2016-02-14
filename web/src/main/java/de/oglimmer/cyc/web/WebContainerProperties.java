@@ -28,6 +28,7 @@ public enum WebContainerProperties {
 	private Properties prop = new Properties();
 	private boolean running = true;
 	private Thread propertyFileWatcherThread;
+	private PropertyFileWatcher propertyFileWatcher;
 	private List<Runnable> reloadables = new ArrayList<>();
 	private String sourceLocation;
 
@@ -43,7 +44,9 @@ public enum WebContainerProperties {
 					prop.load(fis);
 				}
 				if (propertyFileWatcherThread == null) {
-					propertyFileWatcherThread = new Thread(new PropertyFileWatcher());
+					propertyFileWatcher = new PropertyFileWatcher();
+					propertyFileWatcherThread = new Thread(propertyFileWatcher);
+					propertyFileWatcherThread.setName("PropertyFileWatcherThread");
 					propertyFileWatcherThread.start();
 				}
 			} catch (IOException e) {
@@ -147,33 +150,44 @@ public enum WebContainerProperties {
 	}
 
 	public void shutdown() {
-		running = false;
-		propertyFileWatcherThread.interrupt();
+		running = false;		
+		propertyFileWatcher.shutdown();		
+		propertyFileWatcherThread.interrupt();		
 	}
 
 	class PropertyFileWatcher implements Runnable {
 
+		private WatchKey wk;
+		
+		public void shutdown() {
+			if (wk != null) {
+				wk.cancel();
+			}
+		}
+		
 		public void run() {
 			File toWatch = new File(sourceLocation);
 			log.info("PropertyFileWatcher started");
 			try {
 				final Path path = FileSystems.getDefault().getPath(toWatch.getParent());
 				try (final WatchService watchService = FileSystems.getDefault().newWatchService()) {
-					path.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
+					path.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);					
 					while (running) {
-						final WatchKey wk = watchService.take();
-						for (WatchEvent<?> event : wk.pollEvents()) {
-							// we only register "ENTRY_MODIFY" so the context is always a Path.
-							final Path changed = (Path) event.context();
-							if (changed.endsWith(toWatch.getName())) {
-								log.trace("{} changed => reload", toWatch.getAbsolutePath());
-								reload();
+						wk = watchService.take();
+						if (wk.isValid()) {
+							for (WatchEvent<?> event : wk.pollEvents()) {
+								// we only register "ENTRY_MODIFY" so the context is always a Path.
+								final Path changed = (Path) event.context();
+								if (changed.endsWith(toWatch.getName())) {
+									log.trace("{} changed => reload", toWatch.getAbsolutePath());
+									reload();
+								}
 							}
-						}
-						boolean valid = wk.reset();
-						if (!valid) {
-							log.warn("The PropertyFileWatcher's key has been unregistered.");
-						}
+							boolean valid = wk.reset();
+							if (!valid) {
+								log.warn("The PropertyFileWatcher's key has been unregistered.");
+							}
+						}			
 					}
 				}
 			} catch (InterruptedException e) {

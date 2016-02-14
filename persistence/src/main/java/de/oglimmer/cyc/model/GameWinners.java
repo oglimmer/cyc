@@ -4,42 +4,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.ektorp.support.CouchDbDocument;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 @Data
-public class GameWinners {
+@EqualsAndHashCode(callSuper = true)
+public class GameWinners extends CouchDbDocument {
 
-	private String id;
-	private String revision;
+	private static final long serialVersionUID = 1L;
 
 	private int t = 1;
 	private String refGameRunId;
 	private Date startTime;
 	private List<GameWinnerEntry> participants = new ArrayList<>();
-
-	@JsonProperty("_id")
-	public String getId() {
-		return id;
-	}
-
-	@JsonProperty("_id")
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	@JsonProperty("_rev")
-	public String getRevision() {
-		return revision;
-	}
-
-	@JsonProperty("_rev")
-	public void setRevision(String revision) {
-		this.revision = revision;
-	}
 
 	@JsonIgnore
 	public String getWinnerName() {

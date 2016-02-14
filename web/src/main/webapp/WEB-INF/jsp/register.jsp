@@ -88,7 +88,7 @@
 								Hinweis zur Speicherung, Verarbeitung und Übermittlung personenbezogener Daten
 								</h1>
 								<div>
-								Im Rahmen dieser Webseite werden Daten gespeichert, verarbeitet und einmalig nach Ermittlung des Gewinners am 27.4.2016 
+								Im Rahmen dieser Webseite werden Daten gespeichert, verarbeitet und einmalig nach Ermittlung des Gewinners am 28.4.2016 
 								an die ADTECH GmbH und AOL Global Operations Limited übermittelt. Die ADTECH GmbH, Aol Global Operations Ltd. / AOL und 
 								Technologies Ireland Ltd. werden diese Daten zur Kontaktaufnahme im Rahmen der Suche nach neuen Mitarbeitern zwecks 
 								Stellenbesetzung nutzen.

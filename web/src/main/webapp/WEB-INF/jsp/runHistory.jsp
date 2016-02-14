@@ -43,6 +43,8 @@
 			</table>
 		</div>
 		
-
+		<div style="margin-bottom:40px;">				
+		</div>
+		
 	</s:layout-component>
 </s:layout-render>

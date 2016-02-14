@@ -2,17 +2,19 @@ package de.oglimmer.cyc.model;
 
 import java.util.Date;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.ektorp.support.CouchDbDocument;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class User {
+@EqualsAndHashCode(callSuper = true)
+public class User extends CouchDbDocument {
 
-	private String id;
-	private String revision;
+	private static final long serialVersionUID = 1L;
+
 	private String username;
 	private String password;
 	private String email;
@@ -50,26 +52,6 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.googleId = googleId;
-	}
-
-	@JsonProperty("_id")
-	public String getId() {
-		return id;
-	}
-
-	@JsonProperty("_id")
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	@JsonProperty("_rev")
-	public String getRevision() {
-		return revision;
-	}
-
-	@JsonProperty("_rev")
-	public void setRevision(String revision) {
-		this.revision = revision;
 	}
 
 }

@@ -3,6 +3,7 @@ package de.oglimmer.cyc.dao.couchdb;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.http.HttpClient;
+import org.ektorp.http.IdleConnectionMonitor;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
 
@@ -47,5 +48,6 @@ public class CouchDbUtil {
 
 	public static void shutdown() {
 		httpClient.shutdown();
+		IdleConnectionMonitor.shutdown();
 	}
 }

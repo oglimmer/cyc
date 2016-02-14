@@ -35,6 +35,9 @@ public class HttpsFilter implements Filter {
 
 		FilterProcessor fp = new FilterProcessor(httpReq, httpResp);
 		fp.doFilter(chain);
+
+		// HACK: if the threadLocals are not cleared here, the webapp doesn't unload properly
+		org.apache.http.client.utils.DateUtils.clearThreadLocal();
 	}
 
 	static class FilterProcessor {
