@@ -169,4 +169,5 @@ grant {
 	permission java.util.PropertyPermission "groovy.target.indy", "read";
 	permission java.util.PropertyPermission "groovyjarjarantlr.ast", "read";
 	permission java.io.FilePermission "/groovy/script", "read";
+	permission java.util.PropertyPermission "guava.concurrent.generate_cancellation_cause", "read";
 };
