@@ -13,6 +13,12 @@
 - name: change permission on new file  
   file: mode=0755 name=/var/lib/tomcat7/webapps/ROOT/index.jsp
 
+- name: add context.xml
+  connection: local
+  shell: jar uf cyr##001.war META-INF/context.xml
+  args:
+    chdir: roles/tomcat7/files
+
 - name: install latest war to tmp (ignore_change)
   copy: src='cyr##001.war' dest='/tmp'
   changed_when: False

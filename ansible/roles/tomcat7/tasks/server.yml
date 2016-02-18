@@ -17,6 +17,7 @@
   with_items:
     - tomcat7
     - tomcat7-admin
+    - redis-server
   notify:
     - restarted tomcat7
 
@@ -94,6 +95,21 @@
 - name: set user tomcat7 to group cyc-engine
   user: name=tomcat7 group=cyc-engine groups=tomcat7
   when: check_cyc_engine_user.rc == 0
+
+- name: copy redis*.jar
+  copy: src={{ item }} dest=/usr/share/tomcat7/lib
+  with_items:
+    - commons-pool2-2.4.2.jar
+    - tomcat-redis-session-manager-1.2.jar
+    - jedis-2.8.0.jar
+  notify: restarted tomcat7
+
+## redis config
+
+- name: Set redis tcp-keepalive 60
+  lineinfile: dest=/etc/redis/redis.conf regexp='^tcp-keepalive' line='tcp-keepalive 60'
+  notify:
+    - restarted redis-server
 
 ## haproxy config
 

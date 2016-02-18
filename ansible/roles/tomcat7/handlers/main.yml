@@ -3,3 +3,5 @@
   service: name=tomcat7 state=restarted
 - name: restart haproxy
   service: name=haproxy state=restarted
+- name: restart redis-server
+  service: name=redis-server state=restarted
