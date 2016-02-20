@@ -6,20 +6,6 @@
 	<version>0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<developers>
-		<developer>
-			<name>Oliver Zimpasser</name>
-			<email>oglimmer@gmail.com</email>
-		</developer>
-	</developers>
-
-	<licenses>
-		<license>
-			<name>LGPL</name>
-			<url>http://www.gnu.org/licenses/lgpl.html</url>
-		</license>
-	</licenses>
-
 	<properties>
 		<sonar.java.source>1.8</sonar.java.source>
 		<maven.compiler.source>1.8</maven.compiler.source>

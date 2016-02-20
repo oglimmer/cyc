@@ -40,4 +40,22 @@
     <module>rules</module>
     <module>persistence</module>
   </modules>
+
+  <build>
+    <plugins>
+      <!-- Some version of this plugin just "forget" to commit the tag -->
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>1.9.4</version>
+          </dependency>
+         </dependencies>
+        </plugin>
+      </plugins>
+  </build>  
+
 </project>
