@@ -24,13 +24,36 @@ The game is installed at <a href="http://cyr.oglimmer.de">cyr.oglimmer.de</a>. T
 
 5.) set CYC_WEBAPPS to the webapps directory of a Servlet 3.0 compliant web container (*). Also add -Dcyc.home=$CYC_ENGINE_CONTAINER as JVM parameter
 
-6.) run "cyc_mgmt.sh -b -w -c -e" to build and deploy everything
+6.) run "install.sh -l site" to build and deploy everything
 
 7.) just start the web server. it will automatically start the engine process
 
-(*) The management script "cyc_mgmt.sh" uses Tomcat's (>= 7.x) parallel deployment feature. 
+(*) The management script "install.sh" uses Tomcat's (>= 7.x) parallel deployment feature. 
 
 (B) HOW TO INSTALL & DEPLOY VIA VAGRANT/ANSIBLE
 -----------------------------------------------
 
-see ./ansbile/README.md
+1.) install Vagrant and Ansible (and of course java,maven,npm for the build)
+
+2.) execute install.sh -r [single-vm|multi-vm] site
+
+3.) browse http://192.168.66.2 for single-vm or http://192.168.66.3 for multi-vm
+
+
+Java -D variables
+-----------------
+
+* engine-container
+
+	cyc.debug = true|false, defines if a DebugEngineLoader or EngineLoader should be used by the engine-container
+	cyc.security = enabled|disable, defines Java runs with a SecurityManager instantiated 
+
+* web
+
+	cyc.home =  <path> where the engine-container is installed. Can have a run.sh to start the engine-container
+	cyc.jmx = enable|disable, defines if the engine-container process should be called with remote JMX flags
+	cyc.remoteDebug = enable|disable, defines if the engine-container process should be called with remote debugging flags
+
+* all
+
+	cyc.properties = <file> to a property file (format Java properties)

@@ -15,6 +15,7 @@
 
 - name: add context.xml
   connection: local
+  become: no
   shell: jar uf cyr##001.war META-INF/context.xml
   args:
     chdir: roles/tomcat7/files

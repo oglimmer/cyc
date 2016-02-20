@@ -1,4 +1,4 @@
 ---
 # parameter to apt-get true/false
 # would force a apt-get cache update
-apt_update_cache: false
+apt_update_cache: true
