@@ -65,25 +65,24 @@
 
 - name: add permission to read the config file
   lineinfile: dest=/usr/local/cyc-engine-container/security.policy line='grant { permission java.io.FilePermission "/etc/cyc.properties", "read"; };'
-  when: engine_container_needs_cyc_properties
   notify:
     - restart cyc-engine-container
 
 - name: add socket permission (from WEB)
   lineinfile: dest=/usr/local/cyc-engine-container/security.policy regexp='permission java.net.SocketPermission ".*:-", "accept,resolve";' line='permission java.net.SocketPermission "{{ web_host }}:-", "accept,resolve";'
-  when: engine_container_needs_cyc_properties
+  when: engine_bind != "localhost"
   notify:
     - restart cyc-engine-container
 
 - name: add socket permission (from localhost)
   lineinfile: dest=/usr/local/cyc-engine-container/security.policy insertbefore='permission java.net.SocketPermission "localhost", "resolve,listen";' line='permission  java.net.SocketPermission "localhost:-", "accept,resolve";'
-  when: engine_container_needs_cyc_properties
+  when: engine_bind != "localhost"
   notify:
     - restart cyc-engine-container
 
 - name: add socket permission (to DB)
   lineinfile: dest=/usr/local/cyc-engine-container/security.policy regexp='permission java.net.SocketPermission ".*:5984", "connect,resolve";' line='permission java.net.SocketPermission "{{ couchdb_host }}:5984", "connect,resolve";'
-  when: engine_container_needs_cyc_properties
+  when: couchdb_host != "localhost"
   notify:
     - restart cyc-engine-container
 

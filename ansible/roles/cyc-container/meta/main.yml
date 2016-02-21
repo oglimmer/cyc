@@ -2,6 +2,5 @@
 dependencies:
     - role: java
     - role: cyc-properties
-      when: engine_container_needs_cyc_properties
     - role: cyc-engine
  
