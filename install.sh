@@ -1,6 +1,22 @@
 #!/bin/bash
 
-usage="$(basename "$0") [-t] [-v] [-s] [-l|-r remote-environment] type - deploys and/or releases cyc
+#
+# SECTION: FUNCTIONS
+#
+
+function cleanTransferDirectories() 
+{
+		rm -f $(pwd)/${0%/*}/ansible/roles/couchdb/files/*
+		rm -rf $(pwd)/${0%/*}/ansible/roles/cyc-container/files/cyc-engine-container/*
+		rm -rf $(pwd)/${0%/*}/ansible/roles/cyc-engine/files/cyc-engine-container/*
+		rm -f $(pwd)/${0%/*}/ansible/roles/tomcat7/files/*.war	
+}
+
+#
+# SECTION: HELP / USAGE
+#
+
+usage="$(basename "$0") [-c] [-t] [-v] [-s] [-l|-r remote-environment] type - deploys and/or releases cyc
 
 where:
     -h  shows this help text
@@ -9,12 +25,17 @@ where:
     -r  remote: builds and deploys to a remote host
     -v  verbose: enables verbose output
     -s  skip build: for -l and -r skips the build
+    -c  clean: cleans all build/temporary files
 
     type = site|web|backend|backend-engine"
 
+#
+# SECTION: RESOLVE PARAMETER
+#
+
 cd ${0%/*}
 
-while getopts ':htlr:vs' option; do
+while getopts ':htlr:vsc' option; do
   PARAM_GIVEN=YES
   case "$option" in
     h) echo "$usage"
@@ -35,6 +56,8 @@ while getopts ':htlr:vs' option; do
 	   ;;
 	s) SKIP_BUILD=YES
 	   ;;
+	c) CLEAN=YES
+	   ;;
     :) printf "missing argument for -%s\n" "$OPTARG" >&2
        echo "$usage" >&2
        exit 1
@@ -52,13 +75,22 @@ if [ -z "$PARAM_GIVEN" ]; then
    exit 1
 fi
 
-TYPE_PARAM="$1"
+#
+# SECTION: COMMAND EXECUTION
+#
 
-if [ -z "$TYPE_PARAM" ]; then
-	echo "Missing type."
-	exit 1
+if [ "$CLEAN" == "YES" ]; then
+	mvn clean
+	cleanTransferDirectories
+	rm -rf ansible/single-vm/.vagrant
+	rm -rf ansible/multi-vm/.vagrant
 fi
 
+TYPE_PARAM="$1"
+if [ -z "$TYPE_PARAM" ]; then
+	echo "Missing type. Install aborted."
+	exit 1
+fi
 
 if [ "$CREATE_TAG" == "YES" ]; then
 
@@ -99,7 +131,7 @@ fi
 if [ "$LOCAL_BUILD" == "YES" ]; then
 
 	if [ "$SKIP_BUILD" != "YES" ]; then
-		mvn clean package || exit 1
+		mvn package || exit 1
 	fi
 
 	if [ "$TYPE_PARAM" == "web" ] || [ "$TYPE_PARAM" == "site" ]; then
@@ -180,16 +212,12 @@ elif [ "$REMOTE_BUILD" == "YES" ]; then
 
 	if [ "$SKIP_BUILD" != "YES" ]; then
 
-		# clean transfer directories
-		rm -f $(pwd)/${0%/*}/ansible/roles/couchdb/files/*
-		rm -rf $(pwd)/${0%/*}/ansible/roles/cyc-container/files/cyc-engine-container/*
-		rm -rf $(pwd)/${0%/*}/ansible/roles/cyc-engine/files/cyc-engine-container/*
-		rm -f $(pwd)/${0%/*}/ansible/roles/tomcat7/files/*.war
+		cleanTransferDirectories
 
 		# mvn build needs more heap space
 		export MAVEN_OPTS="-Xmx3072m"
 
-		mvn clean package || exit 1
+		mvn package || exit 1
 		
 		mkdir -p $(pwd)/${0%/*}/ansible/roles/cyc-container/files/cyc-engine-container
 		mkdir -p $(pwd)/${0%/*}/ansible/roles/cyc-engine/files/cyc-engine-container/cyc001
