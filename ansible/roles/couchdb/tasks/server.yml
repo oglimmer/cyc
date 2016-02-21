@@ -8,7 +8,7 @@
   apt: pkg=npm state=installed update_cache={{ apt_update_cache }}
 
 - name: apply fix to Ubuntu 13.10
-  command: ln -s /usr/bin/nodejs /usr/bin/node creates=/usr/bin/node
+  file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
 
 - name: Install npm-couchviews
   npm: name=couchviews global=yes

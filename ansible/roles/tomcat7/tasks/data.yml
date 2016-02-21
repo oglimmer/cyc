@@ -1,6 +1,6 @@
 ---
 - name: remove index.html
-  command: rm /var/lib/tomcat7/webapps/ROOT/index.html removes=/var/lib/tomcat7/webapps/ROOT/index.html
+  file: path=/var/lib/tomcat7/webapps/ROOT/index.html state=absent
 
 - name: set redirect on /
   lineinfile: dest=/var/lib/tomcat7/webapps/ROOT/index.jsp create=yes line="<%@ page contentType=\"text/html;charset=UTF-8\" language=\"java\" session=\"false\" %><% if(!request.isSecure()) { response.sendRedirect(\"https://codeyourrestaurant.com/cyr\"); return; } response.sendRedirect(\"/cyr\"); %>"

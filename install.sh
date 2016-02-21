@@ -69,6 +69,7 @@ while getopts ':htlr:vsc' option; do
   esac
 done
 shift $((OPTIND - 1))
+TYPE_PARAM="$1"
 
 if [ -z "$PARAM_GIVEN" ]; then
    echo "$usage" >&2
@@ -79,6 +80,11 @@ fi
 # SECTION: COMMAND EXECUTION
 #
 
+if [ "$CLEAN" == "YES" ] && [ "$SKIP_BUILD" == "YES" ]; then
+	echo "Illegal to use clean and skip build together. Install aborted."
+	exit 1
+fi
+
 if [ "$CLEAN" == "YES" ]; then
 	mvn clean
 	cleanTransferDirectories
@@ -86,7 +92,6 @@ if [ "$CLEAN" == "YES" ]; then
 	rm -rf ansible/multi-vm/.vagrant
 fi
 
-TYPE_PARAM="$1"
 if [ -z "$TYPE_PARAM" ]; then
 	echo "Missing type. Install aborted."
 	exit 1

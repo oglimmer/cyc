@@ -7,6 +7,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "ubuntu/trusty64"
   config.vm.network :private_network, ip: "192.168.34.2"  
+  config.vm.provider "virtualbox" do |v|
+  	v.memory = 1024  
+  end
 
   config.vm.provision "shell" do |s|
     ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip

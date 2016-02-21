@@ -38,7 +38,9 @@ public class RegisterConfirmActionBean extends BaseAction {
 
 		User user = null;
 		try {
-			user = userDao.get(confirmId);
+			if(confirmId != null && !confirmId.isEmpty()) {
+				user = userDao.get(confirmId);
+			}
 		} catch (DocumentNotFoundException e) {
 			// this means the confirmId doesn't exist at all
 		}

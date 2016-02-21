@@ -23,7 +23,7 @@
   when: check_db.rc == 0
 
 - name: create views to import directory
-  command: mkdir -p /usr/local/cyc-db-views creates="/usr/local/cyc-db-views"
+  file: path=/usr/local/cyc-db-views state=directory
 
 - name: copy views to import
   copy: src=./ dest=/usr/local/cyc-db-views
