@@ -1,10 +1,9 @@
 ---
-## Java itself
+## binaries
 
-- name: Installs Java7 + unzip
+- name: Installs unzip
   apt: pkg={{ item }} state=installed update_cache={{ apt_update_cache }}
   with_items:
-  - default-jre-headless
   - unzip
 
 ## binary&logs under /usr/local/cyc-engine-container
@@ -58,29 +57,33 @@
 - name: copy start/stop script
   copy: src=scripts/cyc-engine-container dest=/etc/init.d/cyc-engine-container mode=0755
 
-- name: create security.policy for a config under /etc/cyc-security.policy
-  copy: src=cyc-engine-container/security.policy dest=/etc/cyc-security.policy
+- name: create security.policy
+  copy: src=scripts/security.policy dest=/usr/local/cyc-engine-container/security.policy
   when: copied_container.changed
   notify:
     - restart cyc-engine-container
 
 - name: add permission to read the config file
-  lineinfile: dest=/etc/cyc-security.policy line='grant { permission java.io.FilePermission "/etc/cyc.properties", "read"; };'
+  lineinfile: dest=/usr/local/cyc-engine-container/security.policy line='grant { permission java.io.FilePermission "/etc/cyc.properties", "read"; };'
+  when: engine_container_needs_cyc_properties
   notify:
     - restart cyc-engine-container
 
 - name: add socket permission (from WEB)
-  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:-", "accept,resolve";' line='permission java.net.SocketPermission "{{ web_host }}:-", "accept,resolve";'
+  lineinfile: dest=/usr/local/cyc-engine-container/security.policy regexp='permission java.net.SocketPermission ".*:-", "accept,resolve";' line='permission java.net.SocketPermission "{{ web_host }}:-", "accept,resolve";'
+  when: engine_container_needs_cyc_properties
   notify:
     - restart cyc-engine-container
 
 - name: add socket permission (from localhost)
-  lineinfile: dest=/etc/cyc-security.policy insertbefore='permission java.net.SocketPermission "localhost", "resolve,listen";' line='permission  java.net.SocketPermission "localhost:-", "accept,resolve";'
+  lineinfile: dest=/usr/local/cyc-engine-container/security.policy insertbefore='permission java.net.SocketPermission "localhost", "resolve,listen";' line='permission  java.net.SocketPermission "localhost:-", "accept,resolve";'
+  when: engine_container_needs_cyc_properties
   notify:
     - restart cyc-engine-container
 
 - name: add socket permission (to DB)
-  lineinfile: dest=/etc/cyc-security.policy regexp='permission java.net.SocketPermission ".*:5984", "connect,resolve";' line='permission java.net.SocketPermission "{{ couchdb_host }}:5984", "connect,resolve";'
+  lineinfile: dest=/usr/local/cyc-engine-container/security.policy regexp='permission java.net.SocketPermission ".*:5984", "connect,resolve";' line='permission java.net.SocketPermission "{{ couchdb_host }}:5984", "connect,resolve";'
+  when: engine_container_needs_cyc_properties
   notify:
     - restart cyc-engine-container
 

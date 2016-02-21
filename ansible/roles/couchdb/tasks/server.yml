@@ -18,3 +18,9 @@
   when: couchdb_multi_server
   notify:
     - restart couchdb
+
+- name: allow to authenticated users only
+  lineinfile: dest=/etc/couchdb/local.ini regexp='^require_valid_user =' line='require_valid_user = true'
+  when: couchdb_multi_server
+  notify:
+    - restart couchdb

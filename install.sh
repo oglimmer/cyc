@@ -140,11 +140,11 @@ if [ "$LOCAL_BUILD" == "YES" ]; then
 			fi
 			echo "Deploying engine-container to $CYC_ENGINE_CONTAINER"
 			mkdir -p $CYC_ENGINE_CONTAINER
-			cp engine-container/target/engine-container-jar-with-dependencies.jar $CYC_ENGINE_CONTAINER
-			cp engine-container/target/classes/security.policy $CYC_ENGINE_CONTAINER	
+			cp engine-container/target/engine-container-jar-with-dependencies.jar $CYC_ENGINE_CONTAINER			
 			mkdir -p $CYC_ENGINE_CONTAINER/logs
 			cp ansible/roles/cyc-container/files/scripts/run.sh $CYC_ENGINE_CONTAINER
 			cp ansible/roles/cyc-container/files/scripts/jmxtrans.xml $CYC_ENGINE_CONTAINER
+			cp ansible/roles/cyc-container/files/scripts/security.policy $CYC_ENGINE_CONTAINER	
 			chmod 777 $CYC_ENGINE_CONTAINER/run.sh
 		fi
 
@@ -195,8 +195,7 @@ elif [ "$REMOTE_BUILD" == "YES" ]; then
 		mkdir -p $(pwd)/${0%/*}/ansible/roles/cyc-engine/files/cyc-engine-container/cyc001
 
 		cp web/target/cyr##001.war $(pwd)/${0%/*}/ansible/roles/tomcat7/files
-		cp engine-container/target/engine-container-jar-with-dependencies.jar $(pwd)/${0%/*}/ansible/roles/cyc-container/files/cyc-engine-container/
-		cp engine-container/target/classes/security.policy $(pwd)/${0%/*}/ansible/roles/cyc-container/files/cyc-engine-container/
+		cp engine-container/target/engine-container-jar-with-dependencies.jar $(pwd)/${0%/*}/ansible/roles/cyc-container/files/cyc-engine-container/		
 		cp engine/target/engine-jar-with-dependencies.jar $(pwd)/${0%/*}/ansible/roles/cyc-engine/files/cyc-engine-container/cyc001/
 
 		# copy couchDb scripts

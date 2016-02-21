@@ -1,0 +1,16 @@
+#ref: https://github.com/mhamrah/ansible-java8
+- name: Add Java8 Repository
+  apt_repository: repo='ppa:webupd8team/java'
+
+- name: auto accept oracle jdk license
+  shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+
+- name: install java8
+  apt: pkg={{ item }} state=installed update_cache={{ apt_update_cache }}
+  with_items:
+    - oracle-java8-installer
+    - oracle-java8-set-default
+    - ca-certificates
+
+- name: Create/Modify symlink to java8 instead of java7
+  file: src=/usr/lib/jvm/java-8-oracle/ dest=/usr/lib/jvm/default-java state=link

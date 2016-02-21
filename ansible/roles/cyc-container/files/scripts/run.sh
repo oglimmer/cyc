@@ -24,11 +24,9 @@ if [[ "$_java" ]]; then
     fi
 fi
 
-#the engine shouldn't need properties. if you uncomment this, you need to add a permission:
-#permission java.io.FilePermission "/etc/cyc.properties", "read";
-#if [ -e "/etc/cyc.properties" ]; then
-#	OPTS="$OPTS -Dcyc.properties=/etc/cyc.properties"
-#fi
+if [ -e "/etc/cyc.properties" ]; then
+	OPTS="$OPTS -Dcyc.properties=/etc/cyc.properties"
+fi
 
 if [ -e "/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar" ]; then
 	OPTS="$OPTS -javaagent:/var/lib/tomcat7/jmxtrans/jmxtrans-agent.jar=/usr/local/cyc-engine-container/jmxtrans.xml"
@@ -49,4 +47,5 @@ else
 	XMX=512M
 fi
 
-$_java -Xms$XMX -Xmx$XMX $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=/usr/local/cyc-engine-container/security.policy -Dcyc.home=/usr/local/cyc-engine-container -jar /usr/local/cyc-engine-container/engine-container-jar-with-dependencies.jar
+$_java -Xms$XMX -Xmx$XMX $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=/usr/local/cyc-engine-container/security.policy \
+    -Dcyc.home=/usr/local/cyc-engine-container -jar /usr/local/cyc-engine-container/engine-container-jar-with-dependencies.jar
