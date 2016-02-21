@@ -39,10 +39,7 @@
   when: check_tomcat7_user.rc == 0
 
 - name: create logs
-  command: mkdir -p /usr/local/cyc-engine-container/logs creates=/usr/local/cyc-engine-container/logs
-
-- name: set attrs for logs
-  file: path=/usr/local/cyc-engine-container/logs mode=0775 owner=cyc-engine group=cyc-engine
+  file: path=/usr/local/cyc-engine-container/logs state=directory mode=0775 owner=cyc-engine group=cyc-engine
 
 - name: copy start/stop script
   copy: src=scripts/run.sh dest=/usr/local/cyc-engine-container/run.sh mode=0755
