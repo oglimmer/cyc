@@ -19,7 +19,7 @@ ansible/roles/couchdb/files/
 ansible/roles/cyc-container/files/cyc-engine-container
 ansible/roles/cyc-engine/files/cyc-engine-container
 ansible/roles/tomcat7/files/*.war
-ansible/digital_ocean/digitalocean
+ansible/digital_ocean/inventory.ini
 ansible/roles/tomcat7/files/server-https.xml
 web/jsdoc/node_modules
 rules/src/main/java/de/oglimmer/cyc/api/*Impl.java
