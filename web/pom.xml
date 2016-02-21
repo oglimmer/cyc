@@ -179,6 +179,25 @@
 			<version>1.5.3</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-catalina</artifactId>
+			<version>7.0.68</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.8.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>com.radiadesign</groupId>
+		    <artifactId>tomcat-redis-session-manager</artifactId>
+		    <version>1.2</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/src/3rdparty/resources/tomcat-redis-session-manager-1.2.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 </project>
