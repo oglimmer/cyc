@@ -136,7 +136,7 @@ fi
 if [ "$LOCAL_BUILD" == "YES" ]; then
 
 	if [ "$SKIP_BUILD" != "YES" ]; then
-		mvn package || exit 1
+		mvn clean package || exit 1
 	fi
 
 	if [ "$TYPE_PARAM" == "web" ] || [ "$TYPE_PARAM" == "site" ]; then
@@ -222,7 +222,7 @@ elif [ "$REMOTE_BUILD" == "YES" ]; then
 		# mvn build needs more heap space
 		export MAVEN_OPTS="-Xmx3072m"
 
-		mvn package || exit 1
+		mvn clean package || exit 1
 		
 		mkdir -p $(pwd)/${0%/*}/ansible/roles/cyc-container/files/cyc-engine-container
 		mkdir -p $(pwd)/${0%/*}/ansible/roles/cyc-engine/files/cyc-engine-container/cyc001
