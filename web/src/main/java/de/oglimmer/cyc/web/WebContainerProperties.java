@@ -67,14 +67,28 @@ public enum WebContainerProperties {
 		return prop.getProperty("google.clientId", "");
 	}
 
-	public String getEngineHost() {
-		// don't use localhost, as JDK8 doesn't resolve localhost properly
-		return prop.getProperty("engine.host", "127.0.0.1");
+	public String getEnginePassword() {
+		return prop.getProperty("engine.password");
 	}
 
-	public int getEnginePort() {
+	public String getFullEngineHost() {
+		// don't use localhost, as JDK8 doesn't resolve localhost properly
+		return prop.getProperty("engine.host.full", "127.0.0.1");
+	}
+
+	public int getFullEnginePort() {
 		/* port defined in de.oglimmer.cyc.GameServer.SERVER_PORT */
-		return Integer.parseInt(prop.getProperty("engine.port", "9998"));
+		return Integer.parseInt(prop.getProperty("engine.port.full", "9998"));
+	}
+
+	public String getTestEngineHost() {
+		// don't use localhost, as JDK8 doesn't resolve localhost properly
+		return prop.getProperty("engine.host.test", "127.0.0.1");
+	}
+	
+	public int getTestEnginePort() {
+		/* port defined in de.oglimmer.cyc.GameServer.SERVER_PORT */
+		return Integer.parseInt(prop.getProperty("engine.port.test", "9998"));
 	}
 
 	public boolean isHttpsEnabled() {

@@ -16,17 +16,25 @@ import lombok.extern.slf4j.Slf4j;
 public enum GameExecutor {
 	INSTANCE;
 
-	public void runGame(String userId) throws IOException {
+	public void startFullRun() throws IOException {
+		startRun("full");
+	}
+	
+	public void startTestRun(String userId) throws IOException {
+		startRun(userId);
+	}
+	
+	private void startRun(String userId) throws IOException {
 		if (!WebContainerProperties.INSTANCE.getSystemHaltDate().after(new Date())) {
 			return;
 		}
 		Socket clientSocket = null;
 		try {
-			clientSocket = getClientSocket();
+			clientSocket = getClientSocket(userId);
 			DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			if (userId == null) {
-				userId = "full";
+			if (WebContainerProperties.INSTANCE.getEnginePassword() != null) {
+				outToServer.writeBytes("Authorization:" + WebContainerProperties.INSTANCE.getEnginePassword() + ';');
 			}
 			outToServer.writeBytes(userId + '\n');
 			String serverResponse = inFromServer.readLine();
@@ -34,7 +42,6 @@ public enum GameExecutor {
 				log.error("Call to game server returned error:{}", serverResponse);
 				throw new IOException("Server returned:" + serverResponse);
 			}
-
 		} finally {
 			if (clientSocket != null) {
 				try {
@@ -46,30 +53,28 @@ public enum GameExecutor {
 		}
 	}
 
-	private synchronized Socket getClientSocket() throws IOException {
+	private synchronized Socket getClientSocket(String userId) throws IOException {
 		try {
-			return new Socket(WebContainerProperties.INSTANCE.getEngineHost(),
-					WebContainerProperties.INSTANCE.getEnginePort());
+			return new Socket(getEngineHost(userId), getEnginePort(userId));
 		} catch (ConnectException e) {
-			return startNewServerAndCreateSocket(e);
+			return startNewServerAndCreateSocket(e, userId);
 		}
 	}
 
-	private Socket startNewServerAndCreateSocket(ConnectException e) throws IOException, UnknownHostException {
-		if (isLocalEngine()) {
+	private Socket startNewServerAndCreateSocket(ConnectException e, String userId) throws IOException, UnknownHostException {
+		if (isLocalEngine(userId)) {
 			WebGameEngineStarter.INSTANCE.startServer();
-			return connectToStartingEngine();
+			return connectToStartingEngine(userId);
 		} else {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private Socket connectToStartingEngine() throws IOException, ConnectException {
+	private Socket connectToStartingEngine(String userId) throws IOException, ConnectException {
 		int retries = 0;
 		while (true) {
 			try {
-				return new Socket(WebContainerProperties.INSTANCE.getEngineHost(),
-						WebContainerProperties.INSTANCE.getEnginePort());
+				return new Socket(getEngineHost(userId), getEnginePort(userId));
 			} catch (ConnectException ce) {
 				retries++;
 				if (retries > 30) {
@@ -84,8 +89,18 @@ public enum GameExecutor {
 		}
 	}
 
-	private boolean isLocalEngine() {
-		String engineHost = WebContainerProperties.INSTANCE.getEngineHost();
+	private boolean isLocalEngine(String userId) {
+		String engineHost = getEngineHost(userId);
 		return "localhost".equalsIgnoreCase(engineHost) || "127.0.0.1".equals(engineHost);
+	}
+	
+	private String getEngineHost(String userId) {
+		return "full".equalsIgnoreCase(userId) ? WebContainerProperties.INSTANCE.getFullEngineHost()
+				: WebContainerProperties.INSTANCE.getTestEngineHost();
+	}
+
+	private int getEnginePort(String userId) {
+		return "full".equalsIgnoreCase(userId) ? WebContainerProperties.INSTANCE.getFullEnginePort()
+				: WebContainerProperties.INSTANCE.getTestEnginePort();
 	}
 }

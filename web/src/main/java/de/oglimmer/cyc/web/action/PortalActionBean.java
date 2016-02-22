@@ -131,7 +131,7 @@ public class PortalActionBean extends BaseAction {
 		userDao.update(user);
 
 		try {
-			GameExecutor.INSTANCE.runGame((String) getContext().getRequest().getSession().getAttribute("userid"));
+			GameExecutor.INSTANCE.startTestRun((String) getContext().getRequest().getSession().getAttribute("userid"));
 			output = "Saved & check run queued.";
 		} catch (Exception e) {
 			log.debug("Failed to run check run", e);
@@ -146,7 +146,7 @@ public class PortalActionBean extends BaseAction {
 		try {
 			User user = userDao.get(userId);
 			if (user.getPermission() > 0) {
-				GameExecutor.INSTANCE.runGame(null);
+				GameExecutor.INSTANCE.startFullRun();
 				output = "Global run started ... wait";
 			} else {
 				throw new CycPermissionException("User " + userId + " has no permission to start a full run");

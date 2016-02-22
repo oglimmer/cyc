@@ -14,7 +14,7 @@ public class GameExecutionJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
-			GameExecutor.INSTANCE.runGame(null);
+			GameExecutor.INSTANCE.startFullRun();
 		} catch (IOException e) {
 			log.error("Failed to run game", e);
 		}

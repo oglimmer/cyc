@@ -26,4 +26,8 @@ public enum EngineContainerProperties {
 		return prop.getProperty("bind", "127.0.0.1");
 	}
 
+	public String getEnginePassword() {
+		return prop.getProperty("engine.password");
+	}
+	
 }
