@@ -47,7 +47,7 @@ public class GameServerHandler extends SimpleChannelInboundHandler<String> {
 
 	private void checkpassword(Message msg) throws NotAuthorizedException {
 		String password = EngineContainerProperties.INSTANCE.getEnginePassword();
-		if (password != null && !password.equals(msg.getAuthorization())) {
+		if (password != null && !password.isEmpty() && !password.equals(msg.getAuthorization())) {
 			throw new NotAuthorizedException();
 		}
 	}

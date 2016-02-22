@@ -33,8 +33,9 @@ public enum GameExecutor {
 			clientSocket = getClientSocket(userId);
 			DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			if (WebContainerProperties.INSTANCE.getEnginePassword() != null) {
-				outToServer.writeBytes("Authorization:" + WebContainerProperties.INSTANCE.getEnginePassword() + ';');
+			String enginePassword = WebContainerProperties.INSTANCE.getEnginePassword();
+			if (enginePassword != null && !enginePassword.isEmpty()) {
+				outToServer.writeBytes("Authorization:" + enginePassword + ';');
 			}
 			outToServer.writeBytes(userId + '\n');
 			String serverResponse = inFromServer.readLine();

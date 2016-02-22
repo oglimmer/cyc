@@ -16,3 +16,6 @@
 
 - name: set cyc.properties (bind)
   lineinfile: dest=/etc/cyc.properties regexp='^bind=' line='bind={{ engine_bind }}' create=yes mode=0644
+
+- name: set cyc.properties (engine.password)
+  lineinfile: dest=/etc/cyc.properties regexp='^engine.password=' line='engine.password={{ engine_password }}' create=yes mode=0644
