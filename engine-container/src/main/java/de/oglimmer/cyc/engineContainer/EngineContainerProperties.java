@@ -14,8 +14,7 @@ public enum EngineContainerProperties {
 	@SneakyThrows(value = IOException.class)
 	private EngineContainerProperties() {
 		if (System.getProperty("cyc.properties") != null) {
-			try (FileInputStream fis = new FileInputStream(
-					System.getProperty("cyc.properties"))) {
+			try (FileInputStream fis = new FileInputStream(System.getProperty("cyc.properties"))) {
 				prop.load(fis);
 			}
 		}
@@ -30,8 +29,13 @@ public enum EngineContainerProperties {
 		return prop.getProperty("engine.password");
 	}
 
-	public double getMaxRateTestRuns() {
-		return Double.parseDouble(prop.getProperty("engine.maxRateTestRuns", "0.06666666667"));
+	/**
+	 * Set the time in seconds until the next test-run call will be blocked
+	 * 
+	 * @return
+	 */
+	public long getMaxRateTestRuns() {
+		return Long.parseLong(prop.getProperty("engine.maxRateTestRuns", "15"));
 	}
-	
+
 }

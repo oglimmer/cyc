@@ -13,10 +13,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.RateLimiter;
 
 import de.oglimmer.cyc.util.NamedThreadFactory;
@@ -44,7 +48,14 @@ public class TcpHandler implements Closeable {
 	private EventLoopGroup bossGroup;
 	private EventLoopGroup workerGroup;
 	private Set<String> runningClientIds = Collections.synchronizedSet(new HashSet<>());
-	private RateLimiter rateLimiter = RateLimiter.create(EngineContainerProperties.INSTANCE.getMaxRateTestRuns());
+
+	private LoadingCache<String, RateLimiter> rateLimiterCache = CacheBuilder.newBuilder()
+			.expireAfterAccess(EngineContainerProperties.INSTANCE.getMaxRateTestRuns() * 2, TimeUnit.SECONDS)
+			.build(new CacheLoader<String, RateLimiter>() {
+				public RateLimiter load(String key) {
+					return RateLimiter.create(1d / EngineContainerProperties.INSTANCE.getMaxRateTestRuns());
+				}
+			});
 
 	public TcpHandler() {
 		startTime = new Date();
@@ -88,8 +99,13 @@ public class TcpHandler implements Closeable {
 			if (runningClientIds.contains(clientRequest)) {
 				return "alreadyInQueue\n";
 			}
-			if (!rateLimiter.tryAcquire()) {
-				return "tooFast\n";
+			try {
+				RateLimiter rateLimiter = rateLimiterCache.get(clientRequest);
+				if (!rateLimiter.tryAcquire()) {
+					return "tooFast\n";
+				}
+			} catch (ExecutionException e) {
+				log.error("Failed to check rate-limit", e);
 			}
 			runningClientIds.add(clientRequest);
 		}
