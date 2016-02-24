@@ -1,5 +1,7 @@
 package de.oglimmer.cyc.web.action;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -92,11 +94,22 @@ public class LandingActionBean extends BaseAction {
 			List<User> userList = userDao.findByEmail(email);
 			if (userList.size() == 1) {
 				User user = userList.get(0);
-				checkPassword(errors, getContext(), user, password);
+				checkInactive(errors, user);
 				checkAccountConfirmation(errors, user);
+				checkPassword(errors, getContext(), user, password);
 				if (errors.isEmpty()) {
 					getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
 					user.setLastLoginDate(new Date());
+					user.setFailedLogins(0);
+					userDao.update(user);
+				} else {
+					user.setFailedLogins(user.getFailedLogins() + 1);
+					if (user.getFailedLogins() > 5) {
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(new Date());
+						cal.add(Calendar.MINUTE, 1);
+						user.setInactiveUntil(cal.getTime());
+					}
 					userDao.update(user);
 				}
 			} else {
@@ -106,6 +119,14 @@ public class LandingActionBean extends BaseAction {
 			errors.add("password", new SimpleError("The password is incorrect."));
 		}
 		showCycLogin = true;
+	}
+
+	private void checkInactive(ValidationErrors errors, User user) {
+		if (user.getInactiveUntil() != null && new Date().before(user.getInactiveUntil())) {
+			DateFormat df = DateFormat.getDateTimeInstance();
+			errors.add("account", new SimpleError(
+					"Your account is currently locked. Please wait until " + df.format(user.getInactiveUntil())));
+		}
 	}
 
 	private void checkAccountConfirmation(ValidationErrors errors, User user) {

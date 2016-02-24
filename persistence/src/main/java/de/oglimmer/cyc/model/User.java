@@ -28,6 +28,8 @@ public class User extends CouchDbDocument {
 	private Date lastLoginDate;
 	private Date createdDate;
 	private Date lastCodeChangeDate;
+	private int failedLogins;
+	private Date inactiveUntil;
 
 	private String firstName;
 	private String lastName;
