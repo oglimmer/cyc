@@ -124,8 +124,8 @@ public class LandingActionBean extends BaseAction {
 	private void checkInactive(ValidationErrors errors, User user) {
 		if (user.getInactiveUntil() != null && new Date().before(user.getInactiveUntil())) {
 			DateFormat df = DateFormat.getDateTimeInstance();
-			errors.add("account", new SimpleError(
-					"Your account is currently locked. Please wait until " + df.format(user.getInactiveUntil())));
+			errors.add("account", new SimpleError("Your account is currently locked. Please wait until "
+					+ df.format(user.getInactiveUntil()) + " UTC"));
 		}
 	}
 
