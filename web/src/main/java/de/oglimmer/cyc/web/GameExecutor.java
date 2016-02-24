@@ -16,17 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 public enum GameExecutor {
 	INSTANCE;
 
-	public void startFullRun() throws IOException {
-		startRun("full");
+	public String startFullRun() throws IOException {
+		return startRun("full");
 	}
 	
-	public void startTestRun(String userId) throws IOException {
-		startRun(userId);
+	public String startTestRun(String userId) throws IOException {
+		return startRun(userId);
 	}
 	
-	private void startRun(String userId) throws IOException {
+	private String startRun(String userId) throws IOException {
 		if (!WebContainerProperties.INSTANCE.getSystemHaltDate().after(new Date())) {
-			return;
+			return "";
 		}
 		Socket clientSocket = null;
 		try {
@@ -38,11 +38,7 @@ public enum GameExecutor {
 				outToServer.writeBytes("Authorization:" + enginePassword + ';');
 			}
 			outToServer.writeBytes(userId + '\n');
-			String serverResponse = inFromServer.readLine();
-			if (!"ok".equals(serverResponse)) {
-				log.error("Call to game server returned error:{}", serverResponse);
-				throw new IOException("Server returned:" + serverResponse);
-			}
+			return inFromServer.readLine();
 		} finally {
 			if (clientSocket != null) {
 				try {

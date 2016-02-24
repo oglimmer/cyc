@@ -8,17 +8,23 @@ import java.lang.management.MemoryType;
 import java.lang.management.MemoryUsage;
 import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import com.google.common.util.concurrent.RateLimiter;
 
 import de.oglimmer.cyc.util.NamedThreadFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +43,8 @@ public class TcpHandler implements Closeable {
 	private EngineLoader engineLoader;
 	private EventLoopGroup bossGroup;
 	private EventLoopGroup workerGroup;
+	private Set<String> runningClientIds = Collections.synchronizedSet(new HashSet<>());
+	private RateLimiter rateLimiter = RateLimiter.create(EngineContainerProperties.INSTANCE.getMaxRateTestRuns());
 
 	public TcpHandler() {
 		startTime = new Date();
@@ -75,25 +83,17 @@ public class TcpHandler implements Closeable {
 	public String handleRunGame(final String clientRequest) {
 		log.debug("Received: " + clientRequest);
 
-		getExecutor(clientRequest).submit(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					if (isFullRun(clientRequest)) {
-						engineLoader.startGame(null);
-					} else {
-						engineLoader.startGame(clientRequest);
-					}
-				} catch (InvocationTargetException e) {
-					if (!(e.getCause() instanceof InterruptedException)) {
-						log.error("Uncaught Exception", e);
-					}
-				} catch (Exception e) {
-					log.error("Uncaught Exception", e);
-				}
+		ThreadPoolExecutor executor = getExecutor(clientRequest);
+		if (!isFullRun(clientRequest)) {
+			if (runningClientIds.contains(clientRequest)) {
+				return "alreadyInQueue\n";
 			}
-
-		});
+			if (!rateLimiter.tryAcquire()) {
+				return "tooFast\n";
+			}
+			runningClientIds.add(clientRequest);
+		}
+		executor.submit(new GameExecutionRunnable(clientRequest));
 		return "ok\n";
 	}
 
@@ -161,4 +161,28 @@ public class TcpHandler implements Closeable {
 		engineLoader.stop();
 	}
 
+	@AllArgsConstructor
+	class GameExecutionRunnable implements Runnable {
+		@Getter
+		private String clientRequest;
+
+		@Override
+		public void run() {
+			try {
+				if (isFullRun(clientRequest)) {
+					engineLoader.startGame(null);
+				} else {
+					engineLoader.startGame(clientRequest);
+				}
+			} catch (InvocationTargetException e) {
+				if (!(e.getCause() instanceof InterruptedException)) {
+					log.error("Uncaught Exception", e);
+				}
+			} catch (Exception e) {
+				log.error("Uncaught Exception", e);
+			} finally {
+				runningClientIds.remove(clientRequest);
+			}
+		}
+	}
 }

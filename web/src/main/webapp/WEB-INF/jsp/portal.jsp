@@ -87,12 +87,17 @@
 		    	data[button.name] = document.mainForm.elements[button.name].value;
 		    	data.company = editor.getValue();
 		    	$.post(document.mainForm.action, data, function(returnData) {
-					$(".log").html(returnData);
-			    	if(button.name=="saveRun" && returnData.toLowerCase().indexOf("error")===-1) {
+		    		if(returnData == "ok"){
+		    			$(".log").html("Saved & check run queued.");
 			    		setTimeout(checkForUpdateSaveTest, 1000);
-			    	} else {
+		    		} else {
+		    			if(returnData == "tooFast") {
+		    				$(".log").html("Saved, but no run queued. You're not allowed to start more runs than every 15 secs.");
+		    			} else {
+							$(".log").html(returnData);		    			
+		    			}
 			    		document.mainForm.saveRun.disabled=false;
-			    	}
+		    		}
 		    	});
 		    }
 		    

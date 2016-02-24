@@ -29,5 +29,9 @@ public enum EngineContainerProperties {
 	public String getEnginePassword() {
 		return prop.getProperty("engine.password");
 	}
+
+	public double getMaxRateTestRuns() {
+		return Double.parseDouble(prop.getProperty("engine.maxRateTestRuns", "0.06666666667"));
+	}
 	
 }

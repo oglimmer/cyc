@@ -131,8 +131,7 @@ public class PortalActionBean extends BaseAction {
 		userDao.update(user);
 
 		try {
-			GameExecutor.INSTANCE.startTestRun((String) getContext().getRequest().getSession().getAttribute("userid"));
-			output = "Saved & check run queued.";
+			output = GameExecutor.INSTANCE.startTestRun((String) getContext().getRequest().getSession().getAttribute("userid"));
 		} catch (Exception e) {
 			log.debug("Failed to run check run", e);
 			output = "Internal server error";
