@@ -84,7 +84,7 @@
 					</tr>
 					<c:if test="${not empty actionBean.captchaTokenCrypted}">
 						<tr>
-							<td style="text-align: right;">Type the captcha:</td>
+							<td style="text-align: right;">Type the captcha:<br/><span style="font-size:0.6em">(Reload the page for a new one)</span></td>
 							<td>								
 									<s:text name="captchaTokenEntered" />		
 									<img style="vertical-align:middle" alt="captcha image" src="captcha?captchaToken=${actionBean.captchaTokenCryptedUrl}" />						
