@@ -60,6 +60,7 @@
 		
 		<div>
 			<s:form beanclass="de.oglimmer.cyc.web.action.RegisterActionBean" focus="" onsubmit="return checkLegal(this)">
+				<s:hidden name="captchaTokenCrypted" />
 				<table style="width:100%">
 					<tr>
 						<td style="text-align: right;" width="30%">Company name: </td>
@@ -81,6 +82,15 @@
 						<td style="text-align: right;">Email: </td>
 						<td><s:text name="email" style="width:400px" /></td>
 					</tr>
+					<c:if test="${not empty actionBean.captchaTokenCrypted}">
+						<tr>
+							<td style="text-align: right;">Type the captcha:</td>
+							<td>								
+									<s:text name="captchaTokenEntered" />		
+									<img style="vertical-align:middle" alt="captcha image" src="captcha?captchaToken=${actionBean.captchaTokenCryptedUrl}" />						
+							</td>
+						</tr>
+					</c:if>
 					<tr>
 						<td colspan="2">
 							<div id="legal">
@@ -148,7 +158,7 @@
 								Mir ist bekannt, dass ich meine Einwilligung jederzeit durch entsprechende Erklärung per E-Mail an webmaster@codeyourrestaurant.com 
 								oder auf dem Postweg (${actionBean.addressPageOwner}) für die Zukunft widerrufen kann. Um meine Rechte auf Auskunft, Berichtigung und Löschung 
 								geltend zu machen, kann ich mich an dieselben Adressen wenden.							
-								</div>
+								</div>								
 							</div>
 						</td>
 					</tr>

@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang.RandomStringUtils;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -152,6 +154,18 @@ public enum WebContainerProperties {
 
 	public String getAddressPageOwner() {
 		return prop.getProperty("cyc.address-page-owner", "");
+	}
+
+	public String getCaptchaKeyPhrase() {
+		return prop.getProperty("cyc.captcha.keyphrase", RandomStringUtils.randomAlphanumeric(32));
+	}
+
+	public String getCaptchaInitVector() {
+		return prop.getProperty("cyc.captcha.initvector", RandomStringUtils.randomAlphanumeric(32));
+	}
+
+	public boolean isCaptchaEnabled() {
+		return Boolean.parseBoolean(prop.getProperty("cyc.captcha.enabled", "false"));
 	}
 
 	public void registerOnReload(Runnable toCall) {

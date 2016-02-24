@@ -1,5 +1,7 @@
 package de.oglimmer.cyc.web.action;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -14,19 +16,25 @@ import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.util.DefaultCode;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
 import de.oglimmer.cyc.web.WebContainerProperties;
+import de.oglimmer.cyc.web.ext.CaptchaServlet;
 import de.oglimmer.cyc.web.util.EmailService;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.stripes.action.After;
+import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.DontValidate;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 
+@Slf4j
 @DoesNotRequireLogin
 public class RegisterActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/register.jsp";
@@ -54,9 +62,37 @@ public class RegisterActionBean extends BaseAction {
 	@Getter
 	@Setter
 	private boolean agreetermsandconditions;
+	@Getter
+	@Setter
+	private String captchaTokenCrypted;
+	@Getter
+	@Setter
+	private String captchaTokenCryptedUrl;
+	@Getter
+	@Setter
+	private String captchaTokenEntered;
 
 	@Getter
 	private String addressPageOwner = WebContainerProperties.INSTANCE.getAddressPageOwner();
+
+	@After(stages = { LifecycleStage.BindingAndValidation })
+	public void generateCaptcha() {
+		if (WebContainerProperties.INSTANCE.isCaptchaEnabled()
+				&& (captchaTokenCrypted == null || captchaTokenCrypted.isEmpty())) {
+			captchaTokenCrypted = CaptchaServlet.getService().encrypt(CaptchaServlet.generateToken());
+		}
+	}
+
+	@Before(stages = { LifecycleStage.ResolutionExecution })
+	public void encodeCaptchaTokenCrypted() {
+		try {
+			if (WebContainerProperties.INSTANCE.isCaptchaEnabled()) {
+				captchaTokenCryptedUrl = URLEncoder.encode(captchaTokenCrypted, "UTF-8");
+			}
+		} catch (UnsupportedEncodingException e) {
+			log.error("Failed to encode captchaTokenCrypted", e);
+		}
+	}
 
 	@DefaultHandler
 	@DontValidate
@@ -80,6 +116,11 @@ public class RegisterActionBean extends BaseAction {
 		if (!emailList.isEmpty()) {
 			errors.add("email", new SimpleError(
 					"The email address is already registered. Please use 'I forgot my passwort' to reset your password."));
+		}
+		if (WebContainerProperties.INSTANCE.isCaptchaEnabled()
+				&& !captchaTokenEntered.equalsIgnoreCase(CaptchaServlet.getService().decrypt(captchaTokenCrypted))) {
+			errors.add("captcha", new SimpleError("The captcha doesn't match!"));
+			captchaTokenCrypted = CaptchaServlet.getService().encrypt(CaptchaServlet.generateToken());
 		}
 	}
 

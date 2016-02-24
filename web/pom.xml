@@ -192,6 +192,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+		  <groupId>com.github.cage</groupId>
+		  <artifactId>cage</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
 		    <groupId>com.radiadesign</groupId>
 		    <artifactId>tomcat-redis-session-manager</artifactId>
 		    <version>1.2</version>
