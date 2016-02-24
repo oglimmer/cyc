@@ -91,8 +91,8 @@
 		    			$(".log").html("Saved & check run queued.");
 			    		setTimeout(checkForUpdateSaveTest, 1000);
 		    		} else {
-		    			if(returnData == "tooFast") {
-		    				$(".log").html("Saved, but no run queued. You're not allowed to start more runs than every 15 secs.");
+		    			if (returnData.match("^tooFast")) {
+		    				$(".log").html("Saved, but no run queued. You're not allowed to start more runs than every "+returnData.substring(8)+" secs.");
 		    			} else {
 							$(".log").html(returnData);		    			
 		    			}

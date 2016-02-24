@@ -102,7 +102,7 @@ public class TcpHandler implements Closeable {
 			try {
 				RateLimiter rateLimiter = rateLimiterCache.get(clientRequest);
 				if (!rateLimiter.tryAcquire()) {
-					return "tooFast\n";
+					return "tooFast;" + EngineContainerProperties.INSTANCE.getMaxRateTestRuns() + "\n";
 				}
 			} catch (ExecutionException e) {
 				log.error("Failed to check rate-limit", e);
