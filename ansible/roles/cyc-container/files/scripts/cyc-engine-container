@@ -30,7 +30,12 @@ do_start()
 do_stop()
 {
         echo -n "Shutdown $SERVER: "
-        echo "exit" | nc localhost 9998        
+        AUTHENTICATION=$(grep -Po "(?m)(?<=engine\.password=).*$" /etc/cyc.properties)
+        COMMAND=""
+        if [ -n "$AUTHENTICATION" ]; then                
+                COMMAND="Authorization:$AUTHENTICATION;"                
+        fi
+        echo $COMMAND"exit" | nc localhost 9998        
         if [ $? != 0 ]; then        
                 echo -n "Killing $SERVER: "
                 pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`

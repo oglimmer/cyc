@@ -1,4 +1,4 @@
 ---
-- hosts: backend
+- hosts: backend-test, backend-full
   roles:
     - role: cyc-engine

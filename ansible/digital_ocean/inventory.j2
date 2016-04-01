@@ -1,7 +1,10 @@
 [db]
 {{ new_droplet.droplet.ip_address }}
 
-[backend]
+[backend-full]
+{{ new_droplet.droplet.ip_address }}
+
+[backend-test]
 {{ new_droplet.droplet.ip_address }}
 
 [web]
@@ -9,7 +12,8 @@
 
 [all:children]
 db
-backend
+backend-full
+backend-test
 web
 
 [all:vars]
@@ -27,3 +31,4 @@ couchdb_multi_server=False
 couchdb_server_url_base=http://user_cyc:dckIeF7-1dmcD@127.0.0.1:5984
 couchdb_server_url_base_no_user=http://127.0.0.1:5984
 couchdb_server_url_schema=http://user_cyc:dckIeF7-1dmcD@127.0.0.1:5984/cyc
+couchdb_bind=127.0.0.1

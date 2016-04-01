@@ -45,7 +45,7 @@
   copy: src=scripts/run.sh dest=/usr/local/cyc-engine-container/run.sh mode=0755
 
 - name: copy jmxtrans.xml
-  copy: src=scripts/jmxtrans.xml dest=/usr/local/cyc-engine-container/jmxtrans.xml mode=0755
+  template: src=roles/cyc-container/files/scripts/jmxtrans.j2 dest=/usr/local/cyc-engine-container/jmxtrans.xml mode=0755
   notify:
     - restart cyc-engine-container
 

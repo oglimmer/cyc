@@ -9,10 +9,10 @@
   lineinfile: dest=/etc/cyc.properties regexp='^couchdb.host=' line='couchdb.host={{ couchdb_host }}' create=yes mode=0644
 
 - name: set cyc.properties (engine.host.full)
-  lineinfile: dest=/etc/cyc.properties regexp='^engine.host.full=' line='engine.host.full={{ engine_host }}' create=yes mode=0644
+  lineinfile: dest=/etc/cyc.properties regexp='^engine.host.full=' line='engine.host.full={{ engine_host_full }}' create=yes mode=0644
 
 - name: set cyc.properties (engine.host.test)
-  lineinfile: dest=/etc/cyc.properties regexp='^engine.host.test=' line='engine.host.test={{ engine_host }}' create=yes mode=0644
+  lineinfile: dest=/etc/cyc.properties regexp='^engine.host.test=' line='engine.host.test={{ engine_host_test }}' create=yes mode=0644
 
 - name: set cyc.properties (bind)
   lineinfile: dest=/etc/cyc.properties regexp='^bind=' line='bind={{ engine_bind }}' create=yes mode=0644

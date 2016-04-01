@@ -14,7 +14,7 @@
   npm: name=couchviews global=yes
 
 - name: bind to 0.0.0.0
-  lineinfile: dest=/etc/couchdb/local.ini regexp='^.?bind_address =' line='bind_address = 0.0.0.0'
+  lineinfile: dest=/etc/couchdb/local.ini regexp='^.?bind_address =' line='bind_address = {{ couchdb_bind }}'
   when: couchdb_multi_server
   notify:
     - restart couchdb
