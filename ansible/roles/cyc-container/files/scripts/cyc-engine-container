@@ -35,23 +35,28 @@ do_stop()
         if [ -n "$AUTHENTICATION" ]; then                
                 COMMAND="Authorization:$AUTHENTICATION;"                
         fi
-        echo $COMMAND"exit" | nc localhost 9998        
-        if [ $? != 0 ]; then        
-                echo -n "Killing $SERVER: "
-                pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`
-                kill -9 $pid > /dev/null 2>&1
-                RETVAL=$?        
-                [ $RETVAL -eq 0 ]
-        else 
-        		COUNTER=0
-                while ps -efH | grep -i java.*$SERVER | grep -v "grep" -q ; do
-                        sleep 1
-                        COUNTER=$((COUNTER+1))
-                        if [ "$COUNTER" = 10 ]; then
-                        	pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`
-                			kill $pid > /dev/null 2>&1
-                        fi
-                done
+        BIND_IP=$(netstat -atn|grep "9998.*LISTEN"|awk '{ print $4 }'|grep -o "^[0-9]*.[0-9]*.[0-9]*.[0-9]*")
+        if [ -z "$BIND_IP" ]; then
+                echo "$Server not running."
+        else
+                echo $COMMAND"exit" | nc $BIND_IP 9998        
+                if [ $? != 0 ]; then        
+                        echo -n "Killing $SERVER: "
+                        pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`
+                        kill -9 $pid > /dev/null 2>&1
+                        RETVAL=$?        
+                        [ $RETVAL -eq 0 ]
+                else 
+                		COUNTER=0
+                        while ps -efH | grep -i java.*$SERVER | grep -v "grep" -q ; do
+                                sleep 1
+                                COUNTER=$((COUNTER+1))
+                                if [ "$COUNTER" = 10 ]; then
+                                	pid=`ps -aefw | grep "$SERVER" | grep -v " grep " | awk '{print $2}'`
+                        			kill $pid > /dev/null 2>&1
+                                fi
+                        done
+                fi
         fi
 
         echo
