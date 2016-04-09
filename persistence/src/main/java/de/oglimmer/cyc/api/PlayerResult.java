@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.google.common.html.HtmlEscapers;
+
 import de.oglimmer.cyc.util.AverageMap;
 import de.oglimmer.cyc.util.CountDoubleMap;
 import de.oglimmer.cyc.util.CountMap;
@@ -181,6 +183,7 @@ public class PlayerResult {
 			debug = "null";
 		}
 		if (debugLength < MAX_DEBUG_OUTPUT) {
+			debug = HtmlEscapers.htmlEscaper().escape(debug);
 			this.debug.append(debug).append("<br/>");
 			debugLength += debug.length();
 			if (debugLength >= MAX_DEBUG_OUTPUT) {
