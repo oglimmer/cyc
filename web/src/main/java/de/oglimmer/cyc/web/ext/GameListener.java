@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.web.GameScheduler;
 import de.oglimmer.cyc.web.WebContainerProperties;
+import de.oglimmer.cyc.web.util.EmailService;
 
 @WebListener
 public class GameListener implements ServletContextListener {
@@ -25,6 +26,7 @@ public class GameListener implements ServletContextListener {
 		GameScheduler.INSTANCE.stop();
 		CouchDbUtil.shutdown();
 		WebContainerProperties.INSTANCE.shutdown();
+		EmailService.INSTANCE.shutdown();
 	}
 
 }

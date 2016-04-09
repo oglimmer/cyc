@@ -137,6 +137,7 @@ public class RegisterActionBean extends BaseAction {
 		user.setEmailConfirmed(false);
 		userDao.add(user);
 		EmailService.INSTANCE.sendNewAccount(user.getEmail(), user.getId(), user.getUsername());
+		EmailService.INSTANCE.informAdminRegister(user.getUsername(), user.getEmail());
 		return new ForwardResolution(POST);
 	}
 

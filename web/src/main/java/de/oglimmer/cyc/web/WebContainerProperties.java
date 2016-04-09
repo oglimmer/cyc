@@ -168,6 +168,10 @@ public enum WebContainerProperties {
 		return Boolean.parseBoolean(prop.getProperty("cyc.captcha.enabled", "false"));
 	}
 
+	public String getGlobalAdminEmail() {
+		return prop.getProperty("cyc.globalAdmin.email");
+	}
+	
 	public void registerOnReload(Runnable toCall) {
 		reloadables.add(toCall);
 	}

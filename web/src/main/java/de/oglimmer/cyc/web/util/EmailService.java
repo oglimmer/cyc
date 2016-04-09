@@ -3,6 +3,8 @@ package de.oglimmer.cyc.web.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.Email;
@@ -16,6 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public enum EmailService {
 	INSTANCE;
+
+	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+
+	public void shutdown() {
+		log.debug("Stopping Email scheduler...");
+		executor.shutdown();
+	}
 
 	public void sendNewAccount(String email, String id, String userName) {
 		createAndSendMailFile(email, "Account creation for codeyourrestaurant.com", "/account-creation.txt", userName,
@@ -38,6 +47,16 @@ public enum EmailService {
 				"Hello\n, your new password is : " + newPass + ". You should login now and change it.");
 	}
 
+	public void informAdminRegister(String username, String email) {
+		createAndSendMail(WebContainerProperties.INSTANCE.getGlobalAdminEmail(), "New User registered",
+				"Name: " + username + ", email:" + email);
+	}
+
+	public void informAdminConfirm(String username, String email) {
+		createAndSendMail(WebContainerProperties.INSTANCE.getGlobalAdminEmail(), "New User confirmed",
+				"Name: " + username + ", email:" + email);
+	}
+
 	private void createAndSendMail(String email, String subject, String msg) {
 		try {
 			Email simpleEmail = new SimpleEmail();
@@ -55,7 +74,18 @@ public enum EmailService {
 			simpleEmail.setSubject(subject);
 			simpleEmail.setMsg(msg);
 			simpleEmail.addTo(email);
-			simpleEmail.send();
+
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						simpleEmail.send();
+					} catch (EmailException e) {
+						log.error("Failed to send email", e);
+					}
+				}
+			});
+
 		} catch (EmailException e) {
 			log.error("Failed to send password email", e);
 		}
