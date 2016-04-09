@@ -18,6 +18,8 @@ import org.codehaus.jackson.map.SerializerProvider;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import com.google.common.html.HtmlEscapers;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -42,6 +44,7 @@ public class Statistics {
 
 	@JsonIgnore
 	public void setCustomStatisticsName(int type, String name) {
+		name = HtmlEscapers.htmlEscaper().escape(name);
 		if (name.length() > 256) {
 			name = name.substring(0, 256);
 		}

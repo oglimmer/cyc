@@ -37,6 +37,11 @@
 			<artifactId>engine-api</artifactId>
 			<version>0.5-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
