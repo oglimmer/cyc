@@ -27,7 +27,7 @@ public enum ThreeDaysWinner {
 	}
 
 	public Result calcThreeDayWinner() {
-		List<GameWinners> listGameWinners = dao.findAllGameWinners(288);
+		List<GameWinners> listGameWinners = dao.findAllGameWinners(288*15, WebContainerProperties.INSTANCE.getSystemHaltDate());
 		return calcThreeDayWinner(listGameWinners);
 	}
 
