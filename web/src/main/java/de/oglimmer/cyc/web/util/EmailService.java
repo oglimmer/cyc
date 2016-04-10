@@ -48,13 +48,17 @@ public enum EmailService {
 	}
 
 	public void informAdminRegister(String username, String email) {
-		createAndSendMail(WebContainerProperties.INSTANCE.getGlobalAdminEmail(), "New User registered",
-				"Name: " + username + ", email:" + email);
+		if (WebContainerProperties.INSTANCE.getGlobalAdminEmail() != null) {
+			createAndSendMail(WebContainerProperties.INSTANCE.getGlobalAdminEmail(), "New User registered",
+					"Name: " + username + ", email:" + email);
+		}
 	}
 
 	public void informAdminConfirm(String username, String email) {
-		createAndSendMail(WebContainerProperties.INSTANCE.getGlobalAdminEmail(), "New User confirmed",
-				"Name: " + username + ", email:" + email);
+		if (WebContainerProperties.INSTANCE.getGlobalAdminEmail() != null) {
+			createAndSendMail(WebContainerProperties.INSTANCE.getGlobalAdminEmail(), "New User confirmed",
+					"Name: " + username + ", email:" + email);
+		}
 	}
 
 	private void createAndSendMail(String email, String subject, String msg) {
