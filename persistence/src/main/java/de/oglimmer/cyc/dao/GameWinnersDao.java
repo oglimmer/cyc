@@ -9,6 +9,6 @@ import de.oglimmer.cyc.model.GameWinners;
 
 public interface GameWinnersDao extends GenericRepository<GameWinners> {
 
-	List<GameWinners> findAllGameWinners(int limit, Date maxDate);
+	List<GameWinners> findAllGameWinners(Date startDate, Date endDate);
 
 }

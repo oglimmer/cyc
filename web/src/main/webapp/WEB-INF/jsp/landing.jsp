@@ -21,7 +21,7 @@
 				Current 1st: ${actionBean.threeDayWinner[0]}<br/>
 				Current 2nd: ${actionBean.threeDayWinner[1]}<br/>
 				Current 3rd: ${actionBean.threeDayWinner[2]}<br/>
-				Here are results of a <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >3 days window</s:link>.
+				Here are results <s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >${actionBean.threeDayWinnerTimeRange}</s:link>.
 		</div>
 
 		<div>

@@ -52,6 +52,9 @@ public class LandingActionBean extends BaseAction {
 
 	@Getter
 	private String[] threeDayWinner;
+	
+	@Getter
+	private String threeDayWinnerTimeRange;
 
 	@Getter
 	private String fbAppId;
@@ -78,6 +81,7 @@ public class LandingActionBean extends BaseAction {
 
 		ThreeDaysWinner.Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner();
 		threeDayWinner = result.getThreeDayWinner();
+		threeDayWinnerTimeRange = result.getThreeDayWinnerTimeRange();
 
 		registerDisabled = WebContainerProperties.INSTANCE.getSystemDisabledDate().before(new Date());
 		systemMessage = WebContainerProperties.INSTANCE.getSystemMessage();

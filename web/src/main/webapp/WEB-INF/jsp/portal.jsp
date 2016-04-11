@@ -22,7 +22,7 @@
 				Current 1st: <span id="threeDayWinner0">${actionBean.threeDayWinner[0]}</span>, 
 				2nd: <span id="threeDayWinner1">${actionBean.threeDayWinner[1]}</span>,
 				3rd: <span id="threeDayWinner2">${actionBean.threeDayWinner[2]}</span>
-				<s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >(3 days history)</s:link>
+				<s:link beanclass="de.oglimmer.cyc.web.action.RunHistoryActionBean" >(${actionBean.threeDayWinnerTimeRange})</s:link>
 			</div>
 		</div>
 		

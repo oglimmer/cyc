@@ -56,6 +56,8 @@ public class PortalActionBean extends BaseAction {
 	@Getter
 	@Setter
 	private String[] threeDayWinner;
+	@Getter
+	private String threeDayWinnerTimeRange;
 
 	@Getter
 	@Setter
@@ -81,6 +83,7 @@ public class PortalActionBean extends BaseAction {
 
 		ThreeDaysWinner.Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner();
 		threeDayWinner = result.getThreeDayWinner();
+		threeDayWinnerTimeRange = result.getThreeDayWinnerTimeRange();
 		lastWinner = result.getLastWinner();
 	}
 
