@@ -192,6 +192,11 @@ public class PlayerResult {
 		}
 	}
 
+	public synchronized void overwriteDebug(String debug) {
+		debug = HtmlEscapers.htmlEscaper().escape(debug);
+		this.debug = new StringBuilder(debug);
+	}
+
 	public void addMenuEntryScore(String menuName, int deli) {
 		menuEntryScore.add(menuName, deli);
 	}

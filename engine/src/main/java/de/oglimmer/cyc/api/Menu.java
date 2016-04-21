@@ -18,14 +18,20 @@ public class Menu implements Container<MenuEntry>, Iterable<MenuEntry>, IMenu {
 	private List<MenuEntry> entries = new ArrayList<>();
 
 	private Game game;
+	private Company company;
 
-	Menu(Game game) {
+	Menu(Company company, Game game) {
+		this.company = company;
 		this.game = game;
 	}
 
 	@PublicAPI
 	public void add(String name, String[] ingredients, double price) {
-		entries.add(new MenuEntry(game, name, ingredients, price));
+		if (entries.size() < 363) {
+			entries.add(new MenuEntry(game, name, ingredients, price));
+		} else {
+			game.getGameRun().getResult().getCreateNotExists(company.getName()).overwriteDebug("DEBUG OVERWRITTEN!!! Max number of menu is 362! Additional menus will be ignored.");
+		}
 	}
 
 	@PublicAPI

@@ -48,7 +48,7 @@ public class Company implements ICompany {
 		this.game = game;
 		this.name = name;
 		this.grocer = grocer;
-		this.menu = new Menu(game);
+		this.menu = new Menu(this, game);
 		this.cash = game.getConstants().getStartCredit();
 		game.getResult().getCreateNotExists(name).getStatistics().addCash(game.getCurrentDay(), cash);
 	}
