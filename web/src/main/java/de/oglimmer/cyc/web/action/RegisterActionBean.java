@@ -133,12 +133,21 @@ public class RegisterActionBean extends BaseAction {
 		user.setMainJavaScript(DefaultCode.INSTANCE.getDefaultCode());
 		user.setCreatedDate(new Date());
 		user.setLastLoginDate(new Date());
-		user.setActive(false);
-		user.setEmailConfirmed(false);
-		userDao.add(user);
-		EmailService.INSTANCE.sendNewAccount(user.getEmail(), user.getId(), user.getUsername());
-		EmailService.INSTANCE.informAdminRegister(user.getUsername(), user.getEmail());
-		return new ForwardResolution(POST);
+		if (WebContainerProperties.INSTANCE.isEmailVerificationEnabled()) {
+			user.setActive(false);
+			user.setEmailConfirmed(false);
+			userDao.add(user);
+			EmailService.INSTANCE.sendNewAccount(user.getEmail(), user.getId(), user.getUsername());
+			EmailService.INSTANCE.informAdminRegister(user.getUsername(), user.getEmail());
+			return new ForwardResolution(POST);
+		} else {
+			user.setActive(true);
+			user.setEmailConfirmed(true);
+			user.setLastLoginDate(new Date());
+			userDao.add(user);
+			getContext().getRequest().getSession(true).setAttribute("userid", user.getId());
+			return new RedirectResolution(PortalActionBean.class);
+		}		
 	}
 
 	@DontValidate
