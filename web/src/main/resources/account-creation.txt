@@ -8,27 +8,27 @@ https://codeyourrestaurant.com/cyr/RegisterConfirm.action?confirmId=%s
 
 
 
-Einverständniserklärung zur Datenspeicherung und Datenverwendung:
+Einverstaendniserklaerung zur Datenspeicherung und Datenverwendung:
 
-Du hast dich einverstanden erklärt, dass deine personenbezogenen Daten, die du im Zusammenhang mit der Kontoeröffnung für diese Webseite offenbart hast, elektronisch gespeichert und im weiteren Spielverlauf verwendet werden. Du hast der Übermittlung deiner Daten an die ADTECH GmbH und Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. sowie der Nutzung für die Zwecke des Wettbewerbs und der Stellenbesetzung zugestimmt. Andere Firmen und Personen dürfen deine Daten nicht erhalten. Außerdem hast du dem speichern des Session Cookies während des Anmeldevorgangs zugestimmt. Der von dir erstellte JavaScript Programmcode darf von dieser Webseite gespeichert, ausgeführt und eingesehen werden und sofern du der Veröffentlichung zugestimmt hast, auch veröffentlich werden. Dir ist bekannt, dass du deine Einwilligung jederzeit durch entsprechende Erklärung per E-Mail an webmaster@codeyourrestaurant.com oder auf dem Postweg (%s) für die Zukunft widerrufen kannst. Um deine Rechte auf Auskunft, Berichtigung und Löschung geltend zu machen, kannst du dich an dieselben Adresse wenden.
-
-
-
-Hinweis zur Speicherung, Verarbeitung und Übermittlung personenbezogener Daten
-
-Im Rahmen dieser Webseite werden Daten gespeichert, verarbeitet und einmalig nach Ermittlung des Gewinners am 28.4.2016 an die ADTECH GmbH und AOL Global Operations Limited übermittelt. Die ADTECH GmbH, Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. werden diese Daten zur Kontaktaufnahme im Rahmen der Suche nach neuen Mitarbeitern zwecks Stellenbesetzung nutzen.
+Du hast dich einverstanden erklaert, dass deine personenbezogenen Daten, die du im Zusammenhang mit der Kontoeroeffnung fuer diese Webseite offenbart hast, elektronisch gespeichert und im weiteren Spielverlauf verwendet werden. Du hast der Uebermittlung deiner Daten an die ADTECH GmbH und Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. sowie der Nutzung fuer die Zwecke des Wettbewerbs und der Stellenbesetzung zugestimmt. Andere Firmen und Personen duerfen deine Daten nicht erhalten. Ausserdem hast du dem speichern des Session Cookies waehrend des Anmeldevorgangs zugestimmt. Der von dir erstellte JavaScript Programmcode darf von dieser Webseite gespeichert, ausgefuehrt und eingesehen werden und sofern du der Veroeffentlichung zugestimmt hast, auch veroeffentlich werden. Dir ist bekannt, dass du deine Einwilligung jederzeit durch entsprechende Erklaerung per E-Mail an webmaster@codeyourrestaurant.com oder auf dem Postweg (%s) fuer die Zukunft widerrufen kannst. Um deine Rechte auf Auskunft, Berichtigung und Loeschung geltend zu machen, kannst du dich an dieselben Adresse wenden.
 
 
 
-Welche Daten werden übermittelt?
+Hinweis zur Speicherung, Verarbeitung und Uebermittlung personenbezogener Daten
 
-Diese Webseite benötigt einen Namen und eine gültige Email-Adresse zur Kontoerstellung. Im Rahmen des Anmeldevorgangs wird ein Cookie auf deinem Computer gespeichert, der bis zum Beenden des Browser eine ID enthält, die dich eindeutig identifiziert. Dieses Cookie wird Sitzung-Cookie genannt und enthält keine weiteren Informationen, als die Zuordnung deines Anmeldevorgangs. Im Rahmen des Spiels erstellst und übermittelst du JavaScript-Code der die Geschäftslogik deines Restaurants enthalt.
+Im Rahmen dieser Webseite werden Daten gespeichert, verarbeitet und einmalig nach Ermittlung des Gewinners am 28.4.2016 an die ADTECH GmbH und AOL Global Operations Limited uebermittelt. Die ADTECH GmbH, Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. werden diese Daten zur Kontaktaufnahme im Rahmen der Suche nach neuen Mitarbeitern zwecks Stellenbesetzung nutzen.
+
+
+
+Welche Daten werden uebermittelt?
+
+Diese Webseite benoetigt einen Namen und eine gueltige Email-Adresse zur Kontoerstellung. Im Rahmen des Anmeldevorgangs wird ein Cookie auf deinem Computer gespeichert, der bis zum Beenden des Browser eine ID enthaelt, die dich eindeutig identifiziert. Dieses Cookie wird Sitzung-Cookie genannt und enthaelt keine weiteren Informationen, als die Zuordnung deines Anmeldevorgangs. Im Rahmen des Spiels erstellst und uebermittelst du JavaScript-Code der die Geschaeftslogik deines Restaurants enthalt.
 
 
 
 Wer hat Einsicht in deine Dokumente und Daten? 
 
-Der Name des Kontos wird öffentlich auf dieser Webseite gezeigt. Die Email-Adresse kann nur vom Administrator/Inhaber (Oliver Zimpasser) dieser Seite eingesehen werden. Der von dir erstellte JavaScript Programmcode kann immer von Administratoren und Inhabern dieser Seite gesehen werden, falls du es möchtest hast du allerdings auch die Möglichkeit deinen Programmcode öffentlich zu machen. Alle Daten werden auch von Mitarbeitern der ADTECH GmbH im Rahmen der Kontaktaufnahme zur Stellenbesetzung eingesehen.
+Der Name des Kontos wird oeffentlich auf dieser Webseite gezeigt. Die Email-Adresse kann nur vom Administrator/Inhaber (Oliver Zimpasser) dieser Seite eingesehen werden. Der von dir erstellte JavaScript Programmcode kann immer von Administratoren und Inhabern dieser Seite gesehen werden, falls du es moechtest hast du allerdings auch die Moeglichkeit deinen Programmcode oeffentlich zu machen. Alle Daten werden auch von Mitarbeitern der ADTECH GmbH im Rahmen der Kontaktaufnahme zur Stellenbesetzung eingesehen.
 
  
 
@@ -40,4 +40,4 @@ Deine Daten werden innerhalb dieser Webseite gespeichert und auch an die "ADTECH
 
 Wie lange erfolgt die Speicherung?
 
-Deine Daten werden auf diesem Server solange gespeichert, wie dein Konto hier am Spiel teilnimmt. Die ADTECH GmbH und die Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. speichern deine Daten für maximal 3 Monate.
+Deine Daten werden auf diesem Server solange gespeichert, wie dein Konto hier am Spiel teilnimmt. Die ADTECH GmbH und die Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. speichern deine Daten fuer maximal 3 Monate.
