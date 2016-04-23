@@ -124,7 +124,17 @@
 				To replace your code with the default implementation from this tutorial, click <a href="javascript:void(0);" onclick="replaceCode();">here</a>.<br/>
 			</c:if> 
 			<br/>
-			For future optimizations of your restaurant, you probably want to browse the <a href="./apidocs/index.html" target="_blank">API documentation</a> or the <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> &nbsp;<br/> 
+			For future optimizations of your restaurant, you probably want to browse the <a href="./apidocs/index.html" target="_blank">API documentation</a> or the <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link>, 
+			anyhow here are some first ideas you might want to follow:
+			<ul>
+				<li>Define 3-4 menu items. Set a price which corresponds to the value of the ingredients</li>
+				<li>Try to hire skilled people</li>
+				<li>Try to find a large place and equip it well</li>
+				<li>Make sure you have always enough ingredients but keep in mind that they rot after a few days</li>
+				<li>Last but definitely not least, try to make sure you have at least one restaurant per town!</li>
+			</ul>
+			<br/>
+			 
 		</div>	
 		
 		<div style="margin-bottom:40px;">				
