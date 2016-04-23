@@ -17,8 +17,9 @@ import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
-import de.oglimmer.cyc.web.ThreeDaysWinner;
 import de.oglimmer.cyc.web.WebContainerProperties;
+import de.oglimmer.cyc.web.winner.WinnerResult;
+import de.oglimmer.cyc.web.winner.WinnerHistoryCalculation;
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.ActionBeanContext;
@@ -79,9 +80,9 @@ public class LandingActionBean extends BaseAction {
 			showCycLogin = true;
 		}
 
-		ThreeDaysWinner.Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner();
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc();
 		threeDayWinner = result.getThreeDayWinner();
-		threeDayWinnerTimeRange = result.getThreeDayWinnerTimeRange();
+		threeDayWinnerTimeRange = result.getThreeDayWinnerTimeRange().toString();
 
 		registerDisabled = WebContainerProperties.INSTANCE.getSystemDisabledDate().before(new Date());
 		systemMessage = WebContainerProperties.INSTANCE.getSystemMessage();

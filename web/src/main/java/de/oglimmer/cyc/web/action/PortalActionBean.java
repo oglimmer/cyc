@@ -16,9 +16,10 @@ import de.oglimmer.cyc.dao.couchdb.UserCouchDb;
 import de.oglimmer.cyc.model.User;
 import de.oglimmer.cyc.web.GameExecutor;
 import de.oglimmer.cyc.web.GameScheduler;
-import de.oglimmer.cyc.web.ThreeDaysWinner;
 import de.oglimmer.cyc.web.WebContainerProperties;
 import de.oglimmer.cyc.web.exception.CycPermissionException;
+import de.oglimmer.cyc.web.winner.WinnerResult;
+import de.oglimmer.cyc.web.winner.WinnerHistoryCalculation;
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
@@ -81,9 +82,9 @@ public class PortalActionBean extends BaseAction {
 		DateFormat dateTimeDf = DateFormat.getDateTimeInstance();
 		setNextRun(dateTimeDf.format(nextRunDate));
 
-		ThreeDaysWinner.Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner();
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc();
 		threeDayWinner = result.getThreeDayWinner();
-		threeDayWinnerTimeRange = result.getThreeDayWinnerTimeRange();
+		threeDayWinnerTimeRange = result.getThreeDayWinnerTimeRange().toString();
 		lastWinner = result.getLastWinner();
 	}
 

@@ -1,4 +1,4 @@
-package de.oglimmer.cyc.web;
+package de.oglimmer.cyc.web.winner;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,26 +15,28 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.model.GameWinners;
-import de.oglimmer.cyc.web.ThreeDaysWinner.Result;
+import de.oglimmer.cyc.web.winner.WinnerResult;
+import de.oglimmer.cyc.web.winner.WinnerStartEndDate;
+import de.oglimmer.cyc.web.winner.WinnerHistoryCalculation;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(CouchDbUtil.class)
 public class ThreeDaysWinnerTest {
 
-	private static Date[] startEndDate = new Date[2];
+	private static WinnerStartEndDate startEndDate = new WinnerStartEndDate();
 	
 	@BeforeClass
 	public static void prepare() {
 		PowerMockito.mockStatic(CouchDbUtil.class);
 		Mockito.when(CouchDbUtil.getDatabase()).thenReturn(null);
-		startEndDate[1] = new Date();
+		startEndDate.setEnd(new Date());
 	}
 
 	@Test
 	public void testEmpty() {
 		List<GameWinners> listGameWinners = new ArrayList<>();
 
-		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners, startEndDate);
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc(listGameWinners, startEndDate);
 		Assert.assertEquals("-", result.getThreeDayWinner()[0]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[1]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[2]);
@@ -49,7 +51,7 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("a", -1));
 		listGameWinners.add(createGameWinners("b", -1));
 
-		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners, startEndDate);
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc(listGameWinners, startEndDate);
 		Assert.assertEquals("-", result.getThreeDayWinner()[0]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[1]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[2]);
@@ -62,7 +64,7 @@ public class ThreeDaysWinnerTest {
 
 		listGameWinners.add(createGameWinners("a", -1));
 
-		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners, startEndDate);
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc(listGameWinners, startEndDate);
 		Assert.assertEquals("-", result.getThreeDayWinner()[0]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[1]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[2]);
@@ -76,7 +78,7 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("a", -1));
 		listGameWinners.add(createGameWinners("b", -1));
 
-		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners, startEndDate);
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc(listGameWinners, startEndDate);
 		Assert.assertEquals("-", result.getThreeDayWinner()[0]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[1]);
 		Assert.assertEquals("-", result.getThreeDayWinner()[2]);
@@ -95,7 +97,7 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("c", 1000));
 		listGameWinners.add(createGameWinners("c", 200));
 
-		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners, startEndDate);
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc(listGameWinners, startEndDate);
 		Assert.assertEquals("a (3x)", result.getThreeDayWinner()[0]);
 		Assert.assertTrue(result.getThreeDayWinner()[1].contains("b (2x)"));
 		Assert.assertTrue(result.getThreeDayWinner()[1].contains("c (2x)"));
@@ -115,7 +117,7 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("c", 1000));
 		listGameWinners.add(createGameWinners("c", 200));
 
-		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners, startEndDate);
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc(listGameWinners, startEndDate);
 		Assert.assertEquals("a (3x)", result.getThreeDayWinner()[0]);
 		Assert.assertTrue(result.getThreeDayWinner()[1].contains("b (2x)"));
 		Assert.assertTrue(result.getThreeDayWinner()[1].contains("c (2x)"));
@@ -135,7 +137,7 @@ public class ThreeDaysWinnerTest {
 		listGameWinners.add(createGameWinners("c", 2000));
 		listGameWinners.add(createGameWinners("c", 3000));
 
-		Result result = ThreeDaysWinner.INSTANCE.calcThreeDayWinner(listGameWinners, startEndDate);
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc(listGameWinners, startEndDate);
 		Assert.assertTrue(result.getThreeDayWinner()[0].contains("c (3x)"));
 		Assert.assertTrue(result.getThreeDayWinner()[0].contains("a (3x)"));
 		Assert.assertTrue(result.getThreeDayWinner()[1].equals("b (1x)"));

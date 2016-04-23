@@ -1,14 +1,11 @@
 package de.oglimmer.cyc.web.action;
 
-import java.util.Date;
 import java.util.List;
 
-import de.oglimmer.cyc.dao.GameWinnersDao;
-import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
-import de.oglimmer.cyc.dao.couchdb.GameWinnersCouchDb;
 import de.oglimmer.cyc.model.GameWinners;
 import de.oglimmer.cyc.web.DoesNotRequireLogin;
-import de.oglimmer.cyc.web.ThreeDaysWinner;
+import de.oglimmer.cyc.web.winner.WinnerResult;
+import de.oglimmer.cyc.web.winner.WinnerHistoryCalculation;
 import lombok.Getter;
 import lombok.Setter;
 import net.sourceforge.stripes.action.Before;
@@ -21,8 +18,6 @@ import net.sourceforge.stripes.action.Resolution;
 public class RunHistoryActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/runHistory.jsp";
 
-	private GameWinnersDao dao = new GameWinnersCouchDb(CouchDbUtil.getDatabase());
-
 	@Getter
 	@Setter
 	private List<GameWinners> runHistory;
@@ -33,9 +28,9 @@ public class RunHistoryActionBean extends BaseAction {
 	@Before
 	public void loadRunHistory() {
 		// get last three days
-		Date[] startEndDate = ThreeDaysWinner.INSTANCE.getStartEndKey();
-		runHistory = dao.findAllGameWinners(startEndDate[0], startEndDate[1]);
-		timeRange = ThreeDaysWinner.INSTANCE.dateToString(startEndDate);
+		WinnerResult result = WinnerHistoryCalculation.INSTANCE.calc();
+		runHistory = result.getGameWinnersList();
+		timeRange = result.getThreeDayWinnerTimeRange().toString();
 	}
 
 	@DefaultHandler
