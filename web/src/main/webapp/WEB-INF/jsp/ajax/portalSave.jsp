@@ -1,2 +1,1 @@
-<%@ page contentType="text/json;charset=UTF-8" language="java" session="false" %>
-${actionBean.output}
+<%@ page contentType="html/text; charset=utf-8" language="java" session="false" %>${actionBean.output}
