@@ -1,12 +1,13 @@
 package de.oglimmer.cyc.api;
 
-import java.util.Iterator;
-
+import de.oglimmer.cyc.DataBackendMemory;
+import de.oglimmer.cyc.api.Constants.Mode;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.oglimmer.cyc.DataBackendMemory;
-import de.oglimmer.cyc.api.Constants.Mode;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class EstablishmentTest {
 
@@ -147,6 +148,23 @@ public class EstablishmentTest {
 			day++;
 		}
 
+	}
+
+	@Test
+	public void testInteriorAccessoriesIntegerOverflow() {
+		Game game = new Game(Mode.FULL, DataBackendMemory.INSTANCE);
+		Company company = new Company(game, "companyA", game.getGrocer());
+		Establishment est = new Establishment(company, "cityA", 5, 50, 1000, 2000);
+		company.getEstablishmentsInt().add(est);
+		ThreadLocal.setCompany(company);
+
+		ArrayList<String> accessories = new ArrayList<>(429498 * 2);
+		for (int i = 0; i < 429498 * 2; i++) {
+			accessories.add(InteriorAccessory.OVEN.toString());
+		}
+		est.buyInteriorAccessories(accessories.toArray(new String[0]));
+
+		Assert.assertNotEquals(accessories.size(), est.getInteriorAccessories().size());
 	}
 
 }
