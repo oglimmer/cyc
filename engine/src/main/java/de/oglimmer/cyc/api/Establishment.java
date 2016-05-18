@@ -110,26 +110,17 @@ public class Establishment implements IEstablishment {
 		buyInteriorAccessories(iaToAdd);
 	}
 
-	private int calcTotalCost(Collection<InteriorAccessory> iaToAdd) {
-		int total = 0;
-		for (InteriorAccessory intAcc : iaToAdd) {
-			total += intAcc.getAssetCost();
-		}
-		return total;
-	}
-
 	private void buyInteriorAccessories(Collection<InteriorAccessory> iaToAdd) {
-		int total = calcTotalCost(iaToAdd);
-		if (parent.getCash() >= total) {
-			try {
-				parent.decCash(total);
-				parent.getGame().getResult().getCreateNotExists(parent.getName()).addTotalInterior(total);
-				for (InteriorAccessory ia : iaToAdd) {
+		for (InteriorAccessory ia : iaToAdd) {
+			if (parent.getCash() >= ia.getAssetCost()) {
+				try {
+					parent.decCash(ia.getAssetCost());
+					parent.getGame().getResult().getCreateNotExists(parent.getName()).addTotalInterior(ia.getAssetCost());
 					interiorAccessories.add(ia);
 					log.debug(parent.getName() + " bought " + ia + " for " + getAddress());
+				} catch (OutOfMoneyException e) {
+					log.debug("Company " + e.getCompany() + " is bankrupt");
 				}
-			} catch (OutOfMoneyException e) {
-				log.debug("Company " + e.getCompany() + " is bankrupt");
 			}
 		}
 	}
