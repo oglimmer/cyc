@@ -144,30 +144,13 @@
 	
 	<script src="src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script>
-    var editor = ace.edit("code1");
-    editor.setTheme("ace/theme/terminal");
-    editor.getSession().setMode("ace/mode/javascript");
-    editor.setReadOnly(true);
-    editor = ace.edit("code2");
-    editor.setTheme("ace/theme/terminal");
-    editor.getSession().setMode("ace/mode/javascript");
-    editor.setReadOnly(true);
-    editor = ace.edit("code3");
-    editor.setTheme("ace/theme/terminal");
-    editor.getSession().setMode("ace/mode/javascript");
-    editor.setReadOnly(true);
-    editor = ace.edit("code4");
-    editor.setTheme("ace/theme/terminal");
-    editor.getSession().setMode("ace/mode/javascript");
-    editor.setReadOnly(true);
-    editor = ace.edit("code5");
-    editor.setTheme("ace/theme/terminal");
-    editor.getSession().setMode("ace/mode/javascript");
-    editor.setReadOnly(true);
-    editor = ace.edit("code6");
-    editor.setTheme("ace/theme/terminal");
-    editor.getSession().setMode("ace/mode/javascript");
-    editor.setReadOnly(true);
+    
+	for(var i = 1 ; i < 7; i++) {
+    	var editor = ace.edit("code" + i);
+	    editor.setTheme("ace/theme/terminal");
+	    editor.getSession().setMode("ace/mode/javascript");
+	    editor.setReadOnly(true);
+    }    
     
     function replaceCode() {
     	$( "#dialog-confirm" ).dialog({

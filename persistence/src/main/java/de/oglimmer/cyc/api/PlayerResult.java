@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class PlayerResult {
-	private static final int MAX_DEBUG_OUTPUT = 4048;
+	private static final int MAX_DEBUG_OUTPUT = 12288;
 
 	private String name;
 	private double totalAssets;

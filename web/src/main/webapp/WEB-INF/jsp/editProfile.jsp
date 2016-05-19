@@ -58,7 +58,7 @@
 		</div>	
 		
 		<div>
-			<s:form beanclass="de.oglimmer.cyc.web.action.ChangePasswordActionBean" focus="" onsubmit="return checkLegal()">
+			<s:form beanclass="de.oglimmer.cyc.web.action.EditProfileActionBean" focus="" onsubmit="return checkLegal()">
 				<table>
 					<tr>
 						<td>Current Password: </td>

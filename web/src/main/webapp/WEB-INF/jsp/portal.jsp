@@ -9,7 +9,7 @@
 			<s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> &nbsp;
 			<s:link beanclass="de.oglimmer.cyc.web.action.PortalActionBean" event="exit" >Log off</s:link> &nbsp;
-			<s:link beanclass="de.oglimmer.cyc.web.action.ChangePasswordActionBean" >Profile</s:link>			
+			<s:link beanclass="de.oglimmer.cyc.web.action.EditProfileActionBean" >Profile</s:link>			
 		</div>
 		<div style="font-size:0.6em;text-align:right;">
 			Logged in as <c:out value="${actionBean.companyName}" escapeXml="false" />

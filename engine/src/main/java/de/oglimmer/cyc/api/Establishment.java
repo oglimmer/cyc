@@ -86,8 +86,9 @@ public class Establishment implements IEstablishment {
 			int cost = (int) (intAcc.getAssetCost() * parent.getGame().getConstants()
 					.getSellFactorInteriorAccessories());
 			parent.incCash(cost);
-			parent.getGame().getResult().getCreateNotExists(parent.getName()).addTotalInterior(-cost);
+			parent.getGame().getResult().getCreateNotExists(parent.getName()).addTotalInterior(-cost);			
 		}
+		interiorAccessories.clear();
 	}
 
 	@PublicAPI

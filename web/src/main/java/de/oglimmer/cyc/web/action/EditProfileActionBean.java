@@ -27,8 +27,8 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import net.sourceforge.stripes.validation.ValidationMethod;
 
-public class ChangePasswordActionBean extends BaseAction {
-	private static final String VIEW = "/WEB-INF/jsp/changePassword.jsp";
+public class EditProfileActionBean extends BaseAction {
+	private static final String VIEW = "/WEB-INF/jsp/editProfile.jsp";
 
 	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
 
