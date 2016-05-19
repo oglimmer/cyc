@@ -4,20 +4,19 @@ you have registered yourself for codeyourrestaurant.com.
 
 To confirm your email address please click the following link within the next 48 hours:
 
-https://codeyourrestaurant.com/cyr/RegisterConfirm.action?confirmId=%s
+http://codeyourrestaurant.com/cyr/RegisterConfirm.action?confirmId=%s
 
 
 
 Einverstaendniserklaerung zur Datenspeicherung und Datenverwendung:
 
-Du hast dich einverstanden erklaert, dass deine personenbezogenen Daten, die du im Zusammenhang mit der Kontoeroeffnung fuer diese Webseite offenbart hast, elektronisch gespeichert und im weiteren Spielverlauf verwendet werden. Du hast der Uebermittlung deiner Daten an die ADTECH GmbH und Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. sowie der Nutzung fuer die Zwecke des Wettbewerbs und der Stellenbesetzung zugestimmt. Andere Firmen und Personen duerfen deine Daten nicht erhalten. Ausserdem hast du dem speichern des Session Cookies waehrend des Anmeldevorgangs zugestimmt. Der von dir erstellte JavaScript Programmcode darf von dieser Webseite gespeichert, ausgefuehrt und eingesehen werden und sofern du der Veroeffentlichung zugestimmt hast, auch veroeffentlich werden. Dir ist bekannt, dass du deine Einwilligung jederzeit durch entsprechende Erklaerung per E-Mail an webmaster@codeyourrestaurant.com oder auf dem Postweg (%s) fuer die Zukunft widerrufen kannst. Um deine Rechte auf Auskunft, Berichtigung und Loeschung geltend zu machen, kannst du dich an dieselben Adresse wenden.
+Du hast dich einverstanden erklaert, dass deine personenbezogenen Daten, die du im Zusammenhang mit der Kontoeroeffnung fuer diese Webseite offenbart hast, elektronisch gespeichert und im weiteren Spielverlauf verwendet werden. Andere Firmen und Personen duerfen deine Daten nicht erhalten. Ausserdem hast du dem speichern des Session Cookies waehrend des Anmeldevorgangs zugestimmt. Der von dir erstellte JavaScript Programmcode darf von dieser Webseite gespeichert, ausgefuehrt und eingesehen werden und sofern du der Veroeffentlichung zugestimmt hast, auch veroeffentlich werden. Dir ist bekannt, dass du deine Einwilligung jederzeit durch entsprechende Erklaerung per E-Mail an webmaster@codeyourrestaurant.com oder auf dem Postweg (%s) fuer die Zukunft widerrufen kannst. Um deine Rechte auf Auskunft, Berichtigung und Loeschung geltend zu machen, kannst du dich an dieselben Adresse wenden.
 
 
 
 Hinweis zur Speicherung, Verarbeitung und Uebermittlung personenbezogener Daten
 
-Im Rahmen dieser Webseite werden Daten gespeichert, verarbeitet und einmalig nach Ermittlung des Gewinners am 28.4.2016 an die ADTECH GmbH und AOL Global Operations Limited uebermittelt. Die ADTECH GmbH, Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. werden diese Daten zur Kontaktaufnahme im Rahmen der Suche nach neuen Mitarbeitern zwecks Stellenbesetzung nutzen.
-
+Im Rahmen dieser Webseite werden Daten gespeichert, verarbeitet. 
 
 
 Welche Daten werden uebermittelt?
@@ -28,16 +27,16 @@ Diese Webseite benoetigt einen Namen und eine gueltige Email-Adresse zur Kontoer
 
 Wer hat Einsicht in deine Dokumente und Daten? 
 
-Der Name des Kontos wird oeffentlich auf dieser Webseite gezeigt. Die Email-Adresse kann nur vom Administrator/Inhaber (Oliver Zimpasser) dieser Seite eingesehen werden. Der von dir erstellte JavaScript Programmcode kann immer von Administratoren und Inhabern dieser Seite gesehen werden, falls du es moechtest hast du allerdings auch die Moeglichkeit deinen Programmcode oeffentlich zu machen. Alle Daten werden auch von Mitarbeitern der ADTECH GmbH im Rahmen der Kontaktaufnahme zur Stellenbesetzung eingesehen.
+Der Name des Kontos wird oeffentlich auf dieser Webseite gezeigt. Die Email-Adresse kann nur vom Administrator/Inhaber (Oliver Zimpasser) dieser Seite eingesehen werden. Der von dir erstellte JavaScript Programmcode kann immer von Administratoren und Inhabern dieser Seite gesehen werden, falls du es moechtest hast du allerdings auch die Moeglichkeit deinen Programmcode oeffentlich zu machen.
 
  
 
 An wen werden deine Daten weitergegeben?
 
-Deine Daten werden innerhalb dieser Webseite gespeichert und auch an die "ADTECH GmbH, Robert-Bosch-Str. 32, 63303 Dreieich,Deutschland" sowie "Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd., Heuston South Quarter, Dublin 8, Ireland" weitergereicht.An andere Dritte erfolgt keine Weitergabe. 
+Deine Daten werden innerhalb dieser Webseite gespeichert. An Dritte erfolgt keine Weitergabe. 
 
 
 
 Wie lange erfolgt die Speicherung?
 
-Deine Daten werden auf diesem Server solange gespeichert, wie dein Konto hier am Spiel teilnimmt. Die ADTECH GmbH und die Aol Global Operations Ltd. / AOL und Technologies Ireland Ltd. speichern deine Daten fuer maximal 3 Monate.
+Deine Daten werden auf diesem Server solange gespeichert, wie dein Konto hier am Spiel teilnimmt.
