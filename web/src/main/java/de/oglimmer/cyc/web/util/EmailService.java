@@ -44,7 +44,7 @@ public enum EmailService {
 
 	public void sendPasswordReset(String email, String newPass) {
 		createAndSendMail(email, "New password for codeyourrestaurant.com",
-				"Hello\n, your new password is : " + newPass + ". You should login now and change it.");
+				"Hello user,\n\nyour new password is : " + newPass + ".\n\nYou should login now and change it.");
 	}
 
 	public void informAdminRegister(String username, String email) {
