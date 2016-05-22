@@ -63,7 +63,7 @@
     - restarted tomcat7
 
 - name: set XMS to XMX
-  lineinfile: dest=/etc/default/tomcat7 regexp="^JAVA_OPTS=\"-Djava.awt.headless=true" line="JAVA_OPTS=\"-Djava.awt.headless=true -Xmx128m -Xms128m -XX:+UseConcMarkSweepGC\""
+  lineinfile: dest=/etc/default/tomcat7 regexp="^JAVA_OPTS=\"-Djava.awt.headless=true" line="JAVA_OPTS=\"-Djava.awt.headless=true -Xmx256m -Xms256m -XX:+UseConcMarkSweepGC\""
   notify:
     - restarted tomcat7
 
@@ -106,11 +106,23 @@
   when: tomcat_standalone == False
   notify: restart haproxy
 
-- lineinfile: dest=/etc/haproxy/haproxy.cfg line='    acl is_cyr_oglimmer  hdr_end(host) -i cyr.oglimmer.de' insertbefore='#START-CUSTOM-OF-FRONTEND-CONFIG'
+- name: add haproxy for cyr.oglimmer.de
+  lineinfile: dest=/etc/haproxy/haproxy.cfg line='    acl is_cyr_oglimmer  hdr_end(host) -i cyr.oglimmer.de' insertbefore='#START-CUSTOM-OF-FRONTEND-CONFIG'
   when: tomcat_standalone == False
   notify: restart haproxy
 
-- lineinfile: dest=/etc/haproxy/haproxy.cfg line='    use_backend tomcat          if is_cyr_oglimmer' insertafter='#START-CUSTOM-OF-FRONTEND-CONFIG'
+- name: add haproxy for codeyourrestaurant.de
+  lineinfile: dest=/etc/haproxy/haproxy.cfg line='    acl is_cyr_oglimmer  hdr_end(host) -i codeyourrestaurant.de' insertbefore='#START-CUSTOM-OF-FRONTEND-CONFIG'
+  when: tomcat_standalone == False
+  notify: restart haproxy
+
+- name: add haproxy for codeyourrestaurant.com
+  lineinfile: dest=/etc/haproxy/haproxy.cfg line='    acl is_cyr_oglimmer  hdr_end(host) -i codeyourrestaurant.com' insertbefore='#START-CUSTOM-OF-FRONTEND-CONFIG'
+  when: tomcat_standalone == False
+  notify: restart haproxy
+
+- name: add haproxy backend for is_cyr_oglimmer
+  lineinfile: dest=/etc/haproxy/haproxy.cfg line='    use_backend tomcat          if is_cyr_oglimmer' insertafter='#START-CUSTOM-OF-FRONTEND-CONFIG'
   when: tomcat_standalone == False
   notify: restart haproxy
 

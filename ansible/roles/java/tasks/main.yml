@@ -4,6 +4,7 @@
 
 - name: auto accept oracle jdk license
   shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+  changed_when: False
 
 - name: install java8
   apt: pkg={{ item }} state=installed update_cache={{ apt_update_cache }}
