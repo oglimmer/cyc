@@ -136,13 +136,17 @@ public class DailyStatistics {
 	}
 
 	@PublicAPI
-	public SafeCountMap<String> getMissingIngredientsPerEstablishment(String estName) {
-		if (!(estName instanceof String)) {
+	public SafeCountMap<String> getMissingIngredientsPerEstablishment(Object estName) {
+		String key = null;
+		if (estName instanceof String) {
+			key = (String) estName;
+		} else if (estName instanceof Establishment) {
+			key = ((Establishment) estName).getAddress();
+		} else {
 			company.getGame().getGameRun().getResult().getCreateNotExists(company.getName()).overwriteDebug(
 					"DEBUG OVERWRITTEN!!! You called DailyStatistics.getMissingIngredientsPerEstablishment but parameter wasn't a string.");
 		}
-		CountMap<String> ret = missingIngredientsPerEstablishmentMap.get(estName);
-		return new SafeCountMap<String>(ret);
+		return new SafeCountMap<String>(missingIngredientsPerEstablishmentMap.get(key));
 	}
 
 	private void addStats(DailyStatistics toAdd) {

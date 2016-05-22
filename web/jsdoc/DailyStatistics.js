@@ -127,11 +127,11 @@ function DailyStatistics() {
 	 * Returns an object with food name and food total missing ingredients.
 	 * 
 	 * @method 
-	 * @param {String} establishment address (e.g. "Ross on Wye-1")
-	 * @return {Object} data object per food with method "get".
+	 * @param {Establishment} establishment establishment object. (For backward compatibility an establishment address as string is also allowed)
+	 * @return {} data object per food with method "get".
 	 * @example
 	 * company.establishments.each(function(est) {
-	 *   var data = stats.getMissingIngredientsPerEstablishment(est.address); 
+	 *   var data = stats.getMissingIngredientsPerEstablishment(est); 
 	 *   console.log("Missing bread in "+est.address+" = "+data.get("BREAD")); 
 	 * }); 
 	 */
