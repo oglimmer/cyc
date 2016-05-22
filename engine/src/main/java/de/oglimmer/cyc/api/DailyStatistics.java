@@ -3,10 +3,11 @@ package de.oglimmer.cyc.api;
 import java.util.Map;
 import java.util.Set;
 
-import lombok.Data;
 import de.oglimmer.cyc.util.CountMap;
 import de.oglimmer.cyc.util.PublicAPI;
+import de.oglimmer.cyc.util.SafeCountMap;
 import de.oglimmer.cyc.util.SafeMap;
+import lombok.Data;
 
 @Data
 public class DailyStatistics {
@@ -129,9 +130,9 @@ public class DailyStatistics {
 	}
 
 	@PublicAPI
-	public CountMap<String> getMissingIngredientsPerEstablishment(String estName) {
-		CountMap<String> ret= missingIngredientsPerEstablishmentMap.get(estName);
-		return ret;
+	public SafeCountMap<String> getMissingIngredientsPerEstablishment(String estName) {
+		CountMap<String> ret = missingIngredientsPerEstablishmentMap.get(estName);
+		return new SafeCountMap<String>(ret);
 	}
 
 	private void addStats(DailyStatistics toAdd) {
