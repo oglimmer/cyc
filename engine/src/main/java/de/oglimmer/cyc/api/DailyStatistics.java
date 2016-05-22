@@ -16,6 +16,8 @@ public class DailyStatistics {
 	 * ALL ATTRIBUTES MUST BE addStats() TO THE ADD METHOD AT THE BOTTOM!!!
 	 */
 	
+	private Company company;
+	
 	private CountMap<String> rottenUnitsPerFoodMap = new CountMap<>();
 
 	private CountMap<String> servedUnitsPerMenuMap = new CountMap<>();
@@ -36,6 +38,10 @@ public class DailyStatistics {
 			return new CountMap<String>();
 		}
 	};
+	
+	public DailyStatistics(Company company) {
+		this.company = company;
+	}
 
 	void addServedFood(String address, String name) {
 		servedUnitsPerMenuMap.add(name, 1L);
@@ -131,6 +137,10 @@ public class DailyStatistics {
 
 	@PublicAPI
 	public SafeCountMap<String> getMissingIngredientsPerEstablishment(String estName) {
+		if (!(estName instanceof String)) {
+			company.getGame().getGameRun().getResult().getCreateNotExists(company.getName()).overwriteDebug(
+					"DEBUG OVERWRITTEN!!! You called DailyStatistics.getMissingIngredientsPerEstablishment but parameter wasn't a string.");
+		}
 		CountMap<String> ret = missingIngredientsPerEstablishmentMap.get(estName);
 		return new SafeCountMap<String>(ret);
 	}
@@ -152,7 +162,7 @@ public class DailyStatistics {
 			DailyStatistics toAddStats = toAdd.get(c);
 			DailyStatistics targetStats = target.get(c);
 			if (targetStats == null) {
-				targetStats = new DailyStatistics();
+				targetStats = new DailyStatistics(c);
 				target.put(c, targetStats);
 			}
 			targetStats.addStats(toAddStats);

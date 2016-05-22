@@ -27,7 +27,7 @@ public class DailyStatisticsManagerCityProcessor {
 
 		DailyStatistics ds = collecting.get(company);
 		if (ds == null) {
-			ds = new DailyStatistics();
+			ds = new DailyStatistics(company);
 			collecting.put(company, ds);
 		}
 		return ds;

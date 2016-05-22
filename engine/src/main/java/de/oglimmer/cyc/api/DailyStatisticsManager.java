@@ -25,7 +25,7 @@ public class DailyStatisticsManager {
 	DailyStatistics getLastDay(Company company) {
 		DailyStatistics ds = lastDay.get(company);
 		if (ds == null) {
-			ds = new DailyStatistics();
+			ds = new DailyStatistics(company);
 		}
 		return ds;
 	}
@@ -40,7 +40,7 @@ public class DailyStatisticsManager {
 
 		DailyStatistics ds = currentDay.get(company);
 		if (ds == null) {
-			ds = new DailyStatistics();
+			ds = new DailyStatistics(company);
 			currentDay.put(company, ds);
 		}
 		return ds;
