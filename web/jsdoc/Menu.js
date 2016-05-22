@@ -10,7 +10,7 @@
 function Menu() {
 	
 	/**
-	* Adds an entry to your menu
+	* Adds an entry to your menu. Max 300 entries are allowed.
 	*
 	* @method 
 	* @param {String} name The name of your meal

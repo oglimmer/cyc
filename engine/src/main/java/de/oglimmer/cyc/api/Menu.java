@@ -27,10 +27,10 @@ public class Menu implements Container<MenuEntry>, Iterable<MenuEntry>, IMenu {
 
 	@PublicAPI
 	public void add(String name, String[] ingredients, double price) {
-		if (entries.size() < 363) {
+		if (entries.size() <= 300) {
 			entries.add(new MenuEntry(game, name, ingredients, price));
 		} else {
-			game.getGameRun().getResult().getCreateNotExists(company.getName()).overwriteDebug("DEBUG OVERWRITTEN!!! Max number of menu is 362! Additional menus will be ignored.");
+			game.getGameRun().getResult().getCreateNotExists(company.getName()).overwriteDebug("DEBUG OVERWRITTEN!!! Max number of menu is 300! Additional menus will be ignored.");
 		}
 	}
 
