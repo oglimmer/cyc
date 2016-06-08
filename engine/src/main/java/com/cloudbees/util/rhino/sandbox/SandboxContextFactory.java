@@ -26,6 +26,8 @@ import org.mozilla.javascript.Scriptable;
  */
 public class SandboxContextFactory extends ContextFactory {
 
+	private static final int MAX_TIME_IN_SECS = 15;
+	
 	@Override
 	protected Context makeContext() {
 		Context context = new TimeBoxedContext(this);
@@ -56,12 +58,12 @@ public class SandboxContextFactory extends ContextFactory {
 
 		TimeBoxedContext mcx = (TimeBoxedContext) cx;
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - mcx.startTime > 5 * 1000) {
-			// More then 10 seconds from Context creation time:
+		if (currentTime - mcx.startTime > MAX_TIME_IN_SECS * 1000) {
+			// More then MAX_TIME_IN_SECS seconds from Context creation time:
 			// it is time to stop the script.
 			// Throw Error instance to ensure that script will never
 			// get control back through catch or finally.
-			throw new RuntimeExceededException(5);
+			throw new RuntimeExceededException(MAX_TIME_IN_SECS);
 		}
 	}
 
