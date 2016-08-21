@@ -35,7 +35,7 @@
   failed_when: False 
 
 - name: set user tomcat7 to group cyc-engine
-  user: name=tomcat7 group=cyc-engine groups=tomcat7
+  user: name=tomcat7 group=cyc-engine groups=tomcat7,mail
   when: check_tomcat7_user.rc == 0
 
 - name: create logs
