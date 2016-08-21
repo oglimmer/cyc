@@ -1,13 +1,16 @@
 ---
 
-- name: Installs tomcat7 web server / redis and other dependencies
+- name: Installs tomcat7 web server and other dependencies
   apt: pkg={{ item }} state=installed update_cache={{ apt_update_cache }}
   with_items:
     - tomcat7
     - tomcat7-admin
-    - redis-server
   notify:
     - restarted tomcat7
+
+- name: Installs redis
+  apt: pkg=redis-server state=installed update_cache={{ apt_update_cache }}
+  when: redis
 
 - name: copy server config
   copy: src=server.xml dest=/etc/tomcat7/server.xml
@@ -63,7 +66,8 @@
     - restarted tomcat7
 
 - name: set XMS to XMX
-  lineinfile: dest=/etc/default/tomcat7 regexp="^JAVA_OPTS=\"-Djava.awt.headless=true" line="JAVA_OPTS=\"-Djava.awt.headless=true -Xmx256m -Xms256m -XX:+UseConcMarkSweepGC\""
+  lineinfile: dest=/etc/default/tomcat7 regexp="^JAVA_OPTS=\"-Djava.awt.headless=true" line="JAVA_OPTS=\"-Djava.awt.headless=true -Xmx384m -Xms384m -XX:+UseConcMarkSweepGC\""
+  when: tomcat_standalone
   notify:
     - restarted tomcat7
 
@@ -90,12 +94,14 @@
     - commons-pool2-2.4.2.jar
     - tomcat-redis-session-manager-1.2.jar
     - jedis-2.8.0.jar
+  when: redis
   notify: restarted tomcat7
 
 ## redis config
 
 - name: Set redis tcp-keepalive 60
   lineinfile: dest=/etc/redis/redis.conf regexp='^tcp-keepalive' line='tcp-keepalive 60'
+  when: redis
   notify:
     - restarted redis-server
 
