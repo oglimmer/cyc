@@ -50,9 +50,10 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<SVN-Revision-No>${buildNumber}</SVN-Revision-No>
-							<Creation-Date>${timestamp}</Creation-Date>
-							<CYC-Version>${project.version}</CYC-Version>
+							<git-commit>${buildNumber}</git-commit>
+							<git-url>${project.scm.url}</git-url>
+							<creation-date>${timestamp}</creation-date>
+							<project-version>${project.version}</project-version>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -66,9 +67,10 @@
 					</descriptorRefs>
 					<archive>
 						<manifestEntries>
-							<SVN-Revision-No>${buildNumber}</SVN-Revision-No>
-							<Creation-Date>${timestamp}</Creation-Date>
-							<CYC-Version>${project.version}</CYC-Version>
+							<git-commit>${buildNumber}</git-commit>
+							<git-url>${project.scm.url}</git-url>
+							<creation-date>${timestamp}</creation-date>
+							<project-version>${project.version}</project-version>
 						</manifestEntries>
 					</archive>
 				</configuration>
@@ -96,17 +98,17 @@
 			<groupId>rhino</groupId>
 			<artifactId>js</artifactId>
 			<version>1.7R2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
-			<scope>provided</scope>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>org.ektorp</groupId>
 			<artifactId>org.ektorp</artifactId>
 			<version>1.2.2</version>
+			<exclusions>
+				<exclusion>
+          			<groupId>org.slf4j</groupId>
+  					<artifactId>slf4j-api</artifactId>
+        		</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>de.oglimmer.cyc</groupId>

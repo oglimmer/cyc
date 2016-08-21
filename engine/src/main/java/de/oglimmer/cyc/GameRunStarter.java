@@ -77,9 +77,9 @@ public class GameRunStarter {
 				String manifestPath = classPath.substring(0, classPath.lastIndexOf('!') + 1) + "/META-INF/MANIFEST.MF";
 				Manifest manifest = new Manifest(new URL(manifestPath).openStream());
 				Attributes attr = manifest.getMainAttributes();
-				commit = attr.getValue("SVN-Revision-No");
-				version = attr.getValue("CYC-Version");
-				long time = Long.parseLong(attr.getValue("Creation-Date"));
+				commit = attr.getValue("git-commit");
+				version = attr.getValue("project-version");
+				long time = Long.parseLong(attr.getValue("creation-date"));
 				creationDate = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
 						.format(new Date(time));
 			} catch (IOException e) {
