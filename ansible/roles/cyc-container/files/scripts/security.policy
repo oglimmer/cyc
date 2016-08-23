@@ -61,8 +61,6 @@ grant codeBase "file:${cyc.home}/engine-container-jar-with-dependencies.jar" {
 	permission java.net.NetPermission "getNetworkInformation";
 	permission java.lang.management.ManagementPermission "monitor";
 
-	permission java.io.FilePermission "${cyc.home}", "read";
-	permission java.io.FilePermission "${cyc.home}/logs/-", "read,write";
 	permission java.net.SocketPermission "127.0.0.1:-", "accept,resolve";
 	permission java.net.SocketPermission "localhost", "resolve,listen";
 	permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";
@@ -142,6 +140,11 @@ grant {
 	permission java.util.PropertyPermission "http.proxyHost", "read";
 	permission java.util.PropertyPermission "http.proxyPort", "read";
 	permission java.util.PropertyPermission "cyc.properties", "read";
+
+	permission java.util.PropertyPermission "cyc.home", "read";
+	permission java.io.FilePermission "${cyc.home}", "read";
+	permission java.io.FilePermission "${cyc.home}/logs/-", "read,write";
+
 	// needed as OpeningHours is running multi-threaded	
 	permission java.lang.RuntimePermission "modifyThread";
 	// needed for "version"
