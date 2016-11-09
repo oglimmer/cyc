@@ -26,3 +26,12 @@
 
 - name: update engine
   cyc: src=/tmp/cyr##001.war dest=/var/lib/tomcat7/webapps dtype=web
+  when: tomcat_standalone
+
+- name: create directory (webapps_cyr) if not tomcat_standalone
+  file: path=/var/lib/tomcat7/webapps_cyr state=directory mode=0755 owner=tomcat7 group=tomcat7
+  when: not tomcat_standalone
+
+- name: update engine
+  cyc: src=/tmp/cyr##001.war dest=/var/lib/tomcat7/webapps_cyr dtype=web targetname=ROOT
+  when: not tomcat_standalone

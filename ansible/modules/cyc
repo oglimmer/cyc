@@ -10,9 +10,9 @@ import subprocess
 
 def destName(destDir, version, dtype):
     if dtype == 'web':
-        return destDir+"/cyr##"+version+".war"
+        return destDir+"/"+targetname+"##"+version+".war"
     if dtype == 'engine':
-        return destDir+"/cyc"+version+"/engine-jar-with-dependencies.jar"
+        return destDir+"/"+targetname+version+"/engine-jar-with-dependencies.jar"
     return -1
 def execCalcHash(fileName, dtype):
     if not os.path.exists(fileName):
@@ -30,7 +30,6 @@ def execCalcHash(fileName, dtype):
     os.remove(tmpFileName)
     return result
 
-
 args_file = sys.argv[1]
 args_data = file(args_file).read()
 arguments = shlex.split(args_data)
@@ -45,17 +44,24 @@ for arg in arguments:
             dest=value
         if key == "dtype":
             dtype=value
+        if key == "targetname":
+            targetname=value
+
+if dtype == 'engine' && targetname is None:
+    targetname = "cyc"
+if dtype == 'web' && targetname is None:
+    targetname = "cyr"
 
 latest_version=000
 if os.path.exists(dest):
     for filename in os.listdir (dest):
         if dtype == 'engine':
-            if filename.startswith("cyc"):
+            if filename.startswith(targetname):
                 this_version=int(filename[3:])
                 if this_version>latest_version:
                     latest_version=this_version
         if dtype == 'web':
-            if filename.startswith("cyr") and os.path.isfile(dest+"/"+filename):
+            if filename.startswith(targetname) and os.path.isfile(dest+"/"+filename):
                 this_version=int(filename[5:-4])
                 if this_version>latest_version:
                     latest_version=this_version
@@ -71,11 +77,12 @@ if resultA != resultB:
     if dtype == 'engine':
         os.makedirs(dest+"/tmp-deploy")
         shutil.copy2(src, dest+"/tmp-deploy")
-        os.rename(dest+"/tmp-deploy", dest+"/cyc"+next_version)
+        os.rename(dest+"/tmp-deploy", dest+"/"+targetname+next_version)
     if dtype == 'web':
-        shutil.copy2(src, dest+"/cyr##"+next_version+".war")
+        shutil.copy2(src, dest+"/"+targetname+"##"+next_version+".war")
 
 print json.dumps({
+    "targetname" : targetname,
     "dtype" : dtype,
     "src" : src,
     "dest" : dest,
