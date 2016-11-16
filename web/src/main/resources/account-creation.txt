@@ -4,7 +4,7 @@ you have registered yourself for codeyourrestaurant.com.
 
 To confirm your email address please click the following link within the next 48 hours:
 
-http://codeyourrestaurant.com/cyr/RegisterConfirm.action?confirmId=%s
+http://codeyourrestaurant.com/RegisterConfirm.action?confirmId=%s
 
 
 
