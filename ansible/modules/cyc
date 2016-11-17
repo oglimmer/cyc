@@ -30,6 +30,7 @@ def execCalcHash(fileName, dtype):
     os.remove(tmpFileName)
     return result
 
+targetname = None
 args_file = sys.argv[1]
 args_data = file(args_file).read()
 arguments = shlex.split(args_data)
@@ -47,9 +48,9 @@ for arg in arguments:
         if key == "targetname":
             targetname=value
 
-if dtype == 'engine' && targetname is None:
+if dtype == 'engine' and targetname is None:
     targetname = "cyc"
-if dtype == 'web' && targetname is None:
+if dtype == 'web' and targetname is None:
     targetname = "cyr"
 
 latest_version=000
