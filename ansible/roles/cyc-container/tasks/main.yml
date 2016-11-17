@@ -53,6 +53,7 @@
 
 - name: copy start/stop script
   copy: src=scripts/cyc-engine-container dest=/etc/init.d/cyc-engine-container mode=0755
+  register: copyStartStopScript
 
 - name: create security.policy
   copy: src=scripts/security.policy dest=/usr/local/cyc-engine-container/security.policy
@@ -88,6 +89,10 @@
   when: couchdb_host != "localhost"
   notify:
     - restart cyc-engine-container
+
+- name: enable systemd for cyc-engine-container
+  shell: systemctl enable cyc-engine-container.service
+  when: copyStartStopScript.changed
 
 - name: auto start
   service: name=cyc-engine-container enabled=yes
