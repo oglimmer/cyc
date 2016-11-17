@@ -208,13 +208,8 @@ elif [ "$REMOTE_BUILD" == "YES" ]; then
 	. ansible/$REMOTE_ENVIRONMENT_NAME/settings.sh
 
 	if [ "$VAGRANT" = "YES" ] || [ "$VAGRANT" = "UP" ]; then
-		# prepare insecure ssh
-		rm -f /tmp/vagrant.key 
-		curl --silent https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant >/tmp/vagrant.key		              
-		chmod 400 /tmp/vagrant.key 
 		export ANSIBLE_HOST_KEY_CHECKING=False
 		SSHUSER=vagrant
-		SSHKEY="--private-key=/tmp/vagrant.key"
 	fi
 
 	if [ "$VAGRANT" = "UP" ]; then
