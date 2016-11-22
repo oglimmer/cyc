@@ -180,7 +180,9 @@ if [ "$LOCAL_BUILD" == "YES" ]; then
 			cp engine-container/target/engine-container-jar-with-dependencies.jar $CYC_ENGINE_CONTAINER			
 			mkdir -p $CYC_ENGINE_CONTAINER/logs
 			cp ansible/roles/cyc-container/files/scripts/run.sh $CYC_ENGINE_CONTAINER
-			cp ansible/roles/cyc-container/files/scripts/jmxtrans.xml $CYC_ENGINE_CONTAINER
+			if [ -f ansible/roles/cyc-container/files/scripts/jmxtrans.xml ]; then
+				cp ansible/roles/cyc-container/files/scripts/jmxtrans.xml $CYC_ENGINE_CONTAINER
+			fi
 			cp ansible/roles/cyc-container/files/scripts/security.policy $CYC_ENGINE_CONTAINER	
 			chmod 777 $CYC_ENGINE_CONTAINER/run.sh
 		fi
