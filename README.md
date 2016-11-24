@@ -39,6 +39,10 @@ The game is installed at <a href="http://cyr.oglimmer.de">cyr.oglimmer.de</a>. T
 
 3.) browse http://192.168.66.2 for single-vm or http://192.168.66.3 for multi-vm
 
+(C) HOW TO INSTALL & DEPLOY VIA DOCKER
+--------------------------------------
+
+1.) see docker directory (this is for demonostration purposes only)
 
 Java -D variables
 -----------------
