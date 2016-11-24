@@ -1,6 +1,7 @@
 package de.oglimmer.cyc.api;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.oglimmer.cyc.DataBackendMemory;
@@ -9,6 +10,11 @@ import de.oglimmer.cyc.util.CountMap;
 
 public class FoodUnitTest {
 
+	@Before
+	public void setup() {
+		Thread.currentThread().setName("TestRun");
+	}
+	
 	@Test
 	public void testIncDay() {
 		Game game = new Game(Mode.FULL, DataBackendMemory.INSTANCE);
