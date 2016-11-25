@@ -1,4 +1,4 @@
-FROM n3ziniuka5/ubuntu-oracle-jdk
+FROM openjdk:8-jdk
 
 MAINTAINER Oli Zimpasser <oglimmer@gmail.com>
 
