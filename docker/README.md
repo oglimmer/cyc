@@ -1,15 +1,10 @@
-USAGE
+RunAndDeployInDocker
+====================
+
+Demonstrates how to run cyc in 3 docker VMs, while the build process is done in a separate docker VM.
+
+Build
 =====
 
-1.) Install docker
+Demonstrates how to build cyc. Doesn't try to deploy it.
 
-2.) $ ./run.sh
-
-3.) Open a browser at http://&lt;host&gt;:8080/cyr
-
-UNINSTALL
-=========
-
-$ ./run.sh clean 
-
-to remove all docker instances and the network
