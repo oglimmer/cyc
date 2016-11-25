@@ -1,6 +1,6 @@
 #!/bin/sh
 
-jsdoc -v 1>/dev/null
+jsdoc --help 1>/dev/null
 if  [ $? -eq 0 ]; then
 	npm install ink-docstrap
 	rm -rf ../src/main/webapp/apidocs/* 
