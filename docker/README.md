@@ -8,3 +8,8 @@ Build
 
 Demonstrates how to build cyc. Doesn't try to deploy it.
 
+Build-alpine
+============
+
+Demonstrates how to build cyc via an alpine image. Doesn't try to deploy it.
+
