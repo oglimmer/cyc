@@ -210,8 +210,7 @@ elif [ "$REMOTE_BUILD" == "YES" ]; then
 	. ansible/$REMOTE_ENVIRONMENT_NAME/settings.sh
 
 	if [ "$VAGRANT" = "YES" ] || [ "$VAGRANT" = "UP" ]; then
-		export ANSIBLE_HOST_KEY_CHECKING=False
-		SSHUSER=vagrant
+		export ANSIBLE_HOST_KEY_CHECKING=False		
 	fi
 
 	if [ "$VAGRANT" = "UP" ]; then

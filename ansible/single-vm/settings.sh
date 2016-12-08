@@ -1,5 +1,5 @@
-VAGRANT=YES
-SSHUSER=vagrant
+VAGRANT="${VAGRANT:-YES}"
+SSHUSER=ubuntu
 SSHSUDO="--sudo"
 
 if [ ! -e ~/.ssh/id_rsa.pub ]; then
