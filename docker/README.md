@@ -13,3 +13,7 @@ Build-alpine
 
 Demonstrates how to build cyc via an alpine image. Doesn't try to deploy it.
 
+BuildInDockerAndDeployViaAnsible
+================================
+
+Demonstrates how to build and deploy cyc to Digital Ocean.

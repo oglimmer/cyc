@@ -8,4 +8,4 @@ USAGE
 
 docker build -t codeyourrestaurant/simplebuild .
 
-docker run -rm codeyourrestaurant/simplebuild
+docker run --rm codeyourrestaurant/simplebuild
