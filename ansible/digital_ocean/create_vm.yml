@@ -2,18 +2,37 @@
 - hosts: localhost
   connection: local
   tasks:
+    - name: Create tmp ssh key
+      digital_ocean:
+        state: present
+        command: ssh
+        name: tmp_ssh_key
+        ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      register: key_creation
+      failed_when: false
+    - name: Default to pre-defined keys if creation failed
+      set_fact: 
+        key_creation:
+          ssh_key:
+            id: "94992,94782"
+      when: key_creation.ssh_key is undefined
     - name: create (or get) a cloud VM
       #digital_ocean support "id" if you want to refer to an existing droplet
-      digital_ocean: >        
-        ssh_key_ids=94992,94782
-        state=present
-        command=droplet
-        name=cyc-vm-1
-        size_id=2gb
-        region_id=fra1
-        image_id=ubuntu-16-04-x64
-        wait_timeout=500
+      digital_ocean: 
+        ssh_key_ids: "{{ key_creation.ssh_key.id }}"
+        state: present
+        command: droplet
+        name: cyc-vm-1
+        size_id: 2gb
+        region_id: fra1
+        image_id: ubuntu-16-04-x64
+        wait_timeout: 500
       register: new_droplet
+    - name: Delete tmp ssh key
+      digital_ocean:
+        state: absent
+        command: ssh
+        name: tmp_ssh_key        
     - debug: msg="ID is {{ new_droplet.droplet.id }}"
     - debug: msg="IP is {{ new_droplet.droplet.ip_address }}"
     - name: create inventory file      
