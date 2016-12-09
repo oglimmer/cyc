@@ -8,4 +8,4 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git npm curl git maven net
 
 WORKDIR "/home/build/cyc"
 
-ENTRYPOINT ["./install.sh", "-r", "digital_ocean", "site"]
+ENTRYPOINT ["./install.sh"]
