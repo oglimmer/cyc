@@ -20,8 +20,8 @@ public class GuestRuleImpl implements de.oglimmer.cyc.api.IGuestRule {
 			def ind =(int)(c.getMenu().size() * Math.random());
 			def foodSel = c.getMenu().get(ind);
 
-			def base = basePerc * foodSel.getValueForMoneyScore();
-			def deli = foodSel.getDeliciousness();
+			def base = basePerc * foodSel.getSecret().getValueForMoneyScore();
+			def deli = foodSel.getSecret().getDeliciousness();
 			base += deli;
 
 			if (Math.random() * 100 < base) {

@@ -3,10 +3,10 @@ FROM ubuntu:16.04
 
 MAINTAINER Oli Zimpasser <oglimmer@gmail.com>
 
-ENV TOMCAT_VERSION 7.0.73
+ENV TOMCAT_VERSION 7.0.90
 
 # Set locales
-RUN locale-gen en_US.UTF-8
+# RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 

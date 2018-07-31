@@ -10,7 +10,7 @@ USAGE
 
 2.) $ ./run.sh
 
-3.) Open a browser at http://&lt;host&gt;:8080/cyr
+3.) Open a browser at http://localhost:8080/cyr
 
 UNINSTALL
 =========
