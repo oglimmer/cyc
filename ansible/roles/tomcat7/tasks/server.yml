@@ -33,7 +33,7 @@
 - name: /etc/authbind find 80
   stat: path=/etc/authbind/byport/80
   register: p  
-- name: AUTHBIND creation
+- name: AUTHBIND creation (1)
   file: path=/etc/authbind/byport/80 state=touch owner=tomcat7 mode=0500
   when: p.stat.exists is defined and not p.stat.exists
 
@@ -41,9 +41,9 @@
   stat: path=/etc/authbind/byport/443
   register: p
   when: tomcat_standalone_https
-- name: AUTHBIND creation
+- name: AUTHBIND creation (2)
   file: path=/etc/authbind/byport/443 state=touch owner=tomcat7 mode=0500
-  when: p.stat.exists is defined and not p.stat.exists and tomcat_standalone_https
+  when: tomcat_standalone_https and p.stat.exists is defined and not p.stat.exists
 
 
 - name: Ubuntu 14.04 hangs on tomcat deployments when the default random generator is used
