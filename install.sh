@@ -16,12 +16,13 @@ function cleanTransferDirectories()
 # SECTION: HELP / USAGE
 #
 
-usage="$(basename "$0") [-c] [-t] [-v] [-s] [-l|-r remote-environment] type - deploys and/or releases cyc
+usage="$(basename "$0") [-c] [-t] [-v] [-s] [-l|-k|-r remote-environment] type - deploys and/or releases cyc
 
 where:
     -h  shows this help text
     -t  tag: created a new TAG in git and uses this tag
     -l  local: builds and deploys to local
+    -k  all local: set ups infrastructure, builds, deploys and runs
     -r  remote: builds and deploys to a remote host
     -v  verbose: enables verbose output
     -s  skip build: for -l and -r skips the build
@@ -35,7 +36,7 @@ where:
 
 cd ${0%/*}
 
-while getopts ':htlr:vsc' option; do
+while getopts ':htlkr:vsc' option; do
   PARAM_GIVEN=YES
   case "$option" in
     h) echo "$usage"
@@ -45,6 +46,9 @@ while getopts ':htlr:vsc' option; do
        ;;
     l) LOCAL_BUILD=YES
        ;;
+    k) LOCAL_BUILD=YES
+	   LOCAL_INFRA_SETUP=YES
+	   ;;
     r) REMOTE_BUILD=YES
 	   REMOTE_ENVIRONMENT_NAME=$OPTARG
 	   if [ -z "$REMOTE_ENVIRONMENT_NAME" ]; then
@@ -90,12 +94,15 @@ if [ "$CLEAN" == "YES" ]; then
 	cleanTransferDirectories
 	rm -rf ansible/single-vm/.vagrant
 	rm -rf ansible/multi-vm/.vagrant
+	rm -rf localrun
 fi
 
 if [ -z "$TYPE_PARAM" ]; then
 	echo "Missing type. Install aborted."
 	exit 1
 fi
+
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
 if [ "$CREATE_TAG" == "YES" ]; then
 
@@ -137,6 +144,58 @@ if [ "$LOCAL_BUILD" == "YES" ]; then
 
 	if [ "$SKIP_BUILD" != "YES" ]; then
 		mvn clean package || exit 1
+	fi
+
+	if [ "$LOCAL_INFRA_SETUP" == "YES" ]; then
+
+		trap cleanup 2
+
+		cleanup()
+		{
+			echo "****************************************************************"
+			echo "Stopping CouchDB, Tomcat and CYC-Container.....please wait...."
+			echo "****************************************************************"
+			docker rm -f $containerID
+			$CYC_WEBAPPS/../bin/shutdown.sh
+			exit 0
+		}
+
+		# vars
+		TOMCAT_VERSION=7.0.90
+		TOMCAT_URL=http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+		CYC_WEBAPPS=./localrun/apache-tomcat-$TOMCAT_VERSION/webapps
+		CYC_ENGINE_CONTAINER=./localrun
+
+		# check for dependencies
+		curl --version 1>/dev/null || exit 1
+		docker --version 1>/dev/null || exit 1
+
+		# prepare env
+		mkdir -p localrun
+		cd localrun
+
+		# set up couchdb and its views
+		containerID=$(docker run -d -p 5984:5984 couchdb:1.7)
+		while [ "$(curl --write-out %{http_code} --silent --output /dev/null http://localhost:5984)" != "200" ]; do
+			echo "waiting for couchdb..."
+			sleep 1
+		done
+		curl -X PUT http://localhost:5984/cyc
+		curl -X POST -H "Content-Type: application/json" -d @../persistence/src/couchdb/_design-GameRun-curl.json http://localhost:5984/cyc
+		curl -X POST -H "Content-Type: application/json" -d @../persistence/src/couchdb/_design-GameWinners-curl.json http://localhost:5984/cyc
+		curl -X POST -H "Content-Type: application/json" -d @../persistence/src/couchdb/_design-User-curl.json http://localhost:5984/cyc
+
+		# download tomcat
+		if [ ! -f "/$TMPDIR/apache-tomcat-$TOMCAT_VERSION.tar" ]; then
+			curl -s $TOMCAT_URL | gzip -d >/$TMPDIR/apache-tomcat-$TOMCAT_VERSION.tar
+		fi
+		# extract tomcat
+		if [ ! -d "./apache-tomcat-$TOMCAT_VERSION" ]; then
+			tar -xf /$TMPDIR/apache-tomcat-$TOMCAT_VERSION.tar -C ./
+		fi
+
+		# build and install via install.sh
+		cd ../
 	fi
 
 	if [ "$TYPE_PARAM" == "web" ] || [ "$TYPE_PARAM" == "site" ]; then
@@ -204,6 +263,16 @@ if [ "$LOCAL_BUILD" == "YES" ]; then
 		fi
 
 	fi
+
+
+	if [ "$LOCAL_INFRA_SETUP" == "YES" ]; then
+			# start tomcat
+		$CYC_WEBAPPS/../bin/startup.sh
+
+		# start engine-container (blocking)
+		CYC_ENGINE_CONTAINER=$CYC_ENGINE_CONTAINER $CYC_ENGINE_CONTAINER/run.sh		
+	fi
+
 
 elif [ "$REMOTE_BUILD" == "YES" ]; then
 

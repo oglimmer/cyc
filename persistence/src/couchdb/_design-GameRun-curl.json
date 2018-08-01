@@ -1,0 +1,13 @@
+{
+  "_id": "_design/GameRun",
+  "language": "javascript",
+  "views": {
+    "by_result": {
+      "map": "function(doc) { if(doc.result) {emit(doc.startTime, doc._id)} }"
+    },
+    "count": {
+      "map": "function(doc) {if(doc.result) { emit(null, 1);}}",
+      "reduce": "function(keys, values, combine) { return sum(values); }"
+    }
+  }
+}

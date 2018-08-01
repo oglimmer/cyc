@@ -1,0 +1,9 @@
+{
+  "_id": "_design/GameWinners",
+  "language": "javascript",
+  "views": {
+    "all": {
+      "map": "function(doc) {\n\tif(doc.t==1) {\n  \t\temit(doc.startTime, doc);\n\t}\n}"
+    }
+  }
+}

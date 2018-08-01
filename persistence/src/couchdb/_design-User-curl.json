@@ -1,0 +1,15 @@
+{
+  "_id": "_design/User",
+  "language": "javascript",
+  "views": {
+    "by_username": {
+      "map": "function(doc) { if(doc.username) {emit(doc.username.toLowerCase(), doc._id)} }"
+    },
+    "by_email": {
+      "map": "function(doc) { if(doc.email) {emit(doc.email.toLowerCase(), doc._id)} }"
+    },
+    "by_openSource": {
+      "map": "function(doc) { if(doc.username && doc.openSource==1) {emit(doc.username.toLowerCase(), doc._id)} }"
+    }
+  }
+}
