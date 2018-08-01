@@ -25,9 +25,9 @@ The game is installed at <a href="https://codeyourrestaurant.com">codeyourrestau
 (B) HOW TO INSTALL & DEPLOY VIA VAGRANT/ANSIBLE
 -----------------------------------------------
 
-1.) install Vagrant and Ansible (and of course java,maven,npm for the build)
+1.) install Vagrant, VirtualBox and Ansible (and of course java,maven,npm for the build)
 
-2.) execute install.sh -r [single-vm|multi-vm] site
+2.) execute "VAGRANT=UP install.sh -r [single-vm|multi-vm] site"
 
 3.) browse http://192.168.66.2 for single-vm or http://192.168.66.3 for multi-vm
 
@@ -66,3 +66,5 @@ It can also create release-tags on git.
 Set CYC_ENGINE_CONTAINER to an empty directory of your choice.
 
 Set CYC_WEBAPPS to the webapps directory of a Servlet 3.0 compliant web container. This script uses Tomcat's (>= 7.x) parallel deployment feature.
+
+Set VAGRANT=UP if the remote command (-r) should automatically spin up a virtualbox VM via vagrant.
