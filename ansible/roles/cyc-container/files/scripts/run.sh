@@ -47,5 +47,9 @@ else
 	XMX=512M
 fi
 
-$_java -Xms$XMX -Xmx$XMX $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=/usr/local/cyc-engine-container/security.policy \
-    -Dcyc.home=/usr/local/cyc-engine-container -jar /usr/local/cyc-engine-container/engine-container-jar-with-dependencies.jar
+if [ -z "$CYC_ENGINE_CONTAINER" ]; then
+    CYC_ENGINE_CONTAINER=/usr/local/cyc-engine-container
+fi  
+
+$_java -Xms$XMX -Xmx$XMX $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=$CYC_ENGINE_CONTAINER/security.policy \
+    -Dcyc.home=$CYC_ENGINE_CONTAINER -jar $CYC_ENGINE_CONTAINER/engine-container-jar-with-dependencies.jar

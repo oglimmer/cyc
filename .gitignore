@@ -30,3 +30,4 @@ scripts/*.json
 docker/BuildInDockerAndDeployViaAnsible/.m2
 docker/BuildInDockerAndDeployViaAnsible/repos
 docker/BuildInDockerAndDeployViaAnsible/ssh
+localrun/
