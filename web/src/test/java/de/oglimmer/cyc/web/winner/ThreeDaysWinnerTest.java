@@ -19,10 +19,10 @@ import de.oglimmer.cyc.web.winner.WinnerResult;
 import de.oglimmer.cyc.web.winner.WinnerStartEndDate;
 import de.oglimmer.cyc.web.winner.WinnerHistoryCalculation;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(CouchDbUtil.class)
+//@RunWith(PowerMockRunner.class)
+//@PrepareForTest(CouchDbUtil.class)
 public class ThreeDaysWinnerTest {
-
+/*
 	private static WinnerStartEndDate startEndDate = new WinnerStartEndDate();
 	
 	@BeforeClass
@@ -160,4 +160,5 @@ public class ThreeDaysWinnerTest {
 			}
 		};
 	}
+*/
 }

@@ -19,8 +19,8 @@ if [[ "$_java" ]]; then
     	OPTS="$OPTS"
         #echo version is more than 1.8
     else         
-    	OPTS="$OPTS -XX:MaxPermSize=256M"
-        #echo version is less than 1.8
+    	OPTS="$OPTS -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC "
+        #echo version is equal less than 1.8
     fi
 fi
 
@@ -51,5 +51,5 @@ if [ -z "$CYC_ENGINE_CONTAINER" ]; then
     CYC_ENGINE_CONTAINER=/usr/local/cyc-engine-container
 fi  
 
-$_java -Xms$XMX -Xmx$XMX $OPTS -XX:+UseConcMarkSweepGC -Djava.security.policy=$CYC_ENGINE_CONTAINER/security.policy \
+$_java -Xms$XMX -Xmx$XMX $OPTS -Djava.security.policy=$CYC_ENGINE_CONTAINER/security.policy \
     -Dcyc.home=$CYC_ENGINE_CONTAINER -jar $CYC_ENGINE_CONTAINER/engine-container-jar-with-dependencies.jar

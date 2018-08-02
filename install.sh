@@ -102,7 +102,6 @@ if [ -z "$TYPE_PARAM" ]; then
 	exit 1
 fi
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
 if [ "$CREATE_TAG" == "YES" ]; then
 
