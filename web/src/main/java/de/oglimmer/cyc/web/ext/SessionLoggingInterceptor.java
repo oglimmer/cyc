@@ -22,7 +22,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
 @Intercepts(LifecycleStage.HandlerResolution)
 public class SessionLoggingInterceptor implements Interceptor {
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	private LoadingCache<String, String> userRecordCache = CacheBuilder.newBuilder()
 			.expireAfterWrite(5, TimeUnit.MINUTES).build(new CacheLoader<String, String>() {

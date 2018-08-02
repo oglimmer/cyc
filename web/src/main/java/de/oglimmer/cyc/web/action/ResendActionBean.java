@@ -22,7 +22,7 @@ import net.sourceforge.stripes.action.Resolution;
 public class ResendActionBean extends BaseAction {
 	private static final String POST = "/WEB-INF/jsp/registerPost.jsp";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Getter
 	@Setter

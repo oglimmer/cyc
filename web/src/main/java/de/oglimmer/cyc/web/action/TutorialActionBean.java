@@ -24,7 +24,7 @@ public class TutorialActionBean extends BaseAction {
 
 	private static final String VIEW = "/WEB-INF/jsp/tutorial.jsp";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Getter
 	@Setter

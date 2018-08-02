@@ -34,7 +34,7 @@ public class PortalActionBean extends BaseAction {
 
 	private static final String VIEW = "/WEB-INF/jsp/portal.jsp";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Getter
 	@Setter

@@ -33,7 +33,7 @@ public class GoogleLoginActionBean extends BaseAction {
 
 	private static final String GOOGLE_ME_URL = " https://www.googleapis.com/plus/v1/people/me?access_token=";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@DefaultHandler
 	public Resolution show() {

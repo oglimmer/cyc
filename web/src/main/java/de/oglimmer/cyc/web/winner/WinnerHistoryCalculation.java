@@ -28,7 +28,7 @@ public enum WinnerHistoryCalculation {
 	private GameWinnersDao dao;
 
 	private WinnerHistoryCalculation() {
-		CouchDbConnector database = CouchDbUtil.getDatabase();
+		CouchDbConnector database = CouchDbUtil.INSTANCE.getDatabase();
 		if (database != null) {
 			dao = new GameWinnersCouchDb(database);
 		}

@@ -24,7 +24,7 @@ public class GameListener implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 		GameScheduler.INSTANCE.stop();
-		CouchDbUtil.shutdown();
+		CouchDbUtil.INSTANCE.shutdown();
 		WebContainerProperties.INSTANCE.shutdown();
 		EmailService.INSTANCE.shutdown();
 	}

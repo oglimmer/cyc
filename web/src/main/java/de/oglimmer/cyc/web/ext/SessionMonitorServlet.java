@@ -46,7 +46,7 @@ public class SessionMonitorServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

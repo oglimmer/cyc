@@ -27,9 +27,9 @@ public class DataBackendCouchDB implements IDataBackend {
 	private DataBackendCouchDB() {
 	}
 
-	private GameRunDao gameRunDao = new GameRunCouchDb(CouchDbUtil.getDatabase());
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
-	private GameWinnersDao gameWinnersDao = new GameWinnersCouchDb(CouchDbUtil.getDatabase());
+	private GameRunDao gameRunDao = new GameRunCouchDb(CouchDbUtil.INSTANCE.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
+	private GameWinnersDao gameWinnersDao = new GameWinnersCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	public List<User> allPlayers() {
 		List<User> userList = new ArrayList<>();

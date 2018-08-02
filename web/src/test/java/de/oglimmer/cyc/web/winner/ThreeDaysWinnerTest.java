@@ -7,28 +7,20 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import de.oglimmer.cyc.dao.couchdb.CouchDbUtil;
 import de.oglimmer.cyc.model.GameWinners;
-import de.oglimmer.cyc.web.winner.WinnerResult;
-import de.oglimmer.cyc.web.winner.WinnerStartEndDate;
-import de.oglimmer.cyc.web.winner.WinnerHistoryCalculation;
 
-//@RunWith(PowerMockRunner.class)
-//@PrepareForTest(CouchDbUtil.class)
 public class ThreeDaysWinnerTest {
-/*
+
 	private static WinnerStartEndDate startEndDate = new WinnerStartEndDate();
-	
+
 	@BeforeClass
 	public static void prepare() {
-		PowerMockito.mockStatic(CouchDbUtil.class);
-		Mockito.when(CouchDbUtil.getDatabase()).thenReturn(null);
+		CouchDbUtil c = Mockito.mock(CouchDbUtil.class);
+		Mockito.when(c.getDatabase()).thenReturn(null);
+		CouchDbUtil.INSTANCE = c;
 		startEndDate.setEnd(new Date());
 	}
 
@@ -160,5 +152,5 @@ public class ThreeDaysWinnerTest {
 			}
 		};
 	}
-*/
+
 }

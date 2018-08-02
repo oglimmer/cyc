@@ -39,7 +39,7 @@ import net.sourceforge.stripes.validation.ValidationMethod;
 public class LandingActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/landing.jsp";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Validate(required = true)
 	@Getter

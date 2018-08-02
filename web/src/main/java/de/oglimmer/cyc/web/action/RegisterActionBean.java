@@ -40,7 +40,7 @@ public class RegisterActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/register.jsp";
 	private static final String POST = "/WEB-INF/jsp/registerPost.jsp";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Validate(required = true)
 	@Getter

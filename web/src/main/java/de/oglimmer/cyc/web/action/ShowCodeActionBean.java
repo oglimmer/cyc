@@ -19,7 +19,7 @@ public class ShowCodeActionBean extends BaseAction {
 
 	private static final String VIEW = "/WEB-INF/jsp/showCode.jsp";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Getter
 	@Setter

@@ -24,7 +24,7 @@ import net.sourceforge.stripes.action.Resolution;
 public class RegisterConfirmActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/registerConfirm.jsp";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Getter
 	@Setter

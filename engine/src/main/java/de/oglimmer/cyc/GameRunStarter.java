@@ -97,7 +97,7 @@ public class GameRunStarter {
 
 	private Map<String, Integer> findBankruptPlayers() {
 		Map<String, Integer> playersToRemove = new HashMap<>();
-		GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
+		GameRunDao dao = new GameRunCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 		List<GameRun> runHistory = dao.findAllGameRun(IDataBackend.ROUNDS_TO_BE_EXCLUDED);
 		for (GameRun gr : runHistory) {
 			for (String parti : gr.getParticipants()) {

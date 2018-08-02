@@ -25,8 +25,8 @@ import net.sourceforge.stripes.action.Resolution;
 @DoesNotRequireLogin
 public class GameRunDetailsActionBean extends BaseAction {
 
-	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.INSTANCE.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Getter
 	private GameResult result;

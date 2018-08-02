@@ -27,7 +27,7 @@ import net.sourceforge.stripes.validation.ValidationMethod;
 public class PasswordForgottenActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/passwordForgotten.jsp";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Validate(required = true)
 	@Getter

@@ -21,8 +21,8 @@ import lombok.SneakyThrows;
 
 public class GameRunStats implements GameRunStatsMBean {
 
-	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.getDatabase());
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private GameRunDao dao = new GameRunCouchDb(CouchDbUtil.INSTANCE.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	private enum CACHE_TYPE {
 		TOTAL_USERS, ACTIVE_USERS, INACTIVE_USERS, LAST_FULLRUN_TIME, SHOW_CODE_USERS

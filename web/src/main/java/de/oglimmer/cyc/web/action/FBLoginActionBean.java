@@ -43,7 +43,7 @@ public class FBLoginActionBean extends BaseAction {
 	private static final String GRAPH_FACEBOOK_ME_URL = "https://graph.facebook.com/me?access_token=";
 	private static final String HASH_ALGO = "HmacSHA256";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@DefaultHandler
 	public Resolution show() {

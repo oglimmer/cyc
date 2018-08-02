@@ -30,7 +30,7 @@ import net.sourceforge.stripes.validation.ValidationMethod;
 public class EditProfileActionBean extends BaseAction {
 	private static final String VIEW = "/WEB-INF/jsp/editProfile.jsp";
 
-	private UserDao userDao = new UserCouchDb(CouchDbUtil.getDatabase());
+	private UserDao userDao = new UserCouchDb(CouchDbUtil.INSTANCE.getDatabase());
 
 	@Validate(required = true)
 	@Getter

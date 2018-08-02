@@ -11,15 +11,13 @@ import de.oglimmer.cyc.util.PersistenceProperties;
 
 public class CouchDbUtil {
 
+	public static CouchDbUtil INSTANCE = new CouchDbUtil();
+
+	private HttpClient httpClient;
+	private CouchDbInstance dbInstance;
+	private CouchDbConnector db;
+
 	private CouchDbUtil() {
-		// no code here
-	}
-
-	private static HttpClient httpClient;
-	private static CouchDbInstance dbInstance;
-	private static CouchDbConnector db;
-
-	static {
 		StdHttpClient.Builder builder = new StdHttpClient.Builder();
 		String user = PersistenceProperties.INSTANCE.getCouchDbUser();
 		if(user != null && !user.trim().isEmpty()) {
@@ -42,11 +40,11 @@ public class CouchDbUtil {
 		db = dbInstance.createConnector("cyc", false);
 	}
 
-	public static CouchDbConnector getDatabase() {
+	public CouchDbConnector getDatabase() {
 		return db;
 	}
 
-	public static void shutdown() {
+	public void shutdown() {
 		httpClient.shutdown();
 		IdleConnectionMonitor.shutdown();
 	}
