@@ -160,8 +160,12 @@ if [ "$LOCAL_BUILD" == "YES" ]; then
 		}
 
 		# vars
-		TOMCAT_VERSION=7.0.90
-		TOMCAT_URL=http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+		# find latest tomcat version for $TOMCAT_MAJ_VERSION
+		TOMCAT_MAJ_VERSION="9"
+		TOMCAT_BASE_URL="http://mirror.vorboss.net/apache/tomcat"
+		TOMCAT_VERSION_PRE=$(curl -s "$TOMCAT_BASE_URL/tomcat-$TOMCAT_MAJ_VERSION/"|grep -m1 -o "<a href=\"v\d*.\d*.\d*")
+		TOMCAT_VERSION=${TOMCAT_VERSION_PRE:10}
+		TOMCAT_URL=$TOMCAT_BASE_URL/tomcat-$TOMCAT_MAJ_VERSION/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 		CYC_WEBAPPS=./localrun/apache-tomcat-$TOMCAT_VERSION/webapps
 		CYC_ENGINE_CONTAINER=./localrun
 
