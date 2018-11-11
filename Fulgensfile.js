@@ -1,6 +1,7 @@
 module.exports = {
 
   config: {
+    SchemaVersion: "1.0.0",
     Name: "cyc",
     Vagrant: {
       Box: "ubuntu/xenial64",
