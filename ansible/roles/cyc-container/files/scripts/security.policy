@@ -140,6 +140,7 @@ grant {
 	permission java.util.PropertyPermission "http.proxyHost", "read";
 	permission java.util.PropertyPermission "http.proxyPort", "read";
 	permission java.util.PropertyPermission "cyc.properties", "read";
+	permission java.io.FilePermission "${cyc.properties}", "read";
 
 	permission java.util.PropertyPermission "cyc.home", "read";
 	permission java.io.FilePermission "${cyc.home}", "read";

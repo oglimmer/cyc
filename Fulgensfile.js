@@ -9,14 +9,31 @@ module.exports = {
     }
   },
 
+  versions: {
+    build: {
+      TestedWith: "3-jdk-11"
+    },
+    db: {
+      TestedWith: "1.7 & 2"
+    },
+    engine: {
+      JavaLocal: "1.8",
+      Docker: "8-jre",
+      KnownMax: "Java 8"
+    },
+    tomcat: {
+      TestedWith: "7 & 9"
+    }
+  },
+
   software: {
 
-    "cyc_build": {
+    build: {
       Source: "mvn",
       Artifact: "web/target/cyr##001.war"
     },
 
-    "db": {
+    db: {
       Source: "couchdb",
       CouchDB: {
         Schema: "cyc",
@@ -28,7 +45,7 @@ module.exports = {
       }
     },
 
-    "cyc_engine_container": {
+    engine: {
       Source: "shell",
       Start: "$$TMP$$/cyc-engine-container/run.sh",
       ExposedPort: 9998,
@@ -49,21 +66,34 @@ module.exports = {
       ],
       config: {
         Name: "cyc_engine.properties",
-        Connections: [ { Source:"db", Var: "couchdb.host" } ],
-        Content: [ "bind=0.0.0.0" ],
+        Connections: [ { Source:"db", Line: "couchdb.host=$$VALUE$$" } ],
+        Content: [ { Line: "bind=0.0.0.0"} ],
         AttachAsEnvVar: ["OPTS", "-Dcyc.properties=$$SELF_NAME$$"]        
+      },
+      securityConfig: {
+        Name: "security.policy",
+        Connections: [{
+          Source: "db",
+          Regexp: "permission java.net.SocketPermission \"127.0.0.1:5984\", \"connect,resolve\";",
+          Line: "permission java.net.SocketPermission \"$$VALUE$$:5984\", \"connect,resolve\";"
+        }],
+        Content: [
+          { Line: "grant { permission java.net.SocketPermission \"*:*\", \"accept,resolve\"; };" }
+        ],
+        LoadDefaultContent: "ansible/roles/cyc-container/files/scripts/security.policy",
+        AttachIntoDockerAsFile: "/home/node/exec_env/localrun/cyc-engine-container/security.policy"
       }
     },
 
-    "web": {
+    tomcat: {
       Source: "tomcat",
-      Deploy: "cyc_build",
+      Deploy: "build",
       config: {
         Name: "cyc_web.properties",
         Connections: [ 
-          { Source:"db", Var: "couchdb.host" },
-          { Source:"cyc_engine_container", Var: "engine.host.full" },
-          { Source:"cyc_engine_container", Var: "engine.host.test" }
+          { Source:"db", Line: "couchdb.host=$$VALUE$$" },
+          { Source:"engine", Line: "engine.host.full=$$VALUE$$" },
+          { Source:"engine", Line: "engine.host.test=$$VALUE$$" }
         ],
         AttachAsEnvVar: ["JAVA_OPTS", "-Dcyc.properties=$$SELF_NAME$$"]        
       }
