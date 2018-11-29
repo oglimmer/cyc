@@ -71,19 +71,21 @@ module.exports = {
       ],
       config: {
         Name: "cyc_engine.properties",
-        Connections: [ { Source:"db", Line: "couchdb.host=$$VALUE$$" } ],
-        Content: [ { Line: "bind=0.0.0.0"} ],
+        Content: [
+          { Line: "bind=0.0.0.0"},
+          { Line: "couchdb.host=$$VALUE$$", Source:"db" }
+        ],
         AttachAsEnvVar: ["OPTS", "-Dcyc.properties=$$SELF_NAME$$"]        
       },
       securityConfig: {
         Name: "security.policy",
-        Connections: [{
-          Source: "db",
-          Regexp: "permission java.net.SocketPermission \"127.0.0.1:5984\", \"connect,resolve\";",
-          Line: "permission java.net.SocketPermission \"$$VALUE$$:5984\", \"connect,resolve\";"
-        }],
         Content: [
-          { Line: "grant { permission java.net.SocketPermission \"*:*\", \"accept,resolve\"; };" }
+          { Line: "grant { permission java.net.SocketPermission \"*:*\", \"accept,resolve\"; };" },
+          {
+            Source: "db",
+            Regexp: "permission java.net.SocketPermission \"127.0.0.1:5984\", \"connect,resolve\";",
+            Line: "permission java.net.SocketPermission \"$$VALUE$$:5984\", \"connect,resolve\";"
+          }
         ],
         LoadDefaultContent: "ansible/roles/cyc-container/files/scripts/security.policy",
         AttachIntoDockerAsFile: "/home/node/exec_env/localrun/cyc-engine-container/security.policy"
@@ -97,7 +99,7 @@ module.exports = {
       Deploy: "build",
       config: {
         Name: "cyc_web.properties",
-        Connections: [ 
+        Content: [ 
           { Source:"db", Line: "couchdb.host=$$VALUE$$" },
           { Source:"engine", Line: "engine.host.full=$$VALUE$$" },
           { Source:"engine", Line: "engine.host.test=$$VALUE$$" }
