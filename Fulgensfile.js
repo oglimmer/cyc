@@ -22,6 +22,7 @@ module.exports = {
       KnownMax: "Java 8"
     },
     tomcat: {
+      Docker: "tomcat9-openjdk11-openj9",
       TestedWith: "7 & 9"
     }
   },
@@ -35,6 +36,8 @@ module.exports = {
 
     db: {
       Source: "couchdb",
+      //DockerImage: "oglimmer/pouchdb",
+      DockerMemory: "200M",
       CouchDB: {
         Schema: "cyc",
         Create: [
@@ -50,8 +53,10 @@ module.exports = {
       Start: "$$TMP$$/cyc-engine-container/run.sh",
       ExposedPort: 9998,
       DockerImage: "openjdk",
+      DockerMemory: "200M",
       EnvVars: [
-        "CYC_ENGINE_CONTAINER=$$TMP$$/cyc-engine-container"
+        { Name: "CYC_ENGINE_CONTAINER", Value: "$$TMP$$/cyc-engine-container" },
+        { Name: "OPTS", Value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap" }
       ],
       BeforeStart: [
         "CYC_ENG_CON_PATH=$$TMP$$/cyc-engine-container",
@@ -87,6 +92,8 @@ module.exports = {
 
     tomcat: {
       Source: "tomcat",
+      DockerImage: "oglimmer/adoptopenjdk-tomcat",
+      DockerMemory: "120M",
       Deploy: "build",
       config: {
         Name: "cyc_web.properties",
