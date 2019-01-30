@@ -7,9 +7,7 @@
 		<div style="position:absolute;right:20px;top:7px;"><img src="images/200px-Beta-badge.svg.png"/></div>
 
 		<div class="centerElement">
-			CodeYourRestaurant is an online multi player coding competition - you might want to call it a game. 
-			The goal is to implement your restaurant managing logic in a better, more optimal, way than all the other 
-			players as every 15 mins a business competition is automatically started to find the best company.<br/>
+			Code-Your-Restaurant is an online multiplayer coding competition - you might want to call it a game. The goal is to implement your restaurant managing logic in JavaScript in a better, more optimal way than all the other players. Every 15 minutes the platforms executes the code from all players to find the best performing company.<br/>
 			Have a look at the <s:link beanclass="de.oglimmer.cyc.web.action.TutorialActionBean" >Tutorial</s:link>, <s:link beanclass="de.oglimmer.cyc.web.action.FaqActionBean" >FAQ</s:link> or the <a href="apidocs/index.html" target="_blank">API</a>.			
 		</div>
 		<c:if test="${not empty actionBean.systemMessage}">
