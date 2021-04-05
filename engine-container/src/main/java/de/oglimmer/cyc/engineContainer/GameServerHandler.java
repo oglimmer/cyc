@@ -20,29 +20,36 @@ public class GameServerHandler extends SimpleChannelInboundHandler<String> {
 
 	@Override
 	public void channelRead0(ChannelHandlerContext ctx, String request) {
-		String response;
 		try {
-			Message msg = new Message(request);
-			checkpassword(msg);
+			log.info("channelRead0={}", request);
+			String response;
+			try {
+				Message msg = new Message(request);
+				checkpassword(msg);
+				log.info("msg.getCommand()={}", msg.getCommand());
 
-			if ("exit".equals(msg.getCommand())) {
-				response = tcpHandler.handleExit();
-			} else if ("status".equals(msg.getCommand())) {
-				response = tcpHandler.handleStatus(false);
-			} else if ("extstatus".equals(msg.getCommand())) {
-				response = tcpHandler.handleStatus(true);
-			} else if ("version".equals(msg.getCommand())) {
-				response = tcpHandler.handleVersion();
-			} else {
-				response = tcpHandler.handleRunGame(msg.getCommand());
+				if ("exit".equals(msg.getCommand())) {
+					response = tcpHandler.handleExit();
+				} else if ("status".equals(msg.getCommand())) {
+					response = tcpHandler.handleStatus(false);
+				} else if ("extstatus".equals(msg.getCommand())) {
+					response = tcpHandler.handleStatus(true);
+				} else if ("version".equals(msg.getCommand())) {
+					response = tcpHandler.handleVersion();
+				} else {
+					response = tcpHandler.handleRunGame(msg.getCommand());
+				}
+
+			} catch (NotAuthorizedException e) {
+				log.info("UnauthorizedException. {}", request);
+				response = "Unauthorized";
 			}
-
-		} catch (NotAuthorizedException e) {
-			log.info("UnauthorizedException. {}", request);
-			response = "Unauthorized";
+			ChannelFuture future = ctx.write(response);
+			future.addListener(ChannelFutureListener.CLOSE);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			log.error("failed to read channel", e);
 		}
-		ChannelFuture future = ctx.write(response);
-		future.addListener(ChannelFutureListener.CLOSE);
 	}
 
 	private void checkpassword(Message msg) throws NotAuthorizedException {
@@ -54,6 +61,7 @@ public class GameServerHandler extends SimpleChannelInboundHandler<String> {
 
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) {
+		log.info("channelReadComplete");
 		ctx.flush();
 	}
 
