@@ -20,7 +20,7 @@ public class GameWinnersCouchDb extends CouchDbRepositorySupport<GameWinners> im
 	@Override
 	public List<GameWinners> findAllGameWinners(Date startDate, Date endDate) {
 		ViewQuery q = createQuery("all");
-		q.includeDocs(true);
+		q.includeDocs(false);
 		q.descending(true);
 		if (startDate != null) {
 			q.startKey(startDate);
