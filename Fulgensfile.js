@@ -14,7 +14,8 @@ module.exports = {
       TestedWith: "3-jdk-11"
     },
     db: {
-      TestedWith: "1.7 & 2"
+      TestedWith: "1.7 & 2",
+      Docker: "2"
     },
     engine: {
       JavaLocal: "1.8",

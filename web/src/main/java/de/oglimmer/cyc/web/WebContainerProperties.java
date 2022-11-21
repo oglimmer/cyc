@@ -191,6 +191,14 @@ public enum WebContainerProperties {
 		propertyFileWatcherThread.interrupt();		
 	}
 
+	public String getDiscordClientId() {
+		return prop.getProperty("discord.clientId", "");
+	}
+
+	public String getDiscordSecret() {
+		return prop.getProperty("discord.secret", "");
+	}
+
 	class PropertyFileWatcher implements Runnable {
 
 		private WatchKey wk;

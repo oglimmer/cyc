@@ -20,4 +20,6 @@ public interface UserDao extends GenericRepository<User> {
 	List<User> findByFBUserId(String userId);
 
 	List<User> findByGoogleUserId(String userId);
+
+	List<User> findByDiscordUserId(String userId);
 }

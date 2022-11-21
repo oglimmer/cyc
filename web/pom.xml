@@ -7,6 +7,12 @@
 	<packaging>war</packaging>
 	<description />
 
+	<parent>
+		<artifactId>cyc</artifactId>
+		<groupId>de.oglimmer</groupId>
+		<version>0.5-SNAPSHOT</version>
+	</parent>
+
 	<!-- even all the other sub-modules don't need scm, this one needs it or release:prepare will fail -->
 	<scm>
 	  <url>https://github.com/oglimmer/cyc</url>
@@ -77,14 +83,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
+				<version>3.3.2</version>
 				<configuration>
 					<archiveClasses>true</archiveClasses>
 					<archive>
@@ -104,7 +103,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -158,13 +156,11 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>19.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
@@ -200,6 +196,11 @@
 		    <version>1.2</version>
 		    <scope>system</scope>
 		    <systemPath>${project.basedir}/src/3rdparty/resources/tomcat-redis-session-manager-1.2.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>4.10.0</version>
 		</dependency>
 	</dependencies>
 
