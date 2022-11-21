@@ -74,6 +74,10 @@ public class PortalActionBean extends BaseAction {
 	private String companyName;
 
 	@Getter
+	@Setter
+	private boolean hasProfile;
+
+	@Getter
 	private int editorHeight;
 
 	@Before(stages = { LifecycleStage.EventHandling })
@@ -104,6 +108,7 @@ public class PortalActionBean extends BaseAction {
 		lastRun = user.getLastPrivateRun();
 		fullRun = user.getPermission() > 0;
 		openSource = user.getOpenSource() > 0;
+		hasProfile = user.getDiscordId() == null || user.getDiscordId().isEmpty();
 		
 		testRun = WebContainerProperties.INSTANCE.getSystemDisabledDate().after(new Date());
 
