@@ -31,3 +31,6 @@ docker/BuildInDockerAndDeployViaAnsible/.m2
 docker/BuildInDockerAndDeployViaAnsible/repos
 docker/BuildInDockerAndDeployViaAnsible/ssh
 localrun/
+.dbPid
+.idea/
+logs/
