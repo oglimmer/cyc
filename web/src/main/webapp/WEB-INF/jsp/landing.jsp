@@ -81,6 +81,12 @@
 				</div>
 			</c:if>
 		</div>	
+    <c:if test="${actionBean.discordClientId != '' }">
+      <div class="centerElement">
+        <hr />
+        Click here to login with your Discord user: <s:link beanclass="de.oglimmer.cyc.web.action.DiscordLoginActionBean">LOGIN</s:link>.
+      </div>
+    </c:if>
 
 		<c:if test="${actionBean.fbAppId != '' or actionBean.googleClientId != ''}">
 			<div id="fb-root"></div>

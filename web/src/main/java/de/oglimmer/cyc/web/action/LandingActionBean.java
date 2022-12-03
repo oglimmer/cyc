@@ -64,6 +64,9 @@ public class LandingActionBean extends BaseAction {
 	private String googleClientId;
 
 	@Getter
+	private String discordClientId;
+
+	@Getter
 	private boolean showCycLogin;
 
 	@Getter
@@ -76,6 +79,7 @@ public class LandingActionBean extends BaseAction {
 	public void beforeHandlerResolution() {
 		fbAppId = WebContainerProperties.INSTANCE.getFbAppId();
 		googleClientId = WebContainerProperties.INSTANCE.getGoogleClientId();
+    discordClientId = WebContainerProperties.INSTANCE.getDiscordClientId();
 		if (fbAppId.isEmpty() && googleClientId.isEmpty()) {
 			showCycLogin = true;
 		}
