@@ -1,0 +1,95 @@
+services:
+  db:
+    image: couchdb:3
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: admin
+    ports:
+      - "5984:5984"
+    volumes:
+      - couchdb-data:/opt/couchdb/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5984/ || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  db-init:
+    image: curlimages/curl:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "Initializing CouchDB..."
+        curl -sf http://admin:admin@db:5984/cyc && echo "Database already exists" && exit 0
+        curl -X PUT http://admin:admin@db:5984/cyc
+        curl -X POST -H "Content-Type: application/json" -d @/couchdb-init/_design-GameRun-curl.json http://admin:admin@db:5984/cyc
+        curl -X POST -H "Content-Type: application/json" -d @/couchdb-init/_design-GameWinners-curl.json http://admin:admin@db:5984/cyc
+        curl -X POST -H "Content-Type: application/json" -d @/couchdb-init/_design-User-curl.json http://admin:admin@db:5984/cyc
+        echo "CouchDB initialized."
+    volumes:
+      - ./persistence/src/couchdb:/couchdb-init:ro
+
+  engine:
+    build:
+      context: .
+      target: engine
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    environment:
+      OPTS: >-
+        -Dcyc.properties=/etc/cyc_engine.properties
+      NO_MEM_SETTINGS: "true"
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx512m"
+    ports:
+      - "9998:9998"
+    configs:
+      - source: engine-properties
+        target: /etc/cyc_engine.properties
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+
+  web:
+    build:
+      context: .
+      target: web
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+      engine:
+        condition: service_started
+    environment:
+      JAVA_OPTS: >-
+        -Dcyc.properties=/etc/cyc_web.properties
+    ports:
+      - "8080:8080"
+    configs:
+      - source: web-properties
+        target: /etc/cyc_web.properties
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+configs:
+  engine-properties:
+    content: |
+      bind=0.0.0.0
+      couchdb.host=db
+      couchdb.user=admin
+      couchdb.password=admin
+  web-properties:
+    content: |
+      couchdb.host=db
+      couchdb.user=admin
+      couchdb.password=admin
+      engine.host.full=engine
+      engine.host.test=engine
+
+volumes:
+  couchdb-data:

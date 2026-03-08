@@ -9,14 +9,14 @@
   	function errorDialog(text) {
   		$("<div title='Error'>"+text+"</div>").dialog({
 	      modal: true,
-	      width: 500, 
+	      width: 500,
 	      buttons: {
 	        Ok: function() {
 	          $( this ).dialog( "close" );
 	        }
 	      }
 	    });
-  	}  	
+  	}
   	var PASS_STENGTH=["UNSAFE!","weak","okay","strong", "very strong"];
   	var passwordStrength = {score:0};
   	var submitButton;
@@ -25,7 +25,7 @@
   			return true;
   		}
   		if(passwordNew != "" && password2 != "" && passwordStrength.score == 0) {
-  			errorDialog("You need to have a stronger password!");  			
+  			errorDialog("You need to have a stronger password!");
   			return false;
   		}
   		if(passwordNew != "" && password2 != "" && document.forms[0].passwordNew.value != document.forms[0].password2.value) {
@@ -41,53 +41,56 @@
   		} else {
   			$("#passQual").html("No password change.");
   		}
-  	} 
+  	}
 	$(document).ready(function() {
 		$('#passwordNew').on('keyup change',function() {
 			passChanged($(this).val());
 		});
 	});
-  	</script>  	
+  	</script>
 
-		<div class="centerElement">
-			Change your password
+		<div style="max-width: 480px; margin: 0 auto;">
+			<div class="centerElement">
+				<h2>Edit Profile</h2>
+			</div>
+
+			<div>
+				<s:errors />
+			</div>
+
+			<div class="centerElement">
+				<s:form beanclass="de.oglimmer.cyc.web.action.EditProfileActionBean" focus="" onsubmit="return checkLegal()">
+					<div class="form-group">
+						<label>Current Password</label>
+						<s:password name="passwordOld" />
+					</div>
+					<div class="form-group">
+						<label>New Password</label>
+						<s:password id="passwordNew" name="passwordNew" />
+					</div>
+					<div class="form-group">
+						<label>Password Strength</label>
+						<span id="passQual" class="text-secondary">No password change.</span>
+					</div>
+					<div class="form-group">
+						<label>Confirm New Password</label>
+						<s:password name="password2" />
+					</div>
+					<div class="form-group">
+						<label>Company Name</label>
+						<s:text name="username" />
+					</div>
+					<div class="form-group">
+						<label>Email</label>
+						<s:text name="email" />
+					</div>
+					<div style="display: flex; gap: 8px; margin-top: 20px;">
+						<s:submit name="change" value="Save Changes" class="btn-primary" onclick="submitButton=this" />
+						<s:submit name="cancel" value="Cancel" class="btn-ghost" onclick="submitButton=this" />
+					</div>
+				</s:form>
+			</div>
 		</div>
-		
-		<div>
-			<s:errors />
-		</div>	
-		
-		<div>
-			<s:form beanclass="de.oglimmer.cyc.web.action.EditProfileActionBean" focus="" onsubmit="return checkLegal()">
-				<table>
-					<tr>
-						<td>Current Password: </td>
-						<td><s:password name="passwordOld" /></td>
-					</tr>
-					<tr>
-						<td>New Password: </td>
-						<td><s:password id="passwordNew" name="passwordNew"/></td>
-					</tr>
-					<tr>
-						<td>Password strength: </td>
-						<td><span id="passQual">No password change.</span></td>
-					</tr>
-					<tr>
-						<td>Password verification: </td>
-						<td><s:password name="password2" /></td>
-					</tr>
-					<tr>
-						<td>Company name: </td>
-						<td><s:text name="username" /></td>
-					</tr>
-					<tr>
-						<td>Email: </td>
-						<td><s:text name="email" /></td>
-						<td><s:submit name="change" value="Change" onclick="submitButton=this" /> <s:submit name="cancel" value="Cancel" onclick="submitButton=this" /></td>
-					</tr>
-				</table>
-			</s:form>
-		</div>	
-		
+
 	</s:layout-component>
 </s:layout-render>

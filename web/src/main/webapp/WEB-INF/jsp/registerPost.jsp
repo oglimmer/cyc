@@ -3,14 +3,14 @@
 
 <s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
   <s:layout-component name="center">
-  
-		<div class="centerElement">
-			We've sent an email to ${actionBean.email}. Please check your inbox (and your SPAM folder) and click the link in the email
-			to confirm your email address in the next 48h.
+
+		<div style="max-width: 520px; margin: 40px auto; text-align: center;">
+			<div class="centerElement">
+				<h2 class="text-green">Check Your Email</h2>
+				<p>We've sent a confirmation email to <strong class="text-cyan">${actionBean.email}</strong>.</p>
+				<p class="text-secondary text-sm">Please check your inbox (and spam folder) and click the link to confirm your email address within 48 hours.</p>
+			</div>
 		</div>
-		
-		<div style="margin-bottom:40px;">				
-		</div>
-		
+
 	</s:layout-component>
 </s:layout-render>

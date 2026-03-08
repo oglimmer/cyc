@@ -3,12 +3,12 @@
 
 <s:layout-render name="/WEB-INF/jsp/common/main_layout.jsp">
   <s:layout-component name="center">
-  
+
   	<script>
   	function errorDialog(text) {
   		$("<div title='Error'>"+text+"</div>").dialog({
 	      modal: true,
-	      width: 500, 
+	      width: 500,
 	      buttons: {
 	        Ok: function() {
 	          $( this ).dialog( "close" );
@@ -24,8 +24,8 @@
   			return true;
   		}
   		if(!document.forms[0].agreetermsandconditions.checked) {
-  			errorDialog("Du hast deine Einverständniserklärung zur Datenspeicherung und Datenverwendung "+
-  					"nicht gegeben. Damit ist eine Anmeldung nicht möglich!");
+  			errorDialog("Du hast deine Einverst\u00e4ndniserkl\u00e4rung zur Datenspeicherung und Datenverwendung "+
+  					"nicht gegeben. Damit ist eine Anmeldung nicht m\u00f6glich!");
   			return false;
   		}
   		if(passwordStrength.score == 0) {
@@ -41,7 +41,7 @@
   	function passChanged(newVal) {
   		passwordStrength = zxcvbn(newVal);
   		$("#passQual").html(PASS_STENGTH[passwordStrength.score]);
-  	}  	
+  	}
   	$(document).ready(function() {
 		$('#password').on('keyup change',function() {
 			passChanged($(this).val());
@@ -49,122 +49,120 @@
 	});
   	</script>
   	<script>$(function() { $.ajax({ url: "js/zxcvbn.js", dataType: "script", cache: true }); });</script>
-  
-		<div class="centerElement">
-			Keep in mind that you need to have JavaScript coding skills to play this game.
-		</div>
-		
-		<div>
-			<s:errors />
-		</div>	
-		
-		<div>
-			<s:form beanclass="de.oglimmer.cyc.web.action.RegisterActionBean" focus="" onsubmit="return checkLegal(this)">
-				<s:hidden name="captchaTokenCrypted" />
-				<table style="width:100%">
-					<tr>
-						<td style="text-align: right;" width="30%">Company name: </td>
-						<td><s:text name="username" style="width:400px"/></td>
-					</tr>
-					<tr>
-						<td style="text-align: right;">Password: </td>
-						<td><s:password id="password" name="password" style="width:400px"/></td>
-					</tr>
-					<tr>
-						<td style="text-align: right;">Password strength: </td>
-						<td><span id="passQual">UNSAFE!</span></td>
-					</tr>
-					<tr>
-						<td style="text-align: right;">Password verification: </td>
-						<td><s:password name="password2" style="width:400px" /></td>
-					</tr>
-					<tr>
-						<td style="text-align: right;">Email: </td>
-						<td><s:text name="email" style="width:400px" /></td>
-					</tr>
+
+		<div style="max-width: 560px; margin: 0 auto;">
+			<div class="centerElement" style="border-left: 3px solid var(--accent-amber);">
+				<strong>Note:</strong> You need JavaScript coding skills to play this game.
+			</div>
+
+			<div>
+				<s:errors />
+			</div>
+
+			<div class="centerElement">
+				<h2>Create Account</h2>
+
+				<s:form beanclass="de.oglimmer.cyc.web.action.RegisterActionBean" focus="" onsubmit="return checkLegal(this)">
+					<s:hidden name="captchaTokenCrypted" />
+
+					<div class="form-group">
+						<label>Company Name</label>
+						<s:text name="username" />
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<s:password id="password" name="password" />
+					</div>
+					<div class="form-group">
+						<label>Password Strength</label>
+						<span id="passQual" class="text-red">UNSAFE!</span>
+					</div>
+					<div class="form-group">
+						<label>Confirm Password</label>
+						<s:password name="password2" />
+					</div>
+					<div class="form-group">
+						<label>Email</label>
+						<s:text name="email" />
+					</div>
+
 					<c:if test="${not empty actionBean.captchaTokenCrypted}">
-						<tr>
-							<td style="text-align: right;">Type the captcha:<br/><span style="font-size:0.6em">(Reload the page for a new one)</span></td>
-							<td>								
-									<s:text name="captchaTokenEntered" />		
-									<img style="vertical-align:middle" alt="captcha image" src="captcha?captchaToken=${actionBean.captchaTokenCryptedUrl}" />						
-							</td>
-						</tr>
-					</c:if>
-					<tr>
-						<td colspan="2">
-							<div id="legal">
-								<h1>
-								Hinweis zur Speicherung, Verarbeitung und Übermittlung personenbezogener Daten
-								</h1>
-								<div>
-								Im Rahmen dieser Webseite werden Daten gespeichert, verarbeitet.
-								</div>
-								
-								<h1> 
-								Welche Daten werden übermittelt?
-								</h1>
-								<div>
-								Diese Webseite benötigt einen Namen und eine gültige Email-Adresse zur Kontoerstellung. Im Rahmen des Anmeldevorgangs 
-								wird ein Cookie auf deinem Computer gespeichert, der bis zum Beenden des Browser eine ID enthält, die dich eindeutig 
-								identifiziert. Dieses Cookie wird Sitzung-Cookie genannt und enthält keine weiteren Informationen, als die Zuordnung 
-								deines Anmeldevorgangs. Im Rahmen des Spiels erstellst und übermittelst du JavaScript-Code der die Geschäftslogik deines 
-								Restaurants enthalt.
-								</div>
-								
-								<h1> 
-								Wer hat Einsicht in deine Dokumente und Daten?
-								</h1>
-								<div> 
-								Der Name des Kontos wird öffentlich auf dieser Webseite gezeigt. Die Email-Adresse kann nur vom Administrator/Inhaber 
-								(Oliver Zimpasser) dieser Seite eingesehen werden. 
-								Der von dir erstellte JavaScript Programmcode kann immer von Administratoren und Inhabern dieser Seite gesehen werden, 
-								falls du es möchtest hast du allerdings auch die Möglichkeit deinen Programmcode öffentlich zu machen.
-								</div>
-								 
-								<h1>
-								An wen werden deine Daten weitergegeben?
-								</h1>
-								<div>
-								Deine Daten werden innerhalb dieser Webseite gespeichert. An Dritte erfolgt keine Weitergabe.
-								</div> 
-								
-								<h1>
-								Wie lange erfolgt die Speicherung?
-								</h1>
-								<div>
-								Deine Daten werden auf diesem Server solange gespeichert, wie dein Konto hier am Spiel teilnimmt.
-								</div>
-								 
-								<h1>
-								Einverständniserklärung zur Datenspeicherung und Datenverwendung:
-								</h1>
-								<div>
-								<s:checkbox name="agreetermsandconditions"></s:checkbox> Hiermit erkläre ich mich einverstanden, dass meine personenbezogenen 
-								Daten, die ich im Zusammenhang mit der Kontoeröffnung für diese Webseite offenbart habe, elektronisch gespeichert und im 
-								weiteren Spielverlauf verwendet werden. Andere Firmen und Personen dürfen meine Daten nicht erhalten. Außerdem stimme ich dem speichern des 
-								Session Cookies während des Anmeldevorgangs zu. Der von mir erstellte JavaScript Programmcode darf von dieser Webseite 
-								gespeichert, ausgeführt und eingesehen werden und sofern ich der Veröffentlichung zugestimmt habe, auch veröffentlich werden. 
-								Mir ist bekannt, dass ich meine Einwilligung jederzeit durch entsprechende Erklärung per E-Mail an webmaster@codeyourrestaurant.com 
-								oder auf dem Postweg (${actionBean.addressPageOwner}) für die Zukunft widerrufen kann. Um meine Rechte auf Auskunft, Berichtigung und Löschung 
-								geltend zu machen, kann ich mich an dieselben Adressen wenden.							
-								</div>								
+						<div class="form-group">
+							<label>Type the captcha <span class="text-xs text-muted">(Reload the page for a new one)</span></label>
+							<div style="display: flex; align-items: center; gap: 12px;">
+								<s:text name="captchaTokenEntered" style="max-width: 200px;" />
+								<img alt="captcha image" src="captcha?captchaToken=${actionBean.captchaTokenCryptedUrl}" style="border-radius: var(--radius-sm);" />
 							</div>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>
-							<s:submit name="register" value="Register" onclick="submitButton=this" />
-							<s:submit name="cancel" value="Cancel" onclick="submitButton=this" />
-						</td>
-					</tr>
-				</table>
-			</s:form>
-		</div>	
-		
-		<div style="margin-bottom:40px;">				
+						</div>
+					</c:if>
+
+					<div id="legal" style="margin: 20px 0; padding: 16px; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+						<h1>
+						Hinweis zur Speicherung, Verarbeitung und Übermittlung personenbezogener Daten
+						</h1>
+						<div>
+						Im Rahmen dieser Webseite werden Daten gespeichert, verarbeitet.
+						</div>
+
+						<h1>
+						Welche Daten werden übermittelt?
+						</h1>
+						<div>
+						Diese Webseite benötigt einen Namen und eine gültige Email-Adresse zur Kontoerstellung. Im Rahmen des Anmeldevorgangs
+						wird ein Cookie auf deinem Computer gespeichert, der bis zum Beenden des Browser eine ID enthält, die dich eindeutig
+						identifiziert. Dieses Cookie wird Sitzung-Cookie genannt und enthält keine weiteren Informationen, als die Zuordnung
+						deines Anmeldevorgangs. Im Rahmen des Spiels erstellst und übermittelst du JavaScript-Code der die Geschäftslogik deines
+						Restaurants enthalt.
+						</div>
+
+						<h1>
+						Wer hat Einsicht in deine Dokumente und Daten?
+						</h1>
+						<div>
+						Der Name des Kontos wird öffentlich auf dieser Webseite gezeigt. Die Email-Adresse kann nur vom Administrator/Inhaber
+						(Oliver Zimpasser) dieser Seite eingesehen werden.
+						Der von dir erstellte JavaScript Programmcode kann immer von Administratoren und Inhabern dieser Seite gesehen werden,
+						falls du es möchtest hast du allerdings auch die Möglichkeit deinen Programmcode öffentlich zu machen.
+						</div>
+
+						<h1>
+						An wen werden deine Daten weitergegeben?
+						</h1>
+						<div>
+						Deine Daten werden innerhalb dieser Webseite gespeichert. An Dritte erfolgt keine Weitergabe.
+						</div>
+
+						<h1>
+						Wie lange erfolgt die Speicherung?
+						</h1>
+						<div>
+						Deine Daten werden auf diesem Server solange gespeichert, wie dein Konto hier am Spiel teilnimmt.
+						</div>
+
+						<h1>
+						Einverständniserklärung zur Datenspeicherung und Datenverwendung:
+						</h1>
+						<div>
+						<s:checkbox name="agreetermsandconditions"></s:checkbox> Hiermit erkläre ich mich einverstanden, dass meine personenbezogenen
+						Daten, die ich im Zusammenhang mit der Kontoeröffnung für diese Webseite offenbart habe, elektronisch gespeichert und im
+						weiteren Spielverlauf verwendet werden. Andere Firmen und Personen dürfen meine Daten nicht erhalten. Außerdem stimme ich dem speichern des
+						Session Cookies während des Anmeldevorgangs zu. Der von mir erstellte JavaScript Programmcode darf von dieser Webseite
+						gespeichert, ausgeführt und eingesehen werden und sofern ich der Veröffentlichung zugestimmt habe, auch veröffentlich werden.
+						Mir ist bekannt, dass ich meine Einwilligung jederzeit durch entsprechende Erklärung per E-Mail an webmaster@codeyourrestaurant.com
+						oder auf dem Postweg (${actionBean.addressPageOwner}) für die Zukunft widerrufen kann. Um meine Rechte auf Auskunft, Berichtigung und Löschung
+						geltend zu machen, kann ich mich an dieselben Adressen wenden.
+						</div>
+					</div>
+
+					<div style="display: flex; gap: 8px;">
+						<s:submit name="register" value="Register" class="btn-primary" onclick="submitButton=this" />
+						<s:submit name="cancel" value="Cancel" class="btn-ghost" onclick="submitButton=this" />
+					</div>
+				</s:form>
+			</div>
 		</div>
-		
+
+		<div class="mb-40"></div>
+
 	</s:layout-component>
 </s:layout-render>
